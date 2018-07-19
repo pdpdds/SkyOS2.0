@@ -8,7 +8,7 @@
 #define LUA_LIB
 
 #include "lprefix.h"
-
+#include "memory.h"
 
 #include <errno.h>
 //#include <locale.h>

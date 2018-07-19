@@ -115,7 +115,7 @@
 /NODEFAULTLIB:LIBC %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>CommonLib.lib;</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories>./Debug</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../Debug</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>../Debug/kernel.map</MapFileName>

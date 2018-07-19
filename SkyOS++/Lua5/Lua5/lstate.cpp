@@ -8,7 +8,7 @@
 #define LUA_CORE
 
 #include "lprefix.h"
-
+#include "memory.h"
 
 #include <stddef.h>
 #include <string.h>
