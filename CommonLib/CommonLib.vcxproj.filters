@@ -1,0 +1,315 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="jsmn">
+      <UniqueIdentifier>{6427ffee-d7b5-43ae-bd4d-715013b5ba74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="stl">
+      <UniqueIdentifier>{9bef8106-3953-438b-9a42-cb5a2791737a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="wchar">
+      <UniqueIdentifier>{ee5a29ac-ff6e-4af4-ad93-da3ad7b248ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="math">
+      <UniqueIdentifier>{1c1becf8-6cd3-4c3c-afb7-a87290c9fbe4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CPlusPlus">
+      <UniqueIdentifier>{670e8554-f18c-4345-9128-ff0c45122430}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="jsmn\jsmn.h">
+      <Filter>jsmn</Filter>
+    </ClInclude>
+    <ClInclude Include="ctype.h" />
+    <ClInclude Include="fileio.h" />
+    <ClInclude Include="math.h" />
+    <ClInclude Include="SkyStruct.h" />
+    <ClInclude Include="sprintf.h" />
+    <ClInclude Include="stdio.h" />
+    <ClInclude Include="string.h" />
+    <ClInclude Include="memory.h" />
+    <ClInclude Include="stl\algo.h">
+      <Filter>stl</Filter>
+    </ClInclude>
+    <ClInclude Include="stl\algobase.h">
+      <Filter>stl</Filter>
+    </ClInclude>
+    <ClInclude Include="stl\c++config.h">
+      <Filter>stl</Filter>
+    </ClInclude>
+    <ClInclude Include="stl\concept_check.h">
+      <Filter>stl</Filter>
+    </ClInclude>
+    <ClInclude Include="stl\darray.hpp">
+      <Filter>stl</Filter>
+    </ClInclude>
+    <ClInclude Include="stl\deque.hpp">
+      <Filter>stl</Filter>
+    </ClInclude>
+    <ClInclude Include="stl\IOStream.h">
+      <Filter>stl</Filter>
+    </ClInclude>
+    <ClInclude Include="stl\IStream.h">
+      <Filter>stl</Filter>
+    </ClInclude>
+    <ClInclude Include="stl\move.h">
+      <Filter>stl</Filter>
+    </ClInclude>
+    <ClInclude Include="stl\OStream.h">
+      <Filter>stl</Filter>
+    </ClInclude>
+    <ClInclude Include="stl\stl_pair.h">
+      <Filter>stl</Filter>
+    </ClInclude>
+    <ClInclude Include="stl\stl_string.h">
+      <Filter>stl</Filter>
+    </ClInclude>
+    <ClInclude Include="stl\tempbuf.h">
+      <Filter>stl</Filter>
+    </ClInclude>
+    <ClInclude Include="stl\vector.h">
+      <Filter>stl</Filter>
+    </ClInclude>
+    <ClInclude Include="stl\stack.h">
+      <Filter>stl</Filter>
+    </ClInclude>
+    <ClInclude Include="stl\map.h">
+      <Filter>stl</Filter>
+    </ClInclude>
+    <ClInclude Include="stl\hashmap.h">
+      <Filter>stl</Filter>
+    </ClInclude>
+    <ClInclude Include="stl\functional.h">
+      <Filter>stl</Filter>
+    </ClInclude>
+    <ClInclude Include="stl\deque.h">
+      <Filter>stl</Filter>
+    </ClInclude>
+    <ClInclude Include="stl\darray.h">
+      <Filter>stl</Filter>
+    </ClInclude>
+    <ClInclude Include="stl\DoubleLinkedList.h">
+      <Filter>stl</Filter>
+    </ClInclude>
+    <ClInclude Include="stl\queue.h">
+      <Filter>stl</Filter>
+    </ClInclude>
+    <ClInclude Include="stl\list.h">
+      <Filter>stl</Filter>
+    </ClInclude>
+    <ClInclude Include="str_util.h" />
+    <ClInclude Include="stl\hash_map.h">
+      <Filter>stl</Filter>
+    </ClInclude>
+    <ClInclude Include="stl\alloc.h">
+      <Filter>stl</Filter>
+    </ClInclude>
+    <ClInclude Include="wchar.h" />
+    <ClInclude Include="math\fdlibm.h">
+      <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="ffmt.h" />
+    <ClInclude Include="CPlusPlus\_mingw.h">
+      <Filter>CPlusPlus</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlusPlus\ctrycatch.h">
+      <Filter>CPlusPlus</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlusPlus\setjmp.h">
+      <Filter>CPlusPlus</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlusPlus\signal.h">
+      <Filter>CPlusPlus</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="jsmn\jsmn.cpp">
+      <Filter>jsmn</Filter>
+    </ClCompile>
+    <ClCompile Include="cstd.cpp" />
+    <ClCompile Include="ctype.cpp" />
+    <ClCompile Include="sprintf.cpp" />
+    <ClCompile Include="stdio.cpp" />
+    <ClCompile Include="string.cpp" />
+    <ClCompile Include="memory.cpp" />
+    <ClCompile Include="stl\IStream.cpp">
+      <Filter>stl</Filter>
+    </ClCompile>
+    <ClCompile Include="stl\OStream.cpp">
+      <Filter>stl</Filter>
+    </ClCompile>
+    <ClCompile Include="stl\stl_string.cpp">
+      <Filter>stl</Filter>
+    </ClCompile>
+    <ClCompile Include="str_util.cpp" />
+    <ClCompile Include="widechar\wcscat.c">
+      <Filter>wchar</Filter>
+    </ClCompile>
+    <ClCompile Include="widechar\wcschr.c">
+      <Filter>wchar</Filter>
+    </ClCompile>
+    <ClCompile Include="widechar\wcscmp.c">
+      <Filter>wchar</Filter>
+    </ClCompile>
+    <ClCompile Include="widechar\wcscpy.c">
+      <Filter>wchar</Filter>
+    </ClCompile>
+    <ClCompile Include="widechar\wcslen.c">
+      <Filter>wchar</Filter>
+    </ClCompile>
+    <ClCompile Include="widechar\wcsncmp.c">
+      <Filter>wchar</Filter>
+    </ClCompile>
+    <ClCompile Include="widechar\wcsncpy.c">
+      <Filter>wchar</Filter>
+    </ClCompile>
+    <ClCompile Include="widechar\wcsnicmp.c">
+      <Filter>wchar</Filter>
+    </ClCompile>
+    <ClCompile Include="widechar\wcspbrk.c">
+      <Filter>wchar</Filter>
+    </ClCompile>
+    <ClCompile Include="widechar\wcsrchr.c">
+      <Filter>wchar</Filter>
+    </ClCompile>
+    <ClCompile Include="widechar\wcstombs.c">
+      <Filter>wchar</Filter>
+    </ClCompile>
+    <ClCompile Include="widechar\wcwidth.c">
+      <Filter>wchar</Filter>
+    </ClCompile>
+    <ClCompile Include="widechar\unicode.c">
+      <Filter>wchar</Filter>
+    </ClCompile>
+    <ClCompile Include="math\e_acos.c">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="math.c" />
+    <ClCompile Include="math\e_asin.c">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="math\e_atan2.c">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="math\e_exp.c">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="math\e_log10.c">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="math\e_log.c">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="math\s_ldexp.c">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="math\s_finite.c">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="math\s_scalbn.c">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="math\s_asinh.c">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="math\s_atan.c">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="math\s_cbrt.c">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="math\s_ceil.c">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="math\s_copysign.c">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="math\s_erf.c">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="math\s_expm1.c">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="math\s_fabs.c">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="math\s_floor.c">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="math\s_ilogb.c">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="math\s_isnan.c">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="math\s_lib_version.c">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="math\s_log1p.c">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="math\s_logb.c">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="math\s_matherr.c">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="math\s_modf.c">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="math\s_nextafter.c">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="math\s_rint.c">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="math\s_signgam.c">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="math\s_significand.c">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="atob.c" />
+    <ClCompile Include="vsprintf.c" />
+    <ClCompile Include="ffmt.c" />
+    <ClCompile Include="math\s_tanh.c">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="math\s_sin.c">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="math\e_rem_pio2.c">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="math\e_fmod.c">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="math\k_rem_pio2.c">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="math\k_sin.c">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="math\k_cos.c">
+      <Filter>math</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlusPlus\ctrycatch.cpp">
+      <Filter>CPlusPlus</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlusPlus\setjmp.c">
+      <Filter>CPlusPlus</Filter>
+    </ClCompile>
+    <ClCompile Include="modf.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <MASM Include="llshl.asm" />
+    <MASM Include="ulldiv.asm" />
+    <MASM Include="ullrem.asm" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CPlusPlus\ctrycatch_exception_types.conf">
+      <Filter>CPlusPlus</Filter>
+    </None>
+  </ItemGroup>
+</Project>
