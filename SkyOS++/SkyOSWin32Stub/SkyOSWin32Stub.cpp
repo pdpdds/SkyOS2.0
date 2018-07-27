@@ -243,6 +243,8 @@ extern "C" void LoopWin32(I_VirtualIO* pVirtualIO)
 	SDL_DestroyRenderer(pRenderer);
 	SDL_DestroyWindow(pWindow);
 	SDL_Quit();
+
+	exit(0);
 }
 
 #include <iostream>
