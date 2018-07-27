@@ -3,10 +3,10 @@
 //이값이 1로 설정되면 아래 값들은 모두 무시된다.
 #define SKY_CONSOLE_MODE	0
 //SkyGUIConsole
-#define SKY_GUI_SYSTEM	SkyGUIConsole
+/*#define SKY_GUI_SYSTEM	SkyGUIConsole
 #define SKY_WIDTH		1024
 #define SKY_HEIGHT		768
-#define SKY_BPP			32
+#define SKY_BPP			32*/
 
 //세가지 GUI 모드
 //SkyGUI
@@ -22,10 +22,10 @@
 #define SKY_BPP			32*/
 
 //GUI MINT64
-/*#define SKY_GUI_SYSTEM	GUIMint64
+#define SKY_GUI_SYSTEM	GUIMint64
 #define SKY_WIDTH		1024
 #define SKY_HEIGHT		768
-#define SKY_BPP			16*/
+#define SKY_BPP			16
 
 
 #define KERNEL32_NAME		"SkyOS32.EXE"

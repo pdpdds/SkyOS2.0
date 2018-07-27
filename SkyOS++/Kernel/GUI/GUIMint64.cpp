@@ -1,15 +1,6 @@
+#include "SkyOS.h"
 #include "GUIMint64.h"
-#include "Hal.h"
-#include "SkyIOHandler.h"
-#include "I_GUIEngine.h"
-#include "SkyMockInterface.h"
-#include "SkyModuleManager.h"
-#include "Exception.h"
-#include "ProcessManager.h"
-#include "Scheduler.h"
-#include "Thread.h"
-#include "Process.h"
-#include "SkyAPI.h"
+
 
 typedef I_GUIEngine* (*PGUIEngine)();
 extern SKY_FILE_Interface g_FileInterface;

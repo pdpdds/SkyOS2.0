@@ -329,7 +329,6 @@
       <Filter>FileSystem</Filter>
     </ClCompile>
     <ClCompile Include="SkyRamDiskAdaptor.cpp" />
-    <ClCompile Include="GUIMint64.cpp" />
     <ClCompile Include="SkyIOHandler.cpp" />
     <ClCompile Include="SkyVirtualIO.cpp" />
     <ClCompile Include="MintQueue.cpp">
@@ -379,6 +378,9 @@
     </ClCompile>
     <ClCompile Include="MapFile\Undecorate.cpp">
       <Filter>MapFile</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI\GUIMint64.cpp">
+      <Filter>GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -692,7 +694,6 @@
       <Filter>FileSystem</Filter>
     </ClInclude>
     <ClInclude Include="SkyRamDiskAdaptor.h" />
-    <ClInclude Include="GUIMint64.h" />
     <ClInclude Include="SkyIOHandler.h" />
     <ClInclude Include="SkyVirtualIO.h" />
     <ClInclude Include="MintQueue.h">
@@ -739,6 +740,9 @@
     </ClInclude>
     <ClInclude Include="MapFile\Undecorate.h">
       <Filter>MapFile</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI\GUIMint64.h">
+      <Filter>GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

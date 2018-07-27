@@ -107,9 +107,7 @@ void kmain(unsigned long magic, unsigned long addr, uint32_t imageBase)
 	pBootInfo->framebuffer_addr = pVideoInfo->_frameBuffer;
 	pBootInfo->framebuffer_bpp = pVideoInfo->_bpp;
 	pBootInfo->framebuffer_width = pVideoInfo->_width;
-	pBootInfo->framebuffer_height = pVideoInfo->_height;
-
-	g_pVirtualIO = new SkyVirtualIO();
+	pBootInfo->framebuffer_height = pVideoInfo->_height;	
 	
 #endif
 	SkyGUISystem::GetInstance()->Initialize(pBootInfo);
@@ -133,6 +131,9 @@ void kmain(unsigned long magic, unsigned long addr, uint32_t imageBase)
 	
 	//StorageManager::GetInstance()->Initilaize(pBootInfo);
 	//SkyDebugger::GetInstance()->LoadSymbol("DebugEngine.dll");
+
+	g_pVirtualIO = new SkyVirtualIO();
+	Test* pTest = new Test();
 
 	SkyLauncher* pSystemLauncher = nullptr;
 

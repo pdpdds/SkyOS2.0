@@ -1,7 +1,6 @@
 #pragma once
-#include "stdint.h"
 #include "windef.h"
-#include "I_VirtualIO.h"
+#include "I_GUIEngine.h"
 
 class I_GUIEngine;
 

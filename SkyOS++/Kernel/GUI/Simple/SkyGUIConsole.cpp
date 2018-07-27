@@ -1,11 +1,6 @@
 #include "SkyOS.h"
 #include "SkyGUIConsole.h"
-#include "SkyConsole.h"
-#include "SkyConsole.h"
 #include "SkyRenderer32.h"
-#include "SkyGUI.h"
-#include "KeyboardController.h"
-#include "ctype.h"
 #include "MintQueue.h"
 
 #define COLOR(r,g,b) ((r<<16) | (g<<8) | b)

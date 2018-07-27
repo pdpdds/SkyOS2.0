@@ -11,3 +11,10 @@ public:
 	virtual bool PutMouseQueue(MOUSEDATA* pData) override;
 };
 
+class Test
+{
+public:
+	Test(){}
+	
+};
+
