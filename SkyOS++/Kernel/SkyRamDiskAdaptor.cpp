@@ -59,8 +59,8 @@ void SkyRamDiskAdaptor::LoadRamDisk(Module* ramdiskModule)
 
 	
 
-	m_pRamDisk = new g_ramdisk();
-	m_pRamDisk->load(ramdiskModule);
+	m_pRamDisk = new SkyRamDisk();
+	m_pRamDisk->Load(ramdiskModule);
 	SkyConsole::Print("%s ramdisk loaded\n", "kern");	
 }
 
@@ -74,7 +74,7 @@ int SkyRamDiskAdaptor::Read(PFILE file, unsigned char* buffer, unsigned int size
 	if (file == nullptr)
 		return false;
 
-	g_ramdisk_entry* pEntry = (g_ramdisk_entry*)file->_id;
+	RamDiskEntry* pEntry = (RamDiskEntry*)file->_id;
 
 	if (pEntry == nullptr)
 		return false;
@@ -118,7 +118,7 @@ PFILE SkyRamDiskAdaptor::Open(const char* fileName, const char *mode)
 	if (m_pRamDisk == nullptr)
 		nullptr;
 
-	g_ramdisk_entry* pEntry = m_pRamDisk->findAbsolute(fileName);
+	RamDiskEntry* pEntry = m_pRamDisk->FindAbsolute(fileName);
 
 	if (pEntry == nullptr)
 		nullptr;
@@ -150,7 +150,7 @@ bool SkyRamDiskAdaptor::GetFileList()
 	if (m_pRamDisk == nullptr)
 		return false;
 
-	g_ramdisk_entry* pEntry = m_pRamDisk->getFirst();
+	RamDiskEntry* pEntry = m_pRamDisk->GetFirst();
 	if (pEntry == nullptr)
 		return false;
 

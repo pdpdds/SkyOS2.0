@@ -1,23 +1,3 @@
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- *                                                                           *
- *  Ghost, a micro-kernel based operating system for the x86 architecture    *
- *  Copyright (C) 2015, Max Schlüssel <lokoxe@gmail.com>                     *
- *                                                                           *
- *  This program is free software: you can redistribute it and/or modify     *
- *  it under the terms of the GNU General Public License as published by     *
- *  the Free Software Foundation, either version 3 of the License, or        *
- *  (at your option) any later version.                                      *
- *                                                                           *
- *  This program is distributed in the hope that it will be useful,          *
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of           *
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            *
- *  GNU General Public License for more details.                             *
- *                                                                           *
- *  You should have received a copy of the GNU General Public License        *
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.    *
- *                                                                           *
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 #include "windef.h"
 #include "skyramdisk.h"
 #include "string.h"
@@ -39,7 +19,8 @@ int indexOf(const char* str, char c) {
 	return -1;
 }
 
-g_ramdisk::g_ramdisk() {
+SkyRamDisk::SkyRamDisk()
+{
 	root = 0;
 	firstHeader = 0;
 }
@@ -47,13 +28,14 @@ g_ramdisk::g_ramdisk() {
 /**
  * 
  */
-g_ramdisk_entry* g_ramdisk::load(Module* module) {
+RamDiskEntry* SkyRamDisk::Load(Module* module)
+{
 	// Get the ramdisk location and its end from the multiboot info
 	uint8_t* ramdisk = (uint8_t*) module->ModuleStart;
 	uint32_t ramdiskEnd = module->ModuleEnd;
 
 	// Create a root RamdiskEntry
-	root = new g_ramdisk_entry;
+	root = new RamDiskEntry;
 	root->id = 0;
 
 	// Initialize the header storage location
@@ -64,9 +46,9 @@ g_ramdisk_entry* g_ramdisk::load(Module* module) {
 	//SkyConsole::Print("0x%x 0x%x\n", ramdisk, ramdiskEnd);
 	
 	// Iterate through the ramdisk
-	g_ramdisk_entry* currentHeader = 0;
+	RamDiskEntry* currentHeader = 0;
 	while ((uint32_t) (ramdisk + ramdiskPosition) < ramdiskEnd) {
-		g_ramdisk_entry* header = new g_ramdisk_entry;
+		RamDiskEntry* header = new RamDiskEntry;
 		header->next = 0;
 		
 		if (currentHeader == 0) {
@@ -80,7 +62,7 @@ g_ramdisk_entry* g_ramdisk::load(Module* module) {
 		// Type (file/folder)
 		uint8_t* typeptr = (uint8_t*) (ramdisk + ramdiskPosition);
 		
-		header->type = static_cast<g_ramdisk_entry_type>(*typeptr);		
+		header->type = static_cast<RamDiskEntry_Type>(*typeptr);
 	
 		ramdiskPosition++;
 
@@ -133,11 +115,13 @@ g_ramdisk_entry* g_ramdisk::load(Module* module) {
 /**
  * 
  */
-g_ramdisk_entry* g_ramdisk::findChild(g_ramdisk_entry* parent, const char* childName) {
+RamDiskEntry* SkyRamDisk::FindChild(RamDiskEntry* parent, const char* childName)
+{
 
-	g_ramdisk_entry* current = firstHeader;
+	RamDiskEntry* current = firstHeader;
 	do {
-		if (current->parentid == parent->id && strcmp(current->name, childName) == 0) {
+		if (current->parentid == parent->id && strcmp(current->name, childName) == 0) 
+		{
 			return current;
 		}
 	} while ((current = current->next) != 0);
@@ -148,14 +132,15 @@ g_ramdisk_entry* g_ramdisk::findChild(g_ramdisk_entry* parent, const char* child
 /**
  * 
  */
-g_ramdisk_entry* g_ramdisk::findById(uint32_t id) {
-	g_ramdisk_entry* foundNode = 0;
+RamDiskEntry* SkyRamDisk::FindById(uint32_t id)
+{
+	RamDiskEntry* foundNode = 0;
 
 	if (id == 0) {
 		return root;
 	}
 
-	g_ramdisk_entry* currentNode = firstHeader;
+	RamDiskEntry* currentNode = firstHeader;
 	while (currentNode != 0) {
 		if (currentNode->id == id) {
 			foundNode = currentNode;
@@ -171,21 +156,23 @@ g_ramdisk_entry* g_ramdisk::findById(uint32_t id) {
 /**
  * 
  */
-g_ramdisk_entry* g_ramdisk::findAbsolute(const char* path) {
+RamDiskEntry* SkyRamDisk::FindAbsolute(const char* path)
+{
 
-	return findRelative(root, path);
+	return FindRelative(root, path);
 }
 
 /**
  * Searches for the entry at the given the relative path to the given node.
  */
-g_ramdisk_entry* g_ramdisk::findRelative(g_ramdisk_entry* node, const char* path) {
+RamDiskEntry* SkyRamDisk::FindRelative(RamDiskEntry* node, const char* path)
+{
 	char buf[G_RAMDISK_MAXIMUM_PATH_LENGTH];
 	uint32_t pathLen = strlen(path);
 	memcpy(buf, path, pathLen);
 	buf[pathLen] = 0;
 
-	g_ramdisk_entry* currentNode = node;
+	RamDiskEntry* currentNode = node;
 	while (strlen(buf) > 0) {
 		int slashIndex = indexOf(buf, '/');
 		if (slashIndex >= 0) {
@@ -195,7 +182,7 @@ g_ramdisk_entry* g_ramdisk::findRelative(g_ramdisk_entry* node, const char* path
 				memcpy(childpath, buf, slashIndex);
 				childpath[slashIndex] = 0;
 
-				currentNode = findChild(currentNode, childpath);
+				currentNode = FindChild(currentNode, childpath);
 			}
 
 			// Cut off layer
@@ -204,7 +191,7 @@ g_ramdisk_entry* g_ramdisk::findRelative(g_ramdisk_entry* node, const char* path
 			buf[len] = 0;
 		} else {
 			// Reached the last node, find the child
-			currentNode = findChild(currentNode, buf);
+			currentNode = FindChild(currentNode, buf);
 			break;
 		}
 	}
@@ -214,11 +201,12 @@ g_ramdisk_entry* g_ramdisk::findRelative(g_ramdisk_entry* node, const char* path
 /**
  * 
  */
-uint32_t g_ramdisk::getChildCount(uint32_t id) {
+uint32_t SkyRamDisk::GetChildCount(uint32_t id) 
+{
 
 	uint32_t count = 0;
 
-	g_ramdisk_entry* currentNode = firstHeader;
+	RamDiskEntry* currentNode = firstHeader;
 	while (currentNode != 0) {
 		if (currentNode->parentid == id) {
 			++count;
@@ -232,11 +220,12 @@ uint32_t g_ramdisk::getChildCount(uint32_t id) {
 /**
  * 
  */
-g_ramdisk_entry* g_ramdisk::getChildAt(uint32_t id, uint32_t index) {
+RamDiskEntry* SkyRamDisk::GetChildAt(uint32_t id, uint32_t index)
+{
 
 	uint32_t pos = 0;
 
-	g_ramdisk_entry* currentNode = firstHeader;
+	RamDiskEntry* currentNode = firstHeader;
 	while (currentNode != 0) {
 		if (currentNode->parentid == id) {
 			if (pos == index) {
@@ -254,11 +243,12 @@ g_ramdisk_entry* g_ramdisk::getChildAt(uint32_t id, uint32_t index) {
 /**
  *
  */
-g_ramdisk_entry* g_ramdisk::getRoot() const {
+RamDiskEntry* SkyRamDisk::GetRoot() const
+{
 	return root;
 }
 
-g_ramdisk_entry* g_ramdisk::getFirst() const
+RamDiskEntry* SkyRamDisk::GetFirst() const
 {
 	return firstHeader;
 }
@@ -266,9 +256,10 @@ g_ramdisk_entry* g_ramdisk::getFirst() const
 /**
  *
  */
-g_ramdisk_entry* g_ramdisk::createChild(g_ramdisk_entry* parent, char* filename) {
+RamDiskEntry* SkyRamDisk::CreateChild(RamDiskEntry* parent, char* filename)
+{
 
-	g_ramdisk_entry* new_node = new g_ramdisk_entry();
+	RamDiskEntry* new_node = new RamDiskEntry();
 	new_node->next = firstHeader;
 	firstHeader = new_node;
 

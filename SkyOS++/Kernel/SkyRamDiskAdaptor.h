@@ -2,7 +2,7 @@
 #include "FileSysAdaptor.h"
 
 struct Module;
-class g_ramdisk;
+class SkyRamDisk;
 
 class SkyRamDiskAdaptor : public FileSysAdaptor
 {
@@ -22,7 +22,7 @@ protected:
 	void LoadRamDisk(Module* ramdiskModule);
 
 private:
-	g_ramdisk* m_pRamDisk;
+	SkyRamDisk* m_pRamDisk;
 };
 
 
