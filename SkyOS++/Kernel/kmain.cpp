@@ -13,7 +13,6 @@ multiboot_info g_bootInfo;
 char* g_szBootLoaderName = "SkyOS Emulator";
 char* g_virtualMemory = nullptr;
 unsigned int g_virtualMemorySize = 0;
-I_VirtualIO* g_pVirtualIO = nullptr;
 
 extern SKY_FILE_Interface g_FileInterface;
 extern SKY_ALLOC_Interface g_allocInterface;
@@ -23,12 +22,15 @@ extern SKY_PROCESS_INTERFACE g_processInterface;
 
 #include "MapFile\MapFile.h"
 #include "SkyDebugger.h"
+#ifdef SKY_EMULATOR
+void kmain()
+#else
 void kmain(unsigned long magic, unsigned long addr, uint32_t imageBase)
+#endif
 {
 #ifdef SKY_EMULATOR
-	
-	imageBase = 0x01600000;
-	magic = MULTIBOOT_BOOTLOADER_MAGIC;
+	uint32_t imageBase = 0x01600000;
+	unsigned longmagic = MULTIBOOT_BOOTLOADER_MAGIC;
 	g_kernel_load_address = imageBase;
 
 	WIN32_STUB* pStub = GetWin32Stub();
@@ -110,6 +112,7 @@ void kmain(unsigned long magic, unsigned long addr, uint32_t imageBase)
 	pBootInfo->framebuffer_height = pVideoInfo->_height;	
 	
 #endif
+
 	SkyGUISystem::GetInstance()->Initialize(pBootInfo);
 
 #endif
@@ -132,9 +135,6 @@ void kmain(unsigned long magic, unsigned long addr, uint32_t imageBase)
 	//StorageManager::GetInstance()->Initilaize(pBootInfo);
 	//SkyDebugger::GetInstance()->LoadSymbol("DebugEngine.dll");
 
-	g_pVirtualIO = new SkyVirtualIO();
-	Test* pTest = new Test();
-
 	SkyLauncher* pSystemLauncher = nullptr;
 
 #if SKY_CONSOLE_MODE == 0	
@@ -147,7 +147,7 @@ void kmain(unsigned long magic, unsigned long addr, uint32_t imageBase)
 
 #ifdef SKY_EMULATOR
 #if SKY_CONSOLE_MODE == 0
-	LoopWin32(g_pVirtualIO);
+	LoopWin32(new SkyVirtualIO());
 #endif
 #endif
 	for (;;);

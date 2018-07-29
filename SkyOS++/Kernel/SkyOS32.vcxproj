@@ -367,7 +367,7 @@
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
     <Link>
-      <AdditionalDependencies>CommonLib.lib;lua5.lib;SkyOSWin32Stub.lib;</AdditionalDependencies>
+      <AdditionalDependencies>SkyOSWin32Stub.lib;CommonLib.lib;lua5.lib;</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>../Debug</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>

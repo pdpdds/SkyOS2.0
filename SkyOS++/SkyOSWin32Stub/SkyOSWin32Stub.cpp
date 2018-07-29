@@ -135,7 +135,6 @@ class Win32VirtualIO : public I_VirtualIO
 
 extern "C" void LoopWin32(I_VirtualIO* pVirtualIO)
 {
-	I_VirtualIO* aa = new Win32VirtualIO();
 	
 	bool running = true;
 	//루프를 돌며 화면을 그린다.

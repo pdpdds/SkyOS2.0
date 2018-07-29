@@ -90,7 +90,7 @@
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>false</SDLCheck>
       <DisableSpecificWarnings>4819</DisableSpecificWarnings>
-      <AdditionalIncludeDirectories>../../Module/Include;./;../ThirdParty/SDL2/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../Module/Include;./;../ThirdParty/SDL2/include;</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <StructMemberAlignment>1Byte</StructMemberAlignment>
       <BufferSecurityCheck>false</BufferSecurityCheck>

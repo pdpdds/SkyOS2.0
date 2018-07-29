@@ -170,7 +170,8 @@ SkyIOHandler::SkyIOHandler()
 {
 	memset(&m_keyboardState, 0, sizeof(KEYBOARDSTATE));
 	memset(&m_mouseState, 0, sizeof(MOUSESTATE));			
-	m_pGUIEngine = nullptr;
+	m_pGUIEngine = nullptr;	
+	m_owner = nullptr;
 }
 
 SkyIOHandler::~SkyIOHandler()
@@ -178,8 +179,9 @@ SkyIOHandler::~SkyIOHandler()
 }
 
 extern void SampleFillRect(ULONG* lfb, int x, int y, int w, int h, int col);
-bool SkyIOHandler::Initialize()
+bool SkyIOHandler::Initialize(I_VirtualIO* owner)
 {
+	m_owner = owner;
 	SetInterruptVector(0x21, kSkyKeyboardHandler2);
 	SetInterruptVector(0x2c, kSkyMouseHandler2);
 
@@ -221,7 +223,6 @@ void SkyIOHandler::ProcessKeyboardInput()
 			AccumulateMouseDataAndPutQueue(bTemp);
 		}
 	}
-
 }
 
 void SkyIOHandler::ProcessMouseInput()
@@ -481,6 +482,11 @@ bool SkyIOHandler::AccumulateMouseDataAndPutQueue(BYTE bMouseData)
 		{
 			m_pGUIEngine->PutMouseQueue(&m_mouseState.stCurrentData);
 		}
+		else if(m_owner)
+		{
+			m_owner->PutMouseQueue(&m_mouseState.stCurrentData);
+		}
+		
 		kLeaveCriticalSection();
 		// 임계 영역 끝
 		// kUnlockForSpinLock( &( m_mouseState.stSpinLock ) );
@@ -524,7 +530,10 @@ bool SkyIOHandler::ConvertScanCodeAndPutQueue(BYTE bScanCode)
 		//bResult = kPutQueue(&gs_stKeyQueue, &stData);
 		if(m_pGUIEngine)
 			bResult = m_pGUIEngine->PutKeyboardQueue(&stData);
-
+		else if (m_owner)
+		{
+			m_owner->PutKeyboardQueue(&stData);
+		}
 		kLeaveCriticalSection();
 
 		// 임계 영역 끝
@@ -538,7 +547,7 @@ bool SkyIOHandler::ConvertScanCodeAndPutQueue(BYTE bScanCode)
 */
 bool SkyIOHandler::ConvertScanCodeToASCIICode(BYTE bScanCode, BYTE* pbASCIICode, bool* pbFlags)
 {
-	bool bUseCombinedKey;
+	bool bUseCombinedKey = false;
 
 	// 이전에 Pause 키가 수신되었다면, Pause의 남은 스캔 코드를 무시
 	if (m_keyboardState.iSkipCountForPause > 0)
@@ -602,20 +611,20 @@ bool SkyIOHandler::ConvertScanCodeToASCIICode(BYTE bScanCode, BYTE* pbASCIICode,
 */
 void SkyIOHandler::UpdateCombinationKeyStatusAndLED(BYTE bScanCode)
 {
-	bool bDown;
-	BYTE bDownScanCode;
-	bool bLEDStatusChanged = FALSE;
+	bool bDown = false;
+	BYTE bDownScanCode = 0;
+	bool bLEDStatusChanged = false;
 
 	// 눌림 또는 떨어짐 상태처리, 최상위 비트(비트 7)가 1이면 키가 떨어졌음을 의미하고
 	// 0이면 떨어졌음을 의미함
 	if (bScanCode & 0x80)
 	{
-		bDown = FALSE;
+		bDown = false;
 		bDownScanCode = bScanCode & 0x7F;
 	}
 	else
 	{
-		bDown = TRUE;
+		bDown = true;
 		bDownScanCode = bScanCode;
 	}
 
@@ -720,8 +729,8 @@ bool SkyIOHandler::ChangeKeyboardLED(bool bCapsLockOn, bool bNumLockOn, bool bSc
 */
 bool SkyIOHandler::IsUseCombinedCode(bool bScanCode)
 {
-	BYTE bDownScanCode;
-	bool bUseCombinedKey;
+	BYTE bDownScanCode = 0;
+	bool bUseCombinedKey = false;
 
 	bDownScanCode = bScanCode & 0x7F;
 

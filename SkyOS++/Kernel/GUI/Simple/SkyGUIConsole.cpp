@@ -2,6 +2,7 @@
 #include "SkyGUIConsole.h"
 #include "SkyRenderer32.h"
 #include "MintQueue.h"
+#include "KeyboardController.h"
 
 #define COLOR(r,g,b) ((r<<16) | (g<<8) | b)
 #define WHITE COLOR(255,255,255)
@@ -28,7 +29,6 @@ SkyGUIConsole::SkyGUIConsole()
 SkyGUIConsole::~SkyGUIConsole()
 {
 }
-
 
 QUEUE gs_stKeyQueue;
 #define CONSOLE_GUIKEYQUEUE_MAXCOUNT        100  

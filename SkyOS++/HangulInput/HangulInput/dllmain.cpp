@@ -4,10 +4,14 @@
 #include "SkyMockInterface.h"
 
 #include "HangulEngine.h"
+
 extern "C" __declspec(dllexport) I_HangulEngine* GetHangulEngine()
 {
+	
 	return (I_HangulEngine*)new HangulEngine();
 }
+
+
 
 #define DLL_PROCESS_ATTACH 1
 #define DLL_PROCESS_DETACH 0
@@ -54,6 +58,7 @@ extern "C" bool WINAPI _DllMainCRTStartup(
 		//_initterm(__xc_a, __xc_z);
 
 		InitializeConstructors();
+		
 	}
 
 	bool retcode = DllMain(hDllHandle, dwReason, lpreserved);
@@ -65,3 +70,5 @@ extern "C" bool WINAPI _DllMainCRTStartup(
 
 	return retcode;
 }
+
+

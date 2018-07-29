@@ -6,7 +6,7 @@
 #include "luatinker.h"
 #include "I_VirtualIO.h"
 
-class SkySVGA
+class SkySVGA : public I_VirtualIO
 {
 public:
 	SkySVGA();

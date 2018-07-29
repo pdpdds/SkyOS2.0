@@ -1,6 +1,6 @@
 #include "SkyOS.h"
 #include "GUIMint64.h"
-
+#include "SkyIOHandler.h"
 
 typedef I_GUIEngine* (*PGUIEngine)();
 extern SKY_FILE_Interface g_FileInterface;
@@ -10,7 +10,7 @@ extern SKY_PROCESS_INTERFACE g_processInterface;
 
 GUIMint64::GUIMint64()
 {
-
+	m_pVideoRamPtr = nullptr;
 }
 
 
@@ -95,6 +95,8 @@ bool GUIMint64::Run()
 
 bool GUIMint64::Print(char* pMsg)
 {
+	if(m_pVideoRamPtr)
+	SampleFillRect(m_pVideoRamPtr, 1004, 0, 20, 20, 0x00FF0000);
 	return true;
 }
 
@@ -106,10 +108,12 @@ bool GUIMint64::Clear()
 
 bool GUIMint64::PutKeyboardQueue(KEYDATA* pData)
 {
+	m_pEngine->PutKeyboardQueue(pData);
 	return true;
 }
 
 bool GUIMint64::PutMouseQueue(MOUSEDATA* pData)
 {
+	m_pEngine->PutMouseQueue(pData);
 	return true;
 }

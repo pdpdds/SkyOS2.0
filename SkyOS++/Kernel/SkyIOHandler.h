@@ -63,7 +63,7 @@ public:
 	SkyIOHandler();
 	~SkyIOHandler();
 
-	bool Initialize();
+	bool Initialize(I_VirtualIO* owner);
 
 	static SkyIOHandler* GetInstance()
 	{
@@ -104,4 +104,5 @@ private:
 	KEYBOARDSTATE	m_keyboardState;
 	MOUSESTATE		m_mouseState;
 	I_GUIEngine* m_pGUIEngine;
+	I_VirtualIO*  m_owner;
 };

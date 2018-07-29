@@ -212,6 +212,7 @@
     <ClCompile Include="svga_window.cpp" />
     <ClCompile Include="textCtrl.cpp" />
     <ClCompile Include="vesa.cpp" />
+    <ClCompile Include="VirtualFunctionTest.cpp" />
     <ClCompile Include="wnd.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -236,6 +237,7 @@
     <ClInclude Include="svga_window.h" />
     <ClInclude Include="txtCtrl.h" />
     <ClInclude Include="VESA.h" />
+    <ClInclude Include="VirtualFunctionTest.h" />
     <ClInclude Include="wnd.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

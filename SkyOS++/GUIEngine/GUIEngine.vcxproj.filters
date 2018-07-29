@@ -93,6 +93,9 @@
     <ClCompile Include="Engine\ConsoleShell.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
+    <ClCompile Include="VirtualFunctionTest.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GUIEngine.h">
@@ -160,6 +163,9 @@
     </ClInclude>
     <ClInclude Include="Engine\ConsoleShell.h">
       <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="VirtualFunctionTest.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
