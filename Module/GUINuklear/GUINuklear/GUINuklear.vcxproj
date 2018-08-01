@@ -114,7 +114,7 @@
       <MapFileName>$(OutDir)$(TargetName).map</MapFileName>
       <EntryPointSymbol>_DllMainCRTStartup</EntryPointSymbol>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
-      <AdditionalDependencies>CommonLib.lib;DllStub.lib;zlibstat.lib;</AdditionalDependencies>
+      <AdditionalDependencies>CommonLib.lib;DllStub.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>../Debug;D:\Dev\SkyOS\SkyOS.git\trunk\Module\freetype\lib</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>
       </IgnoreSpecificDefaultLibraries>

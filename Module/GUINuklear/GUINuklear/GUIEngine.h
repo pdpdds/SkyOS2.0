@@ -9,7 +9,7 @@ public:
 
 	virtual bool Initialize() override;
 	virtual void Update(float deltaTime) override;
-	virtual void SetLinearBuffer(unsigned long* pBuffer, unsigned long width, unsigned long height, unsigned long depth, unsigned type) override;
+	virtual void SetLinearBuffer(LinearBufferInfo& linearBufferInfo) override;
 	
 	virtual bool PutKeyboardQueue(KEYDATA* pData) override;
 	virtual bool PutMouseQueue(MOUSEDATA* pData) override;

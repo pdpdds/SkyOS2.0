@@ -34,7 +34,7 @@ void GUIEngine::Update(float deltaTime)
 	
 }
 
-void GUIEngine::SetLinearBuffer(unsigned long* pBuffer, unsigned long width, unsigned long height, unsigned long depth, unsigned type)
+void GUIEngine::SetLinearBuffer(LinearBufferInfo& linearBufferInfo)
 {
 	
 }

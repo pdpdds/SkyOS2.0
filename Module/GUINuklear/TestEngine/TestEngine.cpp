@@ -100,8 +100,15 @@ int main()
 		std::cout << "SDL_CreateTextureFromSurface Error: " << SDL_GetError() << std::endl;
 		return 0;
 	}
+	LinearBufferInfo bufferInfo;
+	bufferInfo.isDirectVideoBuffer = 0;
+	bufferInfo.width = 1024;
+	bufferInfo.height = 768;
+	bufferInfo.pBuffer = (unsigned long*)screen->pixels;
+	bufferInfo.depth = 16;
+	bufferInfo.type = 0;
 
-	pEngine->SetLinearBuffer((unsigned long*)screen->pixels, 1024, 768, 16, 0);
+	pEngine->SetLinearBuffer(bufferInfo);
 	pEngine->Initialize();
 
 	/*unsigned char* pixels = (unsigned char*)screen->pixels;
