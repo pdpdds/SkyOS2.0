@@ -5,6 +5,7 @@
 #include "SkyVirtualIO.h"
 
 uint32_t g_kernel_load_address = 0;
+extern unsigned int _pitTicks;
 
 #ifdef SKY_EMULATOR
 #include "SkyOSWin32Stub.h"
@@ -147,7 +148,7 @@ void kmain(unsigned long magic, unsigned long addr, uint32_t imageBase)
 
 #ifdef SKY_EMULATOR
 #if SKY_CONSOLE_MODE == 0
-	LoopWin32(new SkyVirtualIO());
+	LoopWin32(new SkyVirtualIO(), _pitTicks);
 #endif
 #endif
 	for (;;);

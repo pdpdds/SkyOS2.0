@@ -847,7 +847,7 @@ static void kProcessConsoleBuffer(QWORD qwWindowID)
 	CHARACTER* pstPreviousScreenBuffer;
 	RECT stLineArea;
 	bool bChanged;
-	static QWORD s_qwLastTickCount = 0;
+	static DWORD dwLastTickCount = 0;
 	bool bFullRedraw;
 
 	// 콘솔을 관리하는 자료구조를 반환 받아 화면 버퍼의 어드레스를 저장하고 
@@ -857,15 +857,16 @@ static void kProcessConsoleBuffer(QWORD qwWindowID)
 	pstPreviousScreenBuffer = gs_vstPreviousScreenBuffer;
 
 	// 화면을 전체를 업데이트 한 지 5초가 지났으면 무조건 화면 전체를 다시 그림
-	/*if (kGetTickCount() - s_qwLastTickCount > 5000)
+	/*if (g_processInterface.sky_get_tick_count() - dwLastTickCount > 1000)
 	{
-		s_qwLastTickCount = kGetTickCount();
+		dwLastTickCount = g_processInterface.sky_get_tick_count();
 		bFullRedraw = TRUE;
 	}
-	else*/
+	else
 	{
 		bFullRedraw = FALSE;
-	}
+	}*/
+	bFullRedraw = TRUE;
 
 	// 화면 버퍼의 높이만큼 반복
 	for (j = 0; j < CONSOLE_HEIGHT; j++)
@@ -878,14 +879,14 @@ static void kProcessConsoleBuffer(QWORD qwWindowID)
 		{
 			// 문자를 비교하여 다르거나 전체를 새로 그려야 하면 이전 화면 버퍼에
 			// 업데이트하고 변경 여부 플래그를 설정
-			if ((pstScreenBuffer->bCharactor != pstPreviousScreenBuffer->bCharactor) ||
+			if ((pstScreenBuffer->bCharacter != pstPreviousScreenBuffer->bCharacter) ||
 				(bFullRedraw == TRUE))
 			{
 				// 문자를 화면에 출력
 				kDrawText(qwWindowID, i * FONT_ENGLISHWIDTH + 2,
 					j * FONT_ENGLISHHEIGHT + WINDOW_TITLEBAR_HEIGHT,
 					RGB(0, 255, 0), RGB(0, 0, 0),
-					(const char*)&(pstScreenBuffer->bCharactor), 1);
+					(const char*)&(pstScreenBuffer->bCharacter), 1);
 
 				// 이전 화면 버퍼로 값을 옮겨 놓고 현재 라인에 이전과
 				// 다른 데이터가 있음을 표시

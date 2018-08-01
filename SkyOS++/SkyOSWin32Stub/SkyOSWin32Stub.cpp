@@ -2,40 +2,17 @@
 //
 
 #include "stdafx.h"
-#include "SkyOSWin32Stub.h"
-#include <stdio.h> 
 #include <windows.h> 
-#include "SkyMockInterface.h"
-#include "SDL.h"
 #include <iostream>
+#include <stdio.h> 
+#include "SDL.h"
+#include "SkyOSWin32Stub.h"
+#include "SkyMockInterface.h"
 #include "I_VirtualIO.h"
-
-extern SKY_FILE_Interface g_FileInterface;
-extern SKY_ALLOC_Interface g_allocInterface;
-extern SKY_Print_Interface g_printInterface;
-extern SKY_PROCESS_INTERFACE g_processInterface;
-
-CRITICAL_SECTION g_cs;
-
-WIN32_STUB* GetWin32Stub()
-{
-	InitializeCriticalSection(&g_cs);
-
-	char* pPhysicalMemory = new char[100000000];
-	WIN32_STUB* pStub = new WIN32_STUB;
-	pStub->_allocInterface = &g_allocInterface;
-	pStub->_fileInterface = &g_FileInterface;
-	pStub->_printInterface = &g_printInterface;
-	pStub->_processInterface = &g_processInterface;
-	pStub->_virtualAddress = (unsigned int)pPhysicalMemory;
-	pStub->_virtualAddressSize = 100000000;
-	return pStub;
-}
+#include "SkyIOHandlerWin32.h"
 
 WIN32_VIDEO g_win32Video;
-#pragma comment(lib, "SDL2.LIB")
-FILE _iob[] = { *stdin, *stdout, *stderr };
-extern "C" FILE * __cdecl __iob_func(void) { return _iob; }
+CRITICAL_SECTION g_cs;
 
 int screen_w;
 int screen_h;
@@ -43,6 +20,34 @@ SDL_Surface *screen;
 SDL_Window *pWindow;
 SDL_Renderer *pRenderer;
 SDL_Texture *pTexture;
+
+#pragma comment(lib, "SDL2.LIB")
+FILE _iob[] = { *stdin, *stdout, *stderr };
+extern "C" FILE * __cdecl __iob_func(void) { return _iob; }
+
+extern SKY_FILE_Interface g_FileInterface;
+extern SKY_ALLOC_Interface g_allocInterface;
+extern SKY_Print_Interface g_printInterface;
+extern SKY_PROCESS_INTERFACE g_processInterface;
+
+#define SKY_PHYSICAL_MEMORY_SIZE 100000000
+
+WIN32_STUB* GetWin32Stub()
+{
+	InitializeCriticalSection(&g_cs);
+
+	char* pPhysicalMemory = new char[SKY_PHYSICAL_MEMORY_SIZE];
+	WIN32_STUB* pStub = new WIN32_STUB;
+	pStub->_allocInterface = &g_allocInterface;
+	pStub->_fileInterface = &g_FileInterface;
+	pStub->_printInterface = &g_printInterface;
+	pStub->_processInterface = &g_processInterface;
+	pStub->_virtualAddress = (unsigned int)pPhysicalMemory;
+	pStub->_virtualAddressSize = SKY_PHYSICAL_MEMORY_SIZE;
+	return pStub;
+}
+
+
 
 extern "C" WIN32_VIDEO* InitWin32System(int width, int height, int bpp)
 {
@@ -89,7 +94,7 @@ extern "C" WIN32_VIDEO* InitWin32System(int width, int height, int bpp)
 	else if(bpp == 8)
 	{
 		pTexture = SDL_CreateTexture(pRenderer,
-			SDL_PIXELFORMAT_INDEX8,
+			SDL_PIXELFORMAT_RGB332,
 			SDL_TEXTUREACCESS_STREAMING,
 			screen_w, screen_h);
 	}
@@ -117,29 +122,17 @@ extern "C" WIN32_VIDEO* InitWin32System(int width, int height, int bpp)
 	return &g_win32Video;
 }
 
-#define MOUSE_LBUTTONDOWN   0x01
-#define MOUSE_RBUTTONDOWN   0x02
-#define MOUSE_MBUTTONDOWN   0x04
-
-class Win32VirtualIO : public I_VirtualIO
+extern "C" void LoopWin32(I_VirtualIO* pVirtualIO, unsigned int& tickCount)
 {
-	virtual bool PutKeyboardQueue(KEYDATA* pData)
-	{
-		return true;
-	}
-	virtual bool PutMouseQueue(MOUSEDATA* pData)
-	{
-		return true;
-	}
-};
-
-extern "C" void LoopWin32(I_VirtualIO* pVirtualIO)
-{
-	
 	bool running = true;
+	
+	SkyIOHandlerWin32* pInputHandler = new SkyIOHandlerWin32();
+	pInputHandler->Initialize(pVirtualIO);
+
 	//루프를 돌며 화면을 그린다.
 	while (running)
 	{
+		tickCount = GetTickCount();
 		//이벤트를 가져온다.
 		SDL_Event event;
 		while (SDL_PollEvent(&event))
@@ -207,45 +200,29 @@ extern "C" void LoopWin32(I_VirtualIO* pVirtualIO)
 			}
 			//키보드 이벤트가 발생했다면
 			else if (event.type == SDL_KEYDOWN)
-			{        //ESC키를 눌렀다면 프로그램 종료
-				KEYDATA data;
-				data.bScanCode = event.key.keysym.scancode;
-				if (SDL_SCANCODE_LALT == data.bScanCode)
-					data.bASCIICode = 0x85;
-				else
-				data.bASCIICode = SDL_GetKeyFromScancode(event.key.keysym.scancode);
-				data.bFlags = 0x01;
-				pVirtualIO->PutKeyboardQueue(&data);
+			{       
+				
+				unsigned int keycode = SDL_GetKeyFromScancode(event.key.keysym.scancode);
+
+				BYTE bScancode = pInputHandler->ConvertKeycodeToScancode(keycode);
+
+				if (bScancode != 0)
+					pInputHandler->ConvertScanCodeAndPutQueue(bScancode);
+
 				if (event.key.keysym.sym == SDLK_ESCAPE)
 				{
 					running = false;
 				}
-			} //QUIT 메시지가 들어왔다면 프로그램 종료
-			else if (event.type == SDL_KEYUP)
-			{        //ESC키를 눌렀다면 프로그램 종료
-				KEYDATA data;
-				data.bScanCode = event.key.keysym.scancode;
-				if (SDL_SCANCODE_LALT == data.bScanCode)
-					data.bASCIICode = 0x85;
-				else
-				data.bASCIICode = SDL_GetKeyFromScancode(event.key.keysym.scancode);
-				data.bFlags = 0x02;
-				pVirtualIO->PutKeyboardQueue(&data);
-				if (event.key.keysym.sym == SDLK_ESCAPE)
-				{
-					running = false;
-				}
-			} //QUIT 메시지가 들어왔다면 프로그램 종료
+			}
+			
 			else if (event.type == SDL_QUIT)
 			{
 				running = false;
 			}
 		}
 
-		//렌더러를 클리어하고 Hello World 텍스처를 렌더러에 복사한다.
 		SDL_RenderClear(pRenderer);
-		//SDL_RenderCopy(pRenderer, pTexture, NULL, NULL);
-
+		
 		SDL_UpdateTexture(pTexture, NULL, screen->pixels, screen->pitch);
 		SDL_RenderCopy(pRenderer, pTexture, NULL, NULL);
 		//렌더러의 내용을 화면에 뿌린다.
@@ -256,6 +233,8 @@ extern "C" void LoopWin32(I_VirtualIO* pVirtualIO)
 	SDL_DestroyRenderer(pRenderer);
 	SDL_DestroyWindow(pWindow);
 	SDL_Quit();
+
+	delete pInputHandler;
 
 	exit(0);
 }

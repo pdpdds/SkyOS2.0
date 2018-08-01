@@ -2,7 +2,6 @@
 #include "svgaguientry.h"
 #include "VESA.h"
 #include "Hal.h"
-#include "svga_mouse.h"
 #include "svga_keyb.h"
 #include "SkyAPI.h"
 #include "SkyOS.h"
@@ -10,14 +9,14 @@
 #include "ProcessManager.h"
 #include "Process.h"
 #include "SkyIOHandler.h"
-#include "MintQueue.h"
+#include "VirtualIOManager.h"
 
 extern void kSVGAKeyboardHandler();
 extern void kSVGAMouseHandler();
 extern int cpp_func(int arg1, int arg2);
 lua_State* g_L;
-QUEUE gs_stMouseQueue;
-MOUSEDATA gs_vstMouseQueueBuffer[MOUSE_MAXQUEUECOUNT];
+
+
 
 SkySVGA::SkySVGA()
 {
@@ -297,24 +296,19 @@ static GuiWindow * create_threadsview_win(GuiWinThread * win_thread)
 
 bool SkySVGA::Initialize(void* pVideoRamPtr, int width, int height, int bpp, uint8_t buffertype)
 {	
-	init_lfb();
-	//lfb_clear();
-	kInitializeQueue(&gs_stMouseQueue, gs_vstMouseQueueBuffer, MOUSE_MAXQUEUECOUNT,
-		sizeof(MOUSEDATA));
+	init_lfb();	
+
+#ifdef SKY_EMULATOR
+	m_pVirtualIOManager = new VirtualIOManager();
+	m_pVirtualIOManager->Initialize();
+	
+#else
+	//SkyIOHandler::GetInstance()->Initialize(this);
 
 	kEnterCriticalSection();
 	SetInterruptVector(0x21, kSVGAKeyboardHandler);
 	SetInterruptVector(0x2c, kSVGAMouseHandler);
-
-	
-	//luatinker::def(g_L, "cpp_func", cpp_func);
-	//luatinker::dofile(g_L, "sample1.lua");
-	
 	kLeaveCriticalSection();
-
-#ifdef SKY_EMULATOR
-	//SkyIOHandler::GetInstance()->Initialize(this);
-#else
 	mouse_init();
 #endif // !SKY_EMULATOR
 	return true;
@@ -380,73 +374,6 @@ bool SkySVGA::Clear()
 	return false;
 }
 
-extern bool kIsQueueEmpty(const QUEUE* pstQueue);
-
-bool kGetMouseDataFromMouseQueue(BYTE* pbButtonStatus, int* piRelativeX, int* piRelativeY, bool& bAbsoluteCoordinate)
-{
-	MOUSEDATA stData;
-	bool bResult;
-
-	// 큐가 비어있으면 데이터를 꺼낼 수 없음
-	if (kIsQueueEmpty(&(gs_stMouseQueue)) == TRUE)
-	{
-		return FALSE;
-	}
-
-	// 임계 영역 시작
-	/* kLockForSpinLock( &( gs_stMouseManager.stSpinLock ) );
-	// 큐에서 데이터를 꺼냄
-	bResult = kGetQueue( &( gs_stMouseQueue ), &stData );
-	// 임계 영역 끝
-	kUnlockForSpinLock( &( gs_stMouseManager.stSpinLock ) );*/
-
-	kEnterCriticalSection();
-	bResult = kGetQueue(&(gs_stMouseQueue), &stData);
-	kLeaveCriticalSection();
-	// 데이터를 꺼내지 못했으면 실패
-	if (bResult == FALSE)
-	{
-		return FALSE;
-	}
-
-	// 마우스 데이터 분석
-	// 마우스 버튼 플래그는 첫 번째 바이트의 하위 3비트에 존재함
-	*pbButtonStatus = stData.bButtonStatusAndFlag & 0x7;
-
-	if (stData.bAbsoluteCoordinate == true)
-	{
-		bAbsoluteCoordinate = true;
-		*piRelativeX = stData.bXMovement;
-		*piRelativeY = stData.bYMovement;
-		return true;
-	}
-
-	// X, Y의 이동거리 설정
-	// X의 부호 비트는 비트 4에 있으며 1로 설정되어있으면 음수임
-	*piRelativeX = stData.bXMovement & 0xFF;
-	if (stData.bButtonStatusAndFlag & 0x10)
-	{
-		// 음수이므로 아래 8비트에 X 이동거리를 설정한 후 상위 비트를 모두 1로 만들어
-		// 부호 비트를 확장함 
-		*piRelativeX |= (0xFFFFFF00);
-	}
-
-	// Y의 부호 비트는 비트 5에 있으며, 1로 설정되었으면 음수임
-	// 아래 방향으로 갈수록 Y 값이 증가하는 화면 좌표와 달리 마우스는 위쪽 방향으로 갈수록
-	// 값이 증가하므로 계산이 끝난 후 부호를 뒤집음
-	*piRelativeY = stData.bYMovement & 0xFF;
-	if (stData.bButtonStatusAndFlag & 0x20)
-	{
-		// 음수이므로 아래 8비트에 Y 이동거리를 설정한 후 상위 비트를 모두 1로 만들어
-		// 부호 비트를 확장함 
-		*piRelativeY |= (0xFFFFFF00);
-	}
-
-	// 마우스의 Y축 증감 방향은 화면 좌표와 반대이므로 Y 이동거리에 -하여 방향을 바꿈
-	*piRelativeY = -*piRelativeY;
-	return TRUE;
-}
-
 bool SkySVGA::PutKeyboardQueue(KEYDATA* pData)
 {
 
@@ -455,21 +382,25 @@ bool SkySVGA::PutKeyboardQueue(KEYDATA* pData)
 
 
 
-extern int mouse_x2;
-extern int mouse_y2;
 extern int mouse_x;
 extern int mouse_y;
 extern char mousemoves;
+extern char left_button;
+
+#define MOUSE_LBUTTONDOWN   0x01
+#define MOUSE_RBUTTONDOWN   0x02
+#define MOUSE_MBUTTONDOWN   0x04
+
 
 bool SkySVGA::PutMouseQueue(MOUSEDATA* pData)
 {
-	//PutMouseQueue(pData);
-	kPutQueue(&gs_stMouseQueue, pData);
+	m_pVirtualIOManager->PutMouseueue(pData);
+	
 	int iRelativeX, iRelativeY;
 	bool bAbsoluteCoordinate = true;
 	BYTE bButtonStatus;
 	// 마우스 데이터가 수신되기를 기다림
-	if (kGetMouseDataFromMouseQueue(&bButtonStatus, &iRelativeX, &iRelativeY, bAbsoluteCoordinate) ==FALSE)
+	if (m_pVirtualIOManager->GetMouseDataFromMouseQueue(bButtonStatus, iRelativeX, iRelativeY) ==FALSE)
 	{
 		return false;
 	}
@@ -479,9 +410,13 @@ bool SkySVGA::PutMouseQueue(MOUSEDATA* pData)
 		mousemoves = 1;
 		mouse_x = iRelativeX;
 		mouse_y = iRelativeY;
+	}
 
-		mouse_x2 = iRelativeX;
-		mouse_y2 = iRelativeY;
+	if (MOUSE_LBUTTONDOWN & bButtonStatus)
+		left_button = 1;
+	else
+	{
+		left_button = 0;
 	}
 
 	if (mouse_x < 0) {

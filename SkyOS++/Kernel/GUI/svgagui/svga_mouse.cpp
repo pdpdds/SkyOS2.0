@@ -72,30 +72,6 @@ void mouse_draw_mouseback(int x2, int y2) {
 	}
 }
 
-int mouse_x2, mouse_y2;
-
-void mouse_update_cursor(short x_movement,
-						 short y_movement,
-						 char x_negative,
-						 char y_negative) {
-				 
-	/*if (x_negative == 1) {
-		x_movement -= 256;
-	}
-
-	if (y_negative == 1) {
-		y_movement -= 256;
-	}*/
-	
-	if (((mouse_x + x_movement) < (width-MOUSE_SIZEX))	&& ((mouse_y - y_movement) < height)
-	   && ((mouse_x + x_movement) > 0) && ((mouse_y - y_movement) > 0)) {		    
-			mouse_x += x_movement;
-			mouse_y -= y_movement;
-						
-			mouse_draw_mouseback(mouse_x2, mouse_y2);
-			mouse_draw_mousepointer(mouse_x, mouse_y);	
-	}
-}
 
 unsigned char mouse_cycle=0;    //unsigned char
 char mouse_byte[4];    			//signed char
@@ -185,8 +161,8 @@ void interrupt_mouse2()
 		mouse_x += mdec.x;
 		mouse_y += mdec.y;
 
-		mouse_x2 = curx = mouse_x;
-		mouse_y2 = cury = mouse_y;
+	curx = mouse_x;
+		cury = mouse_y;
 
 		
 
@@ -249,11 +225,11 @@ void interrupt_mouse()
 }
 
 extern "C" int mouse_getx() {
-	return mouse_x2;	
+	return mouse_x;	
 }
 
 extern "C" int mouse_gety() {
-	return mouse_y2;
+	return mouse_y;
 }
 
 
@@ -277,8 +253,8 @@ extern "C" int mouse_getbutton() {
 }
 
 extern "C" void mouse_setposition(int x, int y) {
-	mouse_x2=curx=x;
-	mouse_y2=cury=y;
+	mouse_x=curx=x;
+	mouse_y=cury=y;
 }
 
 extern "C" int mouse_update() {
@@ -329,28 +305,12 @@ void mouse_handler(char mouse_data, char x_movement, char y_movement) {
 		mouse_x += x_movement;
 		mouse_y -= y_movement;
 
-		mouse_x2=curx=mouse_x;
-		mouse_y2=cury=mouse_y;
+		curx=mouse_x;
+		cury=mouse_y;
 
 	}		
-	//dispatch_mouseevents(mouse_x2, mouse_y2, left_button);
-	//mouse_update_cursor(x_movement, y_movement, x_negative, y_negative);	
-}
-/*
-void mouse_waitdata() {
-	while ((InPortByte(MOUSE_DATA) & 0x02) == 0x02);
-}
-*/
 
-/*void mouse_mousepointer_init() {	
-	int fd = file_open("/MOUSE.RAW");
-	if (fd != 1) {
-		panic1("Could not read from device");	
-	}
-	mousebuffer=(unsigned char*) kalloc(file_size());
-	file_read(mousebuffer, file_size);
-	file_close();
-}*/
+}
 
 inline void mouse_wait(unsigned char a_type) //unsigned char
 {

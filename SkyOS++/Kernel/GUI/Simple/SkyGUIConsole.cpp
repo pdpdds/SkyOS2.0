@@ -1,13 +1,9 @@
 #include "SkyOS.h"
 #include "SkyGUIConsole.h"
 #include "SkyRenderer32.h"
-#include "MintQueue.h"
 #include "KeyboardController.h"
-
-#define COLOR(r,g,b) ((r<<16) | (g<<8) | b)
-#define WHITE COLOR(255,255,255)
-#define BLACK COLOR(0,0,0)
-#define DARKGRAY COLOR(154,154,154)
+#include "VirtualIOManager.h"
+#include "SkyIOHandler.h"
 
 extern char skyFontData[4096];
 ULONG* SkyGUIConsole::m_pVideoRamPtr = nullptr;
@@ -23,26 +19,23 @@ SkyGUIConsole::SkyGUIConsole()
 	m_yPos = PIVOT_Y;
 	m_xPos = PIVOT_X;
 	m_pRenderer = nullptr;
+	m_dirtyMap = nullptr;
+	m_dirty = false;
 }
-
 
 SkyGUIConsole::~SkyGUIConsole()
 {
 }
 
-QUEUE gs_stKeyQueue;
-#define CONSOLE_GUIKEYQUEUE_MAXCOUNT        100  
-static KEYDATA gs_vstKeyQueueBuffer[CONSOLE_GUIKEYQUEUE_MAXCOUNT];
-
 bool SkyGUIConsole::Initialize(void* pVideoRamPtr, int width, int height, int bpp, uint8_t buffertype)
 {	
-#ifdef SKY_EMULATOR  
-	kInitializeQueue(&gs_stKeyQueue, gs_vstKeyQueueBuffer, KEY_MAXQUEUECOUNT,sizeof(KEYDATA));
-#else
-	kEnterCriticalSection();
-	KeyboardController::SetupInterrupts();
-	kLeaveCriticalSection();
-#endif //  
+	m_pVirtualIOManager = new VirtualIOManager();
+	m_pVirtualIOManager->Initialize();
+
+#ifndef SKY_EMULATOR
+	SkyIOHandler::GetInstance()->Initialize(this);
+#endif // !SKY_EMULATOR
+
 	m_pRenderer = new SkyRenderer32();
 	SkyGUI::LoadFontFromMemory();
 		
@@ -50,6 +43,9 @@ bool SkyGUIConsole::Initialize(void* pVideoRamPtr, int width, int height, int bp
 	m_width = width;
 	m_height = height;
 	m_bpp = bpp;
+
+	m_dirtyMap = new ULONG[m_width * m_height];
+	m_dirty = false;
 
 	unsigned char buf[512];
 	sprintf((char*)buf, "Resolution(%d x %d)", width, height);
@@ -78,70 +74,42 @@ bool SkyGUIConsole::Initialize(void* pVideoRamPtr, int width, int height, int bp
 	return true;
 }
 
-#ifdef SKY_EMULATOR
-extern SKY_Print_Interface g_printInterface;
-#endif
-
-bool kGetKeyFromKeyQueue(KEYDATA* pstData)
+void SkyGUIConsole::GetCommandForGUI(char* commandBuffer, int bufSize, char* driveName)
 {
-	bool bResult;
-
-	// 임계 영역 시작
-	//kLockForSpinLock( &( gs_stKeyboardManager.stSpinLock ) );
-	kEnterCriticalSection();
-	bResult = kGetQueue(&gs_stKeyQueue, pstData);
-	kLeaveCriticalSection();
-	// 임계 영역 끝
-	//kUnlockForSpinLock( &( gs_stKeyboardManager.stSpinLock ) );
-	return bResult;
-}
-
-void SkyGUIConsole::GetCommandForGUI2(char* commandBuffer, int bufSize, char* driveName)
-{
+	int i = 0;
 	unsigned char c = 0;
-	bool	BufChar;
+	bool BufChar = false;
 	I_HangulEngine* pIMEEngine = SkyGUISystem::GetInstance()->GetIMEEngine();
 
-	//! get command string
-	int i = 0;
-
-	
 	std::string command;
-	while (i < bufSize) {
-
-		//! buffer the next char
+	while (i < bufSize)
+	{		
 		BufChar = true;
 		
-#ifdef SKY_EMULATOR
-		//c = g_printInterface.sky_getchar();
-		KEYDATA stKeyData;
-		if (kGetKeyFromKeyQueue(&stKeyData) == FALSE)
+		KEYDATA keyData;
+
+		if (m_pVirtualIOManager->GetKeyFromKeyQueue(&keyData) == false)
 		{
 			g_processInterface.sky_ksleep(0);
 			continue;
 		}
 
-		if (stKeyData.bFlags == 0x02)
+		if ((keyData.bFlags & KEY_FLAGS_DOWN) == false)
 			continue;
 
-		c = stKeyData.bASCIICode;
+		c = keyData.bASCIICode;
 
-#else
-		// grab next char
-		c = KeyboardController::GetInput();
-#endif // SKY_EMULATOR
-
-
-		//return
-		if (c == 0x0d)
+		if (c == '\n' || c == 0x0d)
+		{
+			int len = pIMEEngine->GetString(commandBuffer);
 			break;
+		}
 
 		memset(commandBuffer, 0, bufSize);
 
 		//backspace
 		if (c == 0x08) {
-
-			//! dont buffer this char
+			
 			BufChar = false;
 
 			if (i > 0) {
@@ -160,35 +128,25 @@ void SkyGUIConsole::GetCommandForGUI2(char* commandBuffer, int bufSize, char* dr
 		}
 
 		if ((unsigned char)c == 0x85) {
-
-			//! dont buffer this char
+			
 			BufChar = false;
-
 			pIMEEngine->InputAscii(0x85);
 		}
-
 		
-
-		//! only add the char if it is to be buffered
-		if (BufChar) {
-
-			//! convert key to an ascii char and put it in buffer
-			//char c = KeyBoard::ConvertKeyToAscii(key);
-			//if (c != 0 && KEY_SPACE != c) { //insure its an ascii char
-			if (c != 0) { //insure its an ascii char
-
+		if (BufChar) 
+		{			
+			if (c != 0) 
+			{ 
 				pIMEEngine->InputAscii(c);
 				i = pIMEEngine->GetString(commandBuffer);
 				command = driveName;
 				command += commandBuffer;
 
-				PrintCommand((char*)command.c_str(), false);
-				
+				PrintCommand((char*)command.c_str(), false);				
 			}
 		}
 
-		//! wait for next key. You may need to adjust this to suite your needs
-		//msleep(10);
+		g_processInterface.sky_ksleep(10);		
 	}	
 }
 
@@ -198,12 +156,16 @@ bool SkyGUIConsole::Run()
 	Process* pProcess = pThread->m_pParent;
 	I_HangulEngine* pIMEEngine = SkyGUISystem::GetInstance()->GetIMEEngine();
 
+#ifdef SKY_EMULATOR
+	g_processInterface.sky_kcreate_thread_from_memory(pProcess->GetProcessId(), GUIWatchDogProc, pProcess);
+#else
 	ProcessManager::GetInstance()->CreateProcessFromMemory("GUIWatchDog", GUIWatchDogProc, NULL, PROCESS_KERNEL);
+#endif // SKY_EMULAOTR	
 
-	Print2("SkyOS에 오신걸 환영합니다!!");
-	Print2("Welcome to SkyOS!!");
-	Print2("歡迎來到SkyOS!!");
-	Print2("SkyOSへようこそ!!");
+	PrintUnicode("SkyOS에 오신걸 환영합니다!!");
+	PrintUnicode("Welcome to SkyOS!!");
+	PrintUnicode("歡迎來到SkyOS!!");
+	PrintUnicode("SkyOSへようこそ!!");
 	
 	ConsoleManager manager;
 	
@@ -223,7 +185,7 @@ bool SkyGUIConsole::Run()
 		memset(commandBuffer, 0, bufferLen);				
 		pIMEEngine->Reset();
 
-		GetCommandForGUI2(commandBuffer, bufferLen, (char*)driveName.c_str());
+		GetCommandForGUI(commandBuffer, bufferLen, (char*)driveName.c_str());
 		Print("\n");
 
 		if (strcmp(commandBuffer, "jpeg") == 0)
@@ -232,8 +194,11 @@ bool SkyGUIConsole::Run()
 			continue;
 		}
 
+		//memcpy(m_dirtyMap, m_pVideoRamPtr, m_width * m_height * sizeof(ULONG));	
+		//m_dirty = true;
 		if (manager.RunCommand(commandBuffer) == true)
-			break;		
+			break;	
+		//m_dirty = false;
 	}
 
 	return false;
@@ -250,6 +215,9 @@ VOID SkyGUIConsole::GetNewLine()
 	}
 	else
 	{
+		if (m_dirty == true)
+			buf = m_dirtyMap;
+
 		//화면을 스크롤한다.
 		for (y = PIVOT_Y; y < (m_height - CHAR_HEIGHT - PIVOT_Y); y++)
 		{
@@ -278,35 +246,6 @@ bool SkyGUIConsole::Clear()
 	memset(m_pVideoRamPtr, BLACK, (m_width * m_height) * sizeof(ULONG));
 
 	return true;
-}
-
-ULONG SkyGUIConsole::GetBPP()
-{
-	return m_bpp;
-}
-
-void SkyGUIConsole::PutPixel(ULONG x, ULONG y, ULONG col) 
-{
-	m_pVideoRamPtr[(y * m_width) + x] = col;
-}
-
-ULONG SkyGUIConsole::GetPixel(ULONG i) {
-	return m_pVideoRamPtr[i];
-}
-
-void SkyGUIConsole::PutPixel(ULONG i, ULONG col) {
-	m_pVideoRamPtr[i] = col;
-}
-
-void SkyGUIConsole::FillRect(int x, int y, int w, int h, int col) 
-{
-	unsigned* lfb = (unsigned*)m_pVideoRamPtr;
-	for (int k = 0; k < h; k++)
-		for (int j = 0; j < w; j++)
-		{
-			int index = ((j + x) + (k + y) * m_width);
-			lfb[index] = col;
-		}
 }
 
 void SkyGUIConsole::Update(unsigned long *buf) 
@@ -370,14 +309,12 @@ bool SkyGUIConsole::Print(char* pMsg)
 	return true;
 }
 
-bool SkyGUIConsole::Print2(char* pMsg)
+bool SkyGUIConsole::PrintUnicode(char* pMsg)
 {
 	FillRect(m_xPos, m_yPos, CHAR_WIDTH, CHAR_HEIGHT, 0x00);
 	I_Hangul* pEngine = SkyGUISystem::GetInstance()->GetUnicodeEngine();
-	pEngine->PutFonts((char*)SkyGUISystem::GetInstance()->GetVideoRamInfo()._pVideoRamPtr, 1024, m_xPos, m_yPos, 0xffffffff, (unsigned char*)pMsg);
+	pEngine->PutFonts((char*)SkyGUISystem::GetInstance()->GetVideoRamInfo()._pVideoRamPtr, m_width, m_xPos, m_yPos, 0xffffffff, (unsigned char*)pMsg);
 	GetNewLine();
-
-	//PutCursor();
 
 	return true;
 }
@@ -390,12 +327,8 @@ bool SkyGUIConsole::PrintCommand(char* pMsg, bool backspace)
 
 	m_xPos = PIVOT_X;
 
-	if (backspace != true)
-	{
-		//FillRect(m_xPos, m_yPos, m_width - m_xPos, CHAR_HEIGHT, 0x00);
-	}
-	else
-	{
+	if (backspace == true)
+	{		
 		FillRect(m_lastCommandLength, m_yPos, CHAR_WIDTH, CHAR_HEIGHT, 0x00);
 	}
 
@@ -408,19 +341,9 @@ bool SkyGUIConsole::PrintCommand(char* pMsg, bool backspace)
 	return true;
 }
 
-void SkyGUIConsole::PutCursor()
-{
-	FillRect(m_xPos, m_yPos, CHAR_WIDTH*2, CHAR_HEIGHT, 0x00);
-	FillRect(m_xPos, m_yPos + (CHAR_HEIGHT - 4), CHAR_WIDTH, 4, WHITE);
-}
-
-void SkyGUIConsole::PutPixel(ULONG i, unsigned char r, unsigned char g, unsigned char b) {
-	m_pVideoRamPtr[i] = (r << 16) | (g << 8) | b;
-}
-
 bool SkyGUIConsole::PutKeyboardQueue(KEYDATA* pData)
 {
-	return kPutQueue(&gs_stKeyQueue, pData);
+	return m_pVirtualIOManager->PutKeyQueue(pData);	
 }
 
 bool SkyGUIConsole::PutMouseQueue(MOUSEDATA* pData)
@@ -428,4 +351,44 @@ bool SkyGUIConsole::PutMouseQueue(MOUSEDATA* pData)
 	return true;
 }
 
+//////////////////////////////////////////////
+//그래픽 출력 관련
+void SkyGUIConsole::PutCursor()
+{
+	FillRect(m_xPos, m_yPos, CHAR_WIDTH * 2, CHAR_HEIGHT, 0x00);
+	FillRect(m_xPos, m_yPos + (CHAR_HEIGHT - 4), CHAR_WIDTH, 4, 0xffffffff);
+}
 
+void SkyGUIConsole::PutPixel(ULONG i, unsigned char r, unsigned char g, unsigned char b) {
+	m_pVideoRamPtr[i] = (r << 16) | (g << 8) | b;
+}
+
+
+ULONG SkyGUIConsole::GetBPP()
+{
+	return m_bpp;
+}
+
+void SkyGUIConsole::PutPixel(ULONG x, ULONG y, ULONG col)
+{
+	m_pVideoRamPtr[(y * m_width) + x] = col;
+}
+
+ULONG SkyGUIConsole::GetPixel(ULONG i) {
+	return m_pVideoRamPtr[i];
+}
+
+void SkyGUIConsole::PutPixel(ULONG i, ULONG col) {
+	m_pVideoRamPtr[i] = col;
+}
+
+void SkyGUIConsole::FillRect(int x, int y, int w, int h, int col)
+{
+	unsigned* lfb = (unsigned*)m_pVideoRamPtr;
+	for (int k = 0; k < h; k++)
+		for (int j = 0; j < w; j++)
+		{
+			int index = ((j + x) + (k + y) * m_width);
+			lfb[index] = col;
+		}
+}

@@ -132,12 +132,12 @@
     <ClCompile Include="Memory\PageTableEntry.cpp" />
     <ClCompile Include="Memory\PhysicalMemoryManager.cpp" />
     <ClCompile Include="Memory\VirtualMemoryManager.cpp" />
-    <ClCompile Include="MintQueue.cpp" />
     <ClCompile Include="SkyConsole.cpp" />
     <ClCompile Include="SkyConsoleLauncher.cpp" />
     <ClCompile Include="SkyGUILauncher.cpp" />
     <ClCompile Include="SkyIOHandler.cpp" />
     <ClCompile Include="SkyLauncher.cpp" />
+    <ClCompile Include="SkyQueue.cpp" />
     <ClCompile Include="SkyRamDiskAdaptor.cpp" />
     <ClCompile Include="SkyVirtualIO.cpp" />
     <ClCompile Include="Test\Plane.cpp" />
@@ -146,6 +146,7 @@
     <ClCompile Include="Test\ZetPlane.cpp" />
     <ClCompile Include="v8086\rme.cpp" />
     <ClCompile Include="v8086\RMEFunc.cpp" />
+    <ClCompile Include="VirtualIOManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CDRomAdaptor.h" />
@@ -260,13 +261,13 @@
     <ClInclude Include="Memory\PhysicalMemoryManager.h" />
     <ClInclude Include="Memory\VirtualMemoryManager.h" />
     <ClInclude Include="MultiBoot.h" />
-    <ClInclude Include="MintQueue.h" />
     <ClInclude Include="SkyConsole.h" />
     <ClInclude Include="SkyConsoleLauncher.h" />
     <ClInclude Include="SkyGUILauncher.h" />
     <ClInclude Include="SkyIOHandler.h" />
     <ClInclude Include="SkyLauncher.h" />
     <ClInclude Include="SkyOS.h" />
+    <ClInclude Include="SkyQueue.h" />
     <ClInclude Include="SkyRamDiskAdaptor.h" />
     <ClInclude Include="SkyStartOption.h" />
     <ClInclude Include="SkyVirtualIO.h" />
@@ -278,6 +279,7 @@
     <ClInclude Include="Test\ZetPlane.h" />
     <ClInclude Include="v8086\rme.h" />
     <ClInclude Include="v8086\RMEFunc.h" />
+    <ClInclude Include="VirtualIOManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GUI\svgagui\src\help" />

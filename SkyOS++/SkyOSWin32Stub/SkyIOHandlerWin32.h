@@ -1,5 +1,4 @@
 #pragma once
-#include "windef.h"
 #include "I_GUIEngine.h"
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -57,49 +56,37 @@
 #define KEY_PAUSE       0xA0
 
 
-class SkyIOHandler
+class SkyIOHandlerWin32
 {
 public:
-	SkyIOHandler();
-	~SkyIOHandler();
+	SkyIOHandlerWin32();
+	~SkyIOHandlerWin32();
 
 	bool Initialize(I_VirtualIO* owner);
 
-	static SkyIOHandler* GetInstance()
+	static SkyIOHandlerWin32* GetInstance()
 	{
 		if (m_inputHandler == nullptr)
-			m_inputHandler = new SkyIOHandler();
+			m_inputHandler = new SkyIOHandlerWin32();
 
 		return m_inputHandler;	
 	}
 
-	void SetCallback(I_GUIEngine* pCallback) { m_pGUIEngine = pCallback; }
-	void ProcessMouseInput();
-	void ProcessKeyboardInput();
-	
-
-protected:
-	bool ActivateMouse();
-	void EnableMouseInterrupt();
-	bool IsInputBufferFull();
-	bool IsOutputBufferFull();
-	bool IsMouseDataInOutputBuffer();
-	bool WaitForACKAndPutOtherScanCode();
-	bool AccumulateMouseDataAndPutQueue(BYTE bMouseData);
-
-	bool ActivateKeyboard();
-	BYTE GetKeyboardScanCode(void);
+	BYTE ConvertKeycodeToScancode(unsigned int keycode);
 	bool ConvertScanCodeAndPutQueue(BYTE bScanCode);
+	void SetCallback(I_GUIEngine* pCallback) { m_pGUIEngine = pCallback; }
+
+
+protected:	
 	bool ConvertScanCodeToASCIICode(BYTE bScanCode, BYTE* pbASCIICode, bool* pbFlags);
 	void UpdateCombinationKeyStatusAndLED(BYTE bScanCode);
-	bool ChangeKeyboardLED(bool bCapsLockOn, bool bNumLockOn, bool bScrollLockOn);
 	bool IsUseCombinedCode(BYTE bScanCode);
 	bool IsAlphabetScanCode(BYTE bScanCode);
 	bool IsNumberOrSymbolScanCode(BYTE bScanCode);
 	bool IsNumberPadScanCode(BYTE bScanCode);
 
 private:
-	static SkyIOHandler* m_inputHandler;
+	static SkyIOHandlerWin32* m_inputHandler;
 	
 	KEYBOARDSTATE	m_keyboardState;
 	MOUSESTATE		m_mouseState;

@@ -16,7 +16,7 @@
 
 typedef struct kCharactorStruct
 {
-	BYTE bCharactor;
+	BYTE bCharacter;
 	BYTE bAttribute;
 } CHARACTER;
 

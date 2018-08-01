@@ -18,8 +18,10 @@ SkyRenderer8::~SkyRenderer8()
 
 bool SkyRenderer8::Initialize()
 {
+#ifdef SKY_EMULATOR
+#else
 	InitPalette();
-
+#endif // SKY_EMULATOR
 	return true;
 }
 

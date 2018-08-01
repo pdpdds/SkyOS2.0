@@ -246,6 +246,11 @@ void sky_leave_critical_section()
 	LeaveCriticalSection(&g_cs);
 }
 
+unsigned int sky_get_tick_count()
+{
+	return GetTickCount();
+}
+
 //프로세스 생성 및 삭제
 SKY_PROCESS_INTERFACE g_processInterface =
 {
@@ -259,5 +264,6 @@ SKY_PROCESS_INTERFACE g_processInterface =
 	sky_kload_library,
 	sky_enter_critical_section,
     sky_leave_critical_section,
+	sky_get_tick_count,
 };
 

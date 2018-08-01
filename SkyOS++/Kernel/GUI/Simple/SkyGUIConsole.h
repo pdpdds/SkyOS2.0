@@ -2,7 +2,9 @@
 #include "windef.h"
 #include "I_GUIEngine.h"
 
-class SkyGUIConsole
+class VirtualIOManager;
+
+class SkyGUIConsole : public I_VirtualIO
 {
 public:
 	SkyGUIConsole();
@@ -11,13 +13,13 @@ public:
 	bool Initialize(void* pVideoRamPtr, int width, int height, int bpp, uint8_t buffertype);
 	bool Run();
 	bool Print(char* pMsg);
-	bool Print2(char* pMsg);
+	bool PrintUnicode(char* pMsg);
 	bool PrintCommand(char* pMsg, bool backspace);
 
 	bool PutKeyboardQueue(KEYDATA* pData);
 	bool PutMouseQueue(MOUSEDATA* pData);
 
-	void GetCommandForGUI2(char* commandBuffer, int bufSize, char* driveName);
+	void GetCommandForGUI(char* commandBuffer, int bufSize, char* driveName);
 
 	VOID GetNewLine();
 
@@ -45,4 +47,8 @@ private:
 	int m_yPos;
 	int m_xPos;
 	int m_lastCommandLength;
+
+	VirtualIOManager* m_pVirtualIOManager;
+	ULONG* m_dirtyMap;
+	bool m_dirty;
 };

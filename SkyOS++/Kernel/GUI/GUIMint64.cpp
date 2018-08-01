@@ -11,6 +11,7 @@ extern SKY_PROCESS_INTERFACE g_processInterface;
 GUIMint64::GUIMint64()
 {
 	m_pVideoRamPtr = nullptr;
+	m_pEngine = nullptr;
 }
 
 
@@ -58,7 +59,7 @@ bool GUIMint64::Initialize(void* pVideoRamPtr, int width, int height, int bpp, u
 	info.depth = m_bpp;
 	info.type = 0;
 	info.isDirectVideoBuffer = true;
-
+	
 	m_pEngine->SetLinearBuffer(info);
 	m_pEngine->Initialize();
 
@@ -66,7 +67,7 @@ bool GUIMint64::Initialize(void* pVideoRamPtr, int width, int height, int bpp, u
 #else
 	SkyIOHandler::GetInstance();
 	SkyIOHandler::GetInstance()->SetCallback(m_pEngine);
-	SkyIOHandler::GetInstance()->Initialize();	
+	SkyIOHandler::GetInstance()->Initialize(nullptr);	
 	
 #endif
 	return true;
@@ -74,7 +75,7 @@ bool GUIMint64::Initialize(void* pVideoRamPtr, int width, int height, int bpp, u
 
 bool GUIMint64::Run()
 {
-	SampleFillRect(m_pVideoRamPtr, 1004, 0, 20, 20, 0x00FF0000);	
+	SampleFillRect(m_pVideoRamPtr, 1004, 0, 20, 20, 0xff000000);	
 	//SampleFillRect((ULONG *)m_pVideoRamPtr, 1004, 0, 20, 20, 0x00FF0000);
 
 	int colorStatus[] = { 0x00FF0000, 0x0000FF00, 0x0000FF };
@@ -108,12 +109,14 @@ bool GUIMint64::Clear()
 
 bool GUIMint64::PutKeyboardQueue(KEYDATA* pData)
 {
-	m_pEngine->PutKeyboardQueue(pData);
+	if(m_pEngine)
+		m_pEngine->PutKeyboardQueue(pData);
 	return true;
 }
 
 bool GUIMint64::PutMouseQueue(MOUSEDATA* pData)
 {
-	m_pEngine->PutMouseQueue(pData);
+	if (m_pEngine)
+		m_pEngine->PutMouseQueue(pData);
 	return true;
 }

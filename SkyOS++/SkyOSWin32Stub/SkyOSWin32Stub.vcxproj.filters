@@ -33,6 +33,9 @@
     <ClInclude Include="SkyOSWin32Stub.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
+    <ClInclude Include="SkyIOHandlerWin32.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -42,6 +45,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="SkyOSWin32Stub.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="SkyIOHandlerWin32.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

@@ -311,9 +311,6 @@
       <Filter>GUI\SkyGUI</Filter>
     </ClCompile>
     <ClCompile Include="luatinker.cpp" />
-    <ClCompile Include="GUI\svgagui\svga_mouse.cpp">
-      <Filter>GUI\SVGA</Filter>
-    </ClCompile>
     <ClCompile Include="GUI\svgagui\svga_keyb.cpp">
       <Filter>GUI\SVGA</Filter>
     </ClCompile>
@@ -331,9 +328,6 @@
     <ClCompile Include="SkyRamDiskAdaptor.cpp" />
     <ClCompile Include="SkyIOHandler.cpp" />
     <ClCompile Include="SkyVirtualIO.cpp" />
-    <ClCompile Include="MintQueue.cpp">
-      <Filter>GUI\Mint64</Filter>
-    </ClCompile>
     <ClCompile Include="HangulInput\2DGraphics.cpp">
       <Filter>HangulInput</Filter>
     </ClCompile>
@@ -381,6 +375,11 @@
     </ClCompile>
     <ClCompile Include="GUI\GUIMint64.cpp">
       <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="SkyQueue.cpp" />
+    <ClCompile Include="VirtualIOManager.cpp" />
+    <ClCompile Include="GUI\svgagui\svga_mouse.cpp">
+      <Filter>GUI\SVGA</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -673,9 +672,6 @@
     <ClInclude Include="GUI\svgagui\svga_keyb.h">
       <Filter>GUI\SVGA</Filter>
     </ClInclude>
-    <ClInclude Include="GUI\svgagui\svga_mouse.h">
-      <Filter>GUI\SVGA</Filter>
-    </ClInclude>
     <ClInclude Include="Test\TestLua.h">
       <Filter>Test</Filter>
     </ClInclude>
@@ -696,9 +692,6 @@
     <ClInclude Include="SkyRamDiskAdaptor.h" />
     <ClInclude Include="SkyIOHandler.h" />
     <ClInclude Include="SkyVirtualIO.h" />
-    <ClInclude Include="MintQueue.h">
-      <Filter>GUI\Mint64</Filter>
-    </ClInclude>
     <ClInclude Include="HangulInput\2DGraphics.h">
       <Filter>HangulInput</Filter>
     </ClInclude>
@@ -744,6 +737,11 @@
     <ClInclude Include="GUI\GUIMint64.h">
       <Filter>GUI</Filter>
     </ClInclude>
+    <ClInclude Include="SkyQueue.h" />
+    <ClInclude Include="VirtualIOManager.h" />
+    <ClInclude Include="GUI\svgagui\svga_mouse.h">
+      <Filter>GUI\SVGA</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="CPU">
@@ -787,9 +785,6 @@
     </Filter>
     <Filter Include="GUI\SkyGUI">
       <UniqueIdentifier>{038e56cf-3636-437f-b7f9-81cae7203789}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GUI\Mint64">
-      <UniqueIdentifier>{90d60de2-12d7-49ec-b374-58f14b160734}</UniqueIdentifier>
     </Filter>
     <Filter Include="HangulInput">
       <UniqueIdentifier>{6ef1cbbb-0196-4dd9-afc8-363a21086ec0}</UniqueIdentifier>

@@ -6,6 +6,8 @@
 #include "luatinker.h"
 #include "I_VirtualIO.h"
 
+class VirtualIOManager;
+
 class SkySVGA : public I_VirtualIO
 {
 public:
@@ -26,6 +28,7 @@ protected:
 private:
 	bool m_exit_program;
 	GuiWinThread *m_pWinThread;
+	VirtualIOManager* m_pVirtualIOManager;
 	
 };
 

@@ -11,6 +11,7 @@
 #include "SkyAPI.h"
 #include "Process.h"
 #include "I_MapFileReader.h"
+#include "MapFile\MapFile.h"
 
 SkyDebugger* SkyDebugger::m_pDebugger = nullptr;
 
@@ -99,9 +100,14 @@ unsigned int sky_kcreate_thread_from_memory(unsigned int processId, LPTHREAD_STA
 	DWORD dwThreadId = 0;
 
 	kEnterCriticalSection();
+	//Process* pProcess = ProcessManager::GetInstance()->FindProcess(processId);
 	Process* pProcess = ProcessManager::GetInstance()->GetCurrentTask()->m_pParent;
 	Thread* pThread = ProcessManager::GetInstance()->CreateThread(pProcess, lpStartAddress, param);
-	pProcess->AddThread(pThread);
+
+	SKY_ASSERT(pThread != nullptr, "MainThread is null.");
+
+	if(pProcess->m_threadList.size() > 0)
+		pProcess->AddThread(pThread);	
 
 	kLeaveCriticalSection();
 
@@ -135,6 +141,13 @@ void sky_leave_critical_section()
 	kLeaveCriticalSection();
 }
 
+extern unsigned int GetTickCount();
+unsigned int sky_get_tick_count()
+{
+	return GetTickCount();
+}
+
+
 //프로세스 생성 및 삭제
 SKY_PROCESS_INTERFACE g_processInterface =
 {
@@ -148,6 +161,7 @@ SKY_PROCESS_INTERFACE g_processInterface =
 	0,
 	sky_enter_critical_section,
     sky_leave_critical_section,
+	sky_get_tick_count,
 };
 
 SkyDebugger::SkyDebugger()
@@ -182,9 +196,11 @@ void SkyDebugger::TraceStackWithSymbol(unsigned int maxFrames)
 	for (unsigned int frame = 0; frame < maxFrames; ++frame)
 	{
 		unsigned int eip = ebp[1];
-		if (eip == 0)
-			//함수 복귀주소가 0이면 콜스택 출력을 끝낸다.
+
+		//함수 복귀주소가 0이면 콜스택 출력을 끝낸다.
+		if (eip == 0)			
 			break;
+
 		// 직전 호출함수의 스택프레임으로 이동한다.
 		ebp = reinterpret_cast<unsigned int *>(ebp[0]);
 		unsigned int * arguments = &ebp[2];
@@ -225,14 +241,16 @@ void SkyDebugger::TraceStackWithSymbol(unsigned int maxFrames)
 //해결책
 //1. 타켓 프로세스의 페이지 디렉토리로 교체한 후 EIP 레지스터를 덤프한다.
 //2. 페이지 디렉토리를 원래대로 복원한뒤 EIP 주소에 해당하는 심벌을 얻는다.
-
 void SkyDebugger::TraceStackWithProcessId(int processId)
 {
 	kEnterCriticalSection();
 
-	Process* pProcess = ProcessManager::GetInstance()->FindProcess(processId);
+#ifdef SKY_EMULATOR
+	Process* pProcess = ProcessManager::GetInstance()->GetCurrentTask()->m_pParent;
+#else
+	Process* pProcess = ProcessManager::GetInstance()->FindProcess(processId);	
+#endif
 	Thread* pTask = ProcessManager::GetInstance()->GetCurrentTask();
-
 
 	if (pProcess == nullptr)
 	{
@@ -249,8 +267,7 @@ void SkyDebugger::TraceStackWithProcessId(int processId)
 
 		SkyConsole::Print("Stack trace:\n");
 		Thread* pThread = pProcess->GetMainThread();
-		unsigned int* ebp = (unsigned int*)pThread->m_contextSnapshot.ebp;
-		
+		unsigned int* ebp = (unsigned int*)pThread->m_contextSnapshot.ebp;		
 
 		int lineNumber = 0;
 		DWORD resultAddress = 0;
@@ -306,7 +323,7 @@ void SkyDebugger::TraceStackWithProcessId(int processId)
 
 	kLeaveCriticalSection();
 }
-#include "MapFile\MapFile.h"
+
 //디버그엔진 모듈을 로드한다.
 bool SkyDebugger::LoadSymbol(const char* moduleName)
 {

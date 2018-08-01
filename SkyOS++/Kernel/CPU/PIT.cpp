@@ -9,7 +9,12 @@
 extern void SwitchTask(int tick, registers_t& regs);
 extern void SendEOI();
 
-volatile uint32_t _pitTicks = 0;
+#ifdef SKY_EMULATOR
+unsigned int _pitTicks = 0;
+#else
+volatile unsigned int _pitTicks = 0;
+#endif
+
 int g_esp = 0;
 uint32_t g_pageDirectory = 0;
 DWORD _lastTickCount = 0;

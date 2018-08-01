@@ -34,7 +34,7 @@ typedef struct tag_SKYOS_MODULE_LIST
 
 extern "C" __declspec(dllexport) WIN32_STUB* GetWin32Stub();
 extern "C" __declspec(dllexport) tag_WIN32_VIDEO* InitWin32System(int width, int height, int bpp);
-extern "C" __declspec(dllexport) void LoopWin32(I_VirtualIO* pVirtualIO);
+extern "C" __declspec(dllexport) void LoopWin32(I_VirtualIO* pVirtualIO, unsigned int& tickCount);
 extern "C" __declspec(dllexport) SKYOS_MODULE_LIST* InitSkyOSModule();
 
 extern "C" __declspec(dllexport) bool SKY_VirtualProtect(void* address, int size, int attribute, unsigned int* dwOld);

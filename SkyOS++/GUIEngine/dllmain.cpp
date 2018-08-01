@@ -165,7 +165,7 @@ void VerifyVirtualFunc();
 
 extern "C" __declspec(dllexport) I_GUIEngine* GetGUIEngine()
 {
-	VerifyVirtualFunc();
+	//VerifyVirtualFunc();
 
 	return new GUIEngine();
 }

@@ -95,10 +95,10 @@ void kSetCursor( int iX, int iY )
         for( i = 0 ; i < CONSOLE_WIDTH * CONSOLE_HEIGHT ; i++ )
         {
             // 커서가 있으면 삭제
-            if( ( gs_stConsoleManager.pstScreenBuffer[ i ].bCharactor == '_' ) &&
+            if( ( gs_stConsoleManager.pstScreenBuffer[ i ].bCharacter == '_' ) &&
                 ( gs_stConsoleManager.pstScreenBuffer[ i ].bAttribute == 0x00 ) )
             {
-                gs_stConsoleManager.pstScreenBuffer[ i ].bCharactor = ' ';
+                gs_stConsoleManager.pstScreenBuffer[ i ].bCharacter = ' ';
                 gs_stConsoleManager.pstScreenBuffer[ i ].bAttribute = 
                     CONSOLE_DEFAULTTEXTCOLOR;
                 break;
@@ -106,7 +106,7 @@ void kSetCursor( int iX, int iY )
         }
         
         // 새로운 위치에 커서를 출력
-        gs_stConsoleManager.pstScreenBuffer[ iLinearValue ].bCharactor = '_';
+        gs_stConsoleManager.pstScreenBuffer[ iLinearValue ].bCharacter = '_';
         gs_stConsoleManager.pstScreenBuffer[ iLinearValue ].bAttribute = 0x00;
     }
     // 문자를 출력할 위치 업데이트
@@ -428,7 +428,7 @@ int kConsolePrintString( const char* pcBuffer )
         {
             // 비디오 메모리에 문자와 속성을 설정하여 문자를 출력하고
             // 출력할 위치를 다음으로 이동
-            pstScreen[ iPrintOffset ].bCharactor = pcBuffer[ i ];
+            pstScreen[ iPrintOffset ].bCharacter = pcBuffer[ i ];
             pstScreen[ iPrintOffset ].bAttribute = CONSOLE_DEFAULTTEXTCOLOR;
             iPrintOffset++;
         }
@@ -445,7 +445,7 @@ int kConsolePrintString( const char* pcBuffer )
                  j < ( CONSOLE_HEIGHT * CONSOLE_WIDTH ) ; j++ )
             {
                 // 공백 출력
-                pstScreen[ j ].bCharactor = ' ';
+                pstScreen[ j ].bCharacter = ' ';
                 pstScreen[ j ].bAttribute = CONSOLE_DEFAULTTEXTCOLOR;
             }
             
@@ -470,7 +470,7 @@ void kClearScreen( void )
     // 화면 전체를 공백으로 채우고, 커서의 위치를 0, 0으로 옮김
     for( i = 0 ; i < CONSOLE_WIDTH * CONSOLE_HEIGHT ; i++ )
     {
-        pstScreen[ i ].bCharactor = ' ';
+        pstScreen[ i ].bCharacter = ' ';
         pstScreen[ i ].bAttribute = CONSOLE_DEFAULTTEXTCOLOR;
     }
     
@@ -536,7 +536,7 @@ void kPrintStringXY( int iX, int iY, const char* pcString )
     // 문자열의 길이만큼 루프를 돌면서 문자와 속성을 저장
     for( i = 0 ; pcString[ i ] != 0 ; i++ )
     {
-        pstScreen[ i ].bCharactor = pcString[ i ];
+        pstScreen[ i ].bCharacter = pcString[ i ];
         pstScreen[ i ].bAttribute = CONSOLE_DEFAULTTEXTCOLOR;
     }
 }

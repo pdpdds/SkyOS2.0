@@ -280,7 +280,7 @@ static WINDOW* kAllocateWindow( void );
 static void kFreeWindow( QWORD qwID );
 
 // 윈도우와 윈도우 매니저 관련
-void kInitializeGUISystem( void );
+void kInitializeGUISystem(LinearBufferInfo* bufferInfo);
 WINDOWMANAGER* kGetWindowManager( void );
 QWORD kGetBackgroundWindowID( void );
 void kGetScreenArea( RECT* pstScreenArea );

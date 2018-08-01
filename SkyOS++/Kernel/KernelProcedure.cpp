@@ -78,7 +78,7 @@ DWORD WINAPI SystemGUIProc(LPVOID parameter)
 	kEnterCriticalSection();
 #ifdef SKY_EMULATOR
 #else	
-	StartPITCounter(100, I86_PIT_OCW_COUNTER_0, I86_PIT_OCW_MODE_SQUAREWAVEGEN);	
+	StartPITCounter(1000, I86_PIT_OCW_COUNTER_0, I86_PIT_OCW_MODE_SQUAREWAVEGEN);	
 #endif
 
 	StorageManager::GetInstance()->SetCurrentFileSystemByID('L');
@@ -98,7 +98,7 @@ DWORD WINAPI SystemGUIProc(LPVOID parameter)
 }
 
 #define TS_WATCHDOG_CLOCK_POS		(0xb8000+(80-1)*2)
-#define TIMEOUT_PER_SECOND		50
+#define TIMEOUT_PER_SECOND		1000
 static bool m_bShowTSWatchdogClock = true;
 
 DWORD WINAPI WatchDogProc(LPVOID parameter)
@@ -124,9 +124,12 @@ DWORD WINAPI WatchDogProc(LPVOID parameter)
 
 			first = GetTickCount();
 		}
+#ifdef SKY_EMULATOR
+#else
 		kEnterCriticalSection();
 		Scheduler::GetInstance()->Yield();
 		kLeaveCriticalSection();
+#endif // SKY_EMULATOR
 	}
 
 	return 0;
@@ -156,6 +159,7 @@ void WatchDogLoop(Process* pProcess)
 	{
 		int second = GetTickCount();
 		//1초 단위로 색상을 변경한다.
+
 		if (second - first >= TIMEOUT_PER_SECOND)
 		{
 			if (++pos > 2)

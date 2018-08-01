@@ -23,7 +23,7 @@ extern SKY_PROCESS_INTERFACE g_processInterface;
 /**
  *  윈도우 매니저 태스크
  */
-void kStartWindowManager( void )
+void kStartWindowManager(LinearBufferInfo* bufferInfo)
 {
     int iMouseX, iMouseY;
 	kInitializeMouse();
@@ -31,7 +31,7 @@ void kStartWindowManager( void )
 	kInitializeConsole(0, 0);
 
     // GUI 시스템을 초기화
-    kInitializeGUISystem();
+    kInitializeGUISystem(bufferInfo);
     
     // 현재 마우스 위치에 커서를 출력
     kGetCursorPosition( &iMouseX, &iMouseY );
@@ -96,7 +96,7 @@ void kUpdate(bool isDirectBuffer)
 				(bEventQueueResult == FALSE))
 			{
 				//20180628
-				 ksleep( 0 );
+				// ksleep( 0 );
 			}
 		}
 	}

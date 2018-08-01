@@ -40,3 +40,7 @@
 #include "SkyGUISystem.h"
 #include "ConsoleManager.h"
 #include "SkyModuleManager.h"
+
+#ifdef SKY_EMULATOR
+extern SKY_PROCESS_INTERFACE g_processInterface;
+#endif

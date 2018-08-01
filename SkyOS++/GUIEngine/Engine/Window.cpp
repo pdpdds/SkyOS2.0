@@ -162,7 +162,7 @@ static void kFreeWindow( QWORD qwID )
 /**
  *  GUI 시스템을 초기화
  */
-void kInitializeGUISystem( void )
+void kInitializeGUISystem(LinearBufferInfo* bufferInfo)
 {
     VBEMODEINFOBLOCK* pstModeInfo;
     QWORD qwBackgroundWindowID;
@@ -176,11 +176,7 @@ void kInitializeGUISystem( void )
 	pstModeInfo->wXResolution = 1024;
 	pstModeInfo->wYResolution = 768;
 
-    // 비디오 메모리 어드레스 설정
-    //gs_stWindowManager.pstVideoMemory = ( COLOR* )
-      //  ( ( QWORD ) pstModeInfo->dwPhysicalBasePointer & 0xFFFFFFFF );
-
-	gs_stWindowManager.pstVideoMemory = (COLOR*)getlfb();
+	gs_stWindowManager.pstVideoMemory = (COLOR*)bufferInfo->pBuffer;
 
     // 마우스 커서의 초기 위치 설정
     gs_stWindowManager.iMouseX = pstModeInfo->wXResolution / 2;

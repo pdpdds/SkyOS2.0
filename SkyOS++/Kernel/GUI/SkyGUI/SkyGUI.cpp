@@ -243,7 +243,11 @@ bool SkyGUI::Initialize(void* pVideoRamPtr, int width, int height, int bpp, uint
 	MakeInitScreen();
 
 	//입출력 시스템 재구성
+#ifdef SKY_EMULATOR
+
+#else
 	MakeIOSystem();
+#endif // SKY_EMULATOR	
 
 	CreateGUIDebugProcess();
 	CreateGUIConsoleProcess(300, 4);
