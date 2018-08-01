@@ -38,6 +38,7 @@ typedef struct tag_SKY_PROCESS_INTERFACE
 	unsigned int(*sky_kload_library)(LPCSTR lpLibFileName);
 	void(*sky_enter_critical_section)();
 	void(*sky_leave_critical_section)();
+	unsigned int(*sky_get_tick_count)();
 
 
 } SKY_PROCESS_INTERFACE;

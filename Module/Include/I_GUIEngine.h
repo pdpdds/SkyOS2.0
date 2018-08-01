@@ -27,6 +27,13 @@ typedef struct kKeyMappingEntryStruct
 	BYTE bCombinedCode;
 } KEYMAPPINGENTRY;
 
+typedef struct kKeycodeAsciiMappingEntryStruct
+{	
+	unsigned int sdlKeycode;
+	BYTE bNormalCode;
+	BYTE bCombinedCode;
+} KEYCODEASCIIMAPPINGENTRY;
+
 // 키보드의 상태를 관리하는 자료구조
 typedef struct tag_KEYBOARDSTATE
 {

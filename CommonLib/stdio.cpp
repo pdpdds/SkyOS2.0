@@ -102,7 +102,7 @@ extern "C" int vsprintf(char *str, const char *format, va_list ap) {
 			case 's':
 			{
 				int c = (int&)va_arg(ap, char);
-				char s[32] = { 0 };
+				char s[512] = { 0 };
 				strcpy(s, (const char*)c);
 				strcpy(&str[loc], s);
 				i++;		// go to next character
