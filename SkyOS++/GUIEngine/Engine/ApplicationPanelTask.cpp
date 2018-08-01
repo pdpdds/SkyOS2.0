@@ -33,7 +33,6 @@ APPLICATIONPANELDATA gs_stApplicationPanelData;
  */
 DWORD WINAPI kApplicationPanelGUITask(LPVOID parameter)
 {
-    EVENT stReceivedEvent;
 	bool bApplicationPanelEventResult;
 	bool bApplicationListEventResult;    
 

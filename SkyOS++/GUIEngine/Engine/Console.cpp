@@ -9,13 +9,11 @@
 #include <stdarg.h>
 #include "Console.h"
 #include "Keyboard.h"
-//#include "Utility.h"
 #include "Console.h"
 #include "memory.h"
 #include "sprintf.h"
 #include "string.h"
 #include "Mouse.h"
-//#include "AssemblyUtility.h"
 
 // 콘솔의 정보를 관리하는 자료구조
 CONSOLEMANAGER gs_stConsoleManager = { 0, };
@@ -65,8 +63,6 @@ void kInitializeConsole( int iX, int iY )
 void kSetCursor( int iX, int iY ) 
 {
     int iLinearValue;
-    int iOldX;
-    int iOldY;
     int i;
     
     // 커서의 위치를 계산
@@ -147,7 +143,7 @@ void kReverseString(char* pcBuffer)
 /**
 *  16진수 값을 문자열로 변환
 */
-int kHexToString(QWORD qwValue, char* pcBuffer)
+QWORD kHexToString(QWORD qwValue, char* pcBuffer)
 {
 	QWORD i;
 	QWORD qwCurrentValue;
@@ -166,11 +162,11 @@ int kHexToString(QWORD qwValue, char* pcBuffer)
 		qwCurrentValue = qwValue % 16;
 		if (qwCurrentValue >= 10)
 		{
-			pcBuffer[i] = 'A' + (qwCurrentValue - 10);
+			pcBuffer[i] = (char)('A' + (qwCurrentValue - 10));
 		}
 		else
 		{
-			pcBuffer[i] = '0' + qwCurrentValue;
+			pcBuffer[i] = (char)('0' + qwCurrentValue);
 		}
 
 		qwValue = qwValue / 16;
@@ -185,7 +181,7 @@ int kHexToString(QWORD qwValue, char* pcBuffer)
 /**
 *  10진수 값을 문자열로 변환
 */
-int kDecimalToString(long lValue, char* pcBuffer)
+int kDecimalToString(QWORD lValue, char* pcBuffer)
 {
 	long i;
 
@@ -231,9 +227,9 @@ int kDecimalToString(long lValue, char* pcBuffer)
 	return i;
 }
 
-int kIToA(long lValue, char* pcBuffer, int iRadix)
+QWORD kIToA(QWORD lValue, char* pcBuffer, int iRadix)
 {
-	int iReturn;
+	QWORD iReturn;
 
 	switch (iRadix)
 	{
@@ -258,7 +254,7 @@ int kIToA(long lValue, char* pcBuffer, int iRadix)
 */
 int kVSPrintf(char* pcBuffer, const char* pcFormatString, va_list ap)
 {
-	QWORD i, j, k;
+	QWORD i, k;
 	int iBufferIndex = 0;
 	int iFormatLength, iCopyLength;
 	char* pcCopyString;
@@ -302,7 +298,7 @@ int kVSPrintf(char* pcBuffer, const char* pcFormatString, va_list ap)
 				// 가변 인자에 들어있는 파라미터를 정수 타입으로 변환하여
 				// 출력 버퍼에 복사하고 출력한 길이만큼 버퍼의 인덱스를 이동
 				iValue = (int)(va_arg(ap, int));
-				iBufferIndex += kIToA(iValue, pcBuffer + iBufferIndex, 10);
+				iBufferIndex += (long)kIToA(iValue, pcBuffer + iBufferIndex, 10);
 				break;
 
 				// 4바이트 Hex 출력
@@ -311,7 +307,7 @@ int kVSPrintf(char* pcBuffer, const char* pcFormatString, va_list ap)
 				// 가변 인자에 들어있는 파라미터를 DWORD 타입으로 변환하여
 				// 출력 버퍼에 복사하고 출력한 길이만큼 버퍼의 인덱스를 이동
 				qwValue = (DWORD)(va_arg(ap, DWORD)) & 0xFFFFFFFF;
-				iBufferIndex += kIToA(qwValue, pcBuffer + iBufferIndex, 16);
+				iBufferIndex += (long)kIToA(qwValue, pcBuffer + iBufferIndex, 16);
 				break;
 
 				// 8바이트 Hex 출력
@@ -321,7 +317,7 @@ int kVSPrintf(char* pcBuffer, const char* pcFormatString, va_list ap)
 				// 가변 인자에 들어있는 파라미터를 QWORD 타입으로 변환하여
 				// 출력 버퍼에 복사하고 출력한 길이만큼 버퍼의 인덱스를 이동
 				qwValue = (QWORD)(va_arg(ap, QWORD));
-				iBufferIndex += kIToA(qwValue, pcBuffer + iBufferIndex, 16);
+				iBufferIndex += (long)kIToA(qwValue, pcBuffer + iBufferIndex, 16);
 				break;
 
 				// 소수점 둘째 자리까지 실수를 출력
@@ -346,7 +342,7 @@ int kVSPrintf(char* pcBuffer, const char* pcFormatString, va_list ap)
 				pcBuffer[iBufferIndex + 3 + k] = '\0';
 				// 값이 저장된 길이만큼 뒤집고 길이를 증가시킴
 				kReverseString(pcBuffer + iBufferIndex);
-				iBufferIndex += 3 + k;
+				iBufferIndex += (int)(3 + k);
 				break;
 
 				// 위에 해당하지 않으면 문자를 그대로 출력하고 버퍼의 인덱스를

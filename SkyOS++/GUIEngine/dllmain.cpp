@@ -160,25 +160,8 @@ extern "C" bool WINAPI _DllMainCRTStartup(
 
 	return retcode;
 }
-#include "VirtualFunctionTest.h"
-void VerifyVirtualFunc();
 
 extern "C" __declspec(dllexport) I_GUIEngine* GetGUIEngine()
 {
-	//VerifyVirtualFunc();
-
 	return new GUIEngine();
-}
-
-void VerifyVirtualFunc()
-{
-	VirtualFunctionBase* pBase = new VirtualFunctionTest();
-	char* pName = pBase->GetStringName();
-	bool isSpaceShip = pBase->IsSpaceShip();
-	//SkyConsole::Print("%s %d\n", pName, (int)isSpaceShip);
-
-	VirtualFunctionBase* pBase2 = new VirtualFunctionTest2();
-	char* pName2 = pBase2->GetStringName();
-	bool isSpaceShip2 = pBase2->IsSpaceShip();
-	//SkyConsole::Print("%s %d\n", pName2, (int)isSpaceShip2);
 }

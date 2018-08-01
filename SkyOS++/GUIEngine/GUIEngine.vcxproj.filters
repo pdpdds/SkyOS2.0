@@ -27,21 +27,6 @@
     <ClCompile Include="GUIEngine.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="bar.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="font.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="svga_window.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="textCtrl.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="wnd.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="vesa.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -93,30 +78,12 @@
     <ClCompile Include="Engine\ConsoleShell.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="VirtualFunctionTest.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GUIEngine.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
-    <ClInclude Include="bar.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="font.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
     <ClInclude Include="fontres.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="svga_window.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="txtCtrl.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="wnd.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="VESA.h">
@@ -163,9 +130,6 @@
     </ClInclude>
     <ClInclude Include="Engine\ConsoleShell.h">
       <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="VirtualFunctionTest.h">
-      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

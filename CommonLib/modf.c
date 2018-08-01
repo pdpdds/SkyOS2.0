@@ -19,7 +19,7 @@
  *
  * CDDL HEADER END
  */
-#pragma ident	"%Z%%M%	%I%	%E% SMI"  /* from ATT S5R3 */
+//#pragma ident	"%Z%%M%	%I%	%E% SMI"  /* from ATT S5R3 */
 
 /*	The following is extracted from...	*/
 

@@ -189,7 +189,6 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="bar.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="Engine\2DGraphics.cpp" />
     <ClCompile Include="Engine\ApplicationPanelTask.cpp" />
@@ -207,17 +206,11 @@
     <ClCompile Include="Engine\WallPaper.cpp" />
     <ClCompile Include="Engine\Window.cpp" />
     <ClCompile Include="Engine\WindowManagerTask.cpp" />
-    <ClCompile Include="font.cpp" />
     <ClCompile Include="GUIEngine.cpp" />
-    <ClCompile Include="svga_window.cpp" />
-    <ClCompile Include="textCtrl.cpp" />
     <ClCompile Include="vesa.cpp" />
-    <ClCompile Include="VirtualFunctionTest.cpp" />
-    <ClCompile Include="wnd.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Include\I_GUIEngine.h" />
-    <ClInclude Include="bar.h" />
     <ClInclude Include="Engine\2DGraphics.h" />
     <ClInclude Include="Engine\ApplicationPanelTask.h" />
     <ClInclude Include="Engine\Console.h" />
@@ -231,14 +224,9 @@
     <ClInclude Include="Engine\VBE.h" />
     <ClInclude Include="Engine\Window.h" />
     <ClInclude Include="Engine\WindowManagerTask.h" />
-    <ClInclude Include="font.h" />
     <ClInclude Include="fontres.h" />
     <ClInclude Include="GUIEngine.h" />
-    <ClInclude Include="svga_window.h" />
-    <ClInclude Include="txtCtrl.h" />
     <ClInclude Include="VESA.h" />
-    <ClInclude Include="VirtualFunctionTest.h" />
-    <ClInclude Include="wnd.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

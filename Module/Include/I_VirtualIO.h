@@ -19,7 +19,7 @@ typedef struct tag_MouseData
 	int bXMovement;
 	int bYMovement;
 	// 상대좌표값인지 절대좌표값인지를 나타내는 플래그
-	unsigned char bAbsoluteCoordinate;
+	bool bAbsoluteCoordinate;
 } MOUSEDATA;
 
 typedef struct tag_MouseState

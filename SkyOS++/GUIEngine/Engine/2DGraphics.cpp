@@ -312,7 +312,6 @@ void kInternalDrawRect( const RECT* pstMemoryArea, COLOR* pstMemoryAddress,
         int iX1, int iY1, int iX2, int iY2, COLOR stColor, bool bFill )
 {
     int iWidth;
-    int iTemp;
     int iY;
     int iMemoryAreaWidth;
     RECT stDrawRect;

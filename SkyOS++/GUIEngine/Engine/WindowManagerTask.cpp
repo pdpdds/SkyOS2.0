@@ -150,7 +150,6 @@ bool kProcessMouseData( void )
     RECT stWindowArea;
     EVENT stEvent;
     WINDOWMANAGER* pstWindowManager;
-    char vcTempTitle[ WINDOW_TITLEMAXLENGTH ];
     int i;
     int iWidth, iHeight;
     
@@ -475,7 +474,6 @@ bool kProcessEventQueueData(void)
 	int iEventCount;
 	WINDOWEVENT* pstWindowEvent;
 	WINDOWEVENT* pstNextWindowEvent;
-	QWORD qwWindowID;
 	RECT stArea;
 	RECT stOverlappedArea;
 	int i;

@@ -568,7 +568,6 @@ WINDOW* kGetWindow( QWORD qwWindowID )
 WINDOW* kGetWindowWithWindowLock( QWORD qwWindowID )
 {
     WINDOW* pstWindow;
-	bool bResult;
 
     // 윈도우를 검색
     pstWindow = kGetWindow( qwWindowID );
@@ -1916,8 +1915,6 @@ bool kDrawWindowTitle( QWORD qwWindowID, const char* pcTitle, bool bSelectedTitl
     WINDOW* pstWindow;
     int iWidth;
     int iHeight;
-    int iX;
-    int iY;
     RECT stArea;
     RECT stButtonArea;
     COLOR stTitleBarColor;
@@ -2491,8 +2488,6 @@ bool kBitBlt( QWORD qwWindowID, int iX, int iY, COLOR* pstBuffer, int iWidth,
     int iWindowWdith;
     int iOverlappedWidth;
     int iOverlappedHeight;
-    int i;
-    int j;
     int iWindowPosition;
     int iBufferPosition;
     int iStartX;
@@ -2551,7 +2546,7 @@ bool kBitBlt( QWORD qwWindowID, int iX, int iY, COLOR* pstBuffer, int iWidth,
     }
     
     // 너비와 높이 계산
-    for( j = 0 ; j < iOverlappedHeight ; j++ )
+    for(int j = 0 ; j < iOverlappedHeight ; j++ )
     {
         // 화면 버퍼와 전송할 버퍼의 시작 오프셋을 계산
         iWindowPosition = ( iWindowWdith * ( stOverlappedArea.iY1 + j ) ) + 
@@ -2582,8 +2577,6 @@ void kDrawBackgroundImage( void )
     JPEG* pstJpeg;
     COLOR* pstOutputBuffer;
     WINDOWMANAGER* pstWindowManager;
-    int i;
-    int j;
     int iMiddleX;
     int iMiddleY;
     int iScreenWidth;
@@ -2665,7 +2658,6 @@ static bool kFillDrawBitmap( DRAWBITMAP* pstDrawBitmap, RECT* pstArea, bool bFil
     RECT stOverlappedArea;
     int iByteOffset;
     int iBitOffset;
-    int iAreaSize;
     int iOverlappedWidth;
     int iOverlappedHeight;
     BYTE bTempBitmap;
@@ -2711,8 +2703,7 @@ static bool kFillDrawBitmap( DRAWBITMAP* pstDrawBitmap, RECT* pstArea, bool bFil
                 // 8픽셀 단위로 한번에 처리
                 if( bFill == TRUE )
                 {
-                    memset( pstDrawBitmap->pbBitmap + iByteOffset, 0xFF, 
-                            iBulkCount );
+                    memset( pstDrawBitmap->pbBitmap + iByteOffset, (char)0xFF, iBulkCount );
                 }
                 else
                 {

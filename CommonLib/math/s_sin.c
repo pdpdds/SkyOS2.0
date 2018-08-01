@@ -79,7 +79,7 @@
 
 float sinf(float x)
 {
-	float y[2], z = 0.0;
+	double y[2], z = 0.0;
 	int n, ix;
 
 	/* High word of x. */

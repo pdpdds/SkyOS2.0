@@ -168,14 +168,6 @@ DWORD WINAPI kHelloWorldGUITask(LPVOID parameter)
     
     int iMouseX, iMouseY;
    
-  
-   
-    
-   
-    
-    
-    int i;
-    
     //--------------------------------------------------------------------------
     // 윈도우를 생성
     //--------------------------------------------------------------------------
@@ -206,7 +198,7 @@ DWORD WINAPI kHelloWorldGUITask(LPVOID parameter)
     // 이벤트 정보를 표시하는 영역의 테두리와 윈도우 ID를 표시
     kDrawRect(qwGUIWindowID, 10, iY + 8, iWindowWidth - 10, iY + 70, RGB( 0, 0, 0 ),
             FALSE );
-    sprintf( vcTempBuffer, "GUI Event Information[Window ID: 0x%Q]", qwGUIWindowID);
+    sprintf( vcTempBuffer, "GUI Event Information[Window ID: 0x%x]", (long)qwGUIWindowID);
     kDrawText(qwGUIWindowID, 20, iY, RGB( 0, 0, 0 ), RGB( 255, 255, 255 ),
                vcTempBuffer, strlen( vcTempBuffer ) );    
     
@@ -381,14 +373,14 @@ void UpdateHelloGUITask()
 		default:
 			// 여기에 알 수 없는 이벤트 처리 코드 넣기
 			// 알 수 없는 이벤트를 출력
-			sprintf(vcTempBuffer, "Unknown Event: 0x%X", stReceivedEvent.qwType);
+			sprintf(vcTempBuffer, "Unknown Event: 0x%X", (long)stReceivedEvent.qwType);
 			kDrawText(qwGUIWindowID, 20, iY + 20, RGB(0, 0, 0), WINDOW_COLOR_BACKGROUND,
 				vcTempBuffer, strlen(vcTempBuffer));
 
 			// 데이터를 출력
 			sprintf(vcTempBuffer, "Data0 = 0x%x, Data1 = 0x%x, Data2 = 0x%x",
-				stReceivedEvent.vqwData[0], stReceivedEvent.vqwData[1],
-				stReceivedEvent.vqwData[2]);
+				(long)stReceivedEvent.vqwData[0], (long)stReceivedEvent.vqwData[1],
+				(long)stReceivedEvent.vqwData[2]);
 			kDrawText(qwGUIWindowID, 20, iY + 40, RGB(0, 0, 0),
 				WINDOW_COLOR_BACKGROUND, vcTempBuffer, strlen(vcTempBuffer));
 			break;
@@ -727,9 +719,6 @@ DWORD WINAPI kGUIConsoleShellTask(LPVOID parameter)
     KEYEVENT* pstKeyEvent;
     RECT stScreenArea;
     KEYDATA stKeyData;
-   // TCB* pstConsoleShellTask;
-    QWORD qwConsoleShellTaskID;
-
 
     // GUI 콘솔 셸 윈도우가 존재하면 생성된 윈도우를 최상위로 만들고 태스크 종료
     if( s_qwWindowID != WINDOW_INVALIDID )
@@ -774,7 +763,7 @@ DWORD WINAPI kGUIConsoleShellTask(LPVOID parameter)
     //qwConsoleShellTaskID = pstConsoleShellTask->stLink.qwID;
 
     // 이전 화면 버퍼를 초기화
-    memset( gs_vstPreviousScreenBuffer, 0xFF, sizeof( gs_vstPreviousScreenBuffer ) );
+    memset( gs_vstPreviousScreenBuffer, (char)0xFF, sizeof( gs_vstPreviousScreenBuffer ) );
     
     //--------------------------------------------------------------------------
     // GUI 태스크의 이벤트 처리 루프
@@ -857,7 +846,7 @@ static void kProcessConsoleBuffer(QWORD qwWindowID)
 	pstPreviousScreenBuffer = gs_vstPreviousScreenBuffer;
 
 	// 화면을 전체를 업데이트 한 지 5초가 지났으면 무조건 화면 전체를 다시 그림
-	/*if (g_processInterface.sky_get_tick_count() - dwLastTickCount > 1000)
+	if (g_processInterface.sky_get_tick_count() - dwLastTickCount > 5000)
 	{
 		dwLastTickCount = g_processInterface.sky_get_tick_count();
 		bFullRedraw = TRUE;
@@ -865,8 +854,8 @@ static void kProcessConsoleBuffer(QWORD qwWindowID)
 	else
 	{
 		bFullRedraw = FALSE;
-	}*/
-	bFullRedraw = TRUE;
+	}
+	//bFullRedraw = TRUE;
 
 	// 화면 버퍼의 높이만큼 반복
 	for (j = 0; j < CONSOLE_HEIGHT; j++)
@@ -921,7 +910,6 @@ static void kProcessConsoleBuffer(QWORD qwWindowID)
 DWORD WINAPI kImageViewerTask(LPVOID parameter)
 {
     QWORD qwWindowID;
-    int iMouseX, iMouseY;
     int iWindowWidth, iWindowHeight;
     int iEditBoxWidth;
     RECT stEditBoxArea;
@@ -1131,7 +1119,6 @@ static void kDrawFileName( QWORD qwWindowID, RECT* pstArea, char *pcFileName,
 static bool kCreateImageViewerWindowAndExecute( QWORD qwMainWindowID, 
         const char* pcFileName )
 {    
-    struct dirent* pstEntry;
     DWORD dwFileSize;
     RECT stScreenArea;
     QWORD qwWindowID;

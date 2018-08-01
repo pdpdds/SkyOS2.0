@@ -39,7 +39,7 @@ float fabs(float j)
 
 float fabsf(float j)
 {
-	return fabsf(j);
+	return fabs(j);
 }
 
 int floor(float x)

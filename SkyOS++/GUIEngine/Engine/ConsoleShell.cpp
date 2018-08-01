@@ -207,7 +207,7 @@ static void kHelp( const char* pcCommandBuffer )
     
     
     kPrintf( "=========================================================\n" );
-    kPrintf( "                    MINT64 Shell Help                    \n" );
+    kPrintf( "                    SKYOS32 Shell Help                    \n" );
     kPrintf( "=========================================================\n" );
     
     iCount = sizeof( gs_vstCommandTable ) / sizeof( SHELLCOMMANDENTRY );
