@@ -31,10 +31,15 @@ int abs(int j)
 {
 	return(j < 0 ? -j : j);
 }
-/*
+
 float fabs(float j)
 {
 	return(j < 0 ? -j : j);
+}
+
+float fabsf(float j)
+{
+	return fabsf(j);
 }
 
 int floor(float x)
@@ -48,7 +53,20 @@ int floor(float x)
 		int y = (int)x;
 		return ((float)y == x) ? y : y - 1;
 	}
-}*/
+}
+
+float floorf(float x)
+{
+	if (x >= 0)
+	{
+		return (int)x;
+	}
+	else
+	{
+		int y = (int)x;
+		return ((float)y == x) ? y : y - 1;
+	}
+}
 
 /*double sin(float angle) 
 {
@@ -73,6 +91,21 @@ double cos(double x) {//USE BETWEEN -pi, pi
 	for (int i = 1; i<6; i = i + 2) {
 		output += (sq_x / fac[i]);
 		sq_x = sq_x*qu_x;
+	}
+	return output;
+}
+
+float cosf(float x) {//USE BETWEEN -pi, pi
+	float sq_x = x * x, output = 1.0, qu_x = sq_x * sq_x;
+	float fac[] = { 2.0, 24.0, 720.0, 40320.0, 3628800.0, 479001600.0 };//2!, 4!, 6!, 8!, 10!, 12!...
+	for (int i = 0; i<6; i = i + 2) {
+		output -= (sq_x / fac[i]);
+		sq_x = sq_x * qu_x;
+	}
+	sq_x = qu_x;
+	for (int i = 1; i<6; i = i + 2) {
+		output += (sq_x / fac[i]);
+		sq_x = sq_x * qu_x;
 	}
 	return output;
 }
@@ -140,6 +173,23 @@ float pow(float x, int y)
 	}
 }
 
+float powf(float x, int y)
+{
+	float temp;
+	if (y == 0)
+		return 1;
+	temp = pow(x, y / 2);
+	if ((y % 2) == 0) {
+		return temp * temp;
+	}
+	else {
+		if (y > 0)
+			return x * temp * temp;
+		else
+			return (temp * temp) / x;
+	}
+}
+
 /* Extended version of power function that can work
 for double x and negative y
 */
@@ -176,6 +226,11 @@ float fmod(float a, float b)
 	return (a - b * floor(a / b));
 }
 
+float fmodf(float a, float b)
+{
+	return fmod(a, b);
+}
+
 double powerOfTen(int num) {
 	double rst = 1.0;
 	if (num >= 0) {
@@ -204,6 +259,59 @@ double sqrt(double a)
 	int max = 8;	// to define maximum digit 
 	int i;
 	double j = 1.0;
+	for (i = max; i > 0; i--) {
+		// value must be bigger then 0
+		if (z - ((2 * rst) + (j * powerOfTen(i)))*(j * powerOfTen(i)) >= 0)
+		{
+			while (z - ((2 * rst) + (j * powerOfTen(i)))*(j * powerOfTen(i)) >= 0)
+			{
+				j++;
+				if (j >= 10) break;
+
+			}
+			j--; //correct the extra value by minus one to j
+			z -= ((2 * rst) + (j * powerOfTen(i)))*(j * powerOfTen(i)); //find value of z
+
+			rst += j * powerOfTen(i);	// find sum of a
+
+			j = 1.0;
+
+
+		}
+
+	}
+
+	for (i = 0; i >= 0 - max; i--) {
+		if (z - ((2 * rst) + (j * powerOfTen(i)))*(j * powerOfTen(i)) >= 0)
+		{
+			while (z - ((2 * rst) + (j * powerOfTen(i)))*(j * powerOfTen(i)) >= 0)
+			{
+				j++;
+				if (j >= 10) break;
+			}
+			j--;
+			z -= ((2 * rst) + (j * powerOfTen(i)))*(j * powerOfTen(i)); //find value of z
+
+			rst += j * powerOfTen(i);	// find sum of a			
+			j = 1.0;
+		}
+	}
+	// find the number on each digit
+	return rst;
+}
+
+float sqrtf(float a)
+{
+	/*
+	find more detail of this method on wiki methods_of_computing_square_roots
+
+	*** Babylonian method cannot get exact zero but approximately value of the square_root
+	*/
+	float z = a;
+	float rst = 0.0;
+	int max = 8;	// to define maximum digit 
+	int i;
+	float j = 1.0;
 	for (i = max; i > 0; i--) {
 		// value must be bigger then 0
 		if (z - ((2 * rst) + (j * powerOfTen(i)))*(j * powerOfTen(i)) >= 0)

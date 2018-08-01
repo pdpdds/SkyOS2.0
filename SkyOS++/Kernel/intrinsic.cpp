@@ -47,3 +47,4 @@ int __cdecl _purecall()
 	SkyConsole::Print("Pure Function Called!!\n");
 	return 0;
 }
+

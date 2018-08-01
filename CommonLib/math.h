@@ -28,26 +28,36 @@ extern "C" {
 	extern double log(double x);
 	extern double log10(double x);
 	extern double atan2(double y, double x);
+	extern float atan2f(float y, float x);
 	extern double exp(double x);
 	extern double asin(double x);
 	extern double acos(double x);
+	extern float acosf(float x);
 	double frexp(double value, int *eptr);
 	int abs(int j);
 	float pow(float x, int y);
+	float powf(float x, int y);
 	long fact(int n); //factorial function
 	float fabs(float j);
+	float fabsf(float j);
 	extern double sin(double x);
+	float sinf(float x);
 	//double sin(float angle);
 	double cos(double x);
+	float cosf(float x);
 	double tan(double x);
 	double sqrt(double a);
+	float sqrtf(float a);
 	extern double ldexp(double value, int exp);
 	extern double atan(double x);
 	int rand(void);
 	void srand(unsigned int seed);
 	extern double ceil(double x);
+	float ceilf(float x);
 	float fmod(float a, float b);
+	float fmodf(float a, float b);
 	int floor(float x);
+	float floorf(float x);
 
 #ifdef  __cplusplus
 }

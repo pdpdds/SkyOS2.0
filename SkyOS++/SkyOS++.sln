@@ -63,6 +63,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SVGAEngine", "SVGAEngine\SV
 		{810F9EC9-030B-4C05-8AE0-AB9DAFEA1129} = {810F9EC9-030B-4C05-8AE0-AB9DAFEA1129}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SkyDesktop", "SkyDesktop\SkyDesktop.vcxproj", "{6D48C7C6-1A6A-4FDF-B0FA-7CBBC46F0F0D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{83EE476C-AA21-4A23-9D6F-4FE675115B13} = {83EE476C-AA21-4A23-9D6F-4FE675115B13}
+		{810F9EC9-030B-4C05-8AE0-AB9DAFEA1129} = {810F9EC9-030B-4C05-8AE0-AB9DAFEA1129}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -153,6 +159,14 @@ Global
 		{A07E1037-E87A-471F-8D43-113DE5777971}.Release|x64.Build.0 = Release|x64
 		{A07E1037-E87A-471F-8D43-113DE5777971}.Release|x86.ActiveCfg = Release|Win32
 		{A07E1037-E87A-471F-8D43-113DE5777971}.Release|x86.Build.0 = Release|Win32
+		{6D48C7C6-1A6A-4FDF-B0FA-7CBBC46F0F0D}.Debug|x64.ActiveCfg = Debug|x64
+		{6D48C7C6-1A6A-4FDF-B0FA-7CBBC46F0F0D}.Debug|x64.Build.0 = Debug|x64
+		{6D48C7C6-1A6A-4FDF-B0FA-7CBBC46F0F0D}.Debug|x86.ActiveCfg = Debug|Win32
+		{6D48C7C6-1A6A-4FDF-B0FA-7CBBC46F0F0D}.Debug|x86.Build.0 = Debug|Win32
+		{6D48C7C6-1A6A-4FDF-B0FA-7CBBC46F0F0D}.Release|x64.ActiveCfg = Release|x64
+		{6D48C7C6-1A6A-4FDF-B0FA-7CBBC46F0F0D}.Release|x64.Build.0 = Release|x64
+		{6D48C7C6-1A6A-4FDF-B0FA-7CBBC46F0F0D}.Release|x86.ActiveCfg = Release|Win32
+		{6D48C7C6-1A6A-4FDF-B0FA-7CBBC46F0F0D}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

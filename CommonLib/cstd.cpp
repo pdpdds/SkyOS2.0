@@ -249,6 +249,21 @@ __declspec(naked) void _dtoul3()
 	}
 }
 
+__declspec(naked) void _ftoul3()
+{
+	__asm
+	{
+	}
+}
+
+__declspec(naked) void _ftoui3()
+{
+	__asm
+	{
+	}
+}
+
+
 };
 
 // enable warning
