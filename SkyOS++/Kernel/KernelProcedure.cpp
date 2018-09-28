@@ -81,8 +81,9 @@ DWORD WINAPI SystemGUIProc(LPVOID parameter)
 	StartPITCounter(1000, I86_PIT_OCW_COUNTER_0, I86_PIT_OCW_MODE_SQUAREWAVEGEN);	
 #endif
 
-	StorageManager::GetInstance()->SetCurrentFileSystemByID('L');
 	StorageManager::GetInstance()->Initilaize(pBootInfo);
+	StorageManager::GetInstance()->SetCurrentFileSystemByID('L');
+
 	SkyDebugger::GetInstance()->LoadSymbol("DebugEngine.dll");
 	
 	//SampleFillRect((ULONG*)SkyGUISystem::GetInstance()->GetVideoRamInfo()._pVideoRamPtr, 1004, 0, 20, 20, 0x0000FF00);		

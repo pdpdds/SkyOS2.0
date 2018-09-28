@@ -95,7 +95,7 @@ void kmain(unsigned long magic, unsigned long addr)
 			else
 				result = Boot64BitMode(mb_info, mb_info->cmdline);
 		}		
-	}
+	}	
 
 	if(result == false)
 		SkyConsole::Print("Kernel Load Fail!!\n");

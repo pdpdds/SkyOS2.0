@@ -1,4 +1,5 @@
 #include "SkyOS.h"
+#include "HangulEngine.h"
 
 SkyGUISystem* SkyGUISystem::m_GUISystem = nullptr;
 
@@ -83,7 +84,7 @@ bool SkyGUISystem::InitGUIModule()
 	
 	return true;
 }
-#include "HangulEngine.h"
+
 bool SkyGUISystem::LoadGUIModule()
 {
 	//Load Hangul Engine
