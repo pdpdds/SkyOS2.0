@@ -86,9 +86,9 @@ DWORD WINAPI SystemGUIProc(LPVOID parameter)
 
 	SkyDebugger::GetInstance()->LoadSymbol("DebugEngine.dll");
 	
-	//SampleFillRect((ULONG*)SkyGUISystem::GetInstance()->GetVideoRamInfo()._pVideoRamPtr, 1004, 0, 20, 20, 0x0000FF00);		
-	
 	SkyGUISystem::GetInstance()->InitGUIModule();
+
+	//SampleFillRect((ULONG*)SkyGUISystem::GetInstance()->GetVideoRamInfo()._pVideoRamPtr, 1004, 0, 20, 20, 0x0000FF00);
 
 	systemOn = true;
 	kLeaveCriticalSection();
