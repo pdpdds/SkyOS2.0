@@ -29,8 +29,7 @@
 
 
   /* 8 Bit data types*/
-  typedef unsigned char BYTE;
-
+  typedef unsigned char BYTE;  
   /* 16 bit data types */
   typedef short INT16;
   typedef unsigned short UINT16;
@@ -153,3 +152,23 @@ typedef __time_t time_t;
   #define WINAPI __stdcall 
 
   typedef DWORD(WINAPI *LPTHREAD_START_ROUTINE) (LPVOID lpThreadParameter);
+
+  typedef int  off_t;
+  typedef int  status_t;
+  typedef unsigned int   uint32;
+  typedef int  int32;
+  typedef unsigned long bigtime_t;
+  typedef unsigned long sem_id;
+  typedef unsigned long spinlock;
+  typedef int cpu_status;
+  typedef int ssize_t;
+  typedef int uid_t;
+  typedef int gid_t;
+  typedef unsigned short uint16;
+  typedef long long int64;
+  typedef unsigned long long uint64;
+  typedef unsigned char uint8;
+  typedef unsigned int phys_addr_t;
+  
+  
+  
