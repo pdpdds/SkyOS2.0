@@ -13,7 +13,9 @@
 #include "windef.h"
 
 
+#ifdef __cplusplus
 extern "C" {
+#endif
 
 
 #define PCI_CONFIG_ADDRESS 0xCF8
@@ -156,6 +158,8 @@ extern "C" {
 	void EnumeratePCIDevices(BYTE(*CallBackFn) (struct PCIConfigurationSpace *));
 
 	VOID RequestPCIList();
+#ifdef __cplusplus
 }
+#endif
 
 #endif
