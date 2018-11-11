@@ -343,7 +343,7 @@
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
     <Link>
-      <AdditionalDependencies>libjpeg.lib;SkyOSWin32Stub.lib;CommonLib.lib;skysdl.lib;lua5.lib</AdditionalDependencies>
+      <AdditionalDependencies>SkyOSWin32Stub.lib;CommonLib.lib;skysdl.lib;lua5.lib</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>../Debug</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
