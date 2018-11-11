@@ -2,9 +2,9 @@
 #include "windef.h"
 #include "I_GUIEngine.h"
 
-class VirtualIOManager;
+class SkyInputManager;
 
-class SkyGUIConsole : public I_VirtualIO
+class SkyGUIConsole
 {
 public:
 	SkyGUIConsole();
@@ -48,7 +48,7 @@ private:
 	int m_xPos;
 	int m_lastCommandLength;
 
-	VirtualIOManager* m_pVirtualIOManager;
+	SkyInputManager* m_pSkyInputManager;
 	ULONG* m_dirtyMap;
 	bool m_dirty;
 };

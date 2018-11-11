@@ -3,11 +3,6 @@
 
 SkyGUISystem* SkyGUISystem::m_GUISystem = nullptr;
 
-extern SKY_FILE_Interface g_FileInterface;
-extern SKY_ALLOC_Interface g_allocInterface;
-extern SKY_Print_Interface g_printInterface;
-
-
 SkyGUISystem::SkyGUISystem()
 {
 	m_GUIEnable = false;
@@ -87,43 +82,27 @@ bool SkyGUISystem::InitGUIModule()
 
 bool SkyGUISystem::LoadGUIModule()
 {
-	//Load Hangul Engine
+	
 	StorageManager::GetInstance()->SetCurrentFileSystemByID('L');
 
-	MODULE_HANDLE hwnd = SkyModuleManager::GetInstance()->LoadModuleFromMemory("HangulInput.dll");
-	PSetSkyMockInterface SetSkyMockInterface = (PSetSkyMockInterface)SkyModuleManager::GetInstance()->GetModuleFunction(hwnd, "SetSkyMockInterface");
-	PHangulInput HanguleInput2 = (PHangulInput)SkyModuleManager::GetInstance()->GetModuleFunction(hwnd, "GetHangulEngine");
+	//Load Hangul Engine
+	void* hwnd = SkyModuleManager::GetInstance()->LoadModule("Hangul.dll");	
+	PHangulInput HanguleInput = (PHangulInput)SkyModuleManager::GetInstance()->GetModuleFunction(hwnd, "GetHangulEngine");	
 
-	SetSkyMockInterface(g_allocInterface, g_FileInterface, g_printInterface);
+	SKY_ASSERT(HanguleInput != nullptr, "Hangul Module Load Fail!!");	
 
-	if (!HanguleInput2)
-	{
-		HaltSystem("HanguleInput Module Load Fail!!");
-	}
+	m_pInputEngine = HanguleInput();
 
-	m_pInputEngine = HanguleInput2();
+	hwnd = SkyModuleManager::GetInstance()->LoadModule("Multilingual.dll");
+	PGetHangulEngine HangulEngine = (PGetHangulEngine)SkyModuleManager::GetInstance()->GetModuleFunction(hwnd, "GetHangulEngine");
 
-	//m_pInputEngine = new HangulInput();
-
-	MODULE_HANDLE hwnd2 = SkyModuleManager::GetInstance()->LoadModuleFromMemory("HangulEngine.dll");
-	PSetSkyMockInterface SetSkyMockInterface2 = (PSetSkyMockInterface)SkyModuleManager::GetInstance()->GetModuleFunction(hwnd2, "SetSkyMockInterface");
-	PGetHangulEngine HangulEngine = (PGetHangulEngine)SkyModuleManager::GetInstance()->GetModuleFunction(hwnd2, "GetHangulEngine");
-	SetSkyMockInterface2(g_allocInterface, g_FileInterface, g_printInterface);
-
-	if (!HangulEngine)
-	{
-
-		HaltSystem("HangulEngine Module Load Fail!!");
-	}
-
+	SKY_ASSERT(HangulEngine != nullptr, "Multilingual Module Load Fail!!");
+	
 	m_pEngine = HangulEngine();
 	bool result = m_pEngine->Initialize();
 
-	if (!result)
-	{
-		HaltSystem("HangulEngine Initialize Fail!!");
-	}
-
+	SKY_ASSERT(result != false, "Multilingual Module Initialize Fail!!");
+	
 	return true;
 }
 

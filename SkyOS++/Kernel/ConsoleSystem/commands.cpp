@@ -10,6 +10,7 @@
 #include "SkyDebugger.h"
 #include "SkyGUILauncher.h"
 #include "TestLua.h"
+#include "DeviceDriverManager.h"
 
 long CmdCls(char *szCommand)
 {
@@ -189,7 +190,7 @@ long cmdSwitchGUI(char *szCommand)
 
 long cmdPCI(char *szCommand)
 {
-	RequestPCIList();
+	DeviceDriverManager::GetInstance()->RequestPCIList();
 
 	return false;
 }
@@ -214,5 +215,3 @@ long cmdDir(char *szCommand)
 
 	return false;
 }
-
-

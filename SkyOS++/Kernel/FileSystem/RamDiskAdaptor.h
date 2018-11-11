@@ -45,6 +45,7 @@ public:
 	virtual size_t Write(PFILE file, unsigned char* buffer, unsigned int size, int count) override;
 
 	bool InstallPackage();
+	virtual bool GetFileList() override;
 
 private:
 	void PrintRamDiskInfo();	

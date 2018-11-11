@@ -8,8 +8,8 @@
 #include "SkyGUISystem.h"
 #include "ProcessManager.h"
 #include "Process.h"
-#include "SkyIOHandler.h"
-#include "VirtualIOManager.h"
+#include "SkyInputHandler.h"
+#include "SkyInputManager.h"
 
 extern void kSVGAKeyboardHandler();
 extern void kSVGAMouseHandler();
@@ -299,11 +299,11 @@ bool SkySVGA::Initialize(void* pVideoRamPtr, int width, int height, int bpp, uin
 	init_lfb();	
 
 #ifdef SKY_EMULATOR
-	m_pVirtualIOManager = new VirtualIOManager();
-	m_pVirtualIOManager->Initialize();
+	m_pSkyInputManager = new SkyInputManager();
+	m_pSkyInputManager->Initialize();
 	
 #else
-	//SkyIOHandler::GetInstance()->Initialize(this);
+	//SkyInputHandler::GetInstance()->Initialize(this);
 
 	kEnterCriticalSection();
 	SetInterruptVector(0x21, kSVGAKeyboardHandler);
@@ -394,13 +394,13 @@ extern char left_button;
 
 bool SkySVGA::PutMouseQueue(MOUSEDATA* pData)
 {
-	m_pVirtualIOManager->PutMouseueue(pData);
+	m_pSkyInputManager->PutMouseueue(pData);
 	
 	int iRelativeX, iRelativeY;
 	bool bAbsoluteCoordinate = true;
 	BYTE bButtonStatus;
 	// 마우스 데이터가 수신되기를 기다림
-	if (m_pVirtualIOManager->GetMouseDataFromMouseQueue(bButtonStatus, iRelativeX, iRelativeY) ==FALSE)
+	if (m_pSkyInputManager->GetMouseDataFromMouseQueue(bButtonStatus, iRelativeX, iRelativeY) ==FALSE)
 	{
 		return false;
 	}

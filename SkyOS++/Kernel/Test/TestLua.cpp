@@ -9,23 +9,10 @@
 #include "luatinker.h"
 
 I_LuaModule* pLuaModule = nullptr;
-
-extern SKY_FILE_Interface g_FileInterface;
-extern SKY_ALLOC_Interface g_allocInterface;
-extern SKY_Print_Interface g_printInterface;
-
 typedef I_LuaModule*(*PGetLuaModule)();
-
-extern FILE* g_stdOut;
-extern FILE* g_stdIn;
-extern FILE* g_stdErr;
 
 bool TestLua3(char* szCommand)
 {
-	g_printInterface.sky_stdin = g_stdIn;
-	g_printInterface.sky_stdout = g_stdOut;
-	g_printInterface.sky_stderr = g_stdErr;
-
 	StorageManager::GetInstance()->SetCurrentFileSystemByID('L');
 
 	if (pLuaModule != nullptr)
@@ -38,18 +25,21 @@ bool TestLua3(char* szCommand)
 		return false;
 	}
 
-	MODULE_HANDLE hwnd = SkyModuleManager::GetInstance()->LoadModuleFromMemory("LUA3_DLL");
+#ifdef SKY_EMULATOR
+	void* hwnd = SkyModuleManager::GetInstance()->LoadModule("Lua3.dll");
+#else
+	void* hwnd = SkyModuleManager::GetInstance()->LoadModule("Lua3.dll");
+#endif // SKY_EMULATOER	
 
 	if (hwnd == nullptr)
 	{
-		HaltSystem("LUA3_DLL Module Load Fail!!");
+		HaltSystem("Lua3.dll Module Load Fail!!");
 	}
 
-	PSetSkyMockInterface SetSkyMockInterface = (PSetSkyMockInterface)SkyModuleManager::GetInstance()->GetModuleFunction(hwnd, "SetSkyMockInterface");
+
 	PGetLuaModule GetLuaModuleInterface = (PGetLuaModule)SkyModuleManager::GetInstance()->GetModuleFunction(hwnd, "GetLuaModule");
 
-	//디버그 엔진에 플랫폼 종속적인 인터페이스를 넘긴다.
-	SetSkyMockInterface(g_allocInterface, g_FileInterface, g_printInterface);
+	
 
 	if (!GetLuaModuleInterface)
 	{
@@ -350,14 +340,17 @@ bool TestLua5(char* szCommand)
 	if (szCommand == nullptr)
 		return false;
 
+
 	kEnterCriticalSection();
 	lua_State* L;
+	
 	L = luaL_newstate();
-
+	
 	luaopen_base(L);
 
 	if (strcmp(szCommand, "sample1.lua") == 0)
 	{
+		
 		TestLua51(L);
 	}
 

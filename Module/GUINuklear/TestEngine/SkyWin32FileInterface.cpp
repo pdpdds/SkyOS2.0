@@ -92,10 +92,17 @@ void sky_kfree(void* p)
 	delete p;
 }
 
+unsigned int sky_kcalloc(unsigned int count, unsigned int size)
+{
+	return (unsigned int)calloc(count, size);
+}
+
+
 SKY_ALLOC_Interface g_allocInterface =
 {
 	sky_kmalloc,
 	sky_kfree,
+	sky_kcalloc,
 };
 
 void sky_printf(const char* str, ...)

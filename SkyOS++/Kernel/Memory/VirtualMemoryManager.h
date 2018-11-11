@@ -111,5 +111,7 @@ namespace VirtualMemoryManager
 
 	//Debug
 	void Dump();
+
+	bool MapAddress(DWORD startAddress, DWORD pageCoount);
 }
 

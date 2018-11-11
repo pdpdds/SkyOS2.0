@@ -162,29 +162,8 @@
     <ClCompile Include="JPEGImageModule.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="JpegDec.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="JpegDecPlanarYCbCr.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="JpegEnc.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="jpegutil.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="jpeg\jerror.c">
       <Filter>jpeg</Filter>
-    </ClCompile>
-    <ClCompile Include="MimeInfo.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="MimeParser.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="MimeWriter.cpp">
-      <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="jpgReader.cpp">
       <Filter>소스 파일</Filter>
@@ -222,27 +201,6 @@
       <Filter>jpeg</Filter>
     </ClInclude>
     <ClInclude Include="JPEGImageModule.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="JpegDec.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="JpegDecPlanarYCbCr.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="JpegEnc.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="jpegutil.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="MimeInfo.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="MimeParser.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="MimeWriter.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="jpgReader.h">

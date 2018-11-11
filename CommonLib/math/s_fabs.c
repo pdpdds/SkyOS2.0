@@ -16,7 +16,7 @@
  */
 
 #include "fdlibm.h"
-
+/*
 #ifdef __STDC__
 	double fabs(double x)
 #else
@@ -26,4 +26,4 @@
 {
 	__HI(x) &= 0x7fffffff;
         return x;
-}
+}*/

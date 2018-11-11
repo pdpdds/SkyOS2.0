@@ -46,7 +46,7 @@ DWORD WINAPI SystemConsoleProc(LPVOID parameter)
 {
 	SkyConsole::Print("Console Mode Start!!\n");
 	multiboot_info* pBootInfo = SkyModuleManager::GetInstance()->GetMultiBootInfo();
-
+	
 	systemOn = true;
 
 #ifdef SKY_EMULATOR
@@ -58,6 +58,14 @@ DWORD WINAPI SystemConsoleProc(LPVOID parameter)
 	StorageManager::GetInstance()->SetCurrentFileSystemByID('L');
 	StorageManager::GetInstance()->Initilaize(pBootInfo);
 	SkyDebugger::GetInstance()->LoadSymbol("DebugEngine.dll");
+
+#ifdef SKY_EMULATOR
+	SkyModuleManager::GetInstance()->LoadModule("Lua5.dll");
+	SkyModuleManager::GetInstance()->LoadModule("SkySDL.dll");	
+#else
+	SkyModuleManager::GetInstance()->LoadImplictDLL(0x001600000);
+#endif
+	TestSkySDL(1024, 768, 32);
 
 	NativeConsole();
 
@@ -80,13 +88,21 @@ DWORD WINAPI SystemGUIProc(LPVOID parameter)
 #else	
 	StartPITCounter(1000, I86_PIT_OCW_COUNTER_0, I86_PIT_OCW_MODE_SQUAREWAVEGEN);	
 #endif
-
+	
 	StorageManager::GetInstance()->Initilaize(pBootInfo);
 	StorageManager::GetInstance()->SetCurrentFileSystemByID('L');
 
 	SkyDebugger::GetInstance()->LoadSymbol("DebugEngine.dll");
 	
 	SkyGUISystem::GetInstance()->InitGUIModule();
+
+#ifdef SKY_EMULATOR
+	SkyModuleManager::GetInstance()->LoadModule("Lua5.dll");
+	SkyModuleManager::GetInstance()->LoadModule("SkySDL.dll");
+	TestSkySDL(1024,768,32);
+#else
+	SkyModuleManager::GetInstance()->LoadImplictDLL(0x001600000);
+#endif
 
 	//SampleFillRect((ULONG*)SkyGUISystem::GetInstance()->GetVideoRamInfo()._pVideoRamPtr, 1004, 0, 20, 20, 0x0000FF00);
 

@@ -10,10 +10,6 @@ int errno = 0;
 SkyMockInterface g_mockInterface;
 SKY_PROCESS_INTERFACE g_processInterface;
 
-FILE* g_stdOut;
-FILE* g_stdIn;
-FILE* g_stdErr;
-
 size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream)
 {
 	return g_mockInterface.g_fileInterface.sky_fread(ptr, size, nmemb, stream);
@@ -612,14 +608,16 @@ extern "C" void free(void *p)
 	kfree(p);
 }
 
-extern "C" unsigned int calloc(unsigned int count, unsigned int size)
+extern "C" void* calloc(size_t nmemb, size_t size)
 {
-	return kcalloc(count, size);
+	return (void*)kcalloc(nmemb, size);
 }
 
 extern "C" void* realloc(void* ptr, size_t size)
 {
 	return krealloc(ptr, size);
 }
+
+
 
 #endif

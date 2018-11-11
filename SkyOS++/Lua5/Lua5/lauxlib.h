@@ -16,12 +16,12 @@
 #endif
 #include "lua.h"
 
-extern	FILE* g_stdOut;
-extern	FILE* g_stdIn;
+extern	FILE* g_skyStdOut;
+extern	FILE* g_skyStdIn;
 
 #ifndef WIN32 
-#define stdin g_stdIn
-#define stdout g_stdOut
+#define stdin g_skyStdIn
+#define stdout g_skyStdOut
 #endif
 
 /* global table */

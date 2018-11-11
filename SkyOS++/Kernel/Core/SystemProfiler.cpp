@@ -1,6 +1,7 @@
 #include "SkyOS.h"
 #include "PCI.h"
 #include "SkyPCI.h"
+#include "DeviceDriverManager.h"
 
 SystemProfiler* SystemProfiler::m_pSystemProfiler = nullptr;
 extern PageDirectory* g_pageDirectoryPool[MAX_PAGE_DIRECTORY_COUNT];
@@ -19,13 +20,6 @@ SystemProfiler::~SystemProfiler()
 
 bool SystemProfiler::Initialize()
 {
-#ifndef SKY_EMULATOR
-	UINT16 pciDevices = InitPCIDevices();
-	SkyConsole::Print("%d device(s) found\n", pciDevices);
-
-	ScanPCIDevices();
-#endif // SKY_EMULATOR
-
 	GlobalSate state;
 
 #ifdef SKY_EMLUATOR
@@ -40,11 +34,16 @@ bool SystemProfiler::Initialize()
 
 	state._stackPhysicalPoolAddress = g_stackPhysicalAddressPool;
 
-#ifdef SKY_EMULATOR
-	state._pciDevices = 0;
-#else
+#ifndef SKY_EMULATOR
+	UINT16 pciDevices = DeviceDriverManager::GetInstance()->InitPCIDevices();
+	SkyConsole::Print("%d device(s) found\n", pciDevices);
+
+	ScanPCIDevices();
 	state._pciDevices = pciDevices;
-#endif
+#else
+	state._pciDevices = 0;
+#endif // SKY_EMULATOR
+
 	state._pageDirectoryPoolAddress = (DWORD)&(g_pageDirectoryPool[0]);
 
 	SystemProfiler::GetInstance()->SetGlobalState(state);

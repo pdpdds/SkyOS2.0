@@ -45,7 +45,7 @@ bool kInitializeRDDFileSystem( void )
 
 	// 핸들을 위한 공간을 할당
 	gs_stFileSystemManager.pstHandlePool = (MFILE*) new char[FILESYSTEM_HANDLE_MAXCOUNT * sizeof(MFILE)];
-
+	memset(gs_stFileSystemManager.pstHandlePool, 0, FILESYSTEM_HANDLE_MAXCOUNT * sizeof(MFILE));
 	// 메모리 할당이 실패하면 하드 디스크가 인식되지 않은 것으로 설정
 	if (gs_stFileSystemManager.pstHandlePool == nullptr)
 	{
@@ -511,7 +511,7 @@ static bool kSetDirectoryEntryData( int iIndex, DIRECTORYENTRY* pstEntry )
 /**
  *  루트 디렉터리의 해당 인덱스에 위치하는 디렉터리 엔트리를 반환
  */
-static bool kGetDirectoryEntryData( int iIndex, DIRECTORYENTRY* pstEntry )
+bool kGetDirectoryEntryData( int iIndex, DIRECTORYENTRY* pstEntry )
 {
     DIRECTORYENTRY* pstRootEntry;
     

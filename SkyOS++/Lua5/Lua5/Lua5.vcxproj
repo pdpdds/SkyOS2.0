@@ -89,7 +89,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>SKY_DLL;LUA_BUILD_AS_DLL;SKYOS32;_CRT_SECURE_NO_WARNINGS ;MAPFILEDLL_EXPORTS;_X86_;_DEBUG;SampleDll_EXPORTS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SKYOS32;LUA_BUILD_AS_DLL;SKY_DLL;_CRT_SECURE_NO_WARNINGS ;MAPFILEDLL_EXPORTS;_X86_;_DEBUG;SampleDll_EXPORTS;_USRDLL;%(PreprocessorDefinitions);</PreprocessorDefinitions>
       <SDLCheck>false</SDLCheck>
       <MinimalRebuild>false</MinimalRebuild>
       <ExceptionHandling>false</ExceptionHandling>
@@ -100,7 +100,7 @@
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <AdditionalOptions>/Oy %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>4819</DisableSpecificWarnings>
-      <AdditionalIncludeDirectories>../../../CommonLib/stl;../../../CommonLib;../../../include;../../../Module/Include;../../../CommonLib/CPlusPlus</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../CommonLib/stl;../../../CommonLib;../../../include;../../../Module/Include;../../../CommonLib/CPlusPlus;../../DllStub</AdditionalIncludeDirectories>
       <IgnoreStandardIncludePath>true</IgnoreStandardIncludePath>
       <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>
       <OmitFramePointers>true</OmitFramePointers>
@@ -113,7 +113,7 @@
       <MapFileName>$(OutDir)$(TargetName).map</MapFileName>
       <EntryPointSymbol>_DllMainCRTStartup</EntryPointSymbol>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
-      <AdditionalDependencies>CommonLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>CommonLib.lib;DllStub.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../Debug</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>
       </IgnoreSpecificDefaultLibraries>
@@ -221,7 +221,6 @@
     <ClInclude Include="lundump.h" />
     <ClInclude Include="lvm.h" />
     <ClInclude Include="lzio.h" />
-    <ClInclude Include="SkyInterface.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
@@ -262,7 +261,6 @@
     <ClCompile Include="lutf8lib.cpp" />
     <ClCompile Include="lvm.cpp" />
     <ClCompile Include="lzio.cpp" />
-    <ClCompile Include="SkyInterface.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

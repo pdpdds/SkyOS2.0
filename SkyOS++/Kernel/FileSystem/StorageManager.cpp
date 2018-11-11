@@ -208,7 +208,20 @@ bool StorageManager::ConstructFileSystem(multiboot_info* info)
 	{
 		StorageManager::GetInstance()->RegisterFileSystem(pRamDiskAdaptor, 'K');
 		StorageManager::GetInstance()->SetCurrentFileSystemByID('K');
-		((RamDiskAdaptor*)pRamDiskAdaptor)->InstallPackage();
+		//((RamDiskAdaptor*)pRamDiskAdaptor)->InstallPackage();
+		FILE* f = fopen("1.ini", "w");
+		char* pBuf = new char[100];
+		if (!f)
+			return false;
+		fwrite(pBuf, sizeof(char), 100, f);
+		fclose(f);
+
+		f = fopen("2.exe", "w");
+		pBuf = new char[100];
+		if (!f)
+			return false;
+		fwrite(pBuf, sizeof(char), 100, f);
+		fclose(f);
 	}
 	else
 	{

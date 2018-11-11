@@ -8,8 +8,8 @@
 #include "SDL.h"
 #include "SkyOSWin32Stub.h"
 #include "SkyMockInterface.h"
-#include "I_VirtualIO.h"
-#include "SkyIOHandlerWin32.h"
+#include "I_SkyInput.h"
+#include "SkyInputHandlerWin32.h"
 
 WIN32_VIDEO g_win32Video;
 CRITICAL_SECTION g_cs;
@@ -122,11 +122,11 @@ extern "C" WIN32_VIDEO* InitWin32System(int width, int height, int bpp)
 	return &g_win32Video;
 }
 
-extern "C" void LoopWin32(I_VirtualIO* pVirtualIO, unsigned int& tickCount)
+extern "C" void LoopWin32(I_SkyInput* pVirtualIO, unsigned int& tickCount)
 {
 	bool running = true;
 	
-	SkyIOHandlerWin32* pInputHandler = new SkyIOHandlerWin32();
+	SkyInputHandlerWin32* pInputHandler = new SkyInputHandlerWin32();
 	pInputHandler->Initialize(pVirtualIO);
 
 	//루프를 돌며 화면을 그린다.
@@ -213,6 +213,21 @@ extern "C" void LoopWin32(I_VirtualIO* pVirtualIO, unsigned int& tickCount)
 				{
 					running = false;
 				}
+			}
+			else if (event.type == SDL_KEYUP)
+			{
+
+				unsigned int keycode = SDL_GetKeyFromScancode(event.key.keysym.scancode);
+
+				BYTE bScancode = pInputHandler->ConvertKeycodeToScancode(keycode);
+
+				bScancode = bScancode | 0x80;
+				unsigned char bASCIICode;
+				unsigned char bFlags;
+				if (bScancode != 0)
+					pInputHandler->ConvertScanCodeToASCIICode(bScancode, &bASCIICode, (bool*)&bFlags);
+
+				
 			}
 			
 			else if (event.type == SDL_QUIT)

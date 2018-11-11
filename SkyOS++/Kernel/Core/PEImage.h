@@ -797,7 +797,7 @@ typedef struct _IMAGE_IMPORT_BY_NAME {
 /**
 *	Image Thunk Data
 */
-typedef struct _IMAGE_THUNK_DATA {
+/*typedef struct _IMAGE_THUNK_DATA {
 
 	union {
 
@@ -807,7 +807,17 @@ typedef struct _IMAGE_THUNK_DATA {
 
 	} u1;
 
-} IMAGE_THUNK_DATA, *PIMAGE_THUNK_DATA;
+} IMAGE_THUNK_DATA, *PIMAGE_THUNK_DATA;*/
+
+typedef struct _IMAGE_THUNK_DATA32 {
+	union {
+		DWORD ForwarderString;      // PBYTE 
+		DWORD Function;             // PDWORD
+		DWORD Ordinal;
+		DWORD AddressOfData;        // PIMAGE_IMPORT_BY_NAME
+	} u1;
+} IMAGE_THUNK_DATA32;
+typedef IMAGE_THUNK_DATA32 * PIMAGE_THUNK_DATA32;
 
 #define IMAGE_ORDINAL_FLAG 0x80000000
 #define IMAGE_SNAP_BY_ORDINAL(Ordinal) ((Ordinal & IMAGE_ORDINAL_FLAG) != 0)

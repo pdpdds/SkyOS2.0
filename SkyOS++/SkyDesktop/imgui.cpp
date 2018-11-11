@@ -850,12 +850,12 @@ static const ImS64  IM_S64_MAX = 9223372036854775807ll;
 static const ImU64  IM_U64_MIN = 0;
 static const ImU64  IM_U64_MAX = 0xFFFFFFFFFFFFFFFFull;
 
-extern	FILE* g_stdOut;
+extern	FILE* g_skyStdOut;
 extern	FILE* g_stdIn;
 
 #ifndef WIN32 
 #define stdin g_stdIn
-#define stdout g_stdOut
+#define stdout g_skyStdOut
 #endif
 
 //-------------------------------------------------------------------------

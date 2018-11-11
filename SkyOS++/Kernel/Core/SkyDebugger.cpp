@@ -11,7 +11,6 @@
 #include "SkyAPI.h"
 #include "Process.h"
 #include "I_MapFileReader.h"
-#include "MapFile\MapFile.h"
 
 SkyDebugger* SkyDebugger::m_pDebugger = nullptr;
 
@@ -326,30 +325,10 @@ void SkyDebugger::TraceStackWithProcessId(int processId)
 
 //디버그엔진 모듈을 로드한다.
 bool SkyDebugger::LoadSymbol(const char* moduleName)
-{
+{	
 	
-//디버그 모듈 엔진을 찾는다.
-#ifdef SKY_EMULATOR
-	void* hwnd = (void*)g_processInterface.sky_kload_library(moduleName);
-#else
-	MODULE_HANDLE hwnd = SkyModuleManager::GetInstance()->LoadModuleFromMemory(moduleName);
-#endif // SKY_EMULATOR	
-
-	if (hwnd == nullptr)
-	{
-		HaltSystem("Memory Module Load Fail!!");
-	}
-
-#ifdef SKY_EMULATOR
-	PSetSkyMockInterface SetSkyMockInterface = (PSetSkyMockInterface)g_processInterface.sky_kget_proc_address(hwnd, "SetSkyMockInterface");
-	PGetDebugEngineDLL GetDebugEngineDLLInterface = (PGetDebugEngineDLL)g_processInterface.sky_kget_proc_address(hwnd, "GetDebugEngineDLL");
-#else
-//디버그 엔진 모듈로 부터 SetSkyMockInterface, GetDebugEngineDLL 함수를 얻어온다.
-	PSetSkyMockInterface SetSkyMockInterface = (PSetSkyMockInterface)SkyModuleManager::GetInstance()->GetModuleFunction(hwnd, "SetSkyMockInterface");
+	void* hwnd = SkyModuleManager::GetInstance()->LoadModule(moduleName);
 	PGetDebugEngineDLL GetDebugEngineDLLInterface = (PGetDebugEngineDLL)SkyModuleManager::GetInstance()->GetModuleFunction(hwnd, "GetDebugEngineDLL");
-#endif
-//디버그 엔진에 플랫폼 종속적인 인터페이스를 넘긴다.
-	SetSkyMockInterface(g_allocInterface, g_FileInterface, g_printInterface);
 
 	if (!GetDebugEngineDLLInterface)
 	{

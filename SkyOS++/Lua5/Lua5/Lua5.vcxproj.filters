@@ -21,9 +21,6 @@
     <ClCompile Include="dllmain.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="SkyInterface.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="LuaModule.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -137,9 +134,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SkyInterface.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Include\I_LuaModule.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>

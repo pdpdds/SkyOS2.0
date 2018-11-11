@@ -20,7 +20,7 @@ extern "C" {
 
 #define PCI_CONFIG_ADDRESS 0xCF8
 #define PCI_CONFIG_DATA 0xCFC
-
+#define __PCI_MaxClass 0x12
 
 	/* This is the 256 byte PCI Configuration Space.
 	The first 16 bytes are PreDefined Header and others are depends on
@@ -153,11 +153,7 @@ extern "C" {
 	extern struct PCIBaseClass PCIClassDetails[];
 	// --------------------------------- Functions ----------------------------
 
-	BYTE GetPCIConfigurationSpace(BYTE Bus, BYTE Device, BYTE Function, struct PCIConfigurationSpace * PCICfg);
-	UINT16 InitPCIDevices();
-	void EnumeratePCIDevices(BYTE(*CallBackFn) (struct PCIConfigurationSpace *));
-
-	VOID RequestPCIList();
+	
 #ifdef __cplusplus
 }
 #endif

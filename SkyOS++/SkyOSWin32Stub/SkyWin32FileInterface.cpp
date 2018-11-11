@@ -183,9 +183,9 @@ void sky_cls(char* szCls)
 SKY_Print_Interface g_printInterface =
 {
 	sky_printf,	
-	0,
-	0,
-	0,
+	stdin,
+	stdout,
+	stderr,
 	sky_getchar,
 	sky_cls,
 };

@@ -16,7 +16,7 @@ RamDiskAdaptor::~RamDiskAdaptor()
 }
 
 bool RamDiskAdaptor::Initialize()
-{
+{	
 	bool result = kInitializeRDDFileSystem();	
 
 	if (result == true)
@@ -76,6 +76,7 @@ PFILE RamDiskAdaptor::Open(const char* fileName, const char *mode)
 	{
 		PFILE file = new FILE;
 		file->_deviceID = 'K';
+		file->_flags = FS_FILE;
 		strcpy(file->_name, fileName);
 		file->_id = (DWORD)pMintFile;
 		file->_fileLength = pMintFile->stFileHandle.dwFileSize;
@@ -126,8 +127,9 @@ bool RamDiskAdaptor::InstallPackage()
 	
 	if(pstHeader == nullptr)
 	{		
-		return false;
-	}	
+		//없다면 빈디스크를 생성한다.
+		return true;
+	}
 
 	// 패키지 데이터 포인터
 	dwDataAddress = (UINT32)(((char*)pstHeader) + pstHeader->dwHeaderSize);
@@ -166,6 +168,29 @@ bool RamDiskAdaptor::InstallPackage()
 	}
 
 	SkyConsole::Print("Package Install Complete\n");
+	
+	return true;
+}
+
+bool RamDiskAdaptor::GetFileList()
+{
+	DIRECTORYENTRY entry;
+	bool result = true;
+	int index = 0;
+	while (result != false)
+	{
+		kGetDirectoryEntryData(index, &entry);
+
+		if (result == true && entry.dwStartClusterIndex != 0)
+		{
+			SkyConsole::Print(" %s\n", entry.vcFileName);
+			index++;
+		}
+		else
+		{
+			result = false;
+		}
+	}
 	
 	return true;
 }

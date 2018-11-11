@@ -2,7 +2,7 @@
 #include "SkyGUILauncher.h"
 #include "SkyConsoleLauncher.h"
 #include "SkyTest.h"
-#include "SkyVirtualIO.h"
+#include "SkyVirtualInput.h"
 
 uint32_t g_kernel_load_address = 0;
 extern unsigned int _pitTicks;
@@ -21,7 +21,6 @@ extern SKY_Print_Interface g_printInterface;
 extern SKY_PROCESS_INTERFACE g_processInterface;
 #endif
 
-#include "MapFile\MapFile.h"
 #include "SkyDebugger.h"
 #ifdef SKY_EMULATOR
 void kmain()
@@ -97,10 +96,10 @@ void kmain(unsigned long magic, unsigned long addr, uint32_t imageBase)
 #endif
 
 	Scheduler::GetInstance();
-	
+	StorageManager::GetInstance();
 	SkyModuleManager::GetInstance()->Initialize(pBootInfo);
 	SystemProfiler::GetInstance()->Initialize();
-
+	
 #if SKY_CONSOLE_MODE == 0
 #ifdef SKY_EMULATOR
 	WIN32_VIDEO* pVideoInfo = InitWin32System(SKY_WIDTH, SKY_HEIGHT, SKY_BPP);
@@ -121,21 +120,6 @@ void kmain(unsigned long magic, unsigned long addr, uint32_t imageBase)
 	PrintCurrentTime();	
 	kLeaveCriticalSection();
 
-	/*MapFileReader* m_pMapReader = new MapFileReader();
-
-	if (m_pMapReader == nullptr)
-	{
-		HaltSystem("Map Reader Creation Fail!!");
-}
-
-	StorageManager::GetInstance()->SetCurrentFileSystemByID('L');
-
-	bool result = m_pMapReader->readFile("SkyOS32.map");*/
-
-	
-	//StorageManager::GetInstance()->Initilaize(pBootInfo);
-	//SkyDebugger::GetInstance()->LoadSymbol("DebugEngine.dll");
-
 	SkyLauncher* pSystemLauncher = nullptr;
 
 #if SKY_CONSOLE_MODE == 0	
@@ -148,7 +132,7 @@ void kmain(unsigned long magic, unsigned long addr, uint32_t imageBase)
 
 #ifdef SKY_EMULATOR
 #if SKY_CONSOLE_MODE == 0
-	LoopWin32(new SkyVirtualIO(), _pitTicks);
+	LoopWin32(new SkyVirtualInput(), _pitTicks);
 #endif
 #endif
 	for (;;);

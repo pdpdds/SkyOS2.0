@@ -1,12 +1,8 @@
 #include "SkyOS.h"
 #include "GUIMint64.h"
-#include "SkyIOHandler.h"
+#include "SkyInputHandler.h"
 
 typedef I_GUIEngine* (*PGUIEngine)();
-extern SKY_FILE_Interface g_FileInterface;
-extern SKY_ALLOC_Interface g_allocInterface;
-extern SKY_Print_Interface g_printInterface;
-extern SKY_PROCESS_INTERFACE g_processInterface;
 
 GUIMint64::GUIMint64()
 {
@@ -26,30 +22,9 @@ bool GUIMint64::Initialize(void* pVideoRamPtr, int width, int height, int bpp, u
 	m_width = width;
 	m_height = height;
 	m_bpp = bpp;
-	
-#ifdef SKY_EMULATOR
-	void* hwnd = (void*)g_processInterface.sky_kload_library("GUIEngine.dll");
-#else
-	MODULE_HANDLE hwnd = SkyModuleManager::GetInstance()->LoadModuleFromMemory("GUIEngine.dll");
-#endif // SKY_EMULATOR	
 
-	if (hwnd == nullptr)
-	{
-		HaltSystem("Memory Module Load Fail!!");
-	}	
-	
-#ifdef SKY_EMULATOR
-	PSetSkyMockInterface SetSkyMockInterface = (PSetSkyMockInterface)g_processInterface.sky_kget_proc_address(hwnd, "SetSkyMockInterface");
-	PSetSkyProcessInterface SetSkyProcessInterface = (PSetSkyProcessInterface)g_processInterface.sky_kget_proc_address(hwnd, "SetSkyProcessInterface");
-	PGUIEngine GUIEngine = (PGUIEngine)g_processInterface.sky_kget_proc_address(hwnd, "GetGUIEngine");
-#else
-	PSetSkyMockInterface SetSkyMockInterface = (PSetSkyMockInterface)SkyModuleManager::GetInstance()->GetModuleFunction(hwnd, "SetSkyMockInterface");	
-	PSetSkyProcessInterface SetSkyProcessInterface = (PSetSkyProcessInterface)SkyModuleManager::GetInstance()->GetModuleFunction(hwnd, "SetSkyProcessInterface");
+	void* hwnd = SkyModuleManager::GetInstance()->LoadModule("SkyGUIMint64.dll");				
 	PGUIEngine GUIEngine = (PGUIEngine)SkyModuleManager::GetInstance()->GetModuleFunction(hwnd, "GetGUIEngine");
-#endif
-	
-	SetSkyMockInterface(g_allocInterface, g_FileInterface, g_printInterface);
-	SetSkyProcessInterface(g_processInterface);
 	
 	m_pEngine = GUIEngine();
 	LinearBufferInfo info;
@@ -65,9 +40,8 @@ bool GUIMint64::Initialize(void* pVideoRamPtr, int width, int height, int bpp, u
 
 #ifdef SKY_EMULATOR
 #else
-	SkyIOHandler::GetInstance();
-	SkyIOHandler::GetInstance()->SetCallback(m_pEngine);
-	SkyIOHandler::GetInstance()->Initialize(nullptr);	
+	SkyInputHandler::GetInstance();	
+	SkyInputHandler::GetInstance()->Initialize(nullptr);
 	
 #endif
 	return true;

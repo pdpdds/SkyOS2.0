@@ -10,9 +10,6 @@
 #include "GUIEngine.h"
 
 
-//#pragma comment(lib, "freetyped.lib")
-extern FILE* g_skyStdErr;
-extern FILE* g_skyStdOut;
 
 void printf(const char* str, ...)
 {

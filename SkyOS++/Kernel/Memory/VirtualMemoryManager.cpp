@@ -383,4 +383,24 @@ namespace VirtualMemoryManager
 	{
 		
 	}
+
+	bool MapAddress(DWORD startAddress, DWORD pageCount)
+	{
+		void* pAllocatedMemory = PhysicalMemoryManager::AllocBlocks(pageCount);
+
+		if (pAllocatedMemory == nullptr)
+			return false;		
+
+		int endAddress = (uint32_t)startAddress + pageCount * PMM_BLOCK_SIZE;
+
+		for (int i = 0; i < pageCount; i++)
+		{
+			uint32_t virt = (uint32_t)startAddress + i * PAGE_SIZE;
+			uint32_t phys = (uint32_t)pAllocatedMemory + i * PAGE_SIZE;
+
+			VirtualMemoryManager::MapPhysicalAddressToVirtualAddresss(VirtualMemoryManager::GetCurPageDirectory(), virt, phys, I86_PTE_PRESENT | I86_PTE_WRITABLE);
+		}
+
+		return true;
+	}
 }

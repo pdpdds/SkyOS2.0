@@ -2,8 +2,8 @@
 #include "SkyGUIConsole.h"
 #include "SkyRenderer32.h"
 #include "KeyboardController.h"
-#include "VirtualIOManager.h"
-#include "SkyIOHandler.h"
+#include "SkyInputManager.h"
+#include "SkyInputHandler.h"
 
 extern char skyFontData[4096];
 ULONG* SkyGUIConsole::m_pVideoRamPtr = nullptr;
@@ -29,11 +29,11 @@ SkyGUIConsole::~SkyGUIConsole()
 
 bool SkyGUIConsole::Initialize(void* pVideoRamPtr, int width, int height, int bpp, uint8_t buffertype)
 {	
-	m_pVirtualIOManager = new VirtualIOManager();
-	m_pVirtualIOManager->Initialize();
+	m_pSkyInputManager = new SkyInputManager();
+	m_pSkyInputManager->Initialize();
 
 #ifndef SKY_EMULATOR
-	SkyIOHandler::GetInstance()->Initialize(this);
+	SkyInputHandler::GetInstance()->Initialize(nullptr);
 #endif // !SKY_EMULATOR
 
 	m_pRenderer = new SkyRenderer32();
@@ -88,7 +88,7 @@ void SkyGUIConsole::GetCommandForGUI(char* commandBuffer, int bufSize, char* dri
 		
 		KEYDATA keyData;
 
-		if (m_pVirtualIOManager->GetKeyFromKeyQueue(&keyData) == false)
+		if (m_pSkyInputManager->GetKeyFromKeyQueue(&keyData) == false)
 		{
 			g_processInterface.sky_ksleep(0);
 			continue;
@@ -343,7 +343,7 @@ bool SkyGUIConsole::PrintCommand(char* pMsg, bool backspace)
 
 bool SkyGUIConsole::PutKeyboardQueue(KEYDATA* pData)
 {
-	return m_pVirtualIOManager->PutKeyQueue(pData);	
+	return m_pSkyInputManager->PutKeyQueue(pData);
 }
 
 bool SkyGUIConsole::PutMouseQueue(MOUSEDATA* pData)

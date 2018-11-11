@@ -1,6 +1,7 @@
 #pragma once
 #ifdef WIN32
 #include <stdio.h>
+#include <Windows.h>
 #else
 #include "windef.h"
 #include "fileio.h"
@@ -39,6 +40,7 @@ typedef struct tag_SKY_PROCESS_INTERFACE
 	void(*sky_enter_critical_section)();
 	void(*sky_leave_critical_section)();
 	unsigned int(*sky_get_tick_count)();
+	void(*sky_kexit)(unsigned int taskId);
 
 
 } SKY_PROCESS_INTERFACE;

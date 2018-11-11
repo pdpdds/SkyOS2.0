@@ -1,12 +1,10 @@
 #pragma once
 #include "windef.h"
-#include "I_VirtualIO.h"
+#include "I_SkyInput.h"
 
 // 키 큐에 대한 매크로
 // 키 큐의 최대 크기
 #define KEY_MAXQUEUECOUNT	100
-
-#pragma pack( push, 1 )
 
 ////////////////////////////////////////////////////////////////////////////////
 // 마우스 큐에 대한 매크로
@@ -16,6 +14,8 @@
 #define MOUSE_LBUTTONDOWN   0x01
 #define MOUSE_RBUTTONDOWN   0x02
 #define MOUSE_MBUTTONDOWN   0x04
+
+#pragma pack( push, 1 )
 
 // 스캔 코드 테이블을 구성하는 항목
 typedef struct kKeyMappingEntryStruct
@@ -37,9 +37,6 @@ typedef struct kKeycodeAsciiMappingEntryStruct
 // 키보드의 상태를 관리하는 자료구조
 typedef struct tag_KEYBOARDSTATE
 {
-	// 자료구조 동기화를 위한 스핀락
-	//SPINLOCK stSpinLock;
-
 	// 조합 키 정보
 	bool bShiftDown;
 	bool bCapsLockOn;

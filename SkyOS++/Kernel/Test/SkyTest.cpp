@@ -442,24 +442,16 @@ void TestNullPointer()
 	pPlane->IsRotate();
 }
 
-typedef void(*PSetSkyMockInterface)(SKY_ALLOC_Interface, SKY_FILE_Interface, SKY_Print_Interface);
 typedef I_Compress* (*PGetEasyCompress)();
-extern SKY_FILE_Interface g_FileInterface;
-extern SKY_ALLOC_Interface g_allocInterface;
-extern SKY_Print_Interface g_printInterface;
 
 char easyTestBuffer[] = "Sky OS Compression Test!!";
 void TestEasyZLib()
 {
 	//Load Hangul Engine
 	StorageManager::GetInstance()->SetCurrentFileSystemByID('L');
-
-	MODULE_HANDLE hwnd = SkyModuleManager::GetInstance()->LoadModuleFromMemory("zlib.dll");
-	PSetSkyMockInterface SetSkyMockInterface = (PSetSkyMockInterface)SkyModuleManager::GetInstance()->GetModuleFunction(hwnd, "SetSkyMockInterface");	
+	void* hwnd = SkyModuleManager::GetInstance()->LoadModule("zlib.dll");	
 	PGetEasyCompress GetEasyCompress = (PGetEasyCompress)SkyModuleManager::GetInstance()->GetModuleFunction(hwnd, "GetEasyCompress");
-	//디버그 엔진에 플랫폼 종속적인 인터페이스를 넘긴다.
-	SetSkyMockInterface(g_allocInterface, g_FileInterface, g_printInterface);
-
+	
 	if (!GetEasyCompress)
 	{
 		HaltSystem("HanguleMint64Engine Module Load Fail!!");
@@ -500,7 +492,7 @@ void TestEasyZLib()
 
 bool TestMemoryModule(const char* moduleName)
 {
-	MODULE_HANDLE hwnd = SkyModuleManager::GetInstance()->LoadModuleFromMemory(moduleName);
+	void* hwnd = SkyModuleManager::GetInstance()->LoadModule(moduleName);
 
 	if (hwnd == nullptr)
 	{
@@ -524,4 +516,79 @@ bool TestMemoryModule(const char* moduleName)
 		HaltSystem("UnloadDLL() failed!\n");
 
 	return true;
+}
+
+#include "SDL.H"
+#include "I_ImageInterface.h"
+//extern "C" __declspec(dllimport) I_ImageInterface* GetImageInterface();
+void TestSkySDL(int width, int height, int bpp)
+{
+	int screen_w;
+	int screen_h;
+	SDL_Surface *screen;
+	SDL_Window *pWindow;
+	SDL_Renderer *pRenderer;
+	SDL_Texture *pTexture;
+	//GetImageInterface();
+	//윈도우와 렌더러를 생성
+	if (SDL_CreateWindowAndRenderer(width, height, 0, &pWindow, &pRenderer) < 0)
+	{
+		//std::cout << "SDL_CreateWindowAndRenderer Error: " << SDL_GetError() << std::endl;
+		return;
+	}
+	SDL_GetWindowSize(pWindow, &screen_w, &screen_h);
+	screen = SDL_CreateRGBSurface(0, screen_w, screen_h, bpp,
+		0,
+		0,
+		0,
+		0);
+
+	if (screen == 0)
+	{
+		std::cout << "SDL_CreateRGBSurface Error: " << SDL_GetError() << std::endl;
+		return;
+	}
+
+	if (bpp == 32)
+	{
+		pTexture = SDL_CreateTexture(pRenderer,
+			SDL_PIXELFORMAT_ARGB8888,
+			SDL_TEXTUREACCESS_STREAMING,
+			screen_w, screen_h);
+	}
+	else if (bpp == 24)
+	{
+		pTexture = SDL_CreateTexture(pRenderer,
+			SDL_PIXELFORMAT_RGB888,
+			SDL_TEXTUREACCESS_STREAMING,
+			screen_w, screen_h);
+	}
+	else if (bpp == 16)
+	{
+		pTexture = SDL_CreateTexture(pRenderer,
+			SDL_PIXELFORMAT_RGB565,
+			SDL_TEXTUREACCESS_STREAMING,
+			screen_w, screen_h);
+	}
+	else if (bpp == 8)
+	{
+		pTexture = SDL_CreateTexture(pRenderer,
+			SDL_PIXELFORMAT_RGB332,
+			SDL_TEXTUREACCESS_STREAMING,
+			screen_w, screen_h);
+	}
+
+	if (pRenderer == 0)
+	{
+		std::cout << "SDL_CreateTexture Error: " << SDL_GetError() << std::endl;
+		return;
+	}
+
+	if (pTexture == 0)
+	{
+		SDL_DestroyRenderer(pRenderer);
+		SDL_DestroyWindow(pWindow);
+		std::cout << "SDL_CreateTextureFromSurface Error: " << SDL_GetError() << std::endl;
+		return;
+	}
 }

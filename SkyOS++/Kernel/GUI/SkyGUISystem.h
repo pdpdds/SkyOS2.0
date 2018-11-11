@@ -59,13 +59,12 @@ public:
 	I_HangulEngine* GetIMEEngine() { return m_pInputEngine; }
 	I_Hangul* GetUnicodeEngine() { return m_pEngine; }
 
-	bool LoadGUIModule();
-
+	
 	bool PutKeyboardQueue(KEYDATA* pData);
 	bool PutMouseQueue(MOUSEDATA* pData);
 
 protected:
-	
+	bool LoadGUIModule();
 
 private:
 	SkyGUISystem();

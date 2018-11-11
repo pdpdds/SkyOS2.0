@@ -13,8 +13,13 @@ WIN32 / SKYOS++ 두 플랫폼에서 동시에 동작할 수 있는 커널 시스
 
 개발방법
 -------
+SKYOS32 프로젝트  
 WIN32로 개발할시에는 전처리기에 SKY_EMULATOR를 추가한다.  
-에뮬레이터나 실기에 배포할시에는 SKY_EMULATOR 전처리기를 빼고 빌드한다.
+에뮬레이터나 실기에 배포할시에는 SKY_EMULATOR 전처리기를 빼고 빌드한다.  
+
+LUA5 프로젝트  
+WIN32로 개발할시에는 전처리기에 SKY_DLL;LUA_BUILD_AS_DLL을 추가한다.  
+에뮬레이터나 실기에 배포할시에는 SKY_DLL;LUA_BUILD_AS_DLL을 빼고 빌드한다.  
 
 가상 이미지 파일
 -------

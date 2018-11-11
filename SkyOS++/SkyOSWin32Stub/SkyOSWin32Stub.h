@@ -1,5 +1,5 @@
 #pragma once
-#include "I_VirtualIO.h"
+#include "I_SkyInput.h"
 
 typedef struct tag_WIN32_STUB
 {
@@ -32,12 +32,15 @@ typedef struct tag_SKYOS_MODULE_LIST
 	SKYOS_MODULE* _module;
 }SKYOS_MODULE_LIST;
 
-extern "C" __declspec(dllexport) WIN32_STUB* GetWin32Stub();
-extern "C" __declspec(dllexport) tag_WIN32_VIDEO* InitWin32System(int width, int height, int bpp);
-extern "C" __declspec(dllexport) void LoopWin32(I_VirtualIO* pVirtualIO, unsigned int& tickCount);
-extern "C" __declspec(dllexport) SKYOS_MODULE_LIST* InitSkyOSModule();
+extern "C"
+{
+	__declspec(dllexport) WIN32_STUB* GetWin32Stub();
+	__declspec(dllexport) tag_WIN32_VIDEO* InitWin32System(int width, int height, int bpp);
+	__declspec(dllexport) void LoopWin32(I_SkyInput* pVirtualIO, unsigned int& tickCount);
+	__declspec(dllexport) SKYOS_MODULE_LIST* InitSkyOSModule();
 
-extern "C" __declspec(dllexport) bool SKY_VirtualProtect(void* address, int size, int attribute, unsigned int* dwOld);
-extern "C" __declspec(dllexport) bool SKY_VirtualProtect(void* address, int size, int attribute, unsigned int* dwOld);
-extern "C" __declspec(dllexport) bool SKY_VirtualFree(void* lpAddress, unsigned int dwSize, unsigned int  dwFreeType);
-extern "C" __declspec(dllexport) void* SKY_VirtualAlloc(void* lpAddress, unsigned int dwSize, unsigned int  flAllocationType, unsigned int  flProtect);
+	__declspec(dllexport) bool SKY_VirtualProtect(void* address, int size, int attribute, unsigned int* dwOld);
+	__declspec(dllexport) bool SKY_VirtualProtect(void* address, int size, int attribute, unsigned int* dwOld);
+	__declspec(dllexport) bool SKY_VirtualFree(void* lpAddress, unsigned int dwSize, unsigned int  dwFreeType);
+	__declspec(dllexport) void* SKY_VirtualAlloc(void* lpAddress, unsigned int dwSize, unsigned int  flAllocationType, unsigned int  flProtect);
+}

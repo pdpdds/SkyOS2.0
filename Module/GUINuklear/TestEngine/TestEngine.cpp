@@ -44,7 +44,7 @@ int main()
 	HINSTANCE dllHandle = NULL;
 	
 	//디버그엔진 모듈을 로드한다.
-	dllHandle = LoadLibrary("GUIEngine.dll");	
+	dllHandle = LoadLibrary("GUINuklear.dll");	
 	
 	//디버그엔진 모듈이 익스포트하는 SetSkyMockInterface 함수와 GetDebugEngineDLL 함수를 얻어낸다.
 	PSetSkyMockInterface SetSkyMockInterface = (PSetSkyMockInterface)GetModuleFunction(dllHandle, "SetSkyMockInterface");

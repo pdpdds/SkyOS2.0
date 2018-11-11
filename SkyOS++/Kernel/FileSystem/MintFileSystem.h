@@ -224,7 +224,7 @@ static bool kSetClusterLinkData( DWORD dwClusterIndex, DWORD dwData );
 static bool kGetClusterLinkData( DWORD dwClusterIndex, DWORD* pdwData );
 static int kFindFreeDirectoryEntry( void );
 static bool kSetDirectoryEntryData( int iIndex, DIRECTORYENTRY* pstEntry );
-static bool kGetDirectoryEntryData( int iIndex, DIRECTORYENTRY* pstEntry );
+bool kGetDirectoryEntryData( int iIndex, DIRECTORYENTRY* pstEntry );
 static int kFindDirectoryEntry( const char* pcFileName, DIRECTORYENTRY* pstEntry );
 void kGetFileSystemInformation( FILESYSTEMMANAGER* pstManager );
 

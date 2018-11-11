@@ -33,7 +33,7 @@
     <ClInclude Include="SkyOSWin32Stub.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
-    <ClInclude Include="SkyIOHandlerWin32.h">
+    <ClInclude Include="SkyInputHandlerWin32.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -47,7 +47,7 @@
     <ClCompile Include="SkyOSWin32Stub.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="SkyIOHandlerWin32.cpp">
+    <ClCompile Include="SkyInputHandlerWin32.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

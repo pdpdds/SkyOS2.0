@@ -11,7 +11,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CDRomAdaptor.cpp" />
     <ClCompile Include="ConsoleSystem\commands.cpp" />
     <ClCompile Include="ConsoleSystem\ConsoleManager.cpp" />
     <ClCompile Include="Core\Exception.cpp" />
@@ -36,11 +35,13 @@
     <ClCompile Include="CPU\IDT.cpp" />
     <ClCompile Include="CPU\Pic.cpp" />
     <ClCompile Include="CPU\PIT.cpp" />
+    <ClCompile Include="DeviceDriverManager.cpp" />
     <ClCompile Include="Device\3c905b.cpp" />
     <ClCompile Include="Device\nic.cpp" />
     <ClCompile Include="Device\PCI.cpp" />
     <ClCompile Include="Device\SkyPCI.cpp" />
     <ClCompile Include="FileSystem\ACEList.cpp" />
+    <ClCompile Include="FileSystem\CDRomAdaptor.cpp" />
     <ClCompile Include="FileSystem\FAT12.cpp" />
     <ClCompile Include="FileSystem\fat32.cpp" />
     <ClCompile Include="FileSystem\FileSysAdaptor.cpp" />
@@ -56,6 +57,7 @@
     <ClCompile Include="FileSystem\RAMDisk.cpp" />
     <ClCompile Include="FileSystem\RamDiskAdaptor.cpp" />
     <ClCompile Include="FileSystem\SkyRamDisk.cpp" />
+    <ClCompile Include="FileSystem\SkyRamDiskAdaptor.cpp" />
     <ClCompile Include="FileSystem\StorageManager.cpp" />
     <ClCompile Include="GUI\GUIMint64.cpp" />
     <ClCompile Include="GUI\JPEG.cpp" />
@@ -104,11 +106,6 @@
     <ClCompile Include="GUI\svgagui\svga_keyb.cpp" />
     <ClCompile Include="GUI\svgagui\svga_mouse.cpp" />
     <ClCompile Include="GUI\vesa.cpp" />
-    <ClCompile Include="HangulInput\2DGraphics.cpp" />
-    <ClCompile Include="HangulInput\EnglishFont.cpp" />
-    <ClCompile Include="HangulInput\HangulEngine.cpp" />
-    <ClCompile Include="HangulInput\HangulFont.cpp" />
-    <ClCompile Include="HangulInput\HangulInput.cpp" />
     <ClCompile Include="Heap\HeapManager.cpp" />
     <ClCompile Include="Heap\kheap.cpp" />
     <ClCompile Include="Heap\ordered_array.cpp" />
@@ -118,16 +115,6 @@
     <ClCompile Include="KeyBoard\KeyboardController.cpp" />
     <ClCompile Include="kmain.cpp" />
     <ClCompile Include="luatinker.cpp" />
-    <ClCompile Include="MapFile\MapFile.cpp" />
-    <ClCompile Include="MapFile\MapFileAddress.cpp" />
-    <ClCompile Include="MapFile\MapFileExport.cpp" />
-    <ClCompile Include="MapFile\MapFileFixup.cpp" />
-    <ClCompile Include="MapFile\MapFileImport.cpp" />
-    <ClCompile Include="MapFile\MapFileLineNumber.cpp" />
-    <ClCompile Include="MapFile\MapFileLineNumberFile.cpp" />
-    <ClCompile Include="MapFile\MapFileSection.cpp" />
-    <ClCompile Include="MapFile\MapFileSymbol.cpp" />
-    <ClCompile Include="MapFile\Undecorate.cpp" />
     <ClCompile Include="Memory\PageDirectoryEntry.cpp" />
     <ClCompile Include="Memory\PageTableEntry.cpp" />
     <ClCompile Include="Memory\PhysicalMemoryManager.cpp" />
@@ -135,21 +122,19 @@
     <ClCompile Include="SkyConsole.cpp" />
     <ClCompile Include="SkyConsoleLauncher.cpp" />
     <ClCompile Include="SkyGUILauncher.cpp" />
-    <ClCompile Include="SkyIOHandler.cpp" />
+    <ClCompile Include="SkyInputHandler.cpp" />
     <ClCompile Include="SkyLauncher.cpp" />
     <ClCompile Include="SkyQueue.cpp" />
-    <ClCompile Include="SkyRamDiskAdaptor.cpp" />
-    <ClCompile Include="SkyVirtualIO.cpp" />
+    <ClCompile Include="SkyVirtualInput.cpp" />
     <ClCompile Include="Test\Plane.cpp" />
     <ClCompile Include="Test\SkyTest.cpp" />
     <ClCompile Include="Test\TestLua.cpp" />
     <ClCompile Include="Test\ZetPlane.cpp" />
     <ClCompile Include="v8086\rme.cpp" />
     <ClCompile Include="v8086\RMEFunc.cpp" />
-    <ClCompile Include="VirtualIOManager.cpp" />
+    <ClCompile Include="SkyInputManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CDRomAdaptor.h" />
     <ClInclude Include="ConsoleSystem\commandMacros.h" />
     <ClInclude Include="ConsoleSystem\commands.h" />
     <ClInclude Include="ConsoleSystem\commandTable.h" />
@@ -178,12 +163,14 @@
     <ClInclude Include="CPU\IDT.h" />
     <ClInclude Include="CPU\Pic.h" />
     <ClInclude Include="CPU\PIT.h" />
+    <ClInclude Include="DeviceDriverManager.h" />
     <ClInclude Include="Device\3c905b.h" />
     <ClInclude Include="Device\3cdef.h" />
     <ClInclude Include="Device\nic.h" />
     <ClInclude Include="Device\PCI.h" />
     <ClInclude Include="Device\SkyPCI.h" />
     <ClInclude Include="FileSystem\ACEList.h" />
+    <ClInclude Include="FileSystem\CDRomAdaptor.h" />
     <ClInclude Include="FileSystem\Collect.h" />
     <ClInclude Include="FileSystem\FAT12.h" />
     <ClInclude Include="FileSystem\fat32.h" />
@@ -200,6 +187,7 @@
     <ClInclude Include="FileSystem\RAMDisk.h" />
     <ClInclude Include="FileSystem\RamDiskAdaptor.h" />
     <ClInclude Include="FileSystem\SkyRamDisk.h" />
+    <ClInclude Include="FileSystem\SkyRamDiskAdaptor.h" />
     <ClInclude Include="FileSystem\SkyRamDiskEntry.h" />
     <ClInclude Include="FileSystem\skyramdisk_struct.h" />
     <ClInclude Include="FileSystem\StorageManager.h" />
@@ -232,13 +220,10 @@
     <ClInclude Include="GUI\svgagui\svga_keyb.h" />
     <ClInclude Include="GUI\svgagui\svga_mouse.h" />
     <ClInclude Include="GUI\VESA.h" />
-    <ClInclude Include="HangulInput\2DGraphics.h" />
-    <ClInclude Include="HangulInput\Font.h" />
-    <ClInclude Include="HangulInput\HangulEngine.h" />
-    <ClInclude Include="HangulInput\HangulInput.h" />
     <ClInclude Include="Heap\HeapManager.h" />
     <ClInclude Include="Heap\kheap.h" />
     <ClInclude Include="Heap\ordered_array.h" />
+    <ClInclude Include="IDeviceDriver.h" />
     <ClInclude Include="intrinsic.h" />
     <ClInclude Include="KernelProcedure.h" />
     <ClInclude Include="KeyBoard\KeyBoard.h" />
@@ -246,16 +231,6 @@
     <ClInclude Include="KeyBoard\KeyBoardIO.h" />
     <ClInclude Include="kmain.h" />
     <ClInclude Include="luatinker.h" />
-    <ClInclude Include="MapFile\MapFile.h" />
-    <ClInclude Include="MapFile\MapFileAddress.h" />
-    <ClInclude Include="MapFile\MapFileExport.h" />
-    <ClInclude Include="MapFile\MapFileFixup.h" />
-    <ClInclude Include="MapFile\MapFileImport.h" />
-    <ClInclude Include="MapFile\MapFileLineNumber.h" />
-    <ClInclude Include="MapFile\MapFileLineNumberFile.h" />
-    <ClInclude Include="MapFile\MapFileSection.h" />
-    <ClInclude Include="MapFile\MapFileSymbol.h" />
-    <ClInclude Include="MapFile\Undecorate.h" />
     <ClInclude Include="Memory\PageDirectoryEntry.h" />
     <ClInclude Include="Memory\PageTableEntry.h" />
     <ClInclude Include="Memory\PhysicalMemoryManager.h" />
@@ -264,13 +239,12 @@
     <ClInclude Include="SkyConsole.h" />
     <ClInclude Include="SkyConsoleLauncher.h" />
     <ClInclude Include="SkyGUILauncher.h" />
-    <ClInclude Include="SkyIOHandler.h" />
+    <ClInclude Include="SkyInputHandler.h" />
     <ClInclude Include="SkyLauncher.h" />
     <ClInclude Include="SkyOS.h" />
     <ClInclude Include="SkyQueue.h" />
-    <ClInclude Include="SkyRamDiskAdaptor.h" />
     <ClInclude Include="SkyStartOption.h" />
-    <ClInclude Include="SkyVirtualIO.h" />
+    <ClInclude Include="SkyVirtualInput.h" />
     <ClInclude Include="Test\Plane.h" />
     <ClInclude Include="Test\PureCallExtend.h" />
     <ClInclude Include="Test\SkyTest.h" />
@@ -279,7 +253,7 @@
     <ClInclude Include="Test\ZetPlane.h" />
     <ClInclude Include="v8086\rme.h" />
     <ClInclude Include="v8086\RMEFunc.h" />
-    <ClInclude Include="VirtualIOManager.h" />
+    <ClInclude Include="SkyInputManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GUI\svgagui\src\help" />
@@ -341,7 +315,7 @@
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
-      <AdditionalIncludeDirectories>./MapFile;./HangulInput;./ConsoleSystem;./;../../CommonLib;../../CommonLib/stl;../../CommonLib/jsmn;../../Include;./CPU;./Memory;./Heap;./Test;./FileSystem;./Keyboard;./V8086;./GUI/SkyGUI;./GUI/Simple;./GUI;../../CommonLib/math;./gui/svgagui;./gui/svgagui/example;../../Module/Include;./Device;./Core;../../CommonLib/CPlusPlus;./GUI/SkySVGA;../SkyOSWin32Stub;../lua5/lua5;./device/audio;./device/audio/sb16</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../HangulInput/HangulInput;../SkySDL/include;./ConsoleSystem;./;../../CommonLib;../../CommonLib/stl;../../CommonLib/jsmn;../../Include;./CPU;./Memory;./Heap;./Test;./FileSystem;./Keyboard;./V8086;./GUI/SkyGUI;./GUI/Simple;./GUI;../../CommonLib/math;./gui/svgagui;./gui/svgagui/example;../../Module/Include;./Device;./Core;../../CommonLib/CPlusPlus;./GUI/SkySVGA;../SkyOSWin32Stub;../lua5/lua5;./device/audio;./device/audio/sb16</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>SKY_EMULATOR;SKYOS32;__LE__;OLD_ANSI;_MSC_VER;_X86_;_DEBUG;</PreprocessorDefinitions>
       <IgnoreStandardIncludePath>true</IgnoreStandardIncludePath>
       <StringPooling>
@@ -369,7 +343,7 @@
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
     <Link>
-      <AdditionalDependencies>SkyOSWin32Stub.lib;CommonLib.lib;lua5.lib;</AdditionalDependencies>
+      <AdditionalDependencies>libjpeg.lib;SkyOSWin32Stub.lib;CommonLib.lib;skysdl.lib;lua5.lib</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>../Debug</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>

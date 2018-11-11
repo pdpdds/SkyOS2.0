@@ -34,11 +34,18 @@ extern SKY_PROCESS_INTERFACE g_processInterface;
 #define kcalloc(a, b) g_mockInterface.g_allocInterface.sky_kcalloc(a, b)
 #define krealloc(a, b) g_mockInterface.g_allocInterface.sky_krealloc(a, b)
 #define ksleep(a) g_processInterface.sky_ksleep(a)
+#define kexit(a) g_processInterface.sky_kexit(a)
 #endif
 
-extern "C" void* malloc(size_t size);
-extern "C" void free(void* p);
-extern "C" unsigned int calloc(unsigned int count, unsigned int size);
-extern "C" void* realloc(void* ptr, size_t size);
-
-
+#ifdef  __cplusplus
+extern "C" {
+#endif
+	void* malloc(size_t size);
+	void free(void* p);
+	//unsigned int calloc(unsigned int count, unsigned int size);
+	void* calloc(size_t nmemb, size_t size);
+	void* realloc(void* ptr, size_t size);
+	
+#ifdef  __cplusplus
+}
+#endif

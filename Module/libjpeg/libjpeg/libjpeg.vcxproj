@@ -187,11 +187,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="JpegDec.cpp" />
-    <ClCompile Include="JpegDecPlanarYCbCr.cpp" />
-    <ClCompile Include="JpegEnc.cpp" />
     <ClCompile Include="JPEGImageModule.cpp" />
-    <ClCompile Include="jpegutil.cpp" />
     <ClCompile Include="jpeg\jaricom.c" />
     <ClCompile Include="jpeg\jcapimin.c" />
     <ClCompile Include="jpeg\jcapistd.c" />
@@ -240,17 +236,10 @@
     <ClCompile Include="jpeg\jutils.c" />
     <ClCompile Include="jpgReader.cpp" />
     <ClCompile Include="laz_img.cpp" />
-    <ClCompile Include="MimeInfo.cpp" />
-    <ClCompile Include="MimeParser.cpp" />
-    <ClCompile Include="MimeWriter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Include\I_ImageInterface.h" />
-    <ClInclude Include="JpegDec.h" />
-    <ClInclude Include="JpegDecPlanarYCbCr.h" />
-    <ClInclude Include="JpegEnc.h" />
     <ClInclude Include="JPEGImageModule.h" />
-    <ClInclude Include="jpegutil.h" />
     <ClInclude Include="jpeg\jconfig.h" />
     <ClInclude Include="jpeg\jdct.h" />
     <ClInclude Include="jpeg\jinclude.h" />
@@ -261,9 +250,6 @@
     <ClInclude Include="jpeg\jversion.h" />
     <ClInclude Include="jpgReader.h" />
     <ClInclude Include="laz_img.h" />
-    <ClInclude Include="MimeInfo.h" />
-    <ClInclude Include="MimeParser.h" />
-    <ClInclude Include="MimeWriter.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

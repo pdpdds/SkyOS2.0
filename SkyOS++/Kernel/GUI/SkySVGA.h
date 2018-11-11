@@ -4,11 +4,11 @@
 #include "lua.h"
 #include "lualib.h"
 #include "luatinker.h"
-#include "I_VirtualIO.h"
+#include "I_SkyInput.h"
 
-class VirtualIOManager;
+class SkyInputManager;
 
-class SkySVGA : public I_VirtualIO
+class SkySVGA
 {
 public:
 	SkySVGA();
@@ -28,7 +28,7 @@ protected:
 private:
 	bool m_exit_program;
 	GuiWinThread *m_pWinThread;
-	VirtualIOManager* m_pVirtualIOManager;
+	SkyInputManager* m_pSkyInputManager;
 	
 };
 

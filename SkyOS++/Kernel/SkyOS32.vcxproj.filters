@@ -310,7 +310,6 @@
     <ClCompile Include="GUI\SkyGUI\SkySheetController.cpp">
       <Filter>GUI\SkyGUI</Filter>
     </ClCompile>
-    <ClCompile Include="luatinker.cpp" />
     <ClCompile Include="GUI\svgagui\svga_keyb.cpp">
       <Filter>GUI\SVGA</Filter>
     </ClCompile>
@@ -321,66 +320,29 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="intrinsic.cpp" />
-    <ClCompile Include="CDRomAdaptor.cpp" />
     <ClCompile Include="FileSystem\SkyRamDisk.cpp">
       <Filter>FileSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="SkyRamDiskAdaptor.cpp" />
-    <ClCompile Include="SkyIOHandler.cpp" />
-    <ClCompile Include="SkyVirtualIO.cpp" />
-    <ClCompile Include="HangulInput\2DGraphics.cpp">
-      <Filter>HangulInput</Filter>
-    </ClCompile>
-    <ClCompile Include="HangulInput\EnglishFont.cpp">
-      <Filter>HangulInput</Filter>
-    </ClCompile>
-    <ClCompile Include="HangulInput\HangulEngine.cpp">
-      <Filter>HangulInput</Filter>
-    </ClCompile>
-    <ClCompile Include="HangulInput\HangulFont.cpp">
-      <Filter>HangulInput</Filter>
-    </ClCompile>
-    <ClCompile Include="HangulInput\HangulInput.cpp">
-      <Filter>HangulInput</Filter>
-    </ClCompile>
-    <ClCompile Include="MapFile\MapFile.cpp">
-      <Filter>MapFile</Filter>
-    </ClCompile>
-    <ClCompile Include="MapFile\MapFileAddress.cpp">
-      <Filter>MapFile</Filter>
-    </ClCompile>
-    <ClCompile Include="MapFile\MapFileExport.cpp">
-      <Filter>MapFile</Filter>
-    </ClCompile>
-    <ClCompile Include="MapFile\MapFileFixup.cpp">
-      <Filter>MapFile</Filter>
-    </ClCompile>
-    <ClCompile Include="MapFile\MapFileImport.cpp">
-      <Filter>MapFile</Filter>
-    </ClCompile>
-    <ClCompile Include="MapFile\MapFileLineNumber.cpp">
-      <Filter>MapFile</Filter>
-    </ClCompile>
-    <ClCompile Include="MapFile\MapFileLineNumberFile.cpp">
-      <Filter>MapFile</Filter>
-    </ClCompile>
-    <ClCompile Include="MapFile\MapFileSection.cpp">
-      <Filter>MapFile</Filter>
-    </ClCompile>
-    <ClCompile Include="MapFile\MapFileSymbol.cpp">
-      <Filter>MapFile</Filter>
-    </ClCompile>
-    <ClCompile Include="MapFile\Undecorate.cpp">
-      <Filter>MapFile</Filter>
     </ClCompile>
     <ClCompile Include="GUI\GUIMint64.cpp">
       <Filter>GUI</Filter>
     </ClCompile>
     <ClCompile Include="SkyQueue.cpp" />
-    <ClCompile Include="VirtualIOManager.cpp" />
     <ClCompile Include="GUI\svgagui\svga_mouse.cpp">
       <Filter>GUI\SVGA</Filter>
     </ClCompile>
+    <ClCompile Include="DeviceDriverManager.cpp">
+      <Filter>Device</Filter>
+    </ClCompile>
+    <ClCompile Include="luatinker.cpp" />
+    <ClCompile Include="FileSystem\SkyRamDiskAdaptor.cpp">
+      <Filter>FileSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="FileSystem\CDRomAdaptor.cpp">
+      <Filter>FileSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="SkyInputManager.cpp" />
+    <ClCompile Include="SkyInputHandler.cpp" />
+    <ClCompile Include="SkyVirtualInput.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CPU\Hal.h">
@@ -668,7 +630,6 @@
     <ClInclude Include="GUI\SkyGUI\SkySheetController.h">
       <Filter>GUI\SkyGUI</Filter>
     </ClInclude>
-    <ClInclude Include="luatinker.h" />
     <ClInclude Include="GUI\svgagui\svga_keyb.h">
       <Filter>GUI\SVGA</Filter>
     </ClInclude>
@@ -679,7 +640,6 @@
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="intrinsic.h" />
-    <ClInclude Include="CDRomAdaptor.h" />
     <ClInclude Include="FileSystem\SkyRamDisk.h">
       <Filter>FileSystem</Filter>
     </ClInclude>
@@ -689,59 +649,29 @@
     <ClInclude Include="FileSystem\skyramdisk_struct.h">
       <Filter>FileSystem</Filter>
     </ClInclude>
-    <ClInclude Include="SkyRamDiskAdaptor.h" />
-    <ClInclude Include="SkyIOHandler.h" />
-    <ClInclude Include="SkyVirtualIO.h" />
-    <ClInclude Include="HangulInput\2DGraphics.h">
-      <Filter>HangulInput</Filter>
-    </ClInclude>
-    <ClInclude Include="HangulInput\Font.h">
-      <Filter>HangulInput</Filter>
-    </ClInclude>
-    <ClInclude Include="HangulInput\HangulEngine.h">
-      <Filter>HangulInput</Filter>
-    </ClInclude>
-    <ClInclude Include="HangulInput\HangulInput.h">
-      <Filter>HangulInput</Filter>
-    </ClInclude>
-    <ClInclude Include="MapFile\MapFile.h">
-      <Filter>MapFile</Filter>
-    </ClInclude>
-    <ClInclude Include="MapFile\MapFileAddress.h">
-      <Filter>MapFile</Filter>
-    </ClInclude>
-    <ClInclude Include="MapFile\MapFileExport.h">
-      <Filter>MapFile</Filter>
-    </ClInclude>
-    <ClInclude Include="MapFile\MapFileFixup.h">
-      <Filter>MapFile</Filter>
-    </ClInclude>
-    <ClInclude Include="MapFile\MapFileImport.h">
-      <Filter>MapFile</Filter>
-    </ClInclude>
-    <ClInclude Include="MapFile\MapFileLineNumber.h">
-      <Filter>MapFile</Filter>
-    </ClInclude>
-    <ClInclude Include="MapFile\MapFileLineNumberFile.h">
-      <Filter>MapFile</Filter>
-    </ClInclude>
-    <ClInclude Include="MapFile\MapFileSection.h">
-      <Filter>MapFile</Filter>
-    </ClInclude>
-    <ClInclude Include="MapFile\MapFileSymbol.h">
-      <Filter>MapFile</Filter>
-    </ClInclude>
-    <ClInclude Include="MapFile\Undecorate.h">
-      <Filter>MapFile</Filter>
-    </ClInclude>
     <ClInclude Include="GUI\GUIMint64.h">
       <Filter>GUI</Filter>
     </ClInclude>
     <ClInclude Include="SkyQueue.h" />
-    <ClInclude Include="VirtualIOManager.h" />
     <ClInclude Include="GUI\svgagui\svga_mouse.h">
       <Filter>GUI\SVGA</Filter>
     </ClInclude>
+    <ClInclude Include="IDeviceDriver.h">
+      <Filter>Device</Filter>
+    </ClInclude>
+    <ClInclude Include="DeviceDriverManager.h">
+      <Filter>Device</Filter>
+    </ClInclude>
+    <ClInclude Include="luatinker.h" />
+    <ClInclude Include="FileSystem\SkyRamDiskAdaptor.h">
+      <Filter>FileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSystem\CDRomAdaptor.h">
+      <Filter>FileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyInputManager.h" />
+    <ClInclude Include="SkyInputHandler.h" />
+    <ClInclude Include="SkyVirtualInput.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="CPU">
@@ -785,12 +715,6 @@
     </Filter>
     <Filter Include="GUI\SkyGUI">
       <UniqueIdentifier>{038e56cf-3636-437f-b7f9-81cae7203789}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="HangulInput">
-      <UniqueIdentifier>{6ef1cbbb-0196-4dd9-afc8-363a21086ec0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MapFile">
-      <UniqueIdentifier>{b8d64899-564e-4cbd-b7d8-c453e838c3a3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
