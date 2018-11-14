@@ -1,7 +1,7 @@
 #pragma once
 #include "SkyOS.h"
 
-extern void __cdecl InitializeConstructors();
+extern "C" void __cdecl InitializeConstructors();
 void SetInterruptVector();
 void InitContext(multiboot_info* bootinfo);
 void InitHardware();

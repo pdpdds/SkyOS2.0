@@ -18,6 +18,7 @@
     <ClInclude Include="ctype.h" />
     <ClInclude Include="ffmt.h" />
     <ClInclude Include="fileio.h" />
+    <ClInclude Include="getenv.h" />
     <ClInclude Include="jsmn\jsmn.h" />
     <ClInclude Include="math.h" />
     <ClInclude Include="math\fdlibm.h" />
@@ -61,6 +62,7 @@
     <ClCompile Include="cstd.cpp" />
     <ClCompile Include="ctype.cpp" />
     <ClCompile Include="ffmt.c" />
+    <ClCompile Include="getenv.c" />
     <ClCompile Include="jsmn\jsmn.cpp" />
     <ClCompile Include="math.c" />
     <ClCompile Include="math\e_acos.c" />
@@ -101,6 +103,7 @@
     <ClCompile Include="math\s_tanh.c" />
     <ClCompile Include="memory.cpp" />
     <ClCompile Include="modf.c" />
+    <ClCompile Include="qsort.c" />
     <ClCompile Include="sprintf.cpp" />
     <ClCompile Include="stdio.cpp" />
     <ClCompile Include="stl\IStream.cpp" />

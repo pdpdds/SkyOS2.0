@@ -11,6 +11,7 @@
 #include "SkyGUILauncher.h"
 #include "TestLua.h"
 #include "DeviceDriverManager.h"
+#include "SkyTest.h"
 
 long CmdCls(char *szCommand)
 {
@@ -213,5 +214,14 @@ long cmdDir(char *szCommand)
 {
 	StorageManager::GetInstance()->GetFileList();
 
+	return false;
+}
+
+
+long cmdFreeType(char *szCommand)
+{
+	wchar_t* text = (wchar_t*)"한글출력";
+	
+	TestFreeType("H2GTRE.TTF", text);
 	return false;
 }

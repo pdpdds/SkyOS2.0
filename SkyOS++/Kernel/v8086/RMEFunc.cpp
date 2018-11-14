@@ -4,7 +4,7 @@
 
 /* vm86 Helpers */
 typedef uint32_t  FARPTR;
-typedef uintptr_t addr_t;
+//typedef uintptr_t addr_t;
 #define MK_FP(seg, off)        ((FARPTR) (((uint32_t) (seg) << 16) | (uint16_t) (off)))
 #define FP_SEG(fp)             (((FARPTR) fp) >> 16)
 #define FP_OFF(fp)             (((FARPTR) fp) & 0xffff)

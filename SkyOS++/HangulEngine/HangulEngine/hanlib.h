@@ -20,9 +20,7 @@ extern "C" {
 #include "fileio.h"
 #include "memory.h"
 //-----------------------------------------------------------------------------
-#ifndef __cplusplus
-typedef enum {false, true} bool;
-#endif
+
 
 typedef unsigned char byte;
 typedef unsigned short int word;

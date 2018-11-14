@@ -716,6 +716,9 @@
     <Filter Include="GUI\SkyGUI">
       <UniqueIdentifier>{038e56cf-3636-437f-b7f9-81cae7203789}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Net">
+      <UniqueIdentifier>{0100a754-b391-4192-8c65-6948a7c45e37}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="GUI\svgagui\src\help">

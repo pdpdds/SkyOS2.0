@@ -2,8 +2,8 @@
 #include "windef.h"
 #include "stdint.h"
 
-#if !defined(__cplusplus) || defined(_MSC_VER)
-typedef unsigned short wchar_t;
+#if !defined(__cplusplus)
+typedef short wchar_t;
 #endif
 
 #ifdef __cplusplus

@@ -115,7 +115,7 @@ int __cdecl atexit(_PVFV fn)
 	Shutdown the CRT, and execute all global dtors.
 ===================================
 */
-void _cdecl Exit () {
+extern "C" void _cdecl Exit () {
 
 	// Go through the list, and execute all global exit routines
 	while (cur_atexitlist_entries--) {
@@ -132,7 +132,7 @@ void _cdecl Exit () {
 
 
 */
-void _cdecl InitializeConstructors()
+extern "C" void _cdecl InitializeConstructors()
 {
    _atexit_init();
    _initterm(__xc_a, __xc_z); 

@@ -16,3 +16,4 @@ void TestNullPointer();
 void TestEasyZLib();
 bool TestMemoryModule(const char* moduleName);
 void TestSkySDL(int width, int height, int bpp);
+void TestFreeType(char* filename, wchar_t* text);

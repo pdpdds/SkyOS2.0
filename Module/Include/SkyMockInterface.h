@@ -1,13 +1,13 @@
 #pragma once
-#ifdef WIN32
-#include <stdio.h>
+#ifdef WIN32STUB
 #include <Windows.h>
+#include <stdio.h>
 #else
 #include "windef.h"
 #include "fileio.h"
 #endif
 
-#pragma pack (push, 1)
+//#pragma pack (push, 1)
 //입출력 관련 인터페이스
 typedef struct SKY_FILE_Interface
 {
@@ -74,7 +74,7 @@ typedef struct SkyMockInterface
 	SKY_Print_Interface g_printInterface;
 }SkyMockInterface;
 
-#pragma pack (pop, 1)
+//#pragma pack (pop, 1)
 
 typedef void(*PSetSkyMockInterface)(SKY_ALLOC_Interface, SKY_FILE_Interface, SKY_Print_Interface);
 typedef void(*PSetSkyProcessInterface)(SKY_PROCESS_INTERFACE);

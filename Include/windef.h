@@ -157,8 +157,6 @@ typedef __time_t time_t;
   typedef int  status_t;
   typedef unsigned int   uint32;
   typedef int  int32;
-  typedef unsigned long bigtime_t;
-  typedef unsigned long sem_id;
   typedef unsigned long spinlock;
   typedef int cpu_status;
   typedef int ssize_t;
@@ -171,4 +169,17 @@ typedef __time_t time_t;
   typedef unsigned int phys_addr_t;
   
   
-  
+  typedef unsigned long bigtime_t;
+  typedef unsigned long sem_id;
+  typedef int thread_id;
+  typedef int proc_id;
+  typedef int region_id;      // vm region id
+  typedef unsigned long addr_t;
+
+#ifndef __cplusplus
+  typedef enum
+  {
+	  false = (1 == 0),
+	  true = (!false)
+  } bool;
+#endif

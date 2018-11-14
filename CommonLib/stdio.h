@@ -16,6 +16,7 @@ extern int atoi ( const char * str );
 extern double atof(char *p);
 extern int atob(int *vp, char *p, int base);
 int      sscanf(const char *, const char *, ...);
+unsigned long atoul(const char *num);
 
 unsigned long simple_strtoul(const char *cp, char **endp, unsigned int base);
 long simple_strtol(const char *cp, char **endp, unsigned int base);

@@ -2,7 +2,7 @@
 #include "MultiBoot.h"
 #include "LoadDLL.h"
 #include "kheap.h"
-#include "list.h"
+#include "stl/list.h"
 
 typedef LOAD_DLL_INFO* MODULE_HANDLE;
 

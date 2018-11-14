@@ -16,8 +16,8 @@ extern "C" __declspec(dllexport) I_MapFileReader* GetDebugEngineDLL()
 #define DLL_THREAD_ATTACH 2
 #define DLL_THREAD_DETACH 3
 
-extern void _cdecl InitializeConstructors();
-extern void _cdecl Exit();
+extern "C" void _cdecl InitializeConstructors();
+extern "C" void _cdecl Exit();
 
 bool __stdcall DllMain(HMODULE hModule,
 	DWORD  ul_reason_for_call,

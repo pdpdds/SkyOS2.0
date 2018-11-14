@@ -61,7 +61,8 @@ DWORD WINAPI SystemConsoleProc(LPVOID parameter)
 
 #ifdef SKY_EMULATOR
 	SkyModuleManager::GetInstance()->LoadModule("Lua5.dll");
-	SkyModuleManager::GetInstance()->LoadModule("SkySDL.dll");	
+	SkyModuleManager::GetInstance()->LoadModule("SkySDL.dll");
+	SkyModuleManager::GetInstance()->LoadModule("freetyped.dll");
 #else
 	SkyModuleManager::GetInstance()->LoadImplictDLL(0x001600000);
 #endif
@@ -99,7 +100,9 @@ DWORD WINAPI SystemGUIProc(LPVOID parameter)
 #ifdef SKY_EMULATOR
 	SkyModuleManager::GetInstance()->LoadModule("Lua5.dll");
 	SkyModuleManager::GetInstance()->LoadModule("SkySDL.dll");
+	SkyModuleManager::GetInstance()->LoadModule("freetyped.dll");
 	TestSkySDL(1024,768,32);
+	//TestFreeType("Gabriola.ttf", "hello world");
 #else
 	SkyModuleManager::GetInstance()->LoadImplictDLL(0x001600000);
 #endif

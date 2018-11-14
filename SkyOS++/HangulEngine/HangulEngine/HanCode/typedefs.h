@@ -31,9 +31,7 @@
 /** Type definitions *******************************************************/
 
 typedef signed char shortbool;
-#ifndef __cplusplus
-typedef enum {false, true} bool;
-#endif
+
 
 #ifdef __cplusplus
     typedef char hchar;
