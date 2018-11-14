@@ -29,12 +29,9 @@
 #ifndef _AC97_H_
 #define _AC97_H_
 
-typedef char uint8;
-typedef int uint32;
 typedef int int32;
 typedef unsigned long long uint64;
 typedef unsigned short uint16;
-typedef char bool;
 typedef unsigned short ushort;
 
 #define false 0

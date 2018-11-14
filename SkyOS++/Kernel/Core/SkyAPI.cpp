@@ -121,7 +121,7 @@ void ksleep(int millisecond)
 	msleep(millisecond);
 }
 
-void printf(const char* str, ...)
+extern "C" void printf(const char* str, ...)
 {
 	if (!str)
 		return;

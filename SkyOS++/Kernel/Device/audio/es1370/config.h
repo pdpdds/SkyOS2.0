@@ -8,11 +8,10 @@
  *		Marcus Overhagen, marcus@overhagen.de
  *		Jerome Duval, jerome.duval@free.fr
  */
-#ifndef _CONFIG_H_
-#define _CONFIG_H_
-
+#pragma once
 #define NUM_CARDS 3
 #define DEVNAME 32
+
 
 typedef struct
 {
@@ -20,5 +19,3 @@ typedef struct
 	uint32	irq;
 	uint32	type;
 } device_config;
-
-#endif

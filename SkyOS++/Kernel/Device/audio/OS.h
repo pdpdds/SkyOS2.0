@@ -45,7 +45,6 @@ enum {
 
 typedef int32 area_id;
 typedef int32 port_id;
-typedef int32 sem_id;
 typedef int32 team_id;
 typedef int32 thread_id;
 

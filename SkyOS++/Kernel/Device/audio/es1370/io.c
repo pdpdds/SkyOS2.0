@@ -8,13 +8,16 @@
  *		Marcus Overhagen, marcus@overhagen.de
  *		Jerome Duval, jerome.duval@free.fr
  */
-#include "stdint.h"
+#include "windef.h"
 #include "io.h"
+
 #include "es1370reg.h"
 #include <PCIA.h>
 #include "Errors.h"
 
 extern pci_module_info  *pci;
+
+extern void printf(const char* str, ...);
 
 uint8
 es1370_reg_read_8(device_config *config, int regno)
@@ -67,7 +70,8 @@ es1370_codec_wait(device_config *config)
 		if ((es1370_reg_read_32(config, ES1370_REG_STATUS) & STAT_CWRIP) == 0)
 			return B_OK;
 		if (i > 100)
-			spin(1);
+			;
+			//spin(1);
 	}
 	return B_TIMED_OUT;
 }
@@ -77,7 +81,7 @@ es1370_codec_read(device_config *config, int regno)
 {
 	//ASSERT(regno >= 0);
 	if(es1370_codec_wait(config)!=B_OK) {
-		PRINT(("codec busy (2)\n"));
+		printf("codec busy (2)\n");
 		return -1;
 	}
 	
@@ -89,7 +93,7 @@ es1370_codec_write(device_config *config, int regno, uint16 value)
 {
 	//ASSERT(regno >= 0);
 	if(es1370_codec_wait(config)!=B_OK) {
-		PRINT(("codec busy (4)\n"));
+		printf("codec busy (4)\n");
 		return;
 	}
 	pci->write_io_32(config->base + ES1370_REG_CODEC, (regno << 8) | value);

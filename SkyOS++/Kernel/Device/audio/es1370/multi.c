@@ -17,7 +17,8 @@
 #include "hmulti_audio.h"
 #include "multi.h"
 #include "ac97.h"
-
+#include "memory.h"
+extern void printf(const char* str, ...);
 //#define DEBUG 1
 
 //#include "debug.h"
@@ -175,7 +176,7 @@ static status_t
 es1370_create_controls_list(multi_dev *multi)
 {
 	multi->control_count = 0;
-	PRINT(("multi->control_count %lu\n", multi->control_count));
+	printf("multi->control_count %lu\n", multi->control_count);
 	return B_OK;
 }
 
@@ -187,7 +188,7 @@ es1370_get_mix(es1370_dev *card, multi_mix_value_info * mmvi)
 	for (i = 0; i < mmvi->item_count; i++) {
 		id = mmvi->values[i].id - EMU_MULTI_CONTROL_FIRSTID;
 		if (id < 0 || id >= card->multi.control_count) {
-			PRINT(("es1370_get_mix : invalid control id requested : %li\n", id));
+			printf("es1370_get_mix : invalid control id requested : %li\n", id);
 			continue;
 		}
 		control = &card->multi.controls[id];
@@ -226,7 +227,7 @@ es1370_set_mix(es1370_dev *card, multi_mix_value_info * mmvi)
 	for (i = 0; i < mmvi->item_count; i++) {
 		id = mmvi->values[i].id - EMU_MULTI_CONTROL_FIRSTID;
 		if (id < 0 || id >= card->multi.control_count) {
-			PRINT(("es1370_set_mix : invalid control id requested : %li\n", id));
+			printf("es1370_set_mix : invalid control id requested : %li\n", id);
 			continue;
 		}
 		control = &card->multi.controls[id];
@@ -236,7 +237,7 @@ es1370_set_mix(es1370_dev *card, multi_mix_value_info * mmvi)
 			if (i+1<mmvi->item_count) {
 				id = mmvi->values[i + 1].id - EMU_MULTI_CONTROL_FIRSTID;
 				if (id < 0 || id >= card->multi.control_count) {
-					PRINT(("es1370_set_mix : invalid control id requested : %li\n", id));
+					printf("es1370_set_mix : invalid control id requested : %li\n", id);
 				} else {
 					control2 = &card->multi.controls[id];
 					if (control2->mix_control.master != control->mix_control.id)
@@ -451,9 +452,9 @@ es1370_get_description(es1370_dev *card, multi_description *data)
 	// channel, second, third, ..., followed by output bus
 	// channels and input bus channels and finally auxillary channels, 
 
-	LOG(("request_channel_count = %d\n",data->request_channel_count));
+	printf("request_channel_count = %d\n",data->request_channel_count);
 	if (data->request_channel_count >= size) {
-		LOG(("copying data\n"));
+		printf("copying data\n");
 		memcpy(data->channels, card->multi.chans, size * sizeof(card->multi.chans[0]));
 	}
 
@@ -496,10 +497,10 @@ es1370_get_enabled_channels(es1370_dev *card, multi_channel_enable *data)
 static status_t 
 es1370_set_enabled_channels(es1370_dev *card, multi_channel_enable *data)
 {
-	PRINT(("set_enabled_channels 0 : %s\n", B_TEST_CHANNEL(data->enable_bits, 0) ? "enabled": "disabled"));
-	PRINT(("set_enabled_channels 1 : %s\n", B_TEST_CHANNEL(data->enable_bits, 1) ? "enabled": "disabled"));
-	PRINT(("set_enabled_channels 2 : %s\n", B_TEST_CHANNEL(data->enable_bits, 2) ? "enabled": "disabled"));
-	PRINT(("set_enabled_channels 3 : %s\n", B_TEST_CHANNEL(data->enable_bits, 3) ? "enabled": "disabled"));
+	printf("set_enabled_channels 0 : %s\n", B_TEST_CHANNEL(data->enable_bits, 0) ? "enabled": "disabled");
+	printf("set_enabled_channels 1 : %s\n", B_TEST_CHANNEL(data->enable_bits, 1) ? "enabled": "disabled");
+	printf("set_enabled_channels 2 : %s\n", B_TEST_CHANNEL(data->enable_bits, 2) ? "enabled": "disabled");
+	printf("set_enabled_channels 3 : %s\n", B_TEST_CHANNEL(data->enable_bits, 3) ? "enabled": "disabled");
 	return B_OK;
 }
 
@@ -523,13 +524,13 @@ es1370_get_buffers(es1370_dev *card, multi_buffer_list *data)
 {
 	uint8 i, j, pchannels, rchannels, bufcount;
 	
-	LOG(("flags = %#x\n",data->flags));
-	LOG(("request_playback_buffers = %#x\n",data->request_playback_buffers));
-	LOG(("request_playback_channels = %#x\n",data->request_playback_channels));
-	LOG(("request_playback_buffer_size = %#x\n",data->request_playback_buffer_size));
-	LOG(("request_record_buffers = %#x\n",data->request_record_buffers));
-	LOG(("request_record_channels = %#x\n",data->request_record_channels));
-	LOG(("request_record_buffer_size = %#x\n",data->request_record_buffer_size));
+	printf("flags = %#x\n",data->flags);
+	printf("request_playback_buffers = %#x\n",data->request_playback_buffers);
+	printf("request_playback_channels = %#x\n",data->request_playback_channels);
+	printf("request_playback_buffer_size = %#x\n",data->request_playback_buffer_size);
+	printf("request_record_buffers = %#x\n",data->request_record_buffers);
+	printf("request_record_channels = %#x\n",data->request_record_channels);
+	printf("request_record_buffer_size = %#x\n",data->request_record_buffer_size);
 	
 	pchannels = card->pstream->channels;
 	rchannels = card->rstream->channels;
@@ -538,7 +539,7 @@ es1370_get_buffers(es1370_dev *card, multi_buffer_list *data)
 		data->request_playback_channels < (pchannels) ||
 		data->request_record_buffers < current_settings.buffer_count ||
 		data->request_record_channels < (rchannels)) {
-		LOG(("not enough channels/buffers\n"));
+		printf("not enough channels/buffers\n");
 	}
 
 	data->flags = B_MULTI_BUFFER_PLAYBACK | B_MULTI_BUFFER_RECORD; // XXX ???
@@ -583,7 +584,7 @@ es1370_play_inth(void* inthparams)
 	//int32 count;
 	
 	//acquire_spinlock(&slock);
-	stream->real_time = system_time();
+	//stream->real_time = system_time();
 	stream->frames_count += current_settings.buffer_frames;
 	stream->buffer_cycle = (stream->trigblk 
 		+ stream->blkmod - 1) % stream->blkmod;
@@ -602,7 +603,7 @@ es1370_record_inth(void* inthparams)
 	//int32 count;
 	
 	//acquire_spinlock(&slock);
-	stream->real_time = system_time();
+	//stream->real_time = system_time();
 	stream->frames_count += current_settings.buffer_frames;
 	stream->buffer_cycle = (stream->trigblk 
 		+ stream->blkmod - 1) % stream->blkmod;
@@ -638,7 +639,7 @@ es1370_buffer_exchange(es1370_dev *card, multi_buffer_info *data)
 	
 	/*if (acquire_sem_etc(card->buffer_ready_sem, 1, B_RELATIVE_TIMEOUT | B_CAN_INTERRUPT, 100000)
 		== B_TIMED_OUT) {
-		LOG(("buffer_exchange timeout ff\n"));
+		printf("buffer_exchange timeout ff\n");
 	}*/
 	
 	status = lock();
@@ -704,69 +705,69 @@ es1370_multi_control(void *cookie, uint32 op, void *data, size_t length)
 
     switch (op) {
 		case B_MULTI_GET_DESCRIPTION: 
-			LOG(("B_MULTI_GET_DESCRIPTION\n"));
+			printf("B_MULTI_GET_DESCRIPTION\n");
 			return es1370_get_description(card, (multi_description *)data);
 		case B_MULTI_GET_EVENT_INFO:
-			LOG(("B_MULTI_GET_EVENT_INFO\n"));
+			printf("B_MULTI_GET_EVENT_INFO\n");
 			return B_ERROR;
 		case B_MULTI_SET_EVENT_INFO:
-			LOG(("B_MULTI_SET_EVENT_INFO\n"));
+			printf("B_MULTI_SET_EVENT_INFO\n");
 			return B_ERROR;
 		case B_MULTI_GET_EVENT:
-			LOG(("B_MULTI_GET_EVENT\n"));
+			printf("B_MULTI_GET_EVENT\n");
 			return B_ERROR;
 		case B_MULTI_GET_ENABLED_CHANNELS:
-			LOG(("B_MULTI_GET_ENABLED_CHANNELS\n"));
+			printf("B_MULTI_GET_ENABLED_CHANNELS\n");
 			return es1370_get_enabled_channels(card, (multi_channel_enable *)data);
 		case B_MULTI_SET_ENABLED_CHANNELS:
-			LOG(("B_MULTI_SET_ENABLED_CHANNELS\n"));
+			printf("B_MULTI_SET_ENABLED_CHANNELS\n");
 			return es1370_set_enabled_channels(card, (multi_channel_enable *)data);
 		case B_MULTI_GET_GLOBAL_FORMAT:
-			LOG(("B_MULTI_GET_GLOBAL_FORMAT\n"));
+			printf("B_MULTI_GET_GLOBAL_FORMAT\n");
 			return es1370_get_global_format(card, (multi_format_info *)data);
 		case B_MULTI_SET_GLOBAL_FORMAT:
-			LOG(("B_MULTI_SET_GLOBAL_FORMAT\n"));
+			printf("B_MULTI_SET_GLOBAL_FORMAT\n");
 			return B_OK; /* XXX BUG! we *MUST* return B_OK, returning B_ERROR will prevent 
 						  * BeOS to accept the format returned in B_MULTI_GET_GLOBAL_FORMAT
 						  */
 		case B_MULTI_GET_CHANNEL_FORMATS:
-			LOG(("B_MULTI_GET_CHANNEL_FORMATS\n"));
+			printf("B_MULTI_GET_CHANNEL_FORMATS\n");
 			return B_ERROR;
 		case B_MULTI_SET_CHANNEL_FORMATS:	/* only implemented if possible */
-			LOG(("B_MULTI_SET_CHANNEL_FORMATS\n"));
+			printf("B_MULTI_SET_CHANNEL_FORMATS\n");
 			return B_ERROR;
 		case B_MULTI_GET_MIX:
-			LOG(("B_MULTI_GET_MIX\n"));
+			printf("B_MULTI_GET_MIX\n");
 			return es1370_get_mix(card, (multi_mix_value_info *)data);
 		case B_MULTI_SET_MIX:
-			LOG(("B_MULTI_SET_MIX\n"));
+			printf("B_MULTI_SET_MIX\n");
 			return es1370_set_mix(card, (multi_mix_value_info *)data);
 		case B_MULTI_LIST_MIX_CHANNELS:
-			LOG(("B_MULTI_LIST_MIX_CHANNELS\n"));
+			printf("B_MULTI_LIST_MIX_CHANNELS\n");
 			return es1370_list_mix_channels(card, (multi_mix_channel_info *)data);
 		case B_MULTI_LIST_MIX_CONTROLS:
-			LOG(("B_MULTI_LIST_MIX_CONTROLS\n"));
+			printf("B_MULTI_LIST_MIX_CONTROLS\n");
 			return es1370_list_mix_controls(card, (multi_mix_control_info *)data);
 		case B_MULTI_LIST_MIX_CONNECTIONS:
-			LOG(("B_MULTI_LIST_MIX_CONNECTIONS\n"));
+			printf("B_MULTI_LIST_MIX_CONNECTIONS\n");
 			return es1370_list_mix_connections(card, (multi_mix_connection_info *)data);
 		case B_MULTI_GET_BUFFERS:			/* Fill out the struct for the first time; doesn't start anything. */
-			LOG(("B_MULTI_GET_BUFFERS\n"));
+			printf("B_MULTI_GET_BUFFERS\n");
 			return es1370_get_buffers(card, data);
 		case B_MULTI_SET_BUFFERS:			/* Set what buffers to use, if the driver supports soft buffers. */
-			LOG(("B_MULTI_SET_BUFFERS\n"));
+			printf("B_MULTI_SET_BUFFERS\n");
 			return B_ERROR; /* we do not support soft buffers */
 		case B_MULTI_SET_START_TIME:			/* When to actually start */
-			LOG(("B_MULTI_SET_START_TIME\n"));
+			printf("B_MULTI_SET_START_TIME\n");
 			return B_ERROR;
 		case B_MULTI_BUFFER_EXCHANGE:		/* stop and go are derived from this being called */
 			//TRACE(("B_MULTI_BUFFER_EXCHANGE\n"));
 			return es1370_buffer_exchange(card, (multi_buffer_info *)data);
 		case B_MULTI_BUFFER_FORCE_STOP:		/* force stop of playback, nothing in data */
-			LOG(("B_MULTI_BUFFER_FORCE_STOP\n"));
+			printf("B_MULTI_BUFFER_FORCE_STOP\n");
 			return es1370_buffer_force_stop(card);
 	}
-	LOG(("ERROR: unknown multi_control %#x\n",op));
+	printf("ERROR: unknown multi_control %#x\n", op);
 	return B_ERROR;
 }
 
@@ -794,10 +795,10 @@ static status_t
 es1370_open(const char *name, uint32 flags, void** cookie)
 {
 	es1370_dev *card = NULL;
-	void *settings_handle;
+	void *settings_handle = NULL;
 	int ix;
 	
-	LOG(("open()\n"));
+	printf("open()\n");
 	
 	for (ix=0; ix<num_cards; ix++) {
 		if (!strcmp(cards[ix].name, name)) {
@@ -806,14 +807,14 @@ es1370_open(const char *name, uint32 flags, void** cookie)
 	}
 	
 	if (card == NULL) {
-		LOG(("open() card not found %s\n", name));
+		printf("open() card not found %s\n", name);
 		for (ix=0; ix<num_cards; ix++) {
-			LOG(("open() card available %s\n", cards[ix].name)); 
+			printf("open() card available %s\n", cards[ix].name);
 		}
 		return B_ERROR;
 	}
 		
-	LOG(("open() got card\n"));
+	printf("open() got card\n");
 	
 	if (card->pstream !=NULL)
 		return B_ERROR;
@@ -830,17 +831,17 @@ es1370_open(const char *name, uint32 flags, void** cookie)
 		char       *end;
 		uint32      value;
 
-		item = get_driver_parameter (settings_handle, "sample_rate", "44100", "44100");
+		//item = get_driver_parameter (settings_handle, "sample_rate", "44100", "44100");
 		value = strtoul (item, &end, 0);
 		if (*end == '\0') 
 			current_settings.sample_rate = value;
 
-		item = get_driver_parameter (settings_handle, "buffer_frames", "512", "512");
+		//item = get_driver_parameter (settings_handle, "buffer_frames", "512", "512");
 		value = strtoul (item, &end, 0);
 		if (*end == '\0') 
 			current_settings.buffer_frames = value;
 
-		item = get_driver_parameter (settings_handle, "buffer_count", "2", "2");
+		//item = get_driver_parameter (settings_handle, "buffer_count", "2", "2");
 		value = strtoul (item, &end, 0);
 		if (*end == '\0') 
 			current_settings.buffer_count = value;
@@ -848,14 +849,14 @@ es1370_open(const char *name, uint32 flags, void** cookie)
 		//unload_driver_settings(settings_handle);
 	}
 
-	LOG(("stream_new\n"));
+	printf("stream_new\n");
 		
 	card->rstream = es1370_stream_new(card, ES1370_USE_RECORD, current_settings.buffer_frames, current_settings.buffer_count);
 	card->pstream = es1370_stream_new(card, ES1370_USE_PLAY, current_settings.buffer_frames, current_settings.buffer_count);
 	
 	//card->buffer_ready_sem = create_sem(0, "pbuffer ready");
 		
-	LOG(("stream_setaudio\n"));
+	printf("stream_setaudio\n");
 	
 	es1370_stream_set_audioparms(card->pstream, 2, true, current_settings.sample_rate);
 	es1370_stream_set_audioparms(card->rstream, 2, true, current_settings.sample_rate);
@@ -875,7 +876,7 @@ static status_t
 es1370_close(void* cookie)
 {
 	//es1370_dev *card = cookie;
-	LOG(("close()\n"));
+	printf("close()\n");
 		
 	return B_OK;
 }
@@ -885,10 +886,11 @@ es1370_free(void* cookie)
 {
 	es1370_dev *card = cookie;
 	es1370_stream *stream;
-	LOG(("free()\n"));
+	printf("free()\n");
 		
 	if (card->buffer_ready_sem > B_OK)
-		delete_sem(card->buffer_ready_sem);
+		;
+		//delete_sem(card->buffer_ready_sem);
 			
 	LIST_FOREACH(stream, &card->streams, next) {
 		es1370_stream_halt(stream);

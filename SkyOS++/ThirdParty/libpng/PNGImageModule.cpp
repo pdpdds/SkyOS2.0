@@ -2,7 +2,7 @@
 #include "SkyInterface.h"
 #include "memory.h"
 
-extern void printf(const char* str, ...);
+extern "C" void printf(const char* str, ...);
 
 PNGImageModule::PNGImageModule()
 {

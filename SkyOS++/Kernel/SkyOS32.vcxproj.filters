@@ -343,6 +343,21 @@
     <ClCompile Include="SkyInputManager.cpp" />
     <ClCompile Include="SkyInputHandler.cpp" />
     <ClCompile Include="SkyVirtualInput.cpp" />
+    <ClCompile Include="Device\audio\ac97.c">
+      <Filter>Device\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Device\audio\es1370\es1370.c">
+      <Filter>Device\audio\es1370</Filter>
+    </ClCompile>
+    <ClCompile Include="Device\audio\es1370\io.c">
+      <Filter>Device\audio\es1370</Filter>
+    </ClCompile>
+    <ClCompile Include="Device\audio\es1370\multi.c">
+      <Filter>Device\audio\es1370</Filter>
+    </ClCompile>
+    <ClCompile Include="Device\audio\es1370\util.c">
+      <Filter>Device\audio\es1370</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CPU\Hal.h">
@@ -672,6 +687,42 @@
     <ClInclude Include="SkyInputManager.h" />
     <ClInclude Include="SkyInputHandler.h" />
     <ClInclude Include="SkyVirtualInput.h" />
+    <ClInclude Include="Device\audio\ac97.h">
+      <Filter>Device\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Device\audio\bus_manager.h">
+      <Filter>Device\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Device\audio\module.h">
+      <Filter>Device\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Device\audio\OS.h">
+      <Filter>Device\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Device\audio\PCIA.h">
+      <Filter>Device\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Device\audio\es1370\config.h">
+      <Filter>Device\audio\es1370</Filter>
+    </ClInclude>
+    <ClInclude Include="Device\audio\es1370\es1370.h">
+      <Filter>Device\audio\es1370</Filter>
+    </ClInclude>
+    <ClInclude Include="Device\audio\es1370\es1370reg.h">
+      <Filter>Device\audio\es1370</Filter>
+    </ClInclude>
+    <ClInclude Include="Device\audio\es1370\io.h">
+      <Filter>Device\audio\es1370</Filter>
+    </ClInclude>
+    <ClInclude Include="Device\audio\es1370\multi.h">
+      <Filter>Device\audio\es1370</Filter>
+    </ClInclude>
+    <ClInclude Include="Device\audio\es1370\queue.h">
+      <Filter>Device\audio\es1370</Filter>
+    </ClInclude>
+    <ClInclude Include="Device\audio\es1370\util.h">
+      <Filter>Device\audio\es1370</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="CPU">
@@ -719,6 +770,12 @@
     <Filter Include="Net">
       <UniqueIdentifier>{0100a754-b391-4192-8c65-6948a7c45e37}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Device\audio">
+      <UniqueIdentifier>{888f3898-d1f3-4607-a044-d45fe445bd4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Device\audio\es1370">
+      <UniqueIdentifier>{fe03058d-d232-4675-8fc1-7cc8af4f6ba1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="GUI\svgagui\src\help">
@@ -732,6 +789,9 @@
     </None>
     <None Include="GUI\svgagui\src\README.local">
       <Filter>GUI\SVGA</Filter>
+    </None>
+    <None Include="Device\audio\es1370\es1370.settings">
+      <Filter>Device\audio\es1370</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

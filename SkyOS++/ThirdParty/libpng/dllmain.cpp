@@ -12,7 +12,7 @@
 extern FILE* g_skyStdErr;
 extern FILE* g_skyStdOut;
 
-void printf(const char* str, ...)
+extern "C" void printf(const char* str, ...)
 {
 	if (!str)
 		return;

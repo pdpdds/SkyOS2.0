@@ -21,6 +21,7 @@
 #include "Errors.h"
 #include "sprintf.h"
 #include "memory.h"
+#include "kheap.h"
 //#include <fcntl.h>
 //#
 //#include <malloc.h>
@@ -60,13 +61,13 @@ es1370_mem_new(es1370_dev *card, size_t size)
 {
 	es1370_mem *mem;
 
-	if ((mem = malloc(sizeof(*mem))) == NULL)
+	if ((mem = (es1370_mem*)malloc(sizeof(*mem))) == NULL)
 		return (NULL);
 
 	mem->area = alloc_mem(&mem->phy_base, &mem->log_base, size, "es1370 buffer");
 	mem->size = size;
 	if (mem->area < B_OK) {
-		free(mem);
+		kfree(mem);
 		return NULL;
 	}
 	return mem;
@@ -75,9 +76,10 @@ es1370_mem_new(es1370_dev *card, size_t size)
 static void
 es1370_mem_delete(es1370_mem *mem)
 {
-	if(mem->area > B_OK)
-		delete_area(mem->area);
-	free(mem);
+	if (mem->area > B_OK)
+		;
+		//delete_area(mem->area);
+	kfree(mem);
 }
 
 static void *
@@ -116,7 +118,7 @@ es1370_stream_set_audioparms(es1370_stream *stream, uint8 channels,
      uint8 b16, uint32 sample_rate)
 {
 	uint8 			sample_size, frame_size;
-	LOG(("es1370_stream_set_audioparms\n"));
+	printf("es1370_stream_set_audioparms\n");
 
 	if ((stream->channels == channels) &&
 		(stream->b16 == b16) && 
@@ -148,7 +150,7 @@ es1370_stream_commit_parms(es1370_stream *stream)
 	uint8 			sample_size, frame_size;
 	uint32	ctrl;
 	es1370_dev *card = stream->card;
-	LOG(("es1370_stream_commit_parms\n"));
+	printf("es1370_stream_commit_parms\n");
 	
 	ctrl = es1370_reg_read_32(&card->config, ES1370_REG_CONTROL) & ~CTRL_PCLKDIV;
 	ctrl |= DAC2_SRTODIV((uint16)stream->sample_rate) << CTRL_SH_PCLKDIV;
@@ -167,7 +169,7 @@ es1370_stream_commit_parms(es1370_stream *stream)
 		es1370_reg_write_32(&card->config, ES1370_REG_DAC2_FRAMEADR & 0xff, (uint32)stream->buffer->phy_base);
 		es1370_reg_write_32(&card->config, ES1370_REG_DAC2_FRAMECNT & 0xff, ((stream->blksize * stream->bufcount) >> 2) - 1);
 		es1370_reg_write_32(&card->config, ES1370_REG_DAC2_SCOUNT & 0xff, stream->bufframes - 1);
-		LOG(("es1370_stream_commit_parms %ld %ld\n", ((stream->blksize * stream->bufcount) >> 2) - 1, (stream->blksize / frame_size) - 1));
+		printf("es1370_stream_commit_parms %ld %ld\n", ((stream->blksize * stream->bufcount) >> 2) - 1, (stream->blksize / frame_size) - 1);
 	}
 
 	return B_OK;
@@ -178,7 +180,7 @@ es1370_stream_get_nth_buffer(es1370_stream *stream, uint8 chan, uint8 buf,
 					char** buffer, size_t *stride)
 {
 	uint8 			sample_size, frame_size;
-	LOG(("es1370_stream_get_nth_buffer\n"));
+	printf("es1370_stream_get_nth_buffer\n");
 	
 	sample_size = stream->b16 + 1;
 	frame_size = sample_size * stream->channels;
@@ -211,7 +213,7 @@ es1370_stream_start(es1370_stream *stream, void (*inth) (void *), void *inthpara
 {
 	uint32 sctrl = 0, ctrl = 0;
 	es1370_dev *card = stream->card;
-	LOG(("es1370_stream_start\n"));
+	printf("es1370_stream_start\n");
 	
 	stream->inth = inth;
 	stream->inthparam = inthparam;
@@ -257,7 +259,7 @@ es1370_stream_halt(es1370_stream *stream)
 {
 	uint32 ctrl;
 	es1370_dev *card = stream->card;
-	LOG(("es1370_stream_halt\n"));
+	printf("es1370_stream_halt\n");
 			
 	stream->state &= ~ES1370_STATE_STARTED;
 
@@ -274,9 +276,9 @@ es1370_stream_new(es1370_dev *card, uint8 use, uint32 bufframes, uint8 bufcount)
 {
 	es1370_stream *stream;
 	cpu_status status;
-	LOG(("es1370_stream_new\n"));
+	printf("es1370_stream_new\n");
 
-	stream = malloc(sizeof(es1370_stream));
+	stream = (es1370_stream*)malloc(sizeof(es1370_stream));
 	if (stream == NULL)
 		return (NULL);
 	stream->card = card;
@@ -310,7 +312,7 @@ void
 es1370_stream_delete(es1370_stream *stream)
 {
 	cpu_status status;
-	LOG(("es1370_stream_delete\n"));
+	printf("es1370_stream_delete\n");
 	
 	es1370_stream_halt(stream);
 			
@@ -321,7 +323,7 @@ es1370_stream_delete(es1370_stream *stream)
 	LIST_REMOVE(stream, next);
 	unlock(status);
 	
-	free(stream);
+	kfree(stream);
 }
 
 /* es1370 interrupt */
@@ -390,12 +392,12 @@ init_hardware(void)
 	pci_info info;
 	status_t err = ENODEV;
 	
-	LOG_CREATE();
+	//LOG_CREATE();
 
-	PRINT(("init_hardware()\n"));
+	printf("init_hardware()\n");
 
-	if (get_module(pci_name, (module_info **)&pci))
-		return ENOSYS;
+	//if (get_module(pci_name, (module_info **)&pci))
+		//return ENOSYS;
 
 	while ((*pci->get_nth_pci_info)(ix, &info) == B_OK) {
 		if (info.vendor_id == 0x1274 
@@ -409,7 +411,7 @@ init_hardware(void)
 		ix++;
 	}
 		
-	put_module(pci_name);
+	//put_module(pci_name);
 
 	return err;
 }
@@ -445,7 +447,7 @@ es1370_setup(es1370_dev * card)
 	status_t err = B_OK;
 	unsigned char cmd;
 	
-	PRINT(("es1370_setup(%p)\n", card));
+	printf("es1370_setup(%p)\n", card);
 
 	make_device_names(card);
 	
@@ -453,24 +455,24 @@ es1370_setup(es1370_dev * card)
 	card->config.irq = card->info.u.h0.interrupt_line;
 	card->config.type = 0;
 	
-	PRINT(("%s deviceid = %#04x chiprev = %x model = %x enhanced at %lx\n", card->name, card->info.device_id,
-		card->info.revision, card->info.u.h0.subsystem_id, card->config.base));
+	printf("%s deviceid = %#04x chiprev = %x model = %x enhanced at %lx\n", card->name, card->info.device_id,
+		card->info.revision, card->info.u.h0.subsystem_id, card->config.base);
 
 	cmd = (*pci->read_pci_config)(card->info.bus, card->info.device, card->info.function, PCI_command, 2);
-	PRINT(("PCI command before: %x\n", cmd));
+	printf("PCI command before: %x\n", cmd);
 	(*pci->write_pci_config)(card->info.bus, card->info.device, card->info.function, PCI_command, 2, cmd | PCI_command_io);
 	cmd = (*pci->read_pci_config)(card->info.bus, card->info.device, card->info.function, PCI_command, 2);
-	PRINT(("PCI command after: %x\n", cmd));
+	printf("PCI command after: %x\n", cmd);
 	
 	es1370_reg_write_32(&card->config, ES1370_REG_SERIAL_CONTROL, SCTRL_P2INTEN | SCTRL_R1INTEN);
 	es1370_reg_write_32(&card->config, ES1370_REG_CONTROL, CTRL_CDC_EN);
 	
 	/* reset the codec */	
-	PRINT(("codec reset\n"));
+	printf("codec reset\n");
 	es1370_codec_write(&card->config, CODEC_RESET_PWRDWN, 0x2);
-	snooze (20);
+	//snooze (20);
 	es1370_codec_write(&card->config, CODEC_RESET_PWRDWN, 0x3);
-	snooze (20);
+	//snooze (20);
 	es1370_codec_write(&card->config, CODEC_CLOCK_SEL, 0x0);
 
 	/* set max volume on master and mixer outputs */
@@ -484,19 +486,19 @@ es1370_setup(es1370_dev * card)
 	/* unmute mixer output */
 	es1370_codec_write(&card->config, CODEC_OUTPUT_MIX2, ES1370_OUTPUT_MIX2_VOICEL | ES1370_OUTPUT_MIX2_VOICER);
 
-	snooze(50000); // 50 ms
+	//snooze(50000); // 50 ms
 
-	PRINT(("installing interrupt : %lx\n", card->config.irq));
-	err = install_io_interrupt_handler(card->config.irq, es1370_int, card, 0);
+	printf("installing interrupt : %lx\n", card->config.irq);
+	//err = install_io_interrupt_handler(card->config.irq, es1370_int, card, 0);
 	if (err != B_OK) {
-		PRINT(("failed to install interrupt\n"));
+		printf("failed to install interrupt\n");
 		return err;
 	}
 		
 	if ((err = es1370_init(card)))
 		return (err);
 		
-	PRINT(("init_driver done\n"));
+	printf("init_driver done\n");
 
 	return err;
 }
@@ -505,13 +507,13 @@ es1370_setup(es1370_dev * card)
 status_t
 init_driver(void)
 {
-	void *settings_handle;
+	void *settings_handle = NULL;
 	pci_info info;
 	int ix = 0;
 	status_t err;
 	num_cards = 0;
 
-	PRINT(("init_driver()\n"));
+	printf("init_driver()\n");
 
 	// get driver settings
 	//settings_handle  = load_driver_settings ("es1370.settings");
@@ -520,23 +522,23 @@ init_driver(void)
 		char       *end;
 		uint32      value;
 
-		item = get_driver_parameter (settings_handle, "sample_rate", "44100", "44100");
+		//item = get_driver_parameter (settings_handle, "sample_rate", "44100", "44100");
 		value = strtoul (item, &end, 0);
 		if (*end == '\0') current_settings.sample_rate = value;
 
-		item = get_driver_parameter (settings_handle, "buffer_frames", "512", "512");
+		//item = get_driver_parameter (settings_handle, "buffer_frames", "512", "512");
 		value = strtoul (item, &end, 0);
 		if (*end == '\0') current_settings.buffer_frames = value;
 
-		item = get_driver_parameter (settings_handle, "buffer_count", "2", "2");
+		//item = get_driver_parameter (settings_handle, "buffer_count", "2", "2");
 		value = strtoul (item, &end, 0);
 		if (*end == '\0') current_settings.buffer_count = value;
 
 		//unload_driver_settings (settings_handle);
 	}
 
-	if (get_module(pci_name, (module_info **) &pci))
-		return ENOSYS;
+	//if (get_module(pci_name, (module_info **) &pci))
+		//return ENOSYS;
 		
 	while ((*pci->get_nth_pci_info)(ix++, &info) == B_OK) {
 		if (info.vendor_id == 0x1274
@@ -545,7 +547,7 @@ init_driver(void)
                         || info.device_id == 0x5880*/)
 			) {
 			if (num_cards == NUM_CARDS) {
-				PRINT(("Too many es1370 cards installed!\n"));
+				printf("Too many es1370 cards installed!\n");
 				break;
 			}
 			memset(&cards[num_cards], 0, sizeof(es1370_dev));
@@ -560,7 +562,7 @@ init_driver(void)
 			}
 #endif
 			if (es1370_setup(&cards[num_cards])) {
-				PRINT(("Setup of es1370 %ld failed\n", num_cards+1));
+				printf("Setup of es1370 %ld failed\n", num_cards+1);
 #ifdef __HAIKU__
 				(*pci->unreserve_device)(info.bus, info.device, info.function,
 					DRIVER_NAME, &cards[num_cards]);
@@ -572,9 +574,9 @@ init_driver(void)
 		}
 	}
 	if (!num_cards) {
-		PRINT(("no cards\n"));
-		put_module(pci_name);
-		PRINT(("no suitable cards found\n"));
+		printf("no cards\n");
+		//put_module(pci_name);
+		printf("no suitable cards found\n");
 		return ENODEV;
 	}
 
@@ -585,11 +587,11 @@ init_driver(void)
 static void
 es1370_shutdown(es1370_dev *card)
 {
-	PRINT(("shutdown(%p)\n", card));
+	printf("shutdown(%p)\n", card);
 	//ac97_amp_enable(&card->config, false);
 	card->interrupt_mask = 0;
 	
-	remove_io_interrupt_handler(card->config.irq, es1370_int, card);
+	//remove_io_interrupt_handler(card->config.irq, es1370_int, card);
 }
 
 
@@ -599,7 +601,7 @@ uninit_driver(void)
 	int ix, cnt = num_cards;
 	num_cards = 0;
 
-	PRINT(("uninit_driver()\n"));
+	printf("uninit_driver()\n");
 	for (ix=0; ix<cnt; ix++) {
 		es1370_shutdown(&cards[ix]);
 #ifdef __HAIKU__
@@ -609,7 +611,7 @@ uninit_driver(void)
 #endif
 	}
 	memset(&cards, 0, sizeof(cards));
-	put_module(pci_name);
+	//put_module(pci_name);
 }
 
 
@@ -617,10 +619,10 @@ const char **
 publish_devices(void)
 {
 	int ix = 0;
-	PRINT(("publish_devices()\n"));
+	printf("publish_devices()\n");
 
 	for (ix=0; names[ix]; ix++) {
-		PRINT(("publish %s\n", names[ix]));
+		printf("publish %s\n", names[ix]);
 	}
 	return (const char **)names;
 }
@@ -631,14 +633,14 @@ find_device(const char * name)
 {
 	int ix;
 
-	PRINT(("find_device(%s)\n", name));
+	printf("find_device(%s)\n", name);
 
 	for (ix=0; ix<num_cards; ix++) {
 		if (!strcmp(cards[ix].name, name)) {
 			return &multi_hooks;
 		}
 	}
-	PRINT(("find_device(%s) failed\n", name));
+	printf("find_device(%s) failed\n", name);
 	return NULL;
 }
 

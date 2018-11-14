@@ -43,8 +43,17 @@ BYTE SetLocalTime(LPSYSTEMTIME lpSystemTime);
 DWORD GetLastError();
 DWORD SetLastError(DWORD dwErrorCode);
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+	void printf(const char* str, ...);
+#ifdef __cplusplus
+}
+#endif
 
-void printf(const char* str, ...);
+
+
+
 void DumpMemory(void *data, size_t nbytes, size_t bytes_per_line);
 void ksleep(int millisecond);
 HANDLE CreateThread(SIZE_T dwStackSize, LPTHREAD_START_ROUTINE lpStartAddress, LPVOID lpParameter, DWORD dwCreateionFlags, LPDWORD lpThreadId);

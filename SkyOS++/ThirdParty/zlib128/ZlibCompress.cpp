@@ -3,7 +3,7 @@
 #include "memory.h"
 #include "zlib.h"
 
-extern void printf(const char* str, ...);
+extern "C" void printf(const char* str, ...);
 
 ZlibCompress::ZlibCompress()
 {

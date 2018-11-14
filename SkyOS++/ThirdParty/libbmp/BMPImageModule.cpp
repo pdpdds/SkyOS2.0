@@ -1,6 +1,6 @@
 #include "BMPImageModule.h"
 
-extern void printf(const char* str, ...);
+extern "C" void printf(const char* str, ...);
 
 BMPImageModule::BMPImageModule()
 {

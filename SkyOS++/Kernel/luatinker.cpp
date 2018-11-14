@@ -116,7 +116,7 @@ int luatinker::on_error( lua_State *L )
     return 0;
 }
 
-extern void printf(const char* str, ...);
+extern "C" void printf(const char* str, ...);
 extern int vsprintf(char *str, const char *format, va_list ap);
 
 

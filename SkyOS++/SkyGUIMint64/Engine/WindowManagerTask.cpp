@@ -14,7 +14,7 @@
 #include "SkyInterface.h"
 #include "Console.h"
 
-extern void printf(const char* str, ...);
+extern "C" void printf(const char* str, ...);
 extern void kHelloWorldGUITask(void);
 extern DWORD WINAPI kGUIConsoleShellTask(LPVOID parameter);
 extern void kApplicationPanelGUITask(void);

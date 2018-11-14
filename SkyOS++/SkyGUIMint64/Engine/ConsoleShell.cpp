@@ -27,7 +27,7 @@ SHELLCOMMANDENTRY gs_vstCommandTable[] =
 /**
  *  셸의 메인 루프
  */
-extern void printf(const char* str, ...);
+extern "C" void printf(const char* str, ...);
 DWORD WINAPI kStartConsoleShell(LPVOID parameter)
 {
     char vcCommandBuffer[ CONSOLESHELL_MAXCOMMANDBUFFERCOUNT ];
