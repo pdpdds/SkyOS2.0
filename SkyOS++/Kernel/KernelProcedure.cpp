@@ -66,7 +66,7 @@ DWORD WINAPI SystemConsoleProc(LPVOID parameter)
 #else
 	SkyModuleManager::GetInstance()->LoadImplictDLL(0x001600000);
 #endif
-	TestSkySDL(1024, 768, 32);
+	//TestSkySDL(1024, 768, 32);
 
 	NativeConsole();
 

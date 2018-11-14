@@ -334,7 +334,7 @@
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
       <AdditionalIncludeDirectories>../ThirdParty/freetype-2.9\include;./Net;../HangulInput/HangulInput;../SkySDL/include;./ConsoleSystem;./;../../CommonLib;../../CommonLib/stl;../../CommonLib/jsmn;../../Include;./CPU;./Memory;./Heap;./Test;./FileSystem;./Keyboard;./V8086;./GUI/SkyGUI;./GUI/Simple;./GUI;../../CommonLib/math;./gui/svgagui;./gui/svgagui/example;../../Module/Include;./Device;./Core;../../CommonLib/CPlusPlus;./GUI/SkySVGA;../SkyOSWin32Stub;../lua5/lua5;./device/audio;./device/audio/sb16</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>SKY_EMULATOR;SKYOS32;__LE__;OLD_ANSI;_MSC_VER;_X86_;_DEBUG;</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SKYOS32;__LE__;OLD_ANSI;_MSC_VER;_X86_;_DEBUG;</PreprocessorDefinitions>
       <IgnoreStandardIncludePath>true</IgnoreStandardIncludePath>
       <StringPooling>
       </StringPooling>
