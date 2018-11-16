@@ -2142,7 +2142,7 @@ SDL_CreateWindowFramebuffer(SDL_Window * window)
     if (!_this->CreateWindowFramebuffer || !_this->UpdateWindowFramebuffer) {
         return NULL;
     }
-
+	
     if (_this->CreateWindowFramebuffer(_this, window, &format, &pixels, &pitch) < 0) {
         return NULL;
     }
@@ -2164,7 +2164,9 @@ SDL_GetWindowSurface(SDL_Window * window)
             window->surface->flags &= ~SDL_DONTFREE;
             SDL_FreeSurface(window->surface);
         }
+
         window->surface = SDL_CreateWindowFramebuffer(window);
+
         if (window->surface) {
             window->surface_valid = SDL_TRUE;
             window->surface->flags |= SDL_DONTFREE;

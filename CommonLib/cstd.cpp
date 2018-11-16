@@ -79,7 +79,7 @@ static void __cdecl _initterm ( _PVFV * pfbegin,    _PVFV * pfend )
 ===================================
 */
 char runtimeTempBuffer[5000];
-void __cdecl _atexit_init(void)
+extern "C" void __cdecl _atexit_init(void)
 {
     max_atexitlist_entries = 32;
 

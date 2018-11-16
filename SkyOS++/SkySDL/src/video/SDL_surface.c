@@ -81,11 +81,13 @@ SDL_CreateRGBSurfaceWithFormat(Uint32 flags, int width, int height, int depth,
     /* Get the pixels */
     if (surface->w && surface->h) {
         surface->pixels = SDL_malloc(surface->h * surface->pitch);
+
         if (!surface->pixels) {
             SDL_FreeSurface(surface);
             SDL_OutOfMemory();
             return NULL;
         }
+		
         /* This is important for bitmaps */
         SDL_memset(surface->pixels, 0, surface->h * surface->pitch);
     }

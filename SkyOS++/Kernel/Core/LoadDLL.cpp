@@ -260,6 +260,7 @@ static bool PerformBaseRelocation(LOAD_DLL_CONTEXT* ctx, ptrdiff_t delta)
 #endif
 
 			default:
+				int j = 1;
 				//printf("Unknown relocation: %d\n", type);
 				break;
 			}

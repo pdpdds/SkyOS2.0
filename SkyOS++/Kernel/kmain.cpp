@@ -120,6 +120,14 @@ void kmain(unsigned long magic, unsigned long addr, uint32_t imageBase)
 	PrintCurrentTime();	
 	kLeaveCriticalSection();
 
+	StorageManager::GetInstance()->SetCurrentFileSystemByID('L');
+	StorageManager::GetInstance()->Initilaize(pBootInfo);
+	SkyDebugger::GetInstance()->LoadSymbol("DebugEngine.dll");
+
+	SkyModuleManager::GetInstance()->LoadImplictDLL(0x001600000);
+
+	TestSkySDL(1024, 768, 32);
+
 	SkyLauncher* pSystemLauncher = nullptr;
 
 #if SKY_CONSOLE_MODE == 0	
@@ -200,7 +208,7 @@ bool InitMemoryManager(multiboot_info* pBootInfo)
 	VirtualMemoryManager::Initialize();
 	//PhysicalMemoryManager::Dump();
 
-	int heapFrameCount = 256 * 10 * 5; //프레임수 12800개, 52MB
+	int heapFrameCount = 256 * 10 * 50; //프레임수 12800개, 52MB
 	unsigned int requiredHeapSize = heapFrameCount * PAGE_SIZE;
 	
 	//요구되는 힙의 크기가 자유공간보다 크다면 그 크기를 자유공간 크기로 맞춘다음 반으로 줄인다.

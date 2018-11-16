@@ -46,27 +46,14 @@ DWORD WINAPI SystemConsoleProc(LPVOID parameter)
 {
 	SkyConsole::Print("Console Mode Start!!\n");
 	multiboot_info* pBootInfo = SkyModuleManager::GetInstance()->GetMultiBootInfo();
-	
-	systemOn = true;
 
 #ifdef SKY_EMULATOR
 
 #else		
-	StartPITCounter(100, I86_PIT_OCW_COUNTER_0, I86_PIT_OCW_MODE_SQUAREWAVEGEN);
+	StartPITCounter(1000, I86_PIT_OCW_COUNTER_0, I86_PIT_OCW_MODE_SQUAREWAVEGEN);
 #endif // SKY_EMULATOR	
-
-	StorageManager::GetInstance()->SetCurrentFileSystemByID('L');
-	StorageManager::GetInstance()->Initilaize(pBootInfo);
-	SkyDebugger::GetInstance()->LoadSymbol("DebugEngine.dll");
-
-#ifdef SKY_EMULATOR
-	SkyModuleManager::GetInstance()->LoadModule("Lua5.dll");
-	SkyModuleManager::GetInstance()->LoadModule("SkySDL.dll");
-	SkyModuleManager::GetInstance()->LoadModule("freetyped.dll");
-#else
-	SkyModuleManager::GetInstance()->LoadImplictDLL(0x001600000);
-#endif
-	//TestSkySDL(1024, 768, 32);
+	
+	systemOn = true;
 
 	NativeConsole();
 
@@ -82,35 +69,18 @@ DWORD WINAPI SystemGUIProc(LPVOID parameter)
 	SkyConsole::Print("start ebp : %x\n", *ebp);	
 	SkyConsole::Print("parameter : %x\n", parameter);
 
-	multiboot_info* pBootInfo = SkyModuleManager::GetInstance()->GetMultiBootInfo();
-
-	kEnterCriticalSection();
 #ifdef SKY_EMULATOR
-#else	
-	StartPITCounter(1000, I86_PIT_OCW_COUNTER_0, I86_PIT_OCW_MODE_SQUAREWAVEGEN);	
-#endif
-	
-	StorageManager::GetInstance()->Initilaize(pBootInfo);
-	StorageManager::GetInstance()->SetCurrentFileSystemByID('L');
-
-	SkyDebugger::GetInstance()->LoadSymbol("DebugEngine.dll");
-	
-	SkyGUISystem::GetInstance()->InitGUIModule();
-
-#ifdef SKY_EMULATOR
-	SkyModuleManager::GetInstance()->LoadModule("Lua5.dll");
-	SkyModuleManager::GetInstance()->LoadModule("SkySDL.dll");
-	SkyModuleManager::GetInstance()->LoadModule("freetyped.dll");
-	TestSkySDL(1024,768,32);
-	//TestFreeType("Gabriola.ttf", "hello world");
-#else
-	SkyModuleManager::GetInstance()->LoadImplictDLL(0x001600000);
-#endif
-
-	//SampleFillRect((ULONG*)SkyGUISystem::GetInstance()->GetVideoRamInfo()._pVideoRamPtr, 1004, 0, 20, 20, 0x0000FF00);
+#else		
+	StartPITCounter(1000, I86_PIT_OCW_COUNTER_0, I86_PIT_OCW_MODE_SQUAREWAVEGEN);
+#endif // SKY_EMULATOR	
 
 	systemOn = true;
-	kLeaveCriticalSection();
+
+	SkyGUISystem::GetInstance()->InitGUIModule();
+
+	
+
+	//SampleFillRect((ULONG*)SkyGUISystem::GetInstance()->GetVideoRamInfo()._pVideoRamPtr, 1004, 0, 20, 20, 0x0000FF00);	
 
 	SkyGUISystem::GetInstance()->Run();
 

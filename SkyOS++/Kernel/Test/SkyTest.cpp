@@ -532,12 +532,17 @@ void TestSkySDL(int width, int height, int bpp)
 	SDL_Texture *pTexture;
 	//GetImageInterface();
 	//윈도우와 렌더러를 생성
+	
 	if (SDL_CreateWindowAndRenderer(width, height, 0, &pWindow, &pRenderer) < 0)
 	{
 		//std::cout << "SDL_CreateWindowAndRenderer Error: " << SDL_GetError() << std::endl;
 		return;
 	}
+	
+
 	SDL_GetWindowSize(pWindow, &screen_w, &screen_h);
+
+	
 	screen = SDL_CreateRGBSurface(0, screen_w, screen_h, bpp,
 		0,
 		0,
@@ -598,8 +603,8 @@ void TestSkySDL(int width, int height, int bpp)
 #include FT_FREETYPE_H
 
 
-#define WIDTH   1024
-#define HEIGHT  768
+#define WIDTH   640
+#define HEIGHT  480
 
 
 /* origin is the upper left corner */
@@ -662,7 +667,7 @@ show_image(void)
 	}
 }
 
-void TestFreeType(char* szfilename, wchar_t* sztext)
+bool TestFreeType(char* szfilename, wchar_t* sztext)
 {
 	FT_Library    library;
 	FT_Face       face;
@@ -689,9 +694,13 @@ void TestFreeType(char* szfilename, wchar_t* sztext)
 	error = FT_Init_FreeType(&library);              /* initialize library */
 													 /* error handling omitted */
 
+	if (error)
+		return false;
+
 	error = FT_New_Face(library, filename, 0, &face);/* create face object */
 													 /* error handling omitted */
-
+	if (error)
+		return false;
 													 /* use 50pt at 100dpi */
 	error = FT_Set_Char_Size(face, 50 * 64, 0,
 		100, 0);                /* set character size */
@@ -699,6 +708,8 @@ void TestFreeType(char* szfilename, wchar_t* sztext)
 
 								/* cmap selection omitted;                                        */
 								/* for simplicity we assume that the font contains a Unicode cmap */
+	if (error)
+		return false;
 
 	slot = face->glyph;
 
@@ -740,9 +751,11 @@ void TestFreeType(char* szfilename, wchar_t* sztext)
 		pen.y += slot->advance.y;
 	}
 
-	show_image();
+	//show_image();
 
 	FT_Done_Face(face);
 	FT_Done_FreeType(library);
+
+	return error;
 }
 

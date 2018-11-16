@@ -70,8 +70,8 @@ bool GUIMint64::Run()
 
 bool GUIMint64::Print(char* pMsg)
 {
-	if(m_pVideoRamPtr)
-	SampleFillRect(m_pVideoRamPtr, 1004, 0, 20, 20, 0x00FF0000);
+	//if(m_pVideoRamPtr)
+		//SampleFillRect(m_pVideoRamPtr, 1004, 0, 20, 20, 0x00FF0000);
 	return true;
 }
 

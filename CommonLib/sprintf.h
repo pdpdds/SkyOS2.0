@@ -9,6 +9,7 @@ void itoa(unsigned i, unsigned base, char* buf);
 void itoa_s(unsigned int i, unsigned base, char* buf);
 int strcmp(const char *string1, const char *string2);
 char* _i64toa(long long value, char *str, int radix);
+void qsort(void *aa, size_t n, size_t es, int(*cmp)(const void *, const void *));
 #ifdef  __cplusplus
 }
 #endif

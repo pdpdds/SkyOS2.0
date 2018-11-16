@@ -82,5 +82,6 @@ typedef unsigned long uintptr_t;*/
 
 #define HAVE_MALLOC
 #define HAVE_MEMCPY
+//#define HAVE_MEMSET
 #define SDL_ATOMIC_DISABLED 1
 #endif /* _SDL_config_minimal_h */
