@@ -374,7 +374,7 @@
       <FunctionOrder>@order.txt</FunctionOrder>
       <EntryPointSymbol>kmain</EntryPointSymbol>
       <NoEntryPoint>false</NoEntryPoint>
-      <BaseAddress>0x001600000</BaseAddress>
+      <BaseAddress>0x01600000</BaseAddress>
       <FixedBaseAddress>
       </FixedBaseAddress>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>

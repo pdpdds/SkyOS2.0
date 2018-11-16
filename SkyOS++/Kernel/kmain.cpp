@@ -124,7 +124,7 @@ void kmain(unsigned long magic, unsigned long addr, uint32_t imageBase)
 	StorageManager::GetInstance()->Initilaize(pBootInfo);
 	SkyDebugger::GetInstance()->LoadSymbol("DebugEngine.dll");
 
-	SkyModuleManager::GetInstance()->LoadImplictDLL(0x001600000);
+	SkyModuleManager::GetInstance()->LoadImplictDLL(0x01600000);
 
 	TestSkySDL(1024, 768, 32);
 
