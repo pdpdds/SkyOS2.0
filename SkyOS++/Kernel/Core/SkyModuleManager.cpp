@@ -256,9 +256,9 @@ bool SkyModuleManager::FixIAT(void* image)
 /*#ifdef SKY_EMULATOR
 						nextthunk[i].u1.Function = reinterpret_cast<DWORD>(p);
 #else*/
-						printf("             Function: %x %s\n", nextthunk[i].u1.Function, (char*)pname->Name);
+						g_printInterface.sky_printf("             Function: %x %s\n", nextthunk[i].u1.Function, (char*)pname->Name);						
 						nextthunk[i].u1.Function = reinterpret_cast<DWORD>(p);
-						printf("             Function: %x %s\n", nextthunk[i].u1.Function, (char*)pname->Name);
+						g_printInterface.sky_printf("             Function: %x %s\n", nextthunk[i].u1.Function, (char*)pname->Name);						
 						//thunkData->u1.Function = reinterpret_cast<DWORD>(p);
 //#endif
 					}
