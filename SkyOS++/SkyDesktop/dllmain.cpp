@@ -8,7 +8,7 @@
 #include "stl/IOStream.h"
 #include "sprintf.h"
 #include "GUIEngine.h"
-
+#include "sample.h"
 
 //#pragma comment(lib, "freetyped.lib")
 
@@ -162,6 +162,7 @@ extern "C" bool WINAPI _DllMainCRTStartup(
 
 extern "C" __declspec(dllexport) I_GUIEngine* GetGUIEngine()
 {
+	samplef();
 	I_GUIEngine* pEngine = new GUIEngine();
 	return pEngine;
 }

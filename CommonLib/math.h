@@ -57,7 +57,10 @@ extern "C" {
 	float fmod(float a, float b);
 	float fmodf(float a, float b);
 	int floor(float x);
-	float floorf(float x);
+	float floorf(float x);	
+	long double roundf(float value);
+
+	float fmaxf(float a, float y);
 
 #ifdef  __cplusplus
 }

@@ -153,7 +153,7 @@ DWORD WINAPI LuaInputProc(LPVOID parameter)
 
 	return 0;
 }
-
+typedef I_GUIEngine* (*PGUIEngine)();
 bool SkyGUILua::Run()
 {	
 	Thread* pThread = ProcessManager::GetInstance()->GetCurrentTask();
@@ -163,6 +163,15 @@ bool SkyGUILua::Run()
 	PrintUnicode("Welcome to SkyLua!!");
 	PrintUnicode("Lua Version is 5.40");
 	GetNewLine();
+
+	/*void* hwnd = SkyModuleManager::GetInstance()->LoadModule("SkyGUIImgui.dll");
+#ifdef SKY_EMULATOR_DLL
+	//if (hwnd != nullptr) SKY_EMULATOR_DLL;
+	SkyModuleManager::GetInstance()->LoadImplictDLL((DWORD)hwnd);
+#endif
+
+	PGUIEngine GUIEngine = (PGUIEngine)SkyModuleManager::GetInstance()->GetModuleFunction(hwnd, "GetGUIEngine");
+	GUIEngine();*/
 
 	LuaKernel* pKernel  = new LuaKernel();
 	g_pKernel = pKernel;

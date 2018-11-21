@@ -4,7 +4,7 @@
 #include "imgui_impl_sdl.h"
 #include <SDL.h>
 
-int samplef(int, char**)
+int samplef()
 {
 	SDL_Window* window;
 	SDL_Renderer* renderer;
@@ -12,15 +12,23 @@ int samplef(int, char**)
 	SDL_Texture* texture;
 
 	// Setup SDL
-	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0)
+	/*if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0)
 	{
 		//printf("Error: %s\n", SDL_GetError());
 		return -1;
-	}
+	}*/
 
 	// Setup window
-	int width = 1280;
-	int height = 720;
+	int width = 1024;
+	int height = 768;
+	//윈도우와 렌더러를 생성
+	//if (SDL_CreateWindowAndRenderer(width, height, 0, &window, &renderer) < 0)
+//	{
+		//std::cout << "SDL_CreateWindowAndRenderer Error: " << SDL_GetError() << std::endl;
+		//return 0;
+	//}
+
+	
 	window = SDL_CreateWindow("ImGui SDL2+SW rasterizer example", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_RESIZABLE);
 	renderer = SDL_CreateRenderer(window, -1, 0);
 	screen = SDL_CreateRGBSurface(0, width, height, 32, 0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000);
@@ -48,12 +56,14 @@ int samplef(int, char**)
 	while (!done)
 	{
 		SDL_Event event;
+
 		while (SDL_PollEvent(&event))
 		{
 			ImGui_ImplSdl_ProcessEvent(&event);
 			if (event.type == SDL_QUIT)
 				done = true;
 		}
+		
 		ImGui_ImplSdl_NewFrame(window);
 
 		// 1. Show a simple window

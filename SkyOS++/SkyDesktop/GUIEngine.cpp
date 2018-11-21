@@ -3,9 +3,7 @@
 #include "string.h"
 #include "memory.h"
 #include "Queue.h"
-
-
-
+#include "sample.h"
 
 GUIEngine::GUIEngine()
 {
@@ -18,8 +16,7 @@ GUIEngine::~GUIEngine()
 }
 
 bool GUIEngine::Initialize() 
-{
-
+{	
 	return true;
 }
 void GUIEngine::Update(float deltaTime) 

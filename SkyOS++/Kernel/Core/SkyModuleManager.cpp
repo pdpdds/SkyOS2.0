@@ -96,7 +96,7 @@ void* SkyModuleManager::LoadModule(const char* moduleName, bool fromMemory)
 {
 #ifdef SKY_EMULATOR_DLL
 	void* hwnd = (void*)g_processInterface.sky_kload_library(moduleName);
-#else*/
+#else
 	MODULE_HANDLE hwnd = SkyModuleManager::GetInstance()->LoadModuleFromMemory(moduleName);
 #endif // SKY_EMULATOR_DLL	
 

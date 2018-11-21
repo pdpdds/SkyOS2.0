@@ -365,3 +365,16 @@ void srand(unsigned int seed)
 {
 	next = seed;
 }
+
+long double roundf(float value)
+{
+	return floorf(value + 0.5f);
+}
+
+float fmaxf(float x, float y)
+{
+	if (x > y)
+		return x;
+
+	return y;
+}
