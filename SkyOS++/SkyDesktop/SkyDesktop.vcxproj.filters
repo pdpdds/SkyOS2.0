@@ -51,6 +51,12 @@
     <ClCompile Include="imgui_sw.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="sample.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_sdl.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GUIEngine.h">
@@ -90,6 +96,12 @@
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="stb_truetype.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="sample.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_sdl.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
   </ItemGroup>
