@@ -211,7 +211,7 @@ bool LuaKernel::Initialize(uint8* pFrameBuffer)
 	aamain(1, args);
 
 	for (;;);*/
-	L = luaL_newstate();
+	L = lua_newstate(l_alloc, NULL);
 	
 	if (!L)
 	{

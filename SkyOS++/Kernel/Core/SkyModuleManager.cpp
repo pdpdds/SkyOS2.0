@@ -105,13 +105,13 @@ void* SkyModuleManager::LoadModule(const char* moduleName, bool fromMemory)
 		HaltSystem("Memory Module Load Fail!!");
 	}
 
-	if (hwnd->refCount > 1)
-		return hwnd;
-
 #ifdef SKY_EMULATOR_DLL
 	PSetSkyMockInterface SetSkyMockInterface = (PSetSkyMockInterface)g_processInterface.sky_kget_proc_address(hwnd, "SetSkyMockInterface");
 	PSetSkyProcessInterface SetSkyProcessInterface = (PSetSkyProcessInterface)g_processInterface.sky_kget_proc_address(hwnd, "SetSkyProcessInterface");	
 #else
+
+	if (hwnd->refCount > 1)
+		return hwnd;
 	
 	PSetSkyMockInterface SetSkyMockInterface = (PSetSkyMockInterface)SkyModuleManager::GetInstance()->GetModuleFunction(hwnd, "SetSkyMockInterface");
 	PSetSkyProcessInterface SetSkyProcessInterface = (PSetSkyProcessInterface)SkyModuleManager::GetInstance()->GetModuleFunction(hwnd, "SetSkyProcessInterface");	
@@ -231,15 +231,15 @@ bool SkyModuleManager::FixIAT(void* image)
 			continue;
 
 		char* dllName = (char*)image + importDescriptor->Name;
-		MODULE_HANDLE hwnd = (MODULE_HANDLE)LoadModule(dllName);
-
-		if (hwnd->refCount > 1)
-			continue;
-
+		void* hwnd = (void*)LoadModule(dllName);
+		
 #ifdef SKY_EMULATOR_DLL
 		//if (hwnd != nullptr) SKY_EMULATOR_DLL;
 		LoadImplictDLL((DWORD)hwnd);
 		continue;
+#else
+		if (((MODULE_HANDLE)(hwnd))->refCount > 1)
+			continue;
 #endif
 
 		auto thunkData = PIMAGE_THUNK_DATA32(ULONG_PTR(image) + importDescriptor->FirstThunk);

@@ -667,7 +667,7 @@ show_image(void)
 	}
 }
 
-bool TestFreeType(char* szfilename, wchar_t* sztext)
+bool TestFreeType(char* szfilename, char* sztext)
 {
 	FT_Library    library;
 	FT_Face       face;
@@ -678,7 +678,7 @@ bool TestFreeType(char* szfilename, wchar_t* sztext)
 	FT_Error      error;
 
 	char*         filename;
-	wchar_t*         text;
+	char*         text;
 
 	double        angle;
 	int           target_height;
@@ -687,8 +687,9 @@ bool TestFreeType(char* szfilename, wchar_t* sztext)
 
 	filename = szfilename;                           /* first argument     */
 	text = sztext;                        /* second argument    */
-	num_chars = wcslen(text);
-	angle = (25.0 / 360) * 3.14159 * 2;      /* use 25 degrees     */
+	num_chars = strlen(text);
+	//angle = (25.0 / 360) * 3.14159 * 2;      /* use 25 degrees     */
+	angle = 0;
 	target_height = HEIGHT;
 
 	error = FT_Init_FreeType(&library);              /* initialize library */
@@ -729,15 +730,15 @@ bool TestFreeType(char* szfilename, wchar_t* sztext)
 		/* set transformation */
 		FT_Set_Transform(face, &matrix, &pen);
 
-		FT_UInt glyph_index = FT_Get_Char_Index(face, text[n]);
+		//FT_UInt glyph_index = FT_Get_Char_Index(face, text[n]);
 
-		error = FT_Load_Glyph(
-			face,          /* handle to face object */
-			glyph_index,   /* glyph index           */
-			FT_LOAD_RENDER);  /* load flags, see below */
+		//error = FT_Load_Glyph(
+			//face,          /* handle to face object */
+			//glyph_index,   /* glyph index           */
+			//FT_LOAD_RENDER);  /* load flags, see below */
 
 		/* load glyph image into the slot (erase previous one) */
-		//error = FT_Load_Char(face, text[n], FT_LOAD_RENDER);
+		error = FT_Load_Char(face, text[n], FT_LOAD_RENDER);
 		if (error)
 			continue;                 /* ignore errors */
 
@@ -751,7 +752,7 @@ bool TestFreeType(char* szfilename, wchar_t* sztext)
 		pen.y += slot->advance.y;
 	}
 
-	//show_image();
+	show_image();
 
 	FT_Done_Face(face);
 	FT_Done_FreeType(library);

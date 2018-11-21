@@ -161,7 +161,7 @@ bool SkyGUILua::Run()
 	I_HangulEngine* pIMEEngine = SkyGUISystem::GetInstance()->GetIMEEngine();
 	
 	PrintUnicode("Welcome to SkyLua!!");
-	PrintUnicode("Lua Version is 5.42");
+	PrintUnicode("Lua Version is 5.40");
 	GetNewLine();
 
 	LuaKernel* pKernel  = new LuaKernel();
