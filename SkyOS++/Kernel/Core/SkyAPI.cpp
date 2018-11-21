@@ -121,7 +121,7 @@ void ksleep(int millisecond)
 	msleep(millisecond);
 }
 
-extern "C" void printf(const char* str, ...)
+/*extern "C" void printf(const char* str, ...)
 {
 	if (!str)
 		return;
@@ -137,7 +137,7 @@ extern "C" void printf(const char* str, ...)
 
 			switch (str[i + 1]) {
 
-				/*** characters ***/
+				
 			case 'c': {
 				char c = va_arg(args, char);
 				SkyConsole::WriteChar(c);
@@ -145,7 +145,7 @@ extern "C" void printf(const char* str, ...)
 				break;
 			}
 
-					  /*** address of ***/
+				
 			case 's': {
 				int c = (int&)va_arg(args, char);
 				char str[256];
@@ -155,7 +155,7 @@ extern "C" void printf(const char* str, ...)
 				break;
 			}
 
-					  /*** integers ***/
+				
 			case 'd':
 			case 'i': {
 				int c = va_arg(args, int);
@@ -166,8 +166,7 @@ extern "C" void printf(const char* str, ...)
 				break;
 			}
 
-					  /*** display in hex ***/
-					  /*int*/
+				
 			case 'X': 
 			case 'p':
 			{
@@ -178,7 +177,7 @@ extern "C" void printf(const char* str, ...)
 				i++;		// go to next character
 				break;
 			}
-					  /*unsigned int*/
+					
 			case 'x': {
 				unsigned int c = va_arg(args, unsigned int);
 				char str[32] = { 0 };
@@ -204,7 +203,7 @@ extern "C" void printf(const char* str, ...)
 
 	va_end(args);
 	return;
-}
+}*/
 
 void PauseSystem(const char* msg)
 {

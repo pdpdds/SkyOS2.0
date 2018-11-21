@@ -111,6 +111,7 @@
     <ClCompile Include="stl\stl_string.cpp" />
     <ClCompile Include="string.cpp" />
     <ClCompile Include="str_util.cpp" />
+    <ClCompile Include="vsnprintf.c" />
     <ClCompile Include="vsprintf.c">
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">__STDC__;ARCH_X86;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>

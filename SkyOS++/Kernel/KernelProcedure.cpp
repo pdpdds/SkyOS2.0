@@ -81,7 +81,6 @@ DWORD WINAPI SystemGUIProc(LPVOID parameter)
 
 	//DeviceManager::GetInstance()->Initialize();
 
-	SkyGUISystem::GetInstance()->InitGUI();
 
 	//SampleFillRect((ULONG*)SkyGUISystem::GetInstance()->GetVideoRamInfo()._pVideoRamPtr, 1004, 0, 20, 20, 0x0000FF00);	
 

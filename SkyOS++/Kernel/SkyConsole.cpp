@@ -7,6 +7,7 @@ using namespace KeyBoard;
 
 extern bool g_heapInit;
 extern SKY_Print_Interface g_printInterface;
+extern "C" void vsnprintf(char *out, int size, const char *format, va_list args);
 
 namespace SkyConsole
 {
@@ -218,6 +219,10 @@ namespace SkyConsole
 
 			char buffer[256];
 			memset(buffer, 0, 256);
+			vsnprintf(buffer, 256, str, args);
+			SkyGUISystem::GetInstance()->Print(buffer);
+			return;
+
 			int index = 0;
 
 			for (i = 0; i < strlen(str); i++) {

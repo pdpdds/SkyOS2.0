@@ -304,6 +304,7 @@
     <ClCompile Include="modf.c" />
     <ClCompile Include="getenv.c" />
     <ClCompile Include="qsort.c" />
+    <ClCompile Include="vsnprintf.c" />
   </ItemGroup>
   <ItemGroup>
     <MASM Include="llshl.asm" />

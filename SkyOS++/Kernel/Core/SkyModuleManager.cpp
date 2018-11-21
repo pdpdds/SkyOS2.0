@@ -262,7 +262,8 @@ bool SkyModuleManager::FixIAT(void* image)
 				if (p)
 				{					
 					nextthunk[i].u1.Function = reinterpret_cast<DWORD>(p);
-					g_printInterface.sky_printf("Function: %x %s\n", nextthunk[i].u1.Function, (char*)pname->Name);
+					//g_printInterface.sky_printf("Function: %x %s\n", nextthunk[i].u1.Function, (char*)pname->Name);
+					printf("Function: %x %s\n", nextthunk[i].u1.Function, (char*)pname->Name);
 					fixIATCount++;
 				}				
 			}			

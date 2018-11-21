@@ -5,9 +5,9 @@
 
 StorageManager* StorageManager::m_pStorageManager = nullptr;
 
-FILE* g_stdOut = nullptr;
-FILE* g_stdIn = nullptr;
-FILE* g_stdErr = nullptr;
+extern "C" FILE* g_stdOut = nullptr;
+extern "C" FILE* g_stdIn = nullptr;
+extern "C" FILE* g_stdErr = nullptr;
 
 StorageManager::StorageManager()
 {
