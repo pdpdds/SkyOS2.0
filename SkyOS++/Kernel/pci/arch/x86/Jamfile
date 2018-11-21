@@ -1,0 +1,20 @@
+SubDir HAIKU_TOP src add-ons kernel bus_managers pci arch x86 ;
+
+SubDirHdrs [ FDirName $(SUBDIR) $(DOTDOT) $(DOTDOT) ] ;
+
+UsePrivateHeaders kernel [ FDirName kernel arch x86 ] [ FDirName kernel util ] ;
+
+SubDirHdrs $(HAIKU_TOP) src add-ons kernel bus_managers acpi acpica include ;
+SubDirHdrs $(HAIKU_TOP) src add-ons kernel bus_managers acpi acpica include
+	platform ;
+
+KernelStaticLibrary pci_arch_bus_manager :
+	pci_acpi.cpp
+	pci_arch_info.cpp
+	pci_arch_module.cpp
+	pci_bios.cpp
+	pci_controller.cpp
+	pci_io.cpp
+	pci_irq.cpp
+	pci_msi.cpp
+	;
