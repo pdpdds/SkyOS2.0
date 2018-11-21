@@ -202,14 +202,14 @@ long cmdDir(char *szCommand)
 
 long cmdFreeType(char *szCommand)
 {
-	TestSkySDL(1024, 768, 32);
-	return false;
+	//TestSkySDL(1024, 768, 32);
+	//return false;
 
-	wchar_t* text = (wchar_t*)"한글출력";
+	char* text = "i love you";
 	
-	kEnterCriticalSection();
-	bool error = TestFreeType("H2GTRE.TTF", text);
-	kLeaveCriticalSection();
+	//kEnterCriticalSection();
+	bool error = TestFreeType("1.TTF", text);
+	//kLeaveCriticalSection();
 
 	if (error)
 		printf("sdffsdsfd\n");
