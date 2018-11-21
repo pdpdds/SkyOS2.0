@@ -13,7 +13,7 @@
 
 //#include <SupportDefs.h>
 //#include <StorageDefs.h>
-
+#define __x86_64__
 
 #ifdef __cplusplus
 extern "C" {

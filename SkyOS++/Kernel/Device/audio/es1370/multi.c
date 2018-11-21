@@ -771,7 +771,7 @@ es1370_multi_control(void *cookie, uint32 op, void *data, size_t length)
 	return B_ERROR;
 }
 
-static status_t es1370_open(const char *name, uint32 flags, void** cookie);
+status_t es1370_open(const char *name, uint32 flags, void** cookie);
 static status_t es1370_close(void* cookie);
 static status_t es1370_free(void* cookie);
 static status_t es1370_control(void* cookie, uint32 op, void* arg, size_t len);
@@ -791,7 +791,9 @@ device_hooks multi_hooks = {
 	NULL					/* scatter-gather write to the device */
 };
 
-static status_t
+
+extern es1370_dev* g_card;
+ status_t
 es1370_open(const char *name, uint32 flags, void** cookie)
 {
 	es1370_dev *card = NULL;
@@ -805,6 +807,8 @@ es1370_open(const char *name, uint32 flags, void** cookie)
 			card = &cards[ix];
 		}
 	}
+	card = g_card;
+
 	
 	if (card == NULL) {
 		printf("open() card not found %s\n", name);

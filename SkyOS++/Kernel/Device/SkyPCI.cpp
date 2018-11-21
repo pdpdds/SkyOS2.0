@@ -112,14 +112,14 @@ static int display_pci_info( PCI *pPCI )
 			pS = szT;
 		}
 
-		kdbg_printf( "[%d] %s", nI, pS );
+		TRACE( "[%d] %s", nI, pS );
 		if( pPCI->ent[nI].cfg.byIntLine == 0 )
 			kdbg_printf( "\n" );
 		else
 			kdbg_printf( " IRQ-%d\n", pPCI->ent[nI].cfg.byIntLine );
 	}	
 	
-	kdbg_printf( "Total %d pci devices.\n", nI );
+	TRACE( "Total %d pci devices.\n", nI );
 	
 	return( 0 );
 }
@@ -158,7 +158,7 @@ static int read_pci_config_data( PCICfg *pCfg, int nBus, int nDevFn )
 		}	
 	}
 
-	//kdbg_printf( "bus(%d) devfn(%d), device id (%X), revision %d , class ( %d, %d, %d )\n", nBus, nDevFn, pCfg->wDeviceID, pCfg->byRevisionID, pCfg->class_code[0], pCfg->class_code[1], pCfg->class_code[2] );
+	TRACE( "bus(%d) devfn(%d), device id (%X), revision %d , class ( %d, %d, %d )\n", nBus, nDevFn, pCfg->wDeviceID, pCfg->byRevisionID, pCfg->class_code[0], pCfg->class_code[1], pCfg->class_code[2] );
 																 
 	return( 0 );
 }	

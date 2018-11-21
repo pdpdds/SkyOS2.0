@@ -280,9 +280,6 @@
     <ClCompile Include="KeyBoard\KeyboardController.cpp">
       <Filter>Keyboard</Filter>
     </ClCompile>
-    <ClCompile Include="Test\SkyTest.cpp">
-      <Filter>Test</Filter>
-    </ClCompile>
     <ClCompile Include="ConsoleSystem\ConsoleManager.cpp">
       <Filter>ConsoleSystem</Filter>
     </ClCompile>
@@ -313,9 +310,6 @@
     <ClCompile Include="GUI\svgagui\svga_keyb.cpp">
       <Filter>GUI\SVGA</Filter>
     </ClCompile>
-    <ClCompile Include="Test\TestLua.cpp">
-      <Filter>Test</Filter>
-    </ClCompile>
     <ClCompile Include="Core\SystemCall.cpp">
       <Filter>Core</Filter>
     </ClCompile>
@@ -333,7 +327,6 @@
     <ClCompile Include="DeviceDriverManager.cpp">
       <Filter>Device</Filter>
     </ClCompile>
-    <ClCompile Include="luatinker.cpp" />
     <ClCompile Include="FileSystem\SkyRamDiskAdaptor.cpp">
       <Filter>FileSystem</Filter>
     </ClCompile>
@@ -357,6 +350,33 @@
     </ClCompile>
     <ClCompile Include="Device\audio\es1370\util.c">
       <Filter>Device\audio\es1370</Filter>
+    </ClCompile>
+    <ClCompile Include="DeviceES1730.cpp" />
+    <ClCompile Include="PCIManager.cpp" />
+    <ClCompile Include="pci\haiku_pci.cpp">
+      <Filter>PCI</Filter>
+    </ClCompile>
+    <ClCompile Include="pci\pci_fixup.cpp">
+      <Filter>PCI</Filter>
+    </ClCompile>
+    <ClCompile Include="pci\pci_irq.cpp">
+      <Filter>PCI</Filter>
+    </ClCompile>
+    <ClCompile Include="pci\pci_info.cpp">
+      <Filter>PCI</Filter>
+    </ClCompile>
+    <ClCompile Include="pci\pci_io.cpp">
+      <Filter>PCI</Filter>
+    </ClCompile>
+    <ClCompile Include="pci\arch\x86\pci_arch_info.cpp">
+      <Filter>PCI</Filter>
+    </ClCompile>
+    <ClCompile Include="pci\arch\x86\pci_msi.cpp">
+      <Filter>PCI</Filter>
+    </ClCompile>
+    <ClCompile Include="SkyGUILua.cpp" />
+    <ClCompile Include="Test\SkyTest.cpp">
+      <Filter>Test</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -612,9 +632,6 @@
     <ClInclude Include="KeyBoard\KeyBoardIO.h">
       <Filter>Keyboard</Filter>
     </ClInclude>
-    <ClInclude Include="Test\SkyTest.h">
-      <Filter>Test</Filter>
-    </ClInclude>
     <ClInclude Include="ConsoleSystem\ConsoleManager.h">
       <Filter>ConsoleSystem</Filter>
     </ClInclude>
@@ -648,9 +665,6 @@
     <ClInclude Include="GUI\svgagui\svga_keyb.h">
       <Filter>GUI\SVGA</Filter>
     </ClInclude>
-    <ClInclude Include="Test\TestLua.h">
-      <Filter>Test</Filter>
-    </ClInclude>
     <ClInclude Include="Core\SystemCall.h">
       <Filter>Core</Filter>
     </ClInclude>
@@ -677,7 +691,6 @@
     <ClInclude Include="DeviceDriverManager.h">
       <Filter>Device</Filter>
     </ClInclude>
-    <ClInclude Include="luatinker.h" />
     <ClInclude Include="FileSystem\SkyRamDiskAdaptor.h">
       <Filter>FileSystem</Filter>
     </ClInclude>
@@ -722,6 +735,27 @@
     </ClInclude>
     <ClInclude Include="Device\audio\es1370\util.h">
       <Filter>Device\audio\es1370</Filter>
+    </ClInclude>
+    <ClInclude Include="DeviceES1730.h" />
+    <ClInclude Include="PCIManager.h" />
+    <ClInclude Include="pci\haiku_pci.h">
+      <Filter>PCI</Filter>
+    </ClInclude>
+    <ClInclude Include="pci\pci_fixup.h">
+      <Filter>PCI</Filter>
+    </ClInclude>
+    <ClInclude Include="pci\pci_irq.h">
+      <Filter>PCI</Filter>
+    </ClInclude>
+    <ClInclude Include="pci\pci_info.h">
+      <Filter>PCI</Filter>
+    </ClInclude>
+    <ClInclude Include="pci\arch\x86\pci_arch_info.h">
+      <Filter>PCI</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyGUILua.h" />
+    <ClInclude Include="Test\SkyTest.h">
+      <Filter>Test</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -775,6 +809,9 @@
     </Filter>
     <Filter Include="Device\audio\es1370">
       <UniqueIdentifier>{fe03058d-d232-4675-8fc1-7cc8af4f6ba1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PCI">
+      <UniqueIdentifier>{ba2d9f43-54e8-4d4b-a662-de7425292a0c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

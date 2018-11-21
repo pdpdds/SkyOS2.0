@@ -6,6 +6,7 @@
 #include "SkyInputHandler.h"
 
 extern char skyFontData[4096];
+
 ULONG* SkyGUIConsole::m_pVideoRamPtr = nullptr;
 
 #define PIVOT_X 8

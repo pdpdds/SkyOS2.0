@@ -21,9 +21,6 @@
     <ClCompile Include="dllmain.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="LuaModule.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="lapi.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -126,20 +123,8 @@
     <ClCompile Include="ldblib.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="LuaScript.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="LuaScriptModule.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Include\I_LuaModule.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="LuaModule.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
     <ClInclude Include="lapi.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
@@ -221,14 +206,8 @@
     <ClInclude Include="lzio.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
-    <ClInclude Include="LuaScript.h">
+    <ClInclude Include="..\..\Include\I_LuaModule.h">
       <Filter>소스 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="luatinker.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="LuaScriptModule.h">
-      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

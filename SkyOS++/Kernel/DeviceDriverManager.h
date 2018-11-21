@@ -28,9 +28,18 @@ public:
 		return m_pDeviceDriverManager;
 	}
 
+	bool IOInit();
+	
+
+	uint8 ReadIOByte(int mapped_io_addr);
+	void WriteIOByte(int mapped_io_addr, uint8 value);
+	uint16 ReadIOWord(int mapped_io_addr);
+	void WriteIOWord(int mapped_io_addr, uint16 value);
+	uint32 ReadIODWord(int mapped_io_addr);
+	void WrieIODWord(int mapped_io_addr, uint32 value);
+
 private:
 	static DeviceDriverManager* m_pDeviceDriverManager;
 	map<string, IDeviceDriver*> m_mapDeviceDriver;
 	list<PCIDeviceDetails *>* m_listPCIDevices;
 };
-

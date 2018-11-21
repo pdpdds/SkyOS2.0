@@ -13,8 +13,6 @@
 
 extern void kSVGAKeyboardHandler();
 extern void kSVGAMouseHandler();
-extern int cpp_func(int arg1, int arg2);
-lua_State* g_L;
 
 
 
@@ -99,103 +97,10 @@ void OutputBrowser(GuiObject * obj, char *pMsg)
 	update_browser(obj);
 }
 
-extern void TestLua51(lua_State* L);
-extern void TestLua52(lua_State* L);
-extern void TestLua53(lua_State* L);
-extern void TestLua54(lua_State* L);
-extern void TestLua55(lua_State* L);
-extern void TestLua56(lua_State* L);
-
 void terminal_dispatch(GuiObject * obj, char *command)
 {
-	/*I_Hangul* pEngine = SkyGUISystem::GetInstance()->GetUnicodeEngine();
-	pEngine->PutFonts((char*)SkyGUISystem::GetInstance()->GetVideoRamInfo()._pVideoRamPtr, 1024, 0, 0, 0xffffffff, (unsigned char*)command);
-	ConsoleManager cm;
-	cm.RunCommand(command);
-	strcat(obj->buffer, command);
-	strcat(obj->buffer, "\n");
-	set_browser_text(obj, obj->buffer);
-	update_browser(obj);*/
-	if (strcmp(command, "uname3") == 0) {
-		//strcat(obj->buffer, "SkyOS 2018 0.12\n");
-		//set_browser_text(obj, obj->buffer);
-		//update_browser(obj);
-		//int result = luatinker::call<int>(g_L, "lua_func", 3, 4);
-		//printf("lua_func(3,4) = %d\n", result);
-		kEnterCriticalSection();
-		memset(obj->buffer, 0, 65535);
-		set_browser_text(obj, obj->buffer);
-		update_browser(obj);
-		g_L = luaL_newstate();
-		luaopen_base(g_L);
-		TestLua53(g_L);
-		lua_close(g_L);
-		kLeaveCriticalSection();
-	}
-	if (strcmp(command, "uname1") == 0) {
-		//strcat(obj->buffer, "SkyOS 2018 0.12\n");
-		//set_browser_text(obj, obj->buffer);
-		//update_browser(obj);
-		//int result = luatinker::call<int>(g_L, "lua_func", 3, 4);
-		//printf("lua_func(3,4) = %d\n", result);
-		kEnterCriticalSection();
-		memset(obj->buffer, 0, 65535);
-		set_browser_text(obj, obj->buffer);
-		update_browser(obj);
-		g_L = luaL_newstate();
-		luaopen_base(g_L);
-		TestLua51(g_L);
-		lua_close(g_L);
-		kLeaveCriticalSection();
-	}
-	if (strcmp(command, "uname2") == 0) {
-		//strcat(obj->buffer, "SkyOS 2018 0.12\n");
-		//set_browser_text(obj, obj->buffer);
-		//update_browser(obj);
-		//int result = luatinker::call<int>(g_L, "lua_func", 3, 4);
-		//printf("lua_func(3,4) = %d\n", result);
-		kEnterCriticalSection();
-		memset(obj->buffer, 0, 65535);
-		set_browser_text(obj, obj->buffer);
-		update_browser(obj);
-		g_L = luaL_newstate();
-		luaopen_base(g_L);
-		TestLua52(g_L);
-		lua_close(g_L);
-		kLeaveCriticalSection();
-	}
-	if (strcmp(command, "uname4") == 0) {
-		//strcat(obj->buffer, "SkyOS 2018 0.12\n");
-		//set_browser_text(obj, obj->buffer);
-		//update_browser(obj);
-		//int result = luatinker::call<int>(g_L, "lua_func", 3, 4);
-		//printf("lua_func(3,4) = %d\n", result);
-		kEnterCriticalSection();
-		memset(obj->buffer, 0, 65535);
-		set_browser_text(obj, obj->buffer);
-		update_browser(obj);
-		g_L = luaL_newstate();
-		luaopen_base(g_L);
-		TestLua54(g_L);
-		lua_close(g_L);
-		kLeaveCriticalSection();
-	}
-	if (strcmp(command, "uname5") == 0) {
-		//strcat(obj->buffer, "SkyOS 2018 0.12\n");
-		//set_browser_text(obj, obj->buffer);
-		//update_browser(obj);
-		//int result = luatinker::call<int>(g_L, "lua_func", 3, 4);
-		//printf("lua_func(3,4) = %d\n", result);
-		kEnterCriticalSection();
-		memset(obj->buffer, 0, 65535);
-		set_browser_text(obj, obj->buffer);
-		update_browser(obj);
-		g_L = luaL_newstate();
-		luaopen_base(g_L);
-		TestLua55(g_L);
-		lua_close(g_L);
-		kLeaveCriticalSection();
-	}	
+	
+	
 }
 
 static void terminalinput_cb(GuiObject * obj, int user_data)

@@ -23,6 +23,8 @@ typedef struct SKY_FILE_Interface
 	long int (*sky_ftell)(FILE *stream);
 	int (*sky_fgetc)(FILE * stream);
 	char* (*sky_fgets)(char *dst, int max, FILE *fp);	
+	int (*sky_fputs)(char const* _Buffer, FILE* _Stream);
+	
 } SKY_FILE_Interface;
 
 //프로세스 생성 및 삭제 인터페이스

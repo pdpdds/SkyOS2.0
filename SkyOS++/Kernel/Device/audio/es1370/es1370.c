@@ -22,6 +22,8 @@
 #include "sprintf.h"
 #include "memory.h"
 #include "kheap.h"
+#include "pci_private.h"
+
 //#include <fcntl.h>
 //#
 //#include <malloc.h>
@@ -39,6 +41,41 @@ status_t es1370_init(es1370_dev * card);
 
 static char pci_name[] = B_PCI_MODULE_NAME;
 pci_module_info	*pci;
+
+extern uint32		pci_read_config(uint8 virtualBus, uint8 device, uint8 function,
+	uint16 offset, uint8 size);
+extern void		pci_write_config(uint8 virtualBus, uint8 device, uint8 function,
+	uint16 offset, uint8 size, uint32 value);
+
+extern void		__pci_resolve_virtual_bus(uint8 virtualBus, uint8 *domain, uint8 *bus);
+extern long		pci_get_nth_pci_info(long index, pci_info *outInfo);
+static struct pci_module_info sOldPCIModule = {
+	{
+		{
+			B_PCI_MODULE_NAME,
+			B_KEEP_LOADED,
+			0
+		},
+	NULL
+	},
+	&pci_read_io_8,
+	&pci_write_io_8,
+	&pci_read_io_16,
+	&pci_write_io_16,
+	&pci_read_io_32,
+	&pci_write_io_32,
+	&pci_get_nth_pci_info,
+	&pci_read_config,
+	&pci_write_config,
+	&pci_ram_address,
+	&pci_find_capability,
+	//&pci_reserve_device,
+	//&pci_unreserve_device,
+	0,
+	0,
+	&pci_update_interrupt_line,
+	&pci_find_extended_capability
+};
 
 int32 num_cards;
 es1370_dev cards[NUM_CARDS];
@@ -327,17 +364,18 @@ es1370_stream_delete(es1370_stream *stream)
 }
 
 /* es1370 interrupt */
-
+es1370_dev * g_card;
 static int32 
-es1370_int(void *arg)
+//es1370_int(void *arg)
+es1370_int()
 {
-	es1370_dev	 	*card = arg;
+	es1370_dev	 	*card = g_card;
 	bool 			gotone 	= false;
 	uint32       	curblk;
 	es1370_stream 	*stream = NULL;
 	uint32		sta, sctrl;
 	
-	// TRACE(("es1370_int(%p)\n", card));
+	printf("es1370_int(%x)\n", card);
 	
 	sta = es1370_reg_read_32(&card->config, ES1370_REG_STATUS);
 	if (sta & card->interrupt_mask) {
@@ -395,7 +433,7 @@ init_hardware(void)
 	//LOG_CREATE();
 
 	printf("init_hardware()\n");
-
+	pci = &sOldPCIModule;
 	//if (get_module(pci_name, (module_info **)&pci))
 		//return ENOSYS;
 
@@ -446,7 +484,7 @@ es1370_setup(es1370_dev * card)
 {
 	status_t err = B_OK;
 	unsigned char cmd;
-	
+	g_card = card;
 	printf("es1370_setup(%p)\n", card);
 
 	make_device_names(card);
@@ -488,7 +526,8 @@ es1370_setup(es1370_dev * card)
 
 	//snooze(50000); // 50 ms
 
-	printf("installing interrupt : %lx\n", card->config.irq);
+	printf("installing interrupt : 0x%x\n", card->config.irq);
+	SetInterruptVector(card->config.irq, es1370_int);
 	//err = install_io_interrupt_handler(card->config.irq, es1370_int, card, 0);
 	if (err != B_OK) {
 		printf("failed to install interrupt\n");

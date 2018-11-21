@@ -18,6 +18,7 @@
 
 extern	FILE* g_skyStdOut;
 extern	FILE* g_skyStdIn;
+extern	FILE* g_skyStdErr;
 
 #ifndef WIN32 
 #define stdin g_skyStdIn
@@ -233,7 +234,7 @@ typedef struct luaL_Stream {
 /* print an error message */
 #if !defined(lua_writestringerror)
 #define lua_writestringerror(s,p) \
-        (fprintf(stderr, (s), (p)), fflush(stderr))
+        (fprintf(g_skyStdErr, (s), (p)), fflush(g_skyStdErr))
 #endif
 
 /* }================================================================== */

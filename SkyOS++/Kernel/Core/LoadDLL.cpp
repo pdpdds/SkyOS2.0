@@ -7,6 +7,7 @@
 #include "algobase.h"
 #include "SkyConsole.h"
 #include "SkyMockInterface.h"
+#include "SkyModuleManager.h"
 
 #ifdef SKY_EMULATOR
 #include "SkyOSWin32Stub.h"
@@ -378,6 +379,77 @@ static ELoadDLLResult LoadDLL_PerformRelocation(LOAD_DLL_CONTEXT* ctx)
 	return ELoadDLLResult_OK;
 }*/
 
+static ELoadDLLResult LoadDLL_ResolveImports(LOAD_DLL_CONTEXT* ctx)
+{
+	IMAGE_IMPORT_DESCRIPTOR* import_desc;
+	HMODULE hDLL;
+	DWORD_PTR* src_iat;
+	DWORD_PTR* dest_iat;
+	HMODULE* new_module_array;
+
+	if (!ctx->hdr.OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_IMPORT].VirtualAddress ||
+		!ctx->hdr.OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_IMPORT].Size)
+		return ELoadDLLResult_OK;
+
+	import_desc = (IMAGE_IMPORT_DESCRIPTOR*)(ctx->image_base + ctx->hdr.OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_IMPORT].VirtualAddress);
+
+	for (; import_desc->Name; ++import_desc)
+	{
+		hDLL = SkyModuleManager::GetInstance()->LoadModule((char*)(ctx->image_base + import_desc->Name));
+		if (!hDLL)
+			return ELoadDLLResult_ImportModuleError;
+
+		if (ctx->num_import_modules >= ctx->import_modules_array_capacity)
+		{
+			ctx->import_modules_array_capacity = ctx->import_modules_array_capacity ? ctx->import_modules_array_capacity * 2 : 16;
+			new_module_array = (HMODULE*)malloc(sizeof(HMODULE)*ctx->import_modules_array_capacity);
+			if (!new_module_array)
+				return ELoadDLLResult_MemoryAllocationError;
+			if (ctx->num_import_modules)
+				memcpy(new_module_array, ctx->loaded_import_modules_array, sizeof(HMODULE)*ctx->num_import_modules);
+			kfree(ctx->loaded_import_modules_array);
+			ctx->loaded_import_modules_array = new_module_array;
+		}
+		new_module_array[ctx->num_import_modules++] = hDLL;
+
+
+		// We do not trust bound imports. If FirstThunk is not bound then we use that to find the function ordinals/names.
+		// If it's bound we must use OriginalFirstThunk. If FirstThunk is bound and OriginalFirstThunk is not present then
+		// we return with error.
+
+
+		src_iat = dest_iat = (DWORD_PTR*)(ctx->image_base + import_desc->FirstThunk);
+
+		if (import_desc->TimeDateStamp)
+		{
+			if (!import_desc->OriginalFirstThunk)
+				return ELoadDLLResult_BoundImportDirectoriesNotSupported;
+			src_iat = (DWORD_PTR*)(ctx->image_base + import_desc->OriginalFirstThunk);
+		}
+
+		PIMAGE_THUNK_DATA32 pthunk;
+		for (; *src_iat; ++src_iat, ++dest_iat)
+		{
+			pthunk = (PIMAGE_THUNK_DATA32)src_iat;
+			PIMAGE_IMPORT_BY_NAME pname = (PIMAGE_IMPORT_BY_NAME)((PCHAR)ctx->image_base + pthunk->u1.AddressOfData);
+			void* p = SkyModuleManager::GetInstance()->GetModuleFunction(hDLL, (char*)pname->Name);
+
+			if (p)
+			{
+				
+				*dest_iat = reinterpret_cast<DWORD>(p);
+			}
+			
+			if (!*dest_iat)
+				return ELoadDLLResult_ImportFunctionError;
+		}
+	}
+
+	return ELoadDLLResult_OK;
+}
+
+
+
 
 static ELoadDLLResult LoadDLL_SetSectionMemoryProtection(LOAD_DLL_CONTEXT* ctx)
 {
@@ -506,9 +578,9 @@ ELoadDLLResult LoadDLL(LOAD_DLL_READPROC read_proc, void* read_proc_param, int f
 				/*if (res != ELoadDLLResult_OK)
 					return res;*/
 
-				/*res = LoadDLL_ResolveImports(&ctx);
+				res = LoadDLL_ResolveImports(&ctx);
 				if (res != ELoadDLLResult_OK)
-					return res;*/
+					return res;
 
 				res = LoadDLL_SetSectionMemoryProtection(&ctx);
 				if (res != ELoadDLLResult_OK)

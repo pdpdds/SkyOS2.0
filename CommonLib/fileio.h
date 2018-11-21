@@ -40,6 +40,7 @@ extern "C" {
 	extern long int ftell(FILE *stream);
 	extern int fgetc(FILE * stream);
 	extern char* fgets(char *dst, int max, FILE *fp);
+	extern int fputs(char const* _Buffer, FILE* _Stream);
 	int fscanf(FILE *fp, const char *fmt, ...);
 	extern char*	strerr(int errnum);
 	//extern FILE*	stderr;

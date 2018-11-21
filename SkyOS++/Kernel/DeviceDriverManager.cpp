@@ -1,5 +1,6 @@
 #include "DeviceDriverManager.h"
 #include "SkyOS.h"
+#include "Hal.h"
 
 DeviceDriverManager* DeviceDriverManager::m_pDeviceDriverManager = nullptr;
 
@@ -154,4 +155,46 @@ bool DeviceDriverManager::AddDevice(string deviceName)
 	}
 
 	return false;
+}
+
+bool DeviceDriverManager::IOInit()
+{
+	// nothing to do on x86 hardware
+	return true;
+}
+
+
+uint8 DeviceDriverManager::ReadIOByte(int mapped_io_addr)
+{
+	return InPortByte(mapped_io_addr);
+}
+
+
+void DeviceDriverManager::WriteIOByte(int mapped_io_addr, uint8 value)
+{
+	OutPortByte(value, mapped_io_addr);
+}
+
+
+uint16 DeviceDriverManager::ReadIOWord(int mapped_io_addr)
+{
+	return InPortWord(mapped_io_addr);
+}
+
+
+void DeviceDriverManager::WriteIOWord(int mapped_io_addr, uint16 value)
+{
+	OutPortWord(value, mapped_io_addr);
+}
+
+
+uint32 DeviceDriverManager::ReadIODWord(int mapped_io_addr)
+{
+	return InPortDWord(mapped_io_addr);
+}
+
+
+void DeviceDriverManager::WrieIODWord(int mapped_io_addr, uint32 value)
+{
+	OutPortDWord(value, mapped_io_addr);
 }

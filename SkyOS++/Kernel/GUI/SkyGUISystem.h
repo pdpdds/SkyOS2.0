@@ -3,6 +3,7 @@
 #include "SkyGUI.h"
 #include "SkyGUIConsole.h"
 #include "SkySVGA.h"
+#include "SkyGUILua.h"
 #include "GUIMint64.h"
 #include "SkyMockInterface.h"
 #include "I_HangulEngine.h"
@@ -38,7 +39,8 @@ public:
 
 	bool Initialize(multiboot_info* pBootInfo);
 	bool InitializeWithConsole();
-	bool InitGUIModule();
+	bool InitGUI();
+	bool LoadGUIModule();
 	bool Run();
 	bool Print(char* pMsg);
 	bool Clear();
@@ -63,8 +65,7 @@ public:
 	bool PutKeyboardQueue(KEYDATA* pData);
 	bool PutMouseQueue(MOUSEDATA* pData);
 
-protected:
-	bool LoadGUIModule();
+protected:	
 
 private:
 	SkyGUISystem();

@@ -30,6 +30,7 @@ SKY_FILE_Interface g_FileInterface =
 	ftell,
 	fgetc,
 	fgets,
+	fputs,
 };
 
 u32int sky_kmalloc(u32int sz)

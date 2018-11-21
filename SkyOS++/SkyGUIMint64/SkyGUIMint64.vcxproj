@@ -210,7 +210,6 @@
     <ClCompile Include="vesa.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Include\I_GUIEngine.h" />
     <ClInclude Include="Engine\2DGraphics.h" />
     <ClInclude Include="Engine\ApplicationPanelTask.h" />
     <ClInclude Include="Engine\Console.h" />

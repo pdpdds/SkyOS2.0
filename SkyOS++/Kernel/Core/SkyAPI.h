@@ -51,7 +51,7 @@ extern "C" {
 }
 #endif
 
-
+#define TRACE printf
 
 
 void DumpMemory(void *data, size_t nbytes, size_t bytes_per_line);

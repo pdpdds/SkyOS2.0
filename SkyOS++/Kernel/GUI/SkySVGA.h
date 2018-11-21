@@ -3,7 +3,6 @@
 #include "svgagui.h"
 #include "lua.h"
 #include "lualib.h"
-#include "luatinker.h"
 #include "I_SkyInput.h"
 
 class SkyInputManager;

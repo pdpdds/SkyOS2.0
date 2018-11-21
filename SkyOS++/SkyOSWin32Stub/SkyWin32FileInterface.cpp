@@ -65,6 +65,11 @@ char* sky_fgets(char *dst, int max, FILE *fp)
 	return fgets(dst, max, fp);
 }
 
+int sky_fputs(char const* _Buffer, FILE* _Stream)
+{
+	return fputs(_Buffer, _Stream);
+}
+
 SKY_FILE_Interface g_FileInterface =
 {
 	sky_fread,
@@ -79,6 +84,7 @@ SKY_FILE_Interface g_FileInterface =
 	sky_ftell,
 	sky_fgetc,
 	sky_fgets,
+	sky_fputs,
 };
 
 

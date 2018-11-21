@@ -72,7 +72,7 @@ __declspec(naked) void kSkyOSKeyboardHandler()
 #define KEY_FLAGS_EXTENDEDKEY    0x02
 
 // 스캔 코드 매핑 테이블에 대한 매크로
-#define KEY_MAPPINGTABLEMAXCOUNT    89
+#define KEY_MAPPINGTABLEMAXCOUNT    90
 
 #define KEY_NONE        0x00
 #define KEY_ENTER       '\n'

@@ -9,7 +9,6 @@
 #include "Thread.h"
 #include "SkyDebugger.h"
 #include "SkyGUILauncher.h"
-#include "TestLua.h"
 #include "DeviceDriverManager.h"
 #include "SkyTest.h"
 
@@ -115,23 +114,6 @@ long cmdJpeg(char *szCommand)
 		return false;
 	}
 
-
-	return false;
-}
-
-long cmdLua3(char *szCommand)
-{
-	if (szCommand == nullptr)
-		return false;
-
-	TestLua3(szCommand);
-
-	return false;
-}
-
-long cmdLua5(char *szCommand)
-{
-	TestLua5(szCommand);
 
 	return false;
 }

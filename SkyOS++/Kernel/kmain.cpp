@@ -3,7 +3,7 @@
 #include "SkyConsoleLauncher.h"
 #include "SkyTest.h"
 #include "SkyVirtualInput.h"
-
+#include "PCIManager.h"
 uint32_t g_kernel_load_address = 0;
 extern unsigned int _pitTicks;
 
@@ -94,11 +94,14 @@ void kmain(unsigned long magic, unsigned long addr, uint32_t imageBase)
 		pBootInfo->flags = MULTIBOOT_INFO_MODS;
 	}
 #endif
+	
 
 	Scheduler::GetInstance();
 	StorageManager::GetInstance();
 	SkyModuleManager::GetInstance()->Initialize(pBootInfo);
+
 	SystemProfiler::GetInstance()->Initialize();
+
 	
 #if SKY_CONSOLE_MODE == 0
 #ifdef SKY_EMULATOR
@@ -123,8 +126,8 @@ void kmain(unsigned long magic, unsigned long addr, uint32_t imageBase)
 	StorageManager::GetInstance()->SetCurrentFileSystemByID('L');
 	StorageManager::GetInstance()->Initilaize(pBootInfo);
 	SkyDebugger::GetInstance()->LoadSymbol("DebugEngine.dll");
-
 	SkyModuleManager::GetInstance()->LoadImplictDLL(0x01600000);
+	SkyGUISystem::GetInstance()->LoadGUIModule();
 
 	TestSkySDL(1024, 768, 32);
 

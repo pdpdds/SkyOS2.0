@@ -10,6 +10,10 @@ extern FILE* g_stdOut;
 extern FILE* g_stdIn;
 extern FILE* g_stdErr;
 
+#ifdef SKY_EMULATOR
+#include "SkyOSWin32Stub.h"
+#endif // #ifdef SKY_EMULATOR
+
 SkyModuleManager::SkyModuleManager()
 {
 }
@@ -88,28 +92,30 @@ LOAD_DLL_INFO* SkyModuleManager::FindLoadedModule(const char* dll_path)
 	return nullptr;
 }
 
-#include "SkyTest.h"
 void* SkyModuleManager::LoadModule(const char* moduleName, bool fromMemory)
 {
-/*#ifdef SKY_EMULATOR
+#ifdef SKY_EMULATOR_DLL
 	void* hwnd = (void*)g_processInterface.sky_kload_library(moduleName);
 #else*/
 	MODULE_HANDLE hwnd = SkyModuleManager::GetInstance()->LoadModuleFromMemory(moduleName);
-//#endif // SKY_EMULATOR	
+#endif // SKY_EMULATOR_DLL	
 
 	if (hwnd == nullptr)
 	{
 		HaltSystem("Memory Module Load Fail!!");
 	}
 
-/*#ifdef SKY_EMULATOR
+	if (hwnd->refCount > 1)
+		return hwnd;
+
+#ifdef SKY_EMULATOR_DLL
 	PSetSkyMockInterface SetSkyMockInterface = (PSetSkyMockInterface)g_processInterface.sky_kget_proc_address(hwnd, "SetSkyMockInterface");
 	PSetSkyProcessInterface SetSkyProcessInterface = (PSetSkyProcessInterface)g_processInterface.sky_kget_proc_address(hwnd, "SetSkyProcessInterface");	
-#else*/
+#else
 	
 	PSetSkyMockInterface SetSkyMockInterface = (PSetSkyMockInterface)SkyModuleManager::GetInstance()->GetModuleFunction(hwnd, "SetSkyMockInterface");
 	PSetSkyProcessInterface SetSkyProcessInterface = (PSetSkyProcessInterface)SkyModuleManager::GetInstance()->GetModuleFunction(hwnd, "SetSkyProcessInterface");	
-//#endif
+#endif
 
 	//디버그 엔진에 플랫폼 종속적인 인터페이스를 넘긴다.
 	if (SetSkyMockInterface != nullptr)
@@ -160,9 +166,7 @@ bool SkyModuleManager::LoadImplictDLL(DWORD moduleAddress)
 	return true;
 }
 
-#ifdef SKY_EMULATOR
-#include "SkyOSWin32Stub.h"
-#endif // #ifdef SKY_EMULATOR
+
 
 bool SkyModuleManager::FixIAT(void* image)
 {
@@ -209,106 +213,63 @@ bool SkyModuleManager::FixIAT(void* image)
 
 	auto importDir = ntHeaders->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_IMPORT];
 
-	SkyConsole::Print(" RVA: %x\n", importDir.VirtualAddress);
-	SkyConsole::Print("Size: %x\n\n", importDir.Size);
-
 	if (!importDir.VirtualAddress || !importDir.Size)
 		return false;
 
 	auto importDescriptor = PIMAGE_IMPORT_DESCRIPTOR(ULONG_PTR(image) + importDir.VirtualAddress);
-	auto count = 0;
-	//if (!IsBadReadPtr((char*)image + importDir.VirtualAddress, sizeof(IMAGE_IMPORT_DESCRIPTOR)))
+	auto fixIATCount = 0;
+
+	for (; importDescriptor->FirstThunk; importDescriptor++)
 	{
-		for (; importDescriptor->FirstThunk; importDescriptor++)
+		SkyConsole::Print("OriginalFirstThunk: %x\n", importDescriptor->OriginalFirstThunk);
+		SkyConsole::Print("     TimeDateStamp: %x\n", importDescriptor->TimeDateStamp);
+		SkyConsole::Print("    ForwarderChain: %x\n", importDescriptor->ForwarderChain);
+		//if (!IsBadReadPtr((char*)image + importDescriptor->Name, 2))
+		SkyConsole::Print("              Name: %x %s\n", importDescriptor->Name, (char*)image + importDescriptor->Name);
+
+		if (strcmp("SkyOSWin32Stub.dll", (char*)image + importDescriptor->Name) == 0)
+			continue;
+
+		char* dllName = (char*)image + importDescriptor->Name;
+		MODULE_HANDLE hwnd = (MODULE_HANDLE)LoadModule(dllName);
+
+		if (hwnd->refCount > 1)
+			continue;
+
+#ifdef SKY_EMULATOR_DLL
+		//if (hwnd != nullptr) SKY_EMULATOR_DLL;
+		LoadImplictDLL((DWORD)hwnd);
+		continue;
+#endif
+
+		auto thunkData = PIMAGE_THUNK_DATA32(ULONG_PTR(image) + importDescriptor->FirstThunk);
+
+		PIMAGE_THUNK_DATA32 pthunk;
+		if (importDescriptor->OriginalFirstThunk == 0)
+			pthunk = PIMAGE_THUNK_DATA32(ULONG_PTR(image) + importDescriptor->FirstThunk);
+		else
+			pthunk = PIMAGE_THUNK_DATA32(ULONG_PTR(image) + importDescriptor->OriginalFirstThunk);
+		PIMAGE_THUNK_DATA32 nextthunk;
+		for (int i = 0; pthunk->u1.Function != 0; i++, pthunk++) 
 		{
-			SkyConsole::Print("OriginalFirstThunk: %x\n", importDescriptor->OriginalFirstThunk);
-			SkyConsole::Print("     TimeDateStamp: %x\n", importDescriptor->TimeDateStamp);
-			SkyConsole::Print("    ForwarderChain: %x\n", importDescriptor->ForwarderChain);
-			//if (!IsBadReadPtr((char*)image + importDescriptor->Name, 2))
-			SkyConsole::Print("              Name: %x %s\n", importDescriptor->Name, (char*)image + importDescriptor->Name);
-
-			if (strcmp("SkyOSWin32Stub.dll", (char*)image + importDescriptor->Name) == 0)
-				continue;
-
-			void* hwnd = LoadModule((char*)image + importDescriptor->Name);
-
-			auto thunkData = PIMAGE_THUNK_DATA32(ULONG_PTR(image) + importDescriptor->FirstThunk);
-
-			PIMAGE_THUNK_DATA32 pthunk;
-			if (importDescriptor->OriginalFirstThunk == 0)
-				pthunk = PIMAGE_THUNK_DATA32(ULONG_PTR(image) + importDescriptor->FirstThunk);
-			else
-				pthunk = PIMAGE_THUNK_DATA32(ULONG_PTR(image) + importDescriptor->OriginalFirstThunk);
-			PIMAGE_THUNK_DATA32 nextthunk;
-			for (int i = 0; pthunk->u1.Function != 0; i++, pthunk++) {
-				nextthunk = PIMAGE_THUNK_DATA32(ULONG_PTR(image) + importDescriptor->FirstThunk);
-				if ((pthunk->u1.Ordinal & IMAGE_ORDINAL_FLAG) == 0) {
-					PIMAGE_IMPORT_BY_NAME pname = (PIMAGE_IMPORT_BY_NAME)((PCHAR)image + pthunk->u1.AddressOfData);
-					
-					if(strcmp("SetSkyMockInterface", (char*)pname->Name) == 0)
-					{
-						int j = 1;
-					}
-					void* p = GetModuleFunction(hwnd, (char*)pname->Name);
-
-					if (p)
-					{
-/*#ifdef SKY_EMULATOR
-						nextthunk[i].u1.Function = reinterpret_cast<DWORD>(p);
-#else*/
-						g_printInterface.sky_printf("             Function: %x %s\n", nextthunk[i].u1.Function, (char*)pname->Name);						
-						nextthunk[i].u1.Function = reinterpret_cast<DWORD>(p);
-						g_printInterface.sky_printf("             Function: %x %s\n", nextthunk[i].u1.Function, (char*)pname->Name);						
-						//thunkData->u1.Function = reinterpret_cast<DWORD>(p);
-//#endif
-					}
-					
-					//nextthunk[i] = ldrGetProcAddress(KernelBase, KernelImage, pname->Name);
-				}
-				//else
-					//nextthunk[i] = ldrGetProcAddress(KernelBase, KernelImage, (LPCSTR)(pthunk->u1.Ordinal & 0xffff));
-			}
-			
-
-
-			/*for (; thunkData->u1.AddressOfData; thunkData++, count++)
+			nextthunk = PIMAGE_THUNK_DATA32(ULONG_PTR(image) + importDescriptor->FirstThunk);
+			if ((pthunk->u1.Ordinal & IMAGE_ORDINAL_FLAG) == 0) 
 			{
-				auto rva = ULONG_PTR(thunkData) - ULONG_PTR(image);
+				PIMAGE_IMPORT_BY_NAME pname = (PIMAGE_IMPORT_BY_NAME)((PCHAR)image + pthunk->u1.AddressOfData);
+				
+				void* p = GetModuleFunction(hwnd, (char*)pname->Name);
 
-				auto data = thunkData->u1.AddressOfData;
-				if (data & IMAGE_ORDINAL_FLAG)
-					printf("              Ordinal: %p\n", data & ~IMAGE_ORDINAL_FLAG);
-				//else
+				if (p)
 				{					
-					auto importByName = PIMAGE_IMPORT_BY_NAME(ULONG_PTR(image) + rva);
-					//if (!IsBadReadPtr(importByName, 2))
-					//DWORD protection = PAGE_EXECUTE_READWRITE;
-
-					//SKY_VirtualProtect(importByName->Name, 5, PAGE_EXECUTE_READWRITE, (unsigned int*)&protection);
-					//strlen((char*)importByName->Name);
-
-
-					//if(strcmp("Lua5.dll", (char*)image + importDescriptor->Name) != 0)
-						//printf("             Function: %p %s\n", data, (char*)importByName->Name);
-					void* p = GetModuleFunction(hwnd, (char*)importByName->Name);
-
-					if(p)
-					thunkData->u1.Function = reinterpret_cast<DWORD>(p);
-					//printf("%x\n", thunkData->u1.Function);
-					//else
-					//printf("             Function: %p INVALID\n", data);
-				}
-			}	*/
-			
+					nextthunk[i].u1.Function = reinterpret_cast<DWORD>(p);
+					g_printInterface.sky_printf("Function: %x %s\n", nextthunk[i].u1.Function, (char*)pname->Name);
+					fixIATCount++;
+				}				
+			}			
 		}
-
-		
 	}
-	//else
-	//	SkyConsole::Print("INVALID IMPORT DESCRIPTOR\n");
-
-	SkyConsole::Print("%d imports parsed!\n", count);
-
+	
+	TRACE("%d imports parsed!\n", fixIATCount);
 
 	return true;
 }
@@ -388,11 +349,11 @@ bool SkyModuleManager::UnloadModule(MODULE_HANDLE handle)
 void* SkyModuleManager::GetModuleFunction(void* handle, const char* func_name)
 {
 
-/*#ifdef SKY_EMULATOR
+#ifdef SKY_EMULATOR_DLL
 	return (void*)g_processInterface.sky_kget_proc_address(handle, func_name);
-#else*/
+#else
 	return (void*)myGetProcAddress_LoadDLLInfo((MODULE_HANDLE)handle, func_name);
-//#endif
+#endif
 }
 
 

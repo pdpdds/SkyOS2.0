@@ -94,7 +94,8 @@ static KEYMAPPINGENTRY gs_vstKeyMappingTable[KEY_MAPPINGTABLEMAXCOUNT] =
 	/*  85  */{ KEY_NONE        ,   KEY_NONE },
 	/*  86  */{ KEY_NONE        ,   KEY_NONE },
 	/*  87  */{ KEY_F11         ,   KEY_F11 },
-	/*  88  */{ KEY_F12         ,   KEY_F12 }
+	/*  88  */{ KEY_F12         ,   KEY_F12 },
+	/*  89  */ { '='         ,   '+' }
 };
 
 static KEYCODEASCIIMAPPINGENTRY gs_vstKeycodeAsciiMappingTable[KEY_MAPPINGTABLEMAXCOUNT] =
@@ -188,7 +189,8 @@ static KEYCODEASCIIMAPPINGENTRY gs_vstKeycodeAsciiMappingTable[KEY_MAPPINGTABLEM
 	{ SDLK_UNKNOWN ,KEY_NONE        ,   KEY_NONE },
 	{ SDLK_UNKNOWN ,KEY_NONE        ,   KEY_NONE },
 	{ SDLK_F11,KEY_F11         ,   KEY_F11 },
-	{ SDLK_F12,KEY_F12         ,   KEY_F12 }
+	{ SDLK_F12,KEY_F12         ,   KEY_F12 },
+	{ SDLK_EQUALS,'='         ,   '=' }
 };
 
 SkyInputHandlerWin32* SkyInputHandlerWin32::m_inputHandler = nullptr;
@@ -237,7 +239,9 @@ BYTE SkyInputHandlerWin32::ConvertKeycodeToScancode(unsigned int keycode)
 	for (int i = 0; i < KEY_MAPPINGTABLEMAXCOUNT; i++)
 	{
 		if (gs_vstKeycodeAsciiMappingTable[i].sdlKeycode == keycode)
+		{
 			return i;
+		}
 	}
 
 	return 0;
@@ -435,6 +439,9 @@ bool SkyInputHandlerWin32::IsNumberOrSymbolScanCode(BYTE bScanCode)
 	{
 		return TRUE;
 	}
+
+	if (bScanCode == 89)
+		return TRUE;
 
 	return FALSE;
 }

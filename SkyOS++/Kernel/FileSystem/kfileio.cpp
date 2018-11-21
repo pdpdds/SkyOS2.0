@@ -123,6 +123,11 @@ int fgetc(FILE * stream)
 	return buf[0];
 }
 
+int fputs(char const* _Buffer, FILE* _Stream)
+{
+	return 0;
+}
+
 
 char* fgets(char *dst, int max, FILE *fp)
 {

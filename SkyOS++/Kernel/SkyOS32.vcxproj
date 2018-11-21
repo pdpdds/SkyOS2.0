@@ -36,6 +36,7 @@
     <ClCompile Include="CPU\Pic.cpp" />
     <ClCompile Include="CPU\PIT.cpp" />
     <ClCompile Include="DeviceDriverManager.cpp" />
+    <ClCompile Include="DeviceES1730.cpp" />
     <ClCompile Include="Device\3c905b.cpp" />
     <ClCompile Include="Device\audio\ac97.c" />
     <ClCompile Include="Device\audio\es1370\es1370.c" />
@@ -119,21 +120,28 @@
     <ClCompile Include="KeyBoard\KeyBoard.cpp" />
     <ClCompile Include="KeyBoard\KeyboardController.cpp" />
     <ClCompile Include="kmain.cpp" />
-    <ClCompile Include="luatinker.cpp" />
     <ClCompile Include="Memory\PageDirectoryEntry.cpp" />
     <ClCompile Include="Memory\PageTableEntry.cpp" />
     <ClCompile Include="Memory\PhysicalMemoryManager.cpp" />
     <ClCompile Include="Memory\VirtualMemoryManager.cpp" />
+    <ClCompile Include="PCIManager.cpp" />
+    <ClCompile Include="pci\arch\x86\pci_arch_info.cpp" />
+    <ClCompile Include="pci\arch\x86\pci_msi.cpp" />
+    <ClCompile Include="pci\haiku_pci.cpp" />
+    <ClCompile Include="pci\pci_fixup.cpp" />
+    <ClCompile Include="pci\pci_info.cpp" />
+    <ClCompile Include="pci\pci_io.cpp" />
+    <ClCompile Include="pci\pci_irq.cpp" />
     <ClCompile Include="SkyConsole.cpp" />
     <ClCompile Include="SkyConsoleLauncher.cpp" />
     <ClCompile Include="SkyGUILauncher.cpp" />
+    <ClCompile Include="SkyGUILua.cpp" />
     <ClCompile Include="SkyInputHandler.cpp" />
     <ClCompile Include="SkyLauncher.cpp" />
     <ClCompile Include="SkyQueue.cpp" />
     <ClCompile Include="SkyVirtualInput.cpp" />
     <ClCompile Include="Test\Plane.cpp" />
     <ClCompile Include="Test\SkyTest.cpp" />
-    <ClCompile Include="Test\TestLua.cpp" />
     <ClCompile Include="Test\ZetPlane.cpp" />
     <ClCompile Include="v8086\rme.cpp" />
     <ClCompile Include="v8086\RMEFunc.cpp" />
@@ -169,6 +177,7 @@
     <ClInclude Include="CPU\Pic.h" />
     <ClInclude Include="CPU\PIT.h" />
     <ClInclude Include="DeviceDriverManager.h" />
+    <ClInclude Include="DeviceES1730.h" />
     <ClInclude Include="Device\3c905b.h" />
     <ClInclude Include="Device\3cdef.h" />
     <ClInclude Include="Device\audio\ac97.h" />
@@ -247,15 +256,21 @@
     <ClInclude Include="KeyBoard\KeyboardController.h" />
     <ClInclude Include="KeyBoard\KeyBoardIO.h" />
     <ClInclude Include="kmain.h" />
-    <ClInclude Include="luatinker.h" />
     <ClInclude Include="Memory\PageDirectoryEntry.h" />
     <ClInclude Include="Memory\PageTableEntry.h" />
     <ClInclude Include="Memory\PhysicalMemoryManager.h" />
     <ClInclude Include="Memory\VirtualMemoryManager.h" />
     <ClInclude Include="MultiBoot.h" />
+    <ClInclude Include="PCIManager.h" />
+    <ClInclude Include="pci\arch\x86\pci_arch_info.h" />
+    <ClInclude Include="pci\haiku_pci.h" />
+    <ClInclude Include="pci\pci_fixup.h" />
+    <ClInclude Include="pci\pci_info.h" />
+    <ClInclude Include="pci\pci_irq.h" />
     <ClInclude Include="SkyConsole.h" />
     <ClInclude Include="SkyConsoleLauncher.h" />
     <ClInclude Include="SkyGUILauncher.h" />
+    <ClInclude Include="SkyGUILua.h" />
     <ClInclude Include="SkyInputHandler.h" />
     <ClInclude Include="SkyLauncher.h" />
     <ClInclude Include="SkyOS.h" />
@@ -266,7 +281,6 @@
     <ClInclude Include="Test\PureCallExtend.h" />
     <ClInclude Include="Test\SkyTest.h" />
     <ClInclude Include="Test\TestInteger.h" />
-    <ClInclude Include="Test\TestLua.h" />
     <ClInclude Include="Test\ZetPlane.h" />
     <ClInclude Include="v8086\rme.h" />
     <ClInclude Include="v8086\RMEFunc.h" />
@@ -333,8 +347,8 @@
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
-      <AdditionalIncludeDirectories>../ThirdParty/freetype-2.9\include;./Net;../HangulInput/HangulInput;../SkySDL/include;./ConsoleSystem;./;../../CommonLib;../../CommonLib/stl;../../CommonLib/jsmn;../../Include;./CPU;./Memory;./Heap;./Test;./FileSystem;./Keyboard;./V8086;./GUI/SkyGUI;./GUI/Simple;./GUI;../../CommonLib/math;./gui/svgagui;./gui/svgagui/example;../../Module/Include;./Device;./Core;../../CommonLib/CPlusPlus;./GUI/SkySVGA;../SkyOSWin32Stub;../lua5/lua5;./device/audio;./device/audio/sb16</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>SKY_EMULATOR;SKYOS32;__LE__;OLD_ANSI;_MSC_VER;_X86_;_DEBUG;</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../SkyLua;./pci;../ThirdParty/freetype-2.9\include;./Net;../HangulInput/HangulInput;../SkySDL/include;./ConsoleSystem;./;../../CommonLib;../../CommonLib/stl;../../CommonLib/jsmn;../../Include;./CPU;./Memory;./Heap;./Test;./FileSystem;./Keyboard;./V8086;./GUI/SkyGUI;./GUI/Simple;./GUI;../../CommonLib/math;./gui/svgagui;./gui/svgagui/example;../../Module/Include;./Device;./Core;../../CommonLib/CPlusPlus;./GUI/SkySVGA;../SkyOSWin32Stub;../lua5/lua5;./device/audio;./device/audio/sb16</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>SKYOS32;__LE__;OLD_ANSI;_MSC_VER;_X86_;_DEBUG;</PreprocessorDefinitions>
       <IgnoreStandardIncludePath>true</IgnoreStandardIncludePath>
       <StringPooling>
       </StringPooling>
@@ -361,7 +375,7 @@
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
     <Link>
-      <AdditionalDependencies>SkyOSWin32Stub.lib;CommonLib.lib;skysdl.lib;lua5.lib;freetyped.lib</AdditionalDependencies>
+      <AdditionalDependencies>SkyLua.lib;SkyOSWin32Stub.lib;CommonLib.lib;skysdl.lib;freetyped.lib</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>../Debug</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>

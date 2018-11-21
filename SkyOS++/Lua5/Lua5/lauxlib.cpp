@@ -940,19 +940,7 @@ static void *l_alloc(void *ud, void *ptr, size_t osize, size_t nsize) {
 	}
 	else
 	{
-		//20180604
-		void* ptr2 = (void*) new char[nsize];
-		memset(ptr2, 0, nsize);
-		if (ptr != nullptr)
-		{
-			if(osize < nsize)
-				memcpy(ptr2, ptr, osize);
-			else
-				memcpy(ptr2, ptr, nsize);
-
-			delete ptr;
-		}
-		return ptr2;
+		return realloc(ptr, nsize);
 	}
 		//return realloc(ptr, nsize);
 }

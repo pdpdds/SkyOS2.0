@@ -26,7 +26,7 @@ void NativeConsole()
 
 		SkyConsole::GetCommand(commandBuffer, MAXPATH - 2);
 		SkyConsole::Print("\n");
-
+		
 		if (manager.RunCommand(commandBuffer) == true)
 			break;
 	}
@@ -41,7 +41,7 @@ DWORD WINAPI SystemIdle(LPVOID parameter)
 
 	return 0;
 }
-
+#include "PCIManager.h"
 DWORD WINAPI SystemConsoleProc(LPVOID parameter)
 {
 	SkyConsole::Print("Console Mode Start!!\n");
@@ -54,6 +54,9 @@ DWORD WINAPI SystemConsoleProc(LPVOID parameter)
 #endif // SKY_EMULATOR	
 	
 	systemOn = true;
+
+	//PCIManager* pMgr = new PCIManager();
+	//pMgr->Initialize();
 
 	NativeConsole();
 
@@ -76,9 +79,9 @@ DWORD WINAPI SystemGUIProc(LPVOID parameter)
 
 	systemOn = true;
 
-	SkyGUISystem::GetInstance()->InitGUIModule();
+	//DeviceManager::GetInstance()->Initialize();
 
-	
+	SkyGUISystem::GetInstance()->InitGUI();
 
 	//SampleFillRect((ULONG*)SkyGUISystem::GetInstance()->GetVideoRamInfo()._pVideoRamPtr, 1004, 0, 20, 20, 0x0000FF00);	
 

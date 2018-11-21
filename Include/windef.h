@@ -173,6 +173,7 @@ typedef __time_t time_t;
   typedef unsigned long sem_id;
   typedef int thread_id;
   typedef int proc_id;
+  typedef int area_id;
   typedef int region_id;      // vm region id
   typedef unsigned long addr_t;
 
@@ -183,3 +184,6 @@ typedef __time_t time_t;
 	  true = (!false)
   } bool;
 #endif
+
+#define min_c(a,b) ((a)>(b)?(b):(a))
+#define max_c(a,b) ((a)>(b)?(a):(b))

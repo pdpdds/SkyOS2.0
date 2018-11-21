@@ -89,7 +89,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>SKYOS32;LUA_BUILD_AS_DLL;SKY_DLL;_CRT_SECURE_NO_WARNINGS ;MAPFILEDLL_EXPORTS;_X86_;_DEBUG;SampleDll_EXPORTS;_USRDLL;%(PreprocessorDefinitions);</PreprocessorDefinitions>
+      <PreprocessorDefinitions>LUA_COMPAT_APIINTCASTS;LUA_USE_LONGJMP;SKYOS32;LUA_BUILD_AS_DLL;SKY_DLL;_CRT_SECURE_NO_WARNINGS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>false</SDLCheck>
       <MinimalRebuild>false</MinimalRebuild>
       <ExceptionHandling>false</ExceptionHandling>
@@ -99,10 +99,10 @@
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <AdditionalOptions>/Oy %(AdditionalOptions)</AdditionalOptions>
-      <DisableSpecificWarnings>4819</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4819;2440</DisableSpecificWarnings>
       <AdditionalIncludeDirectories>../../../CommonLib/stl;../../../CommonLib;../../../include;../../../Module/Include;../../../CommonLib/CPlusPlus;../../DllStub</AdditionalIncludeDirectories>
       <IgnoreStandardIncludePath>true</IgnoreStandardIncludePath>
-      <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>
+      <UndefineAllPreprocessorDefinitions>true</UndefineAllPreprocessorDefinitions>
       <OmitFramePointers>true</OmitFramePointers>
     </ClCompile>
     <Link>
@@ -113,7 +113,7 @@
       <MapFileName>$(OutDir)$(TargetName).map</MapFileName>
       <EntryPointSymbol>_DllMainCRTStartup</EntryPointSymbol>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
-      <AdditionalDependencies>CommonLib.lib;DllStub.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>CommonLib.lib;DllStub.lib;%(AdditionalDependencies);</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../Debug;</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>
       </IgnoreSpecificDefaultLibraries>
@@ -214,10 +214,6 @@
     <ClInclude Include="lua.h" />
     <ClInclude Include="luaconf.h" />
     <ClInclude Include="lualib.h" />
-    <ClInclude Include="LuaModule.h" />
-    <ClInclude Include="LuaScript.h" />
-    <ClInclude Include="LuaScriptModule.h" />
-    <ClInclude Include="luatinker.h" />
     <ClInclude Include="lundump.h" />
     <ClInclude Include="lvm.h" />
     <ClInclude Include="lzio.h" />
@@ -254,9 +250,6 @@
     <ClCompile Include="ltests.cpp" />
     <ClCompile Include="ltm.cpp" />
     <ClCompile Include="lua.cpp" />
-    <ClCompile Include="LuaModule.cpp" />
-    <ClCompile Include="LuaScript.cpp" />
-    <ClCompile Include="LuaScriptModule.cpp" />
     <ClCompile Include="lundump.cpp" />
     <ClCompile Include="lutf8lib.cpp" />
     <ClCompile Include="lvm.cpp" />

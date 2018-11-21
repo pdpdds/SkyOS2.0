@@ -193,6 +193,7 @@
     <ClCompile Include="SkyInterface.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="intrinsic.h" />
     <ClInclude Include="SkyInterface.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

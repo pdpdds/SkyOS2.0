@@ -14,8 +14,6 @@ long cmdGlobalState(char *szCommand);
 long CmdExec(char *szCommand);
 long cmdGUI(char *szCommand);
 long cmdCD(char *szCommand);
-long cmdLua3(char *szCommand);
-long cmdLua5(char *szCommand);
 long cmdSwitchGUI(char *szCommand);
 long cmdPCI(char *szCommand);
 long cmdDir(char *szCommand);
