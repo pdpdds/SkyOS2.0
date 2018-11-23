@@ -366,7 +366,7 @@ void srand(unsigned int seed)
 	next = seed;
 }
 
-long double roundf(float value)
+float roundf(float value)
 {
 	return floorf(value + 0.5f);
 }

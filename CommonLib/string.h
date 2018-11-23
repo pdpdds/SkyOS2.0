@@ -1,6 +1,7 @@
 #pragma once
 #include <size_t.h>
 //표준 C 런타임 라이브러리
+#include "va_list.h"
 
 #ifdef  __cplusplus
 extern "C" {
@@ -34,7 +35,7 @@ unsigned long strtoul(const char *nptr, char **endptr, int base);
 void ftoa_fixed(char *buffer, double value);
 void ftoa_sci(char *buffer, double value);
 char * strichr(char *p, int c);
-
+void vsnprintf(char *out, int size, const char *format, va_list args);
 //char*	strndup(const char *s, size_t n);
 //char*	strdup(const char *s);
 
