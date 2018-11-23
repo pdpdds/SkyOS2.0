@@ -4,6 +4,7 @@
 #include "SkyTest.h"
 #include "SkyVirtualInput.h"
 #include "PCIManager.h"
+#include "sample.h"
 uint32_t g_kernel_load_address = 0;
 extern unsigned int _pitTicks;
 
@@ -132,6 +133,7 @@ void kmain(unsigned long magic, unsigned long addr, uint32_t imageBase)
 	
 
 	TestSkySDL(1024, 768, 32);
+	samplef();
 
 	SkyLauncher* pSystemLauncher = nullptr;
 

@@ -11,6 +11,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\SkyDesktop\imgui.cpp" />
+    <ClCompile Include="..\SkyDesktop\imgui_draw.cpp" />
+    <ClCompile Include="..\SkyDesktop\imgui_impl_sdl.cpp" />
+    <ClCompile Include="..\SkyDesktop\imgui_sw.cpp" />
+    <ClCompile Include="..\SkyDesktop\sample.cpp" />
     <ClCompile Include="ConsoleSystem\commands.cpp" />
     <ClCompile Include="ConsoleSystem\ConsoleManager.cpp" />
     <ClCompile Include="Core\Exception.cpp" />
@@ -148,6 +153,15 @@
     <ClCompile Include="SkyInputManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\SkyDesktop\imconfig.h" />
+    <ClInclude Include="..\SkyDesktop\imgui.h" />
+    <ClInclude Include="..\SkyDesktop\imgui_impl_sdl.h" />
+    <ClInclude Include="..\SkyDesktop\imgui_internal.h" />
+    <ClInclude Include="..\SkyDesktop\imgui_sw.hpp" />
+    <ClInclude Include="..\SkyDesktop\sample.h" />
+    <ClInclude Include="..\SkyDesktop\stb_rect_pack.h" />
+    <ClInclude Include="..\SkyDesktop\stb_textedit.h" />
+    <ClInclude Include="..\SkyDesktop\stb_truetype.h" />
     <ClInclude Include="ConsoleSystem\commandMacros.h" />
     <ClInclude Include="ConsoleSystem\commands.h" />
     <ClInclude Include="ConsoleSystem\commandTable.h" />
@@ -347,8 +361,8 @@
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
-      <AdditionalIncludeDirectories>../SkyLua;./pci;../ThirdParty/freetype-2.9\include;./Net;../HangulInput/HangulInput;../SkySDL/include;./ConsoleSystem;./;../../CommonLib;../../CommonLib/stl;../../CommonLib/jsmn;../../Include;./CPU;./Memory;./Heap;./Test;./FileSystem;./Keyboard;./V8086;./GUI/SkyGUI;./GUI/Simple;./GUI;../../CommonLib/math;./gui/svgagui;./gui/svgagui/example;../../Module/Include;./Device;./Core;../../CommonLib/CPlusPlus;./GUI/SkySVGA;../SkyOSWin32Stub;../lua5/lua5;./device/audio;./device/audio/sb16</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>SKY_EMULATOR;SKY_EMULATOR_DLL;SKYOS32;__LE__;OLD_ANSI;_MSC_VER;_X86_;_DEBUG;</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../SkyDesktop;../SkyLua;./pci;../ThirdParty/freetype-2.9\include;./Net;../HangulInput/HangulInput;../SkySDL/include;./ConsoleSystem;./;../../CommonLib;../../CommonLib/stl;../../CommonLib/jsmn;../../Include;./CPU;./Memory;./Heap;./Test;./FileSystem;./Keyboard;./V8086;./GUI/SkyGUI;./GUI/Simple;./GUI;../../CommonLib/math;./gui/svgagui;./gui/svgagui/example;../../Module/Include;./Device;./Core;../../CommonLib/CPlusPlus;./GUI/SkySVGA;../SkyOSWin32Stub;../lua5/lua5;./device/audio;./device/audio/sb16</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>SKY_EMULATOR;SKY_EMULATOR_DLL;SKYOS32;_MSC_VER</PreprocessorDefinitions>
       <IgnoreStandardIncludePath>true</IgnoreStandardIncludePath>
       <StringPooling>
       </StringPooling>

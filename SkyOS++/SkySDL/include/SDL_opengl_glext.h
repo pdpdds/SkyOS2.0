@@ -1403,7 +1403,7 @@ typedef __int64 int64_t;
 typedef unsigned __int64 uint64_t;
 #else
 /* Fallback if nothing above works */
-#include <inttypes.h>
+//#include <inttypes.h>
 #endif
 #endif
 typedef uint64_t GLuint64;
