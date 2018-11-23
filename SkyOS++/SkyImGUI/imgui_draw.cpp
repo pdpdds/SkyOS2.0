@@ -32,7 +32,9 @@
 //#include <stdlib.h>     // alloca
 #endif
 #endif
-#include "kheap.h"
+#ifdef SKY_DLL
+#include "SkyInterface.h"
+#endif
 
 #ifdef _MSC_VER
 #pragma warning (disable: 4505) // unreferenced local function has been removed (stb stuff)

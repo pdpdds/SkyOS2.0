@@ -35,7 +35,9 @@
 #endif
 #include "sprintf.h"
 #include "stdint.h"
-#include "kheap.h"
+#ifdef SKY_DLL
+#include "SkyInterface.h"
+#endif
 
 #ifdef _MSC_VER
 #pragma warning (disable: 4996) // 'This function or variable may be unsafe': strcpy, strdup, sprintf, vsnprintf, sscanf, fopen

@@ -378,21 +378,6 @@
     <ClCompile Include="Test\SkyTest.cpp">
       <Filter>Test</Filter>
     </ClCompile>
-    <ClCompile Include="..\SkyDesktop\imgui.cpp">
-      <Filter>imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\SkyDesktop\imgui_draw.cpp">
-      <Filter>imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\SkyDesktop\imgui_impl_sdl.cpp">
-      <Filter>imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\SkyDesktop\imgui_sw.cpp">
-      <Filter>imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\SkyDesktop\sample.cpp">
-      <Filter>imgui</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CPU\Hal.h">
@@ -772,33 +757,6 @@
     <ClInclude Include="Test\SkyTest.h">
       <Filter>Test</Filter>
     </ClInclude>
-    <ClInclude Include="..\SkyDesktop\imconfig.h">
-      <Filter>imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\SkyDesktop\imgui.h">
-      <Filter>imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\SkyDesktop\imgui_impl_sdl.h">
-      <Filter>imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\SkyDesktop\imgui_internal.h">
-      <Filter>imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\SkyDesktop\imgui_sw.hpp">
-      <Filter>imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\SkyDesktop\sample.h">
-      <Filter>imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\SkyDesktop\stb_rect_pack.h">
-      <Filter>imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\SkyDesktop\stb_textedit.h">
-      <Filter>imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\SkyDesktop\stb_truetype.h">
-      <Filter>imgui</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="CPU">
@@ -854,9 +812,6 @@
     </Filter>
     <Filter Include="PCI">
       <UniqueIdentifier>{ba2d9f43-54e8-4d4b-a662-de7425292a0c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="imgui">
-      <UniqueIdentifier>{1d2b6d75-c27d-4f8b-82f1-0c72f366fbc6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -11,11 +11,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\SkyDesktop\imgui.cpp" />
-    <ClCompile Include="..\SkyDesktop\imgui_draw.cpp" />
-    <ClCompile Include="..\SkyDesktop\imgui_impl_sdl.cpp" />
-    <ClCompile Include="..\SkyDesktop\imgui_sw.cpp" />
-    <ClCompile Include="..\SkyDesktop\sample.cpp" />
     <ClCompile Include="ConsoleSystem\commands.cpp" />
     <ClCompile Include="ConsoleSystem\ConsoleManager.cpp" />
     <ClCompile Include="Core\Exception.cpp" />
@@ -153,15 +148,6 @@
     <ClCompile Include="SkyInputManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\SkyDesktop\imconfig.h" />
-    <ClInclude Include="..\SkyDesktop\imgui.h" />
-    <ClInclude Include="..\SkyDesktop\imgui_impl_sdl.h" />
-    <ClInclude Include="..\SkyDesktop\imgui_internal.h" />
-    <ClInclude Include="..\SkyDesktop\imgui_sw.hpp" />
-    <ClInclude Include="..\SkyDesktop\sample.h" />
-    <ClInclude Include="..\SkyDesktop\stb_rect_pack.h" />
-    <ClInclude Include="..\SkyDesktop\stb_textedit.h" />
-    <ClInclude Include="..\SkyDesktop\stb_truetype.h" />
     <ClInclude Include="ConsoleSystem\commandMacros.h" />
     <ClInclude Include="ConsoleSystem\commands.h" />
     <ClInclude Include="ConsoleSystem\commandTable.h" />

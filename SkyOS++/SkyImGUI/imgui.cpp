@@ -1009,7 +1009,9 @@ _alldiv()
 #include <stdint.h>     // intptr_t
 #endif
 
-#include "kheap.h"
+#ifdef SKY_DLL
+#include "SkyInterface.h"
+#endif
 #include "string.h"
 #include "sprintf.h"
 

@@ -164,14 +164,14 @@ bool SkyGUILua::Run()
 	PrintUnicode("Lua Version is 5.40");
 	GetNewLine();
 
-	/*void* hwnd = SkyModuleManager::GetInstance()->LoadModule("SkyGUIImgui.dll");
+	void* hwnd = SkyModuleManager::GetInstance()->LoadModule("SkyImgui.dll");
 #ifdef SKY_EMULATOR_DLL
 	//if (hwnd != nullptr) SKY_EMULATOR_DLL;
 	SkyModuleManager::GetInstance()->LoadImplictDLL((DWORD)hwnd);
 #endif
 
 	PGUIEngine GUIEngine = (PGUIEngine)SkyModuleManager::GetInstance()->GetModuleFunction(hwnd, "GetGUIEngine");
-	GUIEngine();*/
+	GUIEngine();
 
 	LuaKernel* pKernel  = new LuaKernel();
 	g_pKernel = pKernel;

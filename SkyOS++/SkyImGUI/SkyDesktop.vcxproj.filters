@@ -45,9 +45,6 @@
     <ClCompile Include="imgui_draw.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="imgui_demo.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="imgui_sw.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
