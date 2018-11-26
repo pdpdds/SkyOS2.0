@@ -46,6 +46,8 @@
     <ClCompile Include="Device\nic.cpp" />
     <ClCompile Include="Device\PCI.cpp" />
     <ClCompile Include="Device\SkyPCI.cpp" />
+    <ClCompile Include="dma.c" />
+    <ClCompile Include="dsp.c" />
     <ClCompile Include="FileSystem\ACEList.cpp" />
     <ClCompile Include="FileSystem\CDRomAdaptor.cpp" />
     <ClCompile Include="FileSystem\FAT12.cpp" />
@@ -132,6 +134,7 @@
     <ClCompile Include="pci\pci_info.cpp" />
     <ClCompile Include="pci\pci_io.cpp" />
     <ClCompile Include="pci\pci_irq.cpp" />
+    <ClCompile Include="sb.c" />
     <ClCompile Include="SkyConsole.cpp" />
     <ClCompile Include="SkyConsoleLauncher.cpp" />
     <ClCompile Include="SkyGUILauncher.cpp" />
@@ -282,6 +285,8 @@
     <ClInclude Include="Test\SkyTest.h" />
     <ClInclude Include="Test\TestInteger.h" />
     <ClInclude Include="Test\ZetPlane.h" />
+    <ClInclude Include="toolkit.h" />
+    <ClInclude Include="tools.h" />
     <ClInclude Include="v8086\rme.h" />
     <ClInclude Include="v8086\RMEFunc.h" />
     <ClInclude Include="SkyInputManager.h" />

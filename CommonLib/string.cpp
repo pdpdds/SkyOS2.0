@@ -741,6 +741,7 @@ unsigned long strtoul(const char *nptr, char **endptr, int base)
 	return (acc);
 }*/
 
+extern "C" u32int malloc(u32int sz);
 /*
 char*	strndup(const char *s, size_t n)
 {
@@ -750,16 +751,16 @@ char*	strndup(const char *s, size_t n)
 	result[n] = 0;
 	return result;
 }
-
+*/
 
 char*	strdup(const char *s)
 {
 	char *result;
 	int len = strlen(s);
-	result = (char*)new char[len + 1];
+	result = (char*)malloc(len + 1);
 	memcpy(result, s, len + 1);
 	return result;
-}*/
+}
 
 char* strtok_r(char *s, const char *delim, char **save_ptr)
 {
