@@ -1,8 +1,3 @@
-/*
- * Copyright 2007, Marcus Overhagen. All rights reserved.
- * Distributed under the terms of the MIT License.
- */
-
 #include "haiku_pci.h"
 #include "pci_fixup.h"
 

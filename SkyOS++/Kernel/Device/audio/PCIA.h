@@ -1,16 +1,3 @@
-/*******************************************************************************
-/
-/	File:		PCI.h
-/
-/	Description:	Interface to the PCI bus.
-/	For more information, see "PCI Local Bus Specification, Revision 2.1",
-/	PCI Special Interest Group, 1995.
-/
-/	Copyright 1993-98, Be Incorporated, All Rights Reserved.
-/
-*******************************************************************************/
-
-
 #ifndef _PCI_H
 #define _PCI_H
 

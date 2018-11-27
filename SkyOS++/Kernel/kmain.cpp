@@ -30,7 +30,7 @@ void kmain(unsigned long magic, unsigned long addr, uint32_t imageBase)
 {
 #ifdef SKY_EMULATOR
 	uint32_t imageBase = 0x01600000;
-	unsigned longmagic = MULTIBOOT_BOOTLOADER_MAGIC;
+	unsigned long magic = MULTIBOOT_BOOTLOADER_MAGIC;
 	g_kernel_load_address = imageBase;
 
 	WIN32_STUB* pStub = GetWin32Stub();

@@ -1,8 +1,3 @@
-/*
- *	Copyright 2010, Michael Lotz, mmlr@mlotz.ch. All Rights Reserved.
- *	Distributed under the terms of the MIT License.
- */
-
 #include "pci_arch_info.h"
 
 void

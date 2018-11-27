@@ -1,8 +1,3 @@
-/*
- * Copyright 2006, Marcus Overhagen. All rights reserved.
- *
- * Distributed under the terms of the MIT License.
- */
 #include "pci_irq.h"
 #include "Errors.h"
 

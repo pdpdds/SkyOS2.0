@@ -378,9 +378,6 @@
     <ClCompile Include="Test\SkyTest.cpp">
       <Filter>Test</Filter>
     </ClCompile>
-    <ClCompile Include="sb.c" />
-    <ClCompile Include="dsp.c" />
-    <ClCompile Include="dma.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CPU\Hal.h">
@@ -760,8 +757,6 @@
     <ClInclude Include="Test\SkyTest.h">
       <Filter>Test</Filter>
     </ClInclude>
-    <ClInclude Include="toolkit.h" />
-    <ClInclude Include="tools.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="CPU">

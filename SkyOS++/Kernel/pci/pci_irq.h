@@ -1,8 +1,3 @@
-/*
- * Copyright 2006, Marcus Overhagen. All rights reserved.
- *
- * Distributed under the terms of the MIT License.
- */
 #ifndef __PCI_X86_IRQ_H
 #define __PCI_X86_IRQ_H
 

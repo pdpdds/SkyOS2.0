@@ -1,9 +1,3 @@
-/*
- *	Copyright 2013, Jérôme Duval, korli@users.berlios.de.
- *	Copyright 2010, Michael Lotz, mmlr@mlotz.ch. All Rights Reserved.
- *	Distributed under the terms of the MIT License.
- */
-
 #include "pci_msi.h"
 #include "pci_arch_info.h"
 #include "haiku_pci.h"

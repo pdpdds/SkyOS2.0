@@ -1,14 +1,3 @@
-/*
- * JPEG decoding engine for DCT-baseline
- *
- *      JPEGLS - Copyright(c) 2004 by Hajime Uchimura(nikutama@gmail.com)
- * 
- * history::
- * 2003/04/28 | added OSASK-GUI ( by H.Kawai ) 
- * 2003/05/12 | optimized DCT ( 20-bits fixed point, etc...) -> line 407-464 ( by I.Tak. )
- * 2009/11/21 | optimized to RGB565 ( by kkamagui )
- * 2018/02/21 | SkyOS Port ( by darkx )
- */
 #include "JPEG.h"
 
 // 지그재그 테이블 

@@ -1,7 +1,3 @@
-/*
-	LikeOS Keyboard Driver
-	Copyright (C)2005 Nikolaos Rangos
-*/
 #include "windef.h"
 #include "Hal.h"
 

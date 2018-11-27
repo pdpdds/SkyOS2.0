@@ -1,13 +1,3 @@
-/*
- * ES1370 Haiku Driver for ES1370 audio
- *
- * Copyright 2002-2007, Haiku, Inc.
- * Distributed under the terms of the MIT License.
- *
- * Authors:
- *		Jerome Duval, jerome.duval@free.fr
- */
-
 #ifndef _MULTI_H_
 #define _MULTI_H_
 

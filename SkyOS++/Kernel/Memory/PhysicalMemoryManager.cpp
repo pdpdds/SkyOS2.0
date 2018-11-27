@@ -43,7 +43,7 @@ namespace PhysicalMemoryManager
 			uint64_t areaStart = (uint64_t)mmapAddr[i].baseAddressLower | ((uint64_t)mmapAddr[i].baseAddressHigher << 32);
 			uint64_t areaEnd = areaStart + ((uint64_t)mmapAddr[i].lengthLower | ((uint64_t)mmapAddr[i].lengthHigher << 32));
 
-			//SkyConsole::Print("0x%q 0x%q\n", areaStart, areaEnd);
+			SkyConsole::Print("%d, type : %d\n",mmapAddr[i].size, mmapAddr[i].type);
 		
 			if (mmapAddr[i].type != 1)
 			{
@@ -57,7 +57,7 @@ namespace PhysicalMemoryManager
 		if (endAddress > 0xFFFFFFFF) {
 			endAddress = 0xFFFFFFFF;
 		}
-
+		for (;;);
 		return (uint32_t)endAddress;
 	}
 
@@ -77,7 +77,7 @@ namespace PhysicalMemoryManager
 				endAddress = moduleEnd;
 			}
 
-			//SkyConsole::Print("%x %x\n", moduleStart, moduleEnd);
+			SkyConsole::Print("%x %x\n", moduleStart, moduleEnd);
 		}
 
 		return (uint32_t)endAddress;

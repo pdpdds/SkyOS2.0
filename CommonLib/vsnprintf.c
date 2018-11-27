@@ -284,6 +284,14 @@ void vsnprintf(char *out, int size, const char *format, va_list args)
 	*out = 0;
 }
 
+void snprintf(char *out, int size, const char *fmt, ...)
+{
+	va_list arglist;
+
+	va_start(arglist, fmt);
+	vsnprintf(out, size, fmt, arglist);
+}
+
 FILE g_out = 
 {
 	"STDOUT",

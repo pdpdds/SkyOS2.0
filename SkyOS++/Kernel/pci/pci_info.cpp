@@ -1,9 +1,3 @@
-/*
- * Copyright 2003-2006, Marcus Overhagen. All rights reserved.
- * Distributed under the terms of the MIT License.
- */
-
-
 #include "windef.h"
 #define __HAIKU_PCI_BUS_MANAGER_TESTING 1
 #include <haiku_PCI.h>

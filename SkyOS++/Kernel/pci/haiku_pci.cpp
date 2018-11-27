@@ -1,11 +1,3 @@
-/*
- * Copyright 2003-2008, Marcus Overhagen. All rights reserved.
- * Copyright 2005-2008, Axel Dörfler, axeld@pinc-software.de. All rights reserved.
- *
- * Distributed under the terms of the MIT License.
- */
-
-
 #include "windef.h"
 #include "string.h"
 #include "stdio.h"

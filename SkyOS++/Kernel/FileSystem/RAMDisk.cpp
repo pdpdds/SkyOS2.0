@@ -1,11 +1,3 @@
-/**
- *  file    RAMDisk.c
- *  date    2009/05/22
- *  author  kkamagui 
- *          Copyright(c)2008 All rights reserved by kkamagui
- *  brief   램 디스크에 관련된 함수를 정의한 소스 파일
- */
-
 #include "RAMDisk.h"
 #include "string.h"
 #include "memory.h"

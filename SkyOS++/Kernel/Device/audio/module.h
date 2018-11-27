@@ -1,7 +1,3 @@
-/*
- * Copyright 2002-2008, Haiku Inc. All Rights Reserved.
- * Distributed under the terms of the MIT License.
- */
 #ifndef _MODULE_H
 #define _MODULE_H
 

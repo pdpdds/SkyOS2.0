@@ -46,8 +46,6 @@
     <ClCompile Include="Device\nic.cpp" />
     <ClCompile Include="Device\PCI.cpp" />
     <ClCompile Include="Device\SkyPCI.cpp" />
-    <ClCompile Include="dma.c" />
-    <ClCompile Include="dsp.c" />
     <ClCompile Include="FileSystem\ACEList.cpp" />
     <ClCompile Include="FileSystem\CDRomAdaptor.cpp" />
     <ClCompile Include="FileSystem\FAT12.cpp" />
@@ -134,7 +132,6 @@
     <ClCompile Include="pci\pci_info.cpp" />
     <ClCompile Include="pci\pci_io.cpp" />
     <ClCompile Include="pci\pci_irq.cpp" />
-    <ClCompile Include="sb.c" />
     <ClCompile Include="SkyConsole.cpp" />
     <ClCompile Include="SkyConsoleLauncher.cpp" />
     <ClCompile Include="SkyGUILauncher.cpp" />
@@ -285,8 +282,6 @@
     <ClInclude Include="Test\SkyTest.h" />
     <ClInclude Include="Test\TestInteger.h" />
     <ClInclude Include="Test\ZetPlane.h" />
-    <ClInclude Include="toolkit.h" />
-    <ClInclude Include="tools.h" />
     <ClInclude Include="v8086\rme.h" />
     <ClInclude Include="v8086\RMEFunc.h" />
     <ClInclude Include="SkyInputManager.h" />
@@ -353,7 +348,7 @@
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
       <AdditionalIncludeDirectories>../SkyDesktop;../SkyLua;./pci;../ThirdParty/freetype-2.9\include;./Net;../HangulInput/HangulInput;../SkySDL/include;./ConsoleSystem;./;../../CommonLib;../../CommonLib/stl;../../CommonLib/jsmn;../../Include;./CPU;./Memory;./Heap;./Test;./FileSystem;./Keyboard;./V8086;./GUI/SkyGUI;./GUI/Simple;./GUI;../../CommonLib/math;./gui/svgagui;./gui/svgagui/example;../../Module/Include;./Device;./Core;../../CommonLib/CPlusPlus;./GUI/SkySVGA;../SkyOSWin32Stub;../lua5/lua5;./device/audio;./device/audio/sb16</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>SKY_EMULATOR;SKY_EMULATOR_DLL;SKYOS32;_MSC_VER</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SKYOS32;_MSC_VER</PreprocessorDefinitions>
       <IgnoreStandardIncludePath>true</IgnoreStandardIncludePath>
       <StringPooling>
       </StringPooling>

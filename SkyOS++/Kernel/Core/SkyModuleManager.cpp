@@ -6,9 +6,9 @@ extern SKY_ALLOC_Interface g_allocInterface;
 extern SKY_Print_Interface g_printInterface;
 extern SKY_PROCESS_INTERFACE g_processInterface;
 
-extern FILE* g_stdOut;
-extern FILE* g_stdIn;
-extern FILE* g_stdErr;
+extern "C" FILE* g_stdOut;
+extern "C" FILE* g_stdIn;
+extern "C" FILE* g_stdErr;
 
 #ifdef SKY_EMULATOR
 #include "SkyOSWin32Stub.h"

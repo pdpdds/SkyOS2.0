@@ -1,8 +1,3 @@
-/*
-**	PS/2 Mouse Driver
-**	Copyright (C) 2005-2006 Nikolaos Rangos
-*/
-
 #include "windef.h"
 #include "Hal.h"
 #include "VESA.h"

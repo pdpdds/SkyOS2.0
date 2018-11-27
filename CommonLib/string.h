@@ -36,7 +36,8 @@ void ftoa_fixed(char *buffer, double value);
 void ftoa_sci(char *buffer, double value);
 char * strichr(char *p, int c);
 void vsnprintf(char *out, int size, const char *format, va_list args);
-//char*	strndup(const char *s, size_t n);
+void snprintf(char *out, int size, const char *fmt, ...);
+char*	strndup(const char *s, size_t n);
 char*	strdup(const char *s);
 
 char* strtok_r(char *s, const char *delim, char **save_ptr);

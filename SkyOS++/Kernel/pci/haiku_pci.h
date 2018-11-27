@@ -1,9 +1,3 @@
-/*
- * Copyright 2003-2008, Marcus Overhagen. All rights reserved.
- * Copyright 2005-2008, Axel Dörfler, axeld@pinc-software.de. All rights reserved.
- *
- * Distributed under the terms of the MIT License.
- */
 #ifndef __PCI_H__
 #define __PCI_H__
 

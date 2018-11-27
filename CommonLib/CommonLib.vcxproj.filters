@@ -123,6 +123,7 @@
       <Filter>CPlusPlus</Filter>
     </ClInclude>
     <ClInclude Include="getenv.h" />
+    <ClInclude Include="strdup.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jsmn\jsmn.cpp">
@@ -305,6 +306,7 @@
     <ClCompile Include="getenv.c" />
     <ClCompile Include="qsort.c" />
     <ClCompile Include="vsnprintf.c" />
+    <ClCompile Include="strdup.c" />
   </ItemGroup>
   <ItemGroup>
     <MASM Include="llshl.asm" />

@@ -1,9 +1,3 @@
-/*
- * Copyright 2006, Marcus Overhagen. All rights reserved.
- * Distributed under the terms of the MIT License.
- */
-
-
 #include "./pci/pci_private.h"
 #include "Errors.h"
 #include "Hal.h"
