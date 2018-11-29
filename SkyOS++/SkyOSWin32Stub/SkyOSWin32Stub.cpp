@@ -7,7 +7,7 @@
 #include <stdio.h> 
 #include "SDL.h"
 #include "SkyOSWin32Stub.h"
-#include "SkyMockInterface.h"
+#include "PlatformAPI.h"
 #include "I_SkyInput.h"
 #include "SkyInputHandlerWin32.h"
 
@@ -25,9 +25,9 @@ SDL_Texture *pTexture;
 FILE _iob[] = { *stdin, *stdout, *stderr };
 extern "C" FILE * __cdecl __iob_func(void) { return _iob; }
 
-extern SKY_FILE_Interface g_FileInterface;
-extern SKY_ALLOC_Interface g_allocInterface;
-extern SKY_Print_Interface g_printInterface;
+extern SKY_FILE_INTERFACE g_FileInterface;
+extern SKY_ALLOC_INTERFACE g_allocInterface;
+extern SKY_PRINT_INTERFACE g_printInterface;
 extern SKY_PROCESS_INTERFACE g_processInterface;
 
 #define SKY_PHYSICAL_MEMORY_SIZE 100000000

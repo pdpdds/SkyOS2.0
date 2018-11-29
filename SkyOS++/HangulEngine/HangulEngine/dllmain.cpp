@@ -1,25 +1,16 @@
-// dllmain.cpp: DLL 응용 프로그램의 진입점을 정의합니다.
+#include "PlatformAPI.h"
 
-#include "windef.h"
-#include "SkyMockInterface.h"
-#include "hanlib.h"
-#include "LoadEngFont.h"
-#include "LoadHanFont.h"
-#include "HanOut.h"
-#include "HangulEngine.h"
+extern "C" void  _cdecl InitializeConstructors();
+extern "C" void  _cdecl Exit();
 
-extern "C" __declspec(dllexport) I_Hangul* GetHangulEngine()
-{
-	return new HangulEngine();
-}
+#ifdef SKYOS_WIN32
+#pragma comment(lib, "libucrt.lib")
+#endif
 
-#define DLL_PROCESS_ATTACH 1
-#define DLL_PROCESS_DETACH 0
-#define DLL_THREAD_ATTACH 2
-#define DLL_THREAD_DETACH 3
-
-extern "C" void _cdecl InitializeConstructors();
-extern "C" void _cdecl Exit();
+#define DLL_PROCESS_ATTACH		1
+#define DLL_PROCESS_DETACH		0
+#define DLL_THREAD_ATTACH		2
+#define DLL_THREAD_DETACH		3
 
 bool __stdcall DllMain(HMODULE hModule,
 	DWORD  ul_reason_for_call,
@@ -31,7 +22,7 @@ bool __stdcall DllMain(HMODULE hModule,
 	{
 	case DLL_PROCESS_ATTACH:
 	{
-		
+
 	}
 	break;
 	case DLL_THREAD_ATTACH:

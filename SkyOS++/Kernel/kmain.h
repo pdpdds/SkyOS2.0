@@ -3,9 +3,11 @@
 
 extern "C" void __cdecl InitializeConstructors();
 void SetInterruptVector();
-void InitContext(multiboot_info* bootinfo);
 void InitHardware();
-bool InitMemoryManager(multiboot_info* bootinfo);
+bool InitMemoryManager();
+bool BuildPlatformAPI(unsigned long addr, uint32_t imageBase);
+bool InitModules(multiboot_info* pInfo);
+bool InitDisplaySystem();
 
 #ifdef SKY_EMULATOR
 void kmain();

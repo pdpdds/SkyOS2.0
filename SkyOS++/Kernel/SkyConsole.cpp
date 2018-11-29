@@ -6,7 +6,6 @@
 using namespace KeyBoard;
 
 extern bool g_heapInit;
-extern SKY_Print_Interface g_printInterface;
 extern "C" void vsnprintf(char *out, int size, const char *format, va_list args);
 
 namespace SkyConsole
@@ -26,6 +25,11 @@ namespace SkyConsole
 
 	void Initialize()
 	{
+
+#ifdef SKY_EMULATOR 
+		return;
+#endif
+
 		char c = (*(unsigned short*)0x410 & 0x30);//Detects video card type, vga or mono
 
 		if (c == 0x30) //c can be 0x00 or 0x20 for colour, 0x30 for mono
@@ -61,7 +65,7 @@ namespace SkyConsole
 		else
 		{
 #ifdef  SKY_EMULATOR
-			g_printInterface.sky_cls("cls");
+			platformAPI._printInterface.sky_cls("cls");
 			return;
 #else
 			for (uint i = 0; i < m_ScreenWidth * m_ScreenHeight; i++)				//Remember, 25 rows and 80 columns
@@ -87,7 +91,7 @@ namespace SkyConsole
 	void WriteChar(char c)
 	{
 #ifdef SKY_EMULATOR
-		g_printInterface.sky_printf("%c", c);
+		platformAPI._printInterface.sky_printf("%c", c);
 #else
 		WriteChar(c, m_Text, m_backGroundColor);
 #endif
@@ -105,7 +109,7 @@ namespace SkyConsole
 		}
 
 #ifdef SKY_EMULATOR
-		g_printInterface.sky_printf("%c", c);
+		platformAPI._printInterface.sky_printf("%c", c);
 		return;
 
 #endif
@@ -204,7 +208,7 @@ namespace SkyConsole
 			nI = vsprintf(szTX, str, va);
 			va_end(va);
 
-			g_printInterface.sky_printf("%s", szTX);
+			platformAPI._printInterface.sky_printf("%s", szTX);
 
 			return;
 		}
@@ -357,7 +361,7 @@ namespace SkyConsole
 			nI = vsprintf(szTX, str, va);
 			va_end(va);
 
-			g_printInterface.sky_printf("%s", szTX);
+			platformAPI._printInterface.sky_printf("%s", szTX);
 
 			return;
 #endif
@@ -683,7 +687,7 @@ namespace SkyConsole
 
 			//! grab next char
 #ifdef SKY_EMULATOR
-			c = g_printInterface.sky_getchar();
+			c = platformAPI._printInterface.sky_getchar();
 #else
 			c = KeyboardController::GetInput();
 #endif
@@ -701,9 +705,9 @@ namespace SkyConsole
 				if (i > 0) {
 
 #ifdef SKY_EMULATOR
-					g_printInterface.sky_printf("%c", c);
-					g_printInterface.sky_printf("%c", ' ');
-					g_printInterface.sky_printf("%c", c);
+					platformAPI._printInterface.sky_printf("%c", c);
+					platformAPI._printInterface.sky_printf("%c", ' ');
+					platformAPI._printInterface.sky_printf("%c", c);
 					
 #else
 					//! go back one char
@@ -738,7 +742,7 @@ namespace SkyConsole
 				if (c != 0) { //insure its an ascii char
 
 #ifdef SKY_EMULATOR
-					g_printInterface.sky_printf("%c", c);
+					platformAPI._printInterface.sky_printf("%c", c);
 #else
 					WriteChar(c);
 #endif

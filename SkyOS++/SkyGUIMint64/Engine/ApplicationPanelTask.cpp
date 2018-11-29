@@ -13,8 +13,6 @@
 #include "GUITask.h"
 #include "SkyInterface.h"
 
-extern SKY_PROCESS_INTERFACE g_processInterface;
-
 // 애플리케이션 테이블
 APPLICATIONENTRY gs_vstApplicationTable[] =
 {
@@ -474,7 +472,7 @@ static bool kProcessApplicationListWindowEvent( void )
               //      ( QWORD ) gs_vstApplicationTable[ iMouseOverIndex ].pvEntryPoint, 
                 //    TASK_LOADBALANCINGID );   
 
-			g_processInterface.sky_kcreate_thread_from_memory(1, gs_vstApplicationTable[iMouseOverIndex].pvEntryPoint, NULL);
+			platformAPI._processInterface.sky_kcreate_thread_from_memory(1, gs_vstApplicationTable[iMouseOverIndex].pvEntryPoint, NULL);
 
             // 애플리케이션 패널에 마우스 왼쪽 버튼이 눌렸다는 메시지를 전송하여 처리
             kSetMouseEvent( qwApplicationPanelID, EVENT_MOUSE_LBUTTONDOWN,

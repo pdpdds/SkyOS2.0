@@ -9,73 +9,72 @@
 int errno = 0;
 
 #ifdef SKY_DLL
-SkyMockInterface g_mockInterface;
-SKY_PROCESS_INTERFACE g_processInterface;
+PlatformAPI platformAPI;
 
 size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream)
 {
-	return g_mockInterface.g_fileInterface.sky_fread(ptr, size, nmemb, stream);
+	return platformAPI._fileInterface.sky_fread(ptr, size, nmemb, stream);
 }
 FILE *fopen(const char *filename, const char *mode)
 {
-	return g_mockInterface.g_fileInterface.sky_fopen(filename, mode);
+	return platformAPI._fileInterface.sky_fopen(filename, mode);
 }
 
 size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream)
 {
-	return g_mockInterface.g_fileInterface.sky_fwrite(ptr, size, nmemb, stream);
+	return platformAPI._fileInterface.sky_fwrite(ptr, size, nmemb, stream);
 }
 int fclose(FILE *stream)
 {
-	return g_mockInterface.g_fileInterface.sky_fclose(stream);
+	return platformAPI._fileInterface.sky_fclose(stream);
 
 }
 int feof(FILE *stream)
 {
-	return g_mockInterface.g_fileInterface.sky_feof(stream);
+	return platformAPI._fileInterface.sky_feof(stream);
 }
 
 int ferror(FILE *stream)
 {
-	return g_mockInterface.g_fileInterface.sky_ferror(stream);
+	return platformAPI._fileInterface.sky_ferror(stream);
 
 
 }
 
 int fflush(FILE *stream)
 {
-	return g_mockInterface.g_fileInterface.sky_fflush(stream);
+	return platformAPI._fileInterface.sky_fflush(stream);
 
 }
 
 FILE *freopen(const char *filename, const char *mode, FILE *stream)
 {
-	return g_mockInterface.g_fileInterface.sky_freopen(filename,mode,stream);
+	return platformAPI._fileInterface.sky_freopen(filename,mode,stream);
 }
 
 int fseek(FILE *stream, long int offset, int whence)
 {
-	return g_mockInterface.g_fileInterface.sky_fseek(stream, offset, whence);
+	return platformAPI._fileInterface.sky_fseek(stream, offset, whence);
 }
 
 long int ftell(FILE *stream)
 {
-	return g_mockInterface.g_fileInterface.sky_ftell(stream);
+	return platformAPI._fileInterface.sky_ftell(stream);
 }
 
 int fgetc(FILE * stream)
 {
-	return g_mockInterface.g_fileInterface.sky_fgetc(stream);
+	return platformAPI._fileInterface.sky_fgetc(stream);
 }
 
 char* fgets(char *dst, int max, FILE *fp)
 {
-	return g_mockInterface.g_fileInterface.sky_fgets(dst, max, fp);
+	return platformAPI._fileInterface.sky_fgets(dst, max, fp);
 }
 
 int fputs(char const* _Buffer, FILE* _Stream)
 {
-	return g_mockInterface.g_fileInterface.sky_fputs(_Buffer, _Stream);
+	return platformAPI._fileInterface.sky_fputs(_Buffer, _Stream);
 }
 
 #define MAX_FLOAT_SIZE 320
@@ -539,22 +538,14 @@ FILE* g_skyStdOut;
 FILE* g_skyStdIn;
 FILE* g_skyStdErr;
 
-extern "C" __declspec(dllexport) void SetSkyMockInterface(SKY_ALLOC_Interface allocInterface, 
-														  SKY_FILE_Interface fileInterface, 
-														  SKY_Print_Interface printInterface)
+extern "C" __declspec(dllexport) void SetPlatformAPI(PlatformAPI api)
 {
-	g_mockInterface.g_allocInterface = allocInterface;
-	g_mockInterface.g_fileInterface = fileInterface;
-	g_mockInterface.g_printInterface = printInterface;
-	g_skyStdOut = printInterface.sky_stdout;
-	g_skyStdIn = printInterface.sky_stdin;
-	g_skyStdErr = printInterface.sky_stderr;
+	platformAPI = api;
 
-}
+	g_skyStdOut = api._printInterface.sky_stdout;
+	g_skyStdIn = api._printInterface.sky_stdin;
+	g_skyStdErr = api._printInterface.sky_stderr;
 
-extern "C" __declspec(dllexport) void SetSkyProcessInterface(SKY_PROCESS_INTERFACE processInterface)
-{
-	g_processInterface = processInterface;
 }
 
 void *operator new(size_t size)
@@ -625,93 +616,14 @@ extern "C" void* realloc(void* ptr, size_t size)
 	return krealloc(ptr, size);
 }
 
-extern "C" void aaprintf(const char* str, ...)
+extern "C" void printf(const char *fmt, ...)
 {
-	if (!str)
-		return;
+	char buf[1024];
 
-	va_list		args;
-	va_start(args, str);
-	size_t i;
-	for (i = 0; i < strlen(str); i++) {
+	va_list arglist;
+	va_start(arglist, fmt);
+	vsnprintf(buf, 1024, fmt, arglist);
 
-		switch (str[i]) {
-
-		case '%':
-
-			switch (str[i + 1]) {
-
-				/*** characters ***/
-			case 'c': {
-				char c = va_arg(args, char);
-				g_mockInterface.g_printInterface.sky_printf("%c", c);
-				//SkyConsole::WriteChar(c);
-				i++;		// go to next character
-				break;
-			}
-
-					  /*** address of ***/
-			case 's': {
-				int c = (int&)va_arg(args, char);
-				char str[256];
-				strcpy(str, (const char*)c);
-				g_mockInterface.g_printInterface.sky_printf("%s", str);
-				//SkyConsole::Write(str);
-				i++;		// go to next character
-				break;
-			}
-
-					  /*** integers ***/
-			case 'd':
-			case 'i': {
-				int c = va_arg(args, int);
-				char str[32] = { 0 };
-				itoa_s(c, 10, str);
-				g_mockInterface.g_printInterface.sky_printf("%s", str);
-				//SkyConsole::Write(str);
-				i++;		// go to next character
-				break;
-			}
-
-					  /*** display in hex ***/
-					  /*int*/
-			case 'X': {
-				int c = va_arg(args, int);
-				char str[32] = { 0 };
-				itoa_s(c, 16, str);
-				//SkyConsole::Write(str);
-				g_mockInterface.g_printInterface.sky_printf("%s", str);
-				i++;		// go to next character
-				break;
-			}
-					  /*unsigned int*/
-			case 'x': {
-				unsigned int c = va_arg(args, unsigned int);
-				char str[32] = { 0 };
-				itoa_s(c, 16, str);
-				//SkyConsole::Write(str);
-				g_mockInterface.g_printInterface.sky_printf("%s", str);
-				i++;		// go to next character
-				break;
-			}
-
-			default:
-				va_end(args);
-				return;
-			}
-
-			break;
-
-		default:
-			//			SkyConsole::WriteChar(str[i]);
-			g_mockInterface.g_printInterface.sky_printf("%c", str[i]);
-			break;
-		}
-
-	}
-
-	va_end(args);
-	return;
+	platformAPI._printInterface.sky_printf(buf);
 }
-
 #endif

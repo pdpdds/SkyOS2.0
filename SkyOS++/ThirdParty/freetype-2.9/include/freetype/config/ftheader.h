@@ -24,7 +24,7 @@
 #ifdef SKY_DLL
 #include "SkyInterface.h"
 #endif
-#include "SkyMockInterface.h"
+#include "PlatformAPI.h"
   /*@***********************************************************************/
   /*                                                                       */
   /* <Macro>                                                               */

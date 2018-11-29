@@ -1,7 +1,7 @@
 #pragma once
 #include "FileSysAdaptor.h"
+#include "BasicStruct.h"
 
-struct Module;
 class SkyRamDisk;
 
 class SkyRamDiskAdaptor : public FileSysAdaptor
@@ -19,7 +19,7 @@ public:
 
 	virtual bool GetFileList() override;
 protected:
-	void LoadRamDisk(Module* ramdiskModule, DWORD targetAddress);
+	void LoadRamDisk(BootModule* ramdiskModule, DWORD targetAddress);
 
 private:
 	SkyRamDisk* m_pRamDisk;

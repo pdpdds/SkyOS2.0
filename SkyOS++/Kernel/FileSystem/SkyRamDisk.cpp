@@ -28,7 +28,7 @@ SkyRamDisk::SkyRamDisk()
 /**
  * 
  */
-RamDiskEntry* SkyRamDisk::Load(Module* module)
+RamDiskEntry* SkyRamDisk::Load(BootModule* module)
 {
 	// Get the ramdisk location and its end from the multiboot info
 	uint8_t* ramdisk = (uint8_t*) module->ModuleStart;

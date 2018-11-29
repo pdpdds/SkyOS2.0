@@ -1,6 +1,7 @@
 #pragma once
 #include "windef.h"
 #include "SkyStartOption.h"
+#include "BasicStruct.h"
 #include "Hal.h"
 #include "stdint.h"
 #include "stdio.h"
@@ -40,7 +41,5 @@
 #include "SkyGUISystem.h"
 #include "ConsoleManager.h"
 #include "SkyModuleManager.h"
-
-#ifdef SKY_EMULATOR
-extern SKY_PROCESS_INTERFACE g_processInterface;
-#endif
+#include "KernelAPI.h"
+#include "X86Arch.h"

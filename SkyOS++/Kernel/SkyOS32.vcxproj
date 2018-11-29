@@ -116,6 +116,7 @@
     <ClCompile Include="Heap\kheap.cpp" />
     <ClCompile Include="Heap\ordered_array.cpp" />
     <ClCompile Include="intrinsic.cpp" />
+    <ClCompile Include="KernelAPI.cpp" />
     <ClCompile Include="KernelProcedure.cpp" />
     <ClCompile Include="KeyBoard\KeyBoard.cpp" />
     <ClCompile Include="KeyBoard\KeyboardController.cpp" />
@@ -124,6 +125,7 @@
     <ClCompile Include="Memory\PageTableEntry.cpp" />
     <ClCompile Include="Memory\PhysicalMemoryManager.cpp" />
     <ClCompile Include="Memory\VirtualMemoryManager.cpp" />
+    <ClCompile Include="MultbootUtil.cpp" />
     <ClCompile Include="PCIManager.cpp" />
     <ClCompile Include="pci\arch\x86\pci_arch_info.cpp" />
     <ClCompile Include="pci\arch\x86\pci_msi.cpp" />
@@ -132,6 +134,7 @@
     <ClCompile Include="pci\pci_info.cpp" />
     <ClCompile Include="pci\pci_io.cpp" />
     <ClCompile Include="pci\pci_irq.cpp" />
+    <ClCompile Include="PlatformAPI.cpp" />
     <ClCompile Include="SkyConsole.cpp" />
     <ClCompile Include="SkyConsoleLauncher.cpp" />
     <ClCompile Include="SkyGUILauncher.cpp" />
@@ -146,12 +149,15 @@
     <ClCompile Include="v8086\rme.cpp" />
     <ClCompile Include="v8086\RMEFunc.cpp" />
     <ClCompile Include="SkyInputManager.cpp" />
+    <ClCompile Include="X86Arch.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BasicStruct.h" />
     <ClInclude Include="ConsoleSystem\commandMacros.h" />
     <ClInclude Include="ConsoleSystem\commands.h" />
     <ClInclude Include="ConsoleSystem\commandTable.h" />
     <ClInclude Include="ConsoleSystem\ConsoleManager.h" />
+    <ClInclude Include="Constants.h" />
     <ClInclude Include="Core\Exception.h" />
     <ClInclude Include="Core\KernelProcessLoader.h" />
     <ClInclude Include="Core\LoadDLL.h" />
@@ -251,6 +257,7 @@
     <ClInclude Include="Heap\ordered_array.h" />
     <ClInclude Include="IDeviceDriver.h" />
     <ClInclude Include="intrinsic.h" />
+    <ClInclude Include="KernelAPI.h" />
     <ClInclude Include="KernelProcedure.h" />
     <ClInclude Include="KeyBoard\KeyBoard.h" />
     <ClInclude Include="KeyBoard\KeyboardController.h" />
@@ -260,6 +267,7 @@
     <ClInclude Include="Memory\PageTableEntry.h" />
     <ClInclude Include="Memory\PhysicalMemoryManager.h" />
     <ClInclude Include="Memory\VirtualMemoryManager.h" />
+    <ClInclude Include="MultbootUtil.h" />
     <ClInclude Include="MultiBoot.h" />
     <ClInclude Include="PCIManager.h" />
     <ClInclude Include="pci\arch\x86\pci_arch_info.h" />
@@ -267,6 +275,7 @@
     <ClInclude Include="pci\pci_fixup.h" />
     <ClInclude Include="pci\pci_info.h" />
     <ClInclude Include="pci\pci_irq.h" />
+    <ClInclude Include="PlatformAPI.h" />
     <ClInclude Include="SkyConsole.h" />
     <ClInclude Include="SkyConsoleLauncher.h" />
     <ClInclude Include="SkyGUILauncher.h" />
@@ -285,6 +294,7 @@
     <ClInclude Include="v8086\rme.h" />
     <ClInclude Include="v8086\RMEFunc.h" />
     <ClInclude Include="SkyInputManager.h" />
+    <ClInclude Include="X86Arch.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Device\audio\es1370\es1370.settings" />
@@ -348,7 +358,7 @@
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
       <AdditionalIncludeDirectories>../SkyDesktop;../SkyLua;./pci;../ThirdParty/freetype-2.9\include;./Net;../HangulInput/HangulInput;../SkySDL/include;./ConsoleSystem;./;../../CommonLib;../../CommonLib/stl;../../CommonLib/jsmn;../../Include;./CPU;./Memory;./Heap;./Test;./FileSystem;./Keyboard;./V8086;./GUI/SkyGUI;./GUI/Simple;./GUI;../../CommonLib/math;./gui/svgagui;./gui/svgagui/example;../../Module/Include;./Device;./Core;../../CommonLib/CPlusPlus;./GUI/SkySVGA;../SkyOSWin32Stub;../lua5/lua5;./device/audio;./device/audio/sb16</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>SKYOS32;_MSC_VER</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SKY_EMULATOR;SKY_EMULATOR_DLL;SKYOS32;_MSC_VER</PreprocessorDefinitions>
       <IgnoreStandardIncludePath>true</IgnoreStandardIncludePath>
       <StringPooling>
       </StringPooling>

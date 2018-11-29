@@ -19,6 +19,7 @@ public:
 	bool HandleInterrupt(unsigned char scanCode);
 	bool ExecuteCommand(char* command);
 	lua_State *L;	
+	
 };
 
 extern LUA_KERNEL_API LuaKernel*  testFunc11();

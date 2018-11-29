@@ -50,7 +50,7 @@
 #include "MapFileAddress.h"
 #include "string.h"
 #include "sprintf.h"
-#include "SkyMockInterface.h"
+#include "PlatformAPI.h"
 //-NAME---------------------------------
 //.DESCRIPTION..........................
 //.PARAMETERS...........................
@@ -96,7 +96,7 @@ MapFileSymbol::~MapFileSymbol()
 //.PARAMETERS...........................
 //.RETURN.CODES.........................
 //--------------------------------------
-extern SkyMockInterface g_mockInterface;
+
 void MapFileSymbol::setData(char	*p_name, 
 							char	*p_address, 
 							char	*p_rvabase, 

@@ -19,7 +19,7 @@
 #include "jinclude.h"
 #include "jpeglib.h"
 #include "jerror.h"
-#include "SkyMockInterface.h"
+#include "PlatformAPI.h"
 
 /* Expanded data source object for stdio input */
 

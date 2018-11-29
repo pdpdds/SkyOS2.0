@@ -5,7 +5,7 @@
 #include "SkyConsole.h"
 #include "MultiBoot.h"	
 #include "SkyAPI.h"
-
+#include "X86Arch.h"
 
 PageDirectory* g_pageDirectoryPool[MAX_PAGE_DIRECTORY_COUNT];
 bool g_pageDirectoryAvailable[MAX_PAGE_DIRECTORY_COUNT];
@@ -17,8 +17,8 @@ namespace VirtualMemoryManager
 	PageDirectory*		_kernel_directory = 0;
 	PageDirectory*		_cur_directory = 0;	
 
-	//가상 주소와 매핑된 실제 물리 주소를 얻어낸다.
-	void* VirtualMemoryManager::GetPhysicalAddressFromVirtualAddress(PageDirectory* directory, uint32_t virtualAddress)
+	//가상 주소와 매핑된 물리 주소를 얻어낸다.
+	void* GetPhysicalAddressFromVirtualAddress(PageDirectory* directory, uint32_t virtualAddress)
 	{
 		PDE* pagedir = directory->m_entries;
 		if (pagedir[virtualAddress >> 22] == 0)
@@ -48,7 +48,7 @@ namespace VirtualMemoryManager
 	void MapPhysicalAddressToVirtualAddresss(PageDirectory* dir, uint32_t virt, uint32_t phys, uint32_t flags)
 	{
 		kEnterCriticalSection();
-		PhysicalMemoryManager::EnablePaging(false);
+		EnablePaging(false);
 		PDE* pageDir = dir->m_entries;				
 
 		if (pageDir[virt >> 22] == 0)
@@ -61,34 +61,13 @@ namespace VirtualMemoryManager
 
 		pageTable[virt << 10 >> 10 >> 12] = phys | flags;
 
-		PhysicalMemoryManager::EnablePaging(true);
-		kLeaveCriticalSection();
-	}
-
-	void MapPhysicalAddressToVirtualAddresss2(PageDirectory* dir, uint32_t virt, uint32_t phys, uint32_t flags)
-	{		
-		kEnterCriticalSection();
-		PhysicalMemoryManager::EnablePaging(false);		
-		
-		PDE* pageDir = dir->m_entries;
-
-		if (pageDir[virt >> 22] == 0)
-		{
-			CreatePageTable(dir, virt, flags);
-		}
-
-		uint32_t mask = (uint32_t)(~0xfff);
-		uint32_t* pageTable = (uint32_t*)(pageDir[virt >> 22] & mask);
-
-		pageTable[virt << 10 >> 10 >> 12] = phys | flags;
-
-		PhysicalMemoryManager::EnablePaging(true);
+		EnablePaging(true);
 		kLeaveCriticalSection();
 	}
 
 	void FreePageDirectory(PageDirectory* dir)
 	{
-		PhysicalMemoryManager::EnablePaging(false);
+		EnablePaging(false);
 		PDE* pageDir = dir->m_entries;
 		for (int i = 0; i < PAGES_PER_DIRECTORY; i++)
 		{
@@ -113,7 +92,7 @@ namespace VirtualMemoryManager
 			}
 		}
 
-		PhysicalMemoryManager::EnablePaging(true);
+		EnablePaging(true);
 	}
 
 	void UnmapPageTable(PageDirectory* dir, uint32_t virt)
@@ -247,7 +226,7 @@ namespace VirtualMemoryManager
 		uint32_t frame = 0x00000000;
 		uint32_t virt = 0x00000000;
 
-		int pageTableCount = PhysicalMemoryManager::GetKernelEnd() / (PAGES_PER_TABLE * PAGE_SIZE);
+		int pageTableCount = 0;
 
 		if (pageTableCount < 2)
 			pageTableCount = 2;
@@ -320,7 +299,7 @@ namespace VirtualMemoryManager
 		SetPageDirectory(dir);
 
 		//페이징 기능을 다시 활성화시킨다
-		PhysicalMemoryManager::EnablePaging(true);
+		EnablePaging(true);
 		
 		return true;
 	}

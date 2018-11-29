@@ -24,9 +24,6 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="dllmain.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="CompleteHan.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -163,6 +160,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="LoadSpcFont.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="dllmain.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

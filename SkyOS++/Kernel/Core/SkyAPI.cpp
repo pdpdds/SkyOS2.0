@@ -280,7 +280,7 @@ extern "C"
 
 		for (int i = 0; i < DEFAULT_HEAP_PAGE_COUNT; i++)
 		{
-			VirtualMemoryManager::MapPhysicalAddressToVirtualAddresss2(pProcess->GetPageDirectory(),
+			VirtualMemoryManager::MapPhysicalAddressToVirtualAddresss(pProcess->GetPageDirectory(),
 				(uint32_t)heapAddess + i * PAGE_SIZE,
 				(uint32_t)pHeapPhys + i * PAGE_SIZE,
 				I86_PTE_PRESENT | I86_PTE_WRITABLE | I86_PTE_USER);

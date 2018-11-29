@@ -36,31 +36,26 @@ bool SkyGUISystem::InitializeWithConsole()
 	return true;
 }
 
-bool SkyGUISystem::Initialize(multiboot_info* pBootInfo)
+bool SkyGUISystem::Initialize()
 {
-	if (strcmp(pBootInfo->boot_loader_name, "GNU GRUB 0.95") == 0)
-		return false;
-	else
-	{			
-		if (pBootInfo->framebuffer_addr != 0)
-		{
-			VirtualMemoryManager::CreateVideoDMAVirtualAddress(VirtualMemoryManager::GetCurPageDirectory(), pBootInfo->framebuffer_addr, pBootInfo->framebuffer_addr, pBootInfo->framebuffer_addr + VIDEO_RAM_LOGICAL_ADDRESS_OFFSET);
 
-			m_videoRamInfo._pVideoRamPtr = (void*)pBootInfo->framebuffer_addr;
-			m_videoRamInfo._width = pBootInfo->framebuffer_width;
-			m_videoRamInfo._height = pBootInfo->framebuffer_height;
-			m_videoRamInfo._bpp = pBootInfo->framebuffer_bpp;
-			m_videoRamInfo._framebuffer_type = pBootInfo->framebuffer_type;
+	if (bootParams.framebuffer_addr != 0)
+	{
+		VirtualMemoryManager::CreateVideoDMAVirtualAddress(VirtualMemoryManager::GetCurPageDirectory(), bootParams.framebuffer_addr, bootParams.framebuffer_addr, bootParams.framebuffer_addr + VIDEO_RAM_LOGICAL_ADDRESS_OFFSET);
 
-			m_GUIEnable = true;
-			
-			return true;
-		}
+		m_videoRamInfo._pVideoRamPtr = (void*)bootParams.framebuffer_addr;
+		m_videoRamInfo._width = bootParams.framebuffer_width;
+		m_videoRamInfo._height = bootParams.framebuffer_height;
+		m_videoRamInfo._bpp = bootParams.framebuffer_bpp;
+		m_videoRamInfo._framebuffer_type = bootParams.framebuffer_type;
+
+		m_GUIEnable = true;
+
+		return true;
 	}
-
-	m_GUIEnable = false;
 	return false;
 }
+
 extern void SampleFillRect(ULONG* lfb, int x, int y, int w, int h, int col);
 bool SkyGUISystem::InitGUI()
 {

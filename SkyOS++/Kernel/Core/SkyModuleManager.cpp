@@ -1,10 +1,7 @@
 #include "SkyOS.h"
+#include "PlatformAPI.h"
 
 SkyModuleManager* SkyModuleManager::m_pModuleManager = nullptr;
-extern SKY_FILE_Interface g_FileInterface;
-extern SKY_ALLOC_Interface g_allocInterface;
-extern SKY_Print_Interface g_printInterface;
-extern SKY_PROCESS_INTERFACE g_processInterface;
 
 extern "C" FILE* g_stdOut;
 extern "C" FILE* g_stdIn;
@@ -22,59 +19,53 @@ SkyModuleManager::~SkyModuleManager()
 {
 }
 
-bool SkyModuleManager::Initialize(multiboot_info* pBootInfo)
+bool SkyModuleManager::Initialize()
 {
 #ifndef SKY_EMULATOR
-	g_printInterface.sky_stdin = g_stdIn;
-	g_printInterface.sky_stdout = g_stdOut;
-	g_printInterface.sky_stderr = g_stdErr;
+	platformAPI._printInterface.sky_stdin = g_stdIn;
+	platformAPI._printInterface.sky_stdout = g_stdOut;
+	platformAPI._printInterface.sky_stderr = g_stdErr;
 #endif // !SKY_EMULATOR
 
-	m_pMultibootInfo = pBootInfo;
 	return true;
 }
 
 void SkyModuleManager::PrintMoudleList()
 {
-	uint32_t mb_flags = m_pMultibootInfo->flags;
-	if (mb_flags & MULTIBOOT_INFO_MODS)
+
+	uint32_t mods_count = bootParams._moduleCount;
+	uint32_t mods_addr = (uint32_t)bootParams.Modules;
+
+	for (uint32_t mod = 0; mod < mods_count; mod++)
 	{
-		uint32_t mods_count = m_pMultibootInfo->mods_count;
-		uint32_t mods_addr = (uint32_t)m_pMultibootInfo->Modules;
+		Module* module = (Module*)(mods_addr + (mod * sizeof(Module)));
 
-		for (uint32_t mod = 0; mod < mods_count; mod++)
-		{
-			Module* module = (Module*)(mods_addr + (mod * sizeof(Module)));
+		const char* module_string = (const char*)module->Name;
 
-			const char* module_string = (const char*)module->Name;
-
-			SkyConsole::Print(" %s\n", module_string);			
-		}
+		SkyConsole::Print(" %s\n", module_string);
 	}
+
 }
 
-Module* SkyModuleManager::FindModule( const char* moduleName)
+BootModule* SkyModuleManager::FindModule(const char* moduleName)
 {
-	uint32_t mb_flags = m_pMultibootInfo->flags;
-	if (mb_flags & MULTIBOOT_INFO_MODS)
+	uint32_t mods_count = bootParams._moduleCount;
+	uint32_t mods_addr = (uint32_t)bootParams.Modules;
+
+	for (uint32_t mod = 0; mod < mods_count; mod++)
 	{
-		uint32_t mods_count = m_pMultibootInfo->mods_count;
-		uint32_t mods_addr = (uint32_t)m_pMultibootInfo->Modules;
+		BootModule* module = (BootModule*)(mods_addr + (mod * sizeof(BootModule)));
 
-		for (uint32_t mod = 0; mod < mods_count; mod++)
+		const char* module_string = (const char*)module->Name;
+
+		//SkyConsole::Print("Module Name : %s 0x%x 0x%x\n", module_string, module->ModuleStart, module->ModuleEnd);
+
+		if (strcmp(module_string, moduleName) == 0)
 		{
-			Module* module = (Module*)(mods_addr + (mod * sizeof(Module)));
-
-			const char* module_string = (const char*)module->Name;
-
-			//SkyConsole::Print("Module Name : %s 0x%x 0x%x\n", module_string, module->ModuleStart, module->ModuleEnd);
-
-			if (strcmp(module_string, moduleName) == 0)
-			{
-				return module;
-			}
+			return module;
 		}
 	}
+
 
 	return nullptr;
 }
@@ -95,7 +86,7 @@ LOAD_DLL_INFO* SkyModuleManager::FindLoadedModule(const char* dll_path)
 void* SkyModuleManager::LoadModule(const char* moduleName, bool fromMemory)
 {
 #ifdef SKY_EMULATOR_DLL
-	void* hwnd = (void*)g_processInterface.sky_kload_library(moduleName);
+	void* hwnd = (void*)platformAPI._processInterface.sky_kload_library(moduleName);
 #else
 	MODULE_HANDLE hwnd = SkyModuleManager::GetInstance()->LoadModuleFromMemory(moduleName);
 #endif // SKY_EMULATOR_DLL	
@@ -106,23 +97,19 @@ void* SkyModuleManager::LoadModule(const char* moduleName, bool fromMemory)
 	}
 
 #ifdef SKY_EMULATOR_DLL
-	PSetSkyMockInterface SetSkyMockInterface = (PSetSkyMockInterface)g_processInterface.sky_kget_proc_address(hwnd, "SetSkyMockInterface");
-	PSetSkyProcessInterface SetSkyProcessInterface = (PSetSkyProcessInterface)g_processInterface.sky_kget_proc_address(hwnd, "SetSkyProcessInterface");	
+	pSetPlatformAPI SetPlatformAPI = (pSetPlatformAPI)platformAPI._processInterface.sky_kget_proc_address(hwnd, "SetPlatformAPI");
 #else
 
 	if (hwnd->refCount > 1)
 		return hwnd;
 	
-	PSetSkyMockInterface SetSkyMockInterface = (PSetSkyMockInterface)SkyModuleManager::GetInstance()->GetModuleFunction(hwnd, "SetSkyMockInterface");
-	PSetSkyProcessInterface SetSkyProcessInterface = (PSetSkyProcessInterface)SkyModuleManager::GetInstance()->GetModuleFunction(hwnd, "SetSkyProcessInterface");	
+	pSetPlatformAPI SetPlatformAPI = (pSetPlatformAPI)SkyModuleManager::GetInstance()->GetModuleFunction(hwnd, "SetPlatformAPI");
 #endif
 
 	//디버그 엔진에 플랫폼 종속적인 인터페이스를 넘긴다.
-	if (SetSkyMockInterface != nullptr)
-		SetSkyMockInterface(g_allocInterface, g_FileInterface, g_printInterface);
+	if (SetPlatformAPI != nullptr)
+		SetPlatformAPI(platformAPI);
 
-	if(SetSkyProcessInterface != nullptr)
-		SetSkyProcessInterface(g_processInterface);
 
 	return hwnd;
 }
@@ -284,7 +271,7 @@ MODULE_HANDLE SkyModuleManager::LoadModuleFromMemory(const char* moduleName)
 		return p;
 	}
 
-	Module* pModule = FindModule(moduleName);
+	BootModule* pModule = FindModule(moduleName);
 
 	if (pModule == nullptr)
 		return nullptr;
@@ -351,7 +338,7 @@ void* SkyModuleManager::GetModuleFunction(void* handle, const char* func_name)
 {
 
 #ifdef SKY_EMULATOR_DLL
-	return (void*)g_processInterface.sky_kget_proc_address(handle, func_name);
+	return (void*)platformAPI._processInterface.sky_kget_proc_address(handle, func_name);
 #else
 	return (void*)myGetProcAddress_LoadDLLInfo((MODULE_HANDLE)handle, func_name);
 #endif

@@ -1,5 +1,5 @@
 #pragma once
-#include "MultiBoot.h"
+#include "BasicStruct.h"
 #include "LoadDLL.h"
 #include "kheap.h"
 #include "stl/list.h"
@@ -27,20 +27,18 @@ public:
 		return m_pModuleManager;
 	}
 
-	bool Initialize(multiboot_info* pBootInfo);
+	bool Initialize();
 	
 	void* LoadModule(const char* moduleName, bool fromMemory = true);
 	bool LoadImplictDLL(DWORD moduleAaddress);
 	bool FixIAT(void* image);
 
 	LOAD_DLL_INFO* FindLoadedModule(const char* dll_path);
-	Module* FindModule(const char* moduleName);
+	BootModule* FindModule(const char* moduleName);
 	void PrintMoudleList();
 	
 	bool UnloadModule(MODULE_HANDLE handle);
 	void* GetModuleFunction(void* handle, const char* func_name);
-
-	multiboot_info* GetMultiBootInfo() { return m_pMultibootInfo; }
 
 protected:
 	MODULE_HANDLE LoadModuleFromFile(const char* dll_path);
@@ -49,6 +47,5 @@ protected:
 private:
 	SkyModuleManager();
 	static SkyModuleManager* m_pModuleManager;
-	multiboot_info* m_pMultibootInfo;
 	list<LOAD_DLL_INFO*> m_moduleList;
 };

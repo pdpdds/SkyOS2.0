@@ -1,7 +1,7 @@
 // dllmain.cpp: DLL 응용 프로그램의 진입점을 정의합니다.
 
 #include "windef.h"
-#include "SkyMockInterface.h"
+#include "PlatformAPI.h"
 
 #ifdef SKYOS_WIN32
 #pragma comment(lib, "libucrt.lib")

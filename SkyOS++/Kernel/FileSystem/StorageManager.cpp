@@ -178,15 +178,15 @@ bool StorageManager::GetFileList()
 	return m_pCurrentFileSystem->GetFileList();
 }
 
-bool StorageManager::Initilaize(multiboot_info* info)
+bool StorageManager::Initilaize()
 {
 	if (m_stroageCount > 0)
 		return false;
 
-	return ConstructFileSystem(info);
+	return ConstructFileSystem();
 }
 
-bool StorageManager::ConstructFileSystem(multiboot_info* info)
+bool StorageManager::ConstructFileSystem()
 {
 	//IDE 하드 디스크
 	/*FileSysAdaptor* pHDDAdaptor = new HDDAdaptor("HardDisk", 'C');

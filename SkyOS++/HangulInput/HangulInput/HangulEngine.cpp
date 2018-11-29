@@ -7,6 +7,12 @@
 #define KEY_BACKSPACE 8
 #define KEY_LALT 0x85
 
+extern "C" __declspec(dllexport) I_HangulEngine* GetHangulEngine()
+{
+
+	return (I_HangulEngine*)new HangulEngine();
+}
+
 BUFFERMANAGER stBufferManager;
 
 HangulEngine::HangulEngine()

@@ -18,7 +18,7 @@
 #include "VESA.h"
 #include "Mouse.h"
 
-
+extern "C" void printf(const char* str, ...);
 //#include "Console.h"
 //#include "AssemblyUtility.h"
 //#include "Task.h"

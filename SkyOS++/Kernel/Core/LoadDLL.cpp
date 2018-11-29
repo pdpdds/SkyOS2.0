@@ -6,7 +6,7 @@
 #include "ctrycatch.h"
 #include "algobase.h"
 #include "SkyConsole.h"
-#include "SkyMockInterface.h"
+#include "PlatformAPI.h"
 #include "SkyModuleManager.h"
 
 #ifdef SKY_EMULATOR

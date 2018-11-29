@@ -464,7 +464,7 @@ static int pushline(lua_State *L, int firstline) {
 	//return 0;
 	while (ma_bCommandReady == false)
 	{
-		g_processInterface.sky_ksleep(0);
+		platformAPI._processInterface.sky_ksleep(0);
 	}
 
 	ma_bCommandReady = false;

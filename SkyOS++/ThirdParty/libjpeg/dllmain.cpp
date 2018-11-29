@@ -2,7 +2,7 @@
 
 #include "windef.h"
 #include "stdarg.h"
-#include "SkyMockInterface.h"
+#include "PlatformAPI.h"
 #include "SkyInterface.h"
 #include "string.h"
 #include "stl/IOStream.h"

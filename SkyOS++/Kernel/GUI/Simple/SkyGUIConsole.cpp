@@ -91,7 +91,7 @@ void SkyGUIConsole::GetCommandForGUI(char* commandBuffer, int bufSize, char* dri
 
 		if (m_pSkyInputManager->GetKeyFromKeyQueue(&keyData) == false)
 		{
-			g_processInterface.sky_ksleep(0);
+			platformAPI._processInterface.sky_ksleep(0);
 			continue;
 		}
 
@@ -147,7 +147,7 @@ void SkyGUIConsole::GetCommandForGUI(char* commandBuffer, int bufSize, char* dri
 			}
 		}
 
-		g_processInterface.sky_ksleep(10);		
+		platformAPI._processInterface.sky_ksleep(10);
 	}	
 }
 
@@ -158,7 +158,7 @@ bool SkyGUIConsole::Run()
 	I_HangulEngine* pIMEEngine = SkyGUISystem::GetInstance()->GetIMEEngine();
 
 #ifdef SKY_EMULATOR
-	g_processInterface.sky_kcreate_thread_from_memory(pProcess->GetProcessId(), GUIWatchDogProc, pProcess);
+	platformAPI._processInterface.sky_kcreate_thread_from_memory(pProcess->GetProcessId(), GUIWatchDogProc, pProcess);
 #else
 	ProcessManager::GetInstance()->CreateProcessFromMemory("GUIWatchDog", GUIWatchDogProc, NULL, PROCESS_KERNEL);
 #endif // SKY_EMULAOTR	

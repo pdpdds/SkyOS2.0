@@ -19,7 +19,7 @@
 #include "jinclude.h"
 #include "jpeglib.h"
 #include "jerror.h"
-#include "SkyMockInterface.h"
+#include "PlatformAPI.h"
 
 #ifndef HAVE_STDLIB_H		/* <stdlib.h> should declare malloc(),free() */
 extern void * malloc JPP((size_t size));

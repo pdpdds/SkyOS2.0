@@ -4,133 +4,53 @@
 #include "SkyTest.h"
 #include "SkyVirtualInput.h"
 #include "PCIManager.h"
-uint32_t g_kernel_load_address = 0;
-extern unsigned int _pitTicks;
+#include "SkyDebugger.h"
+#include "BasicStruct.h"
+#include "Constants.h"
+#include "PlatformAPI.h"
+#include "MultbootUtil.h"
 
 #ifdef SKY_EMULATOR
 #include "SkyOSWin32Stub.h"
-
-multiboot_info g_bootInfo;
-char* g_szBootLoaderName = "SkyOS Emulator";
-char* g_virtualMemory = nullptr;
-unsigned int g_virtualMemorySize = 0;
-
-extern SKY_FILE_Interface g_FileInterface;
-extern SKY_ALLOC_Interface g_allocInterface;
-extern SKY_Print_Interface g_printInterface;
-extern SKY_PROCESS_INTERFACE g_processInterface;
+extern unsigned int _pitTicks;
 #endif
 
-#include "SkyDebugger.h"
+BootParams bootParams;
+PlatformAPI platformAPI;
+
 #ifdef SKY_EMULATOR
 void kmain()
 #else
 void kmain(unsigned long magic, unsigned long addr, uint32_t imageBase)
 #endif
 {
+	InitializeConstructors();
+
 #ifdef SKY_EMULATOR
-	uint32_t imageBase = 0x01600000;
-	unsigned long magic = MULTIBOOT_BOOTLOADER_MAGIC;
-	g_kernel_load_address = imageBase;
-
-	WIN32_STUB* pStub = GetWin32Stub();
-
-	g_processInterface = *(SKY_PROCESS_INTERFACE*)pStub->_processInterface;
-	g_FileInterface = *(SKY_FILE_Interface*)pStub->_fileInterface;
-	g_allocInterface = *(SKY_ALLOC_Interface*)pStub->_allocInterface;
-	g_printInterface = *(SKY_Print_Interface*)pStub->_printInterface;
-	g_virtualMemory = (char*)pStub->_virtualAddress;
-	g_virtualMemorySize = pStub->_virtualAddressSize;
-
-	uint32_t startAddress = PAGE_ALIGN_UP((uint32_t)g_virtualMemory);
-	uint32_t endAddress = PAGE_ALIGN_DOWN((uint32_t)g_virtualMemory + g_virtualMemorySize);
-
-	g_virtualMemorySize = endAddress - startAddress;
-	g_virtualMemory = (char*)startAddress;
-
-	multiboot_info* pBootInfo = &g_bootInfo;
-	pBootInfo->boot_loader_name = g_szBootLoaderName;
+	multiboot_info* pInfo = 0;
+	BuildPlatformAPI(0, KERNEL_LOAD_BASE_ADDRESS);
 #else
-
-	multiboot_info* pBootInfo = (multiboot_info*)addr;	
-	
-	//매직값이 다르다면 이 커널은 GRUB => 부트로더에 의해 로드되었다고 판단	
-	//베이스 어드레스 0x400000
-	//메인엔트리 kmain
-	if (magic != MULTIBOOT_BOOTLOADER_MAGIC)
-	{	
-		g_kernel_load_address = imageBase;
-	}
-	else
-	{
-		//GRUB에 단독으로 부팅되었을 경우
-		//베이스 어드레스 0x100000
-		//메인엔트리 multiboot_entry	
-		g_kernel_load_address = GRUB_KERNEL_LOAD_ADDRESS;		
-	}
+	multiboot_info* pInfo = (multiboot_info*)addr;
+	BuildPlatformAPI(addr, imageBase);
 #endif
-	InitContext(pBootInfo);
-	
-	kEnterCriticalSection();
-	
+
+	kEnterCriticalSection();	
+			
 	InitHardware();
-	InitMemoryManager(pBootInfo);
-
-#ifdef SKY_EMULATOR
-	SKYOS_MODULE_LIST* pModule = InitSkyOSModule();
-
-	pBootInfo->mods_count = pModule->_moduleCount;
-	if (pModule->_moduleCount > 0)
-	{
-		pBootInfo->Modules = new Module[pModule->_moduleCount];
-
-		for (int i = 0; i < pModule->_moduleCount; i++)
-		{
-			pBootInfo->Modules[i].ModuleStart = pModule->_module[i]._startAddress;
-			pBootInfo->Modules[i].ModuleEnd = pModule->_module[i]._endAddress;
-			pBootInfo->Modules[i].Name = pModule->_module[i]._name;
-		}
-
-		pBootInfo->flags = MULTIBOOT_INFO_MODS;
-	}
-#endif
+	InitMemoryManager();
+	InitModules(pInfo);
+	InitDisplaySystem();
 	
-
-	Scheduler::GetInstance();
-	StorageManager::GetInstance();
-	SkyModuleManager::GetInstance()->Initialize(pBootInfo);
-
-	SystemProfiler::GetInstance()->Initialize();
-
-	
-#if SKY_CONSOLE_MODE == 0
-#ifdef SKY_EMULATOR
-	WIN32_VIDEO* pVideoInfo = InitWin32System(SKY_WIDTH, SKY_HEIGHT, SKY_BPP);
-	if (pVideoInfo == nullptr)
-		return;
-	
-	pBootInfo->framebuffer_addr = pVideoInfo->_frameBuffer;
-	pBootInfo->framebuffer_bpp = pVideoInfo->_bpp;
-	pBootInfo->framebuffer_width = pVideoInfo->_width;
-	pBootInfo->framebuffer_height = pVideoInfo->_height;	
-	
-#endif
-
-	SkyGUISystem::GetInstance()->Initialize(pBootInfo);
-
-#endif
-	
-	PrintCurrentTime();	
 	kLeaveCriticalSection();
 
+	SkyModuleManager::GetInstance()->Initialize();
+	SystemProfiler::GetInstance()->Initialize();
 	StorageManager::GetInstance()->SetCurrentFileSystemByID('L');
-	StorageManager::GetInstance()->Initilaize(pBootInfo);
+	StorageManager::GetInstance()->Initilaize();
 	SkyGUISystem::GetInstance()->LoadGUIModule();
 	SkyGUISystem::GetInstance()->InitGUI();
 	SkyDebugger::GetInstance()->LoadSymbol("DebugEngine.dll");
-	SkyModuleManager::GetInstance()->LoadImplictDLL(0x01600000);
-	
-	TestSkySDL(1024, 768, 32);	
+	SkyModuleManager::GetInstance()->LoadImplictDLL(bootParams._kernelBaseAddress);	
 
 	SkyLauncher* pSystemLauncher = nullptr;
 
@@ -140,6 +60,7 @@ void kmain(unsigned long magic, unsigned long addr, uint32_t imageBase)
 	pSystemLauncher = new SkyConsoleLauncher();	
 #endif
 	
+	PrintCurrentTime();
 	pSystemLauncher->Launch();
 
 #ifdef SKY_EMULATOR
@@ -150,22 +71,33 @@ void kmain(unsigned long magic, unsigned long addr, uint32_t imageBase)
 	for (;;);
 }
 
-void InitContext(multiboot_info* pBootInfo)
+bool InitDisplaySystem()
 {
-	InitializeConstructors();
-#ifndef SKY_EMULATOR 
-	SkyConsole::Initialize();
-#endif
-	
-	//헥사를 표시할 때 %X는 integer, %x는 unsigned integer의 헥사값을 표시한다.	
-	SkyConsole::Print("*** Sky OS Console System Init ***\n");
-	SkyConsole::Print("GRUB Information\n");
-	SkyConsole::Print("Boot Loader Name : %s\n", (char*)pBootInfo->boot_loader_name);
+#if SKY_CONSOLE_MODE == 0
+#ifdef SKY_EMULATOR
+	WIN32_VIDEO* pVideoInfo = InitWin32System(SKY_WIDTH, SKY_HEIGHT, SKY_BPP);
+	if (pVideoInfo == nullptr)
+		return false;
 
+	bootParams.framebuffer_addr = pVideoInfo->_frameBuffer;
+	bootParams.framebuffer_bpp = pVideoInfo->_bpp;
+	bootParams.framebuffer_width = pVideoInfo->_width;
+	bootParams.framebuffer_height = pVideoInfo->_height;
+
+#endif
+	SkyGUISystem::GetInstance()->Initialize();
+
+#endif
+
+	return true;
 }
 
 void InitHardware()
 {
+	SkyConsole::Initialize();
+	SkyConsole::Print("*** Sky OS Console System Init ***\n");
+	SkyConsole::Print("Boot Loader Name : %s\n", bootParams._szBootLoaderName);
+
 	GDTInitialize();
 	IDTInitialize(0x8);
 
@@ -196,16 +128,13 @@ void InitHardware()
 #endif
 }
 
-bool InitMemoryManager(multiboot_info* pBootInfo)
-{
-	//물리/가상 메모리 매니저를 초기화한다.
-	//기본 설정 시스템 메모리는 128MB
-	SkyConsole::Print("Memory Manager Init Complete\n");
-
-	PhysicalMemoryManager::EnablePaging(false);
+//물리/가상 메모리 매니저를 초기화한다.
+bool InitMemoryManager()
+{		
+	EnablePaging(false);
 
 	//물리 메모리 매니저 초기화
-	PhysicalMemoryManager::Initialize(pBootInfo);
+	PhysicalMemoryManager::Initialize();
 	//PhysicalMemoryManager::Dump();
 
 	//가상 메모리 매니저 초기화	
@@ -216,7 +145,7 @@ bool InitMemoryManager(multiboot_info* pBootInfo)
 	unsigned int requiredHeapSize = heapFrameCount * PAGE_SIZE;
 	
 	//요구되는 힙의 크기가 자유공간보다 크다면 그 크기를 자유공간 크기로 맞춘다음 반으로 줄인다.
-	uint32_t memorySize = PhysicalMemoryManager::GetMemorySize();
+	uint32_t memorySize = bootParams._memorySize;
 	if (requiredHeapSize > memorySize)
 	{
 		requiredHeapSize = memorySize / 2;
@@ -225,6 +154,8 @@ bool InitMemoryManager(multiboot_info* pBootInfo)
 	
 	HeapManager::InitKernelHeap(heapFrameCount);
 	SkyConsole::Print("Heap %dMB Allocated\n", requiredHeapSize / MEGA_BYTES);
+
+	SkyConsole::Print("Memory Manager Init Complete\n");
 	
 	return true;
 }
@@ -299,4 +230,68 @@ _declspec(naked) void multiboot_entry(void)
 	halt:
 		jmp halt;
 	}
+}
+
+bool BuildPlatformAPI(unsigned long addr, uint32_t imageBase)
+{
+#ifdef SKY_EMULATOR	
+	WIN32_STUB* pStub = GetWin32Stub();
+
+	platformAPI._processInterface = *(SKY_PROCESS_INTERFACE*)pStub->_processInterface;
+	platformAPI._fileInterface = *(SKY_FILE_INTERFACE*)pStub->_fileInterface;
+	platformAPI._allocInterface = *(SKY_ALLOC_INTERFACE*)pStub->_allocInterface;
+	platformAPI._printInterface = *(SKY_PRINT_INTERFACE*)pStub->_printInterface;
+
+	bootParams._kernelBaseAddress = imageBase;
+	strcpy(bootParams._szBootLoaderName, "SkyOS Emulator");
+
+	uint32_t startAddress = PAGE_ALIGN_UP((uint32_t)pStub->_virtualAddress);
+	uint32_t endAddress = PAGE_ALIGN_DOWN((uint32_t)pStub->_virtualAddress + pStub->_virtualAddressSize);
+
+	bootParams.SetAllocated(startAddress, endAddress, MEMORY_REGION_AVAILABLE);
+	bootParams._memorySize = endAddress - startAddress;	
+	
+#else
+	multiboot_info* pBootInfo = (multiboot_info*)addr;
+	bootParams._kernelBaseAddress = imageBase;
+	strcpy(bootParams._szBootLoaderName, pBootInfo->boot_loader_name);
+	GetMemoryInfo(pBootInfo, &bootParams);
+	
+#endif
+
+	return true;
+}
+
+bool InitModules(multiboot_info* pInfo)
+{
+#ifdef SKY_EMULATOR
+	SKYOS_MODULE_LIST* pModule = InitSkyOSModule();
+
+	bootParams._moduleCount = pModule->_moduleCount;
+	if (bootParams._moduleCount > 0)
+	{
+		bootParams.Modules = new BootModule[pModule->_moduleCount];
+
+		for (int i = 0; i < pModule->_moduleCount; i++)
+		{
+			bootParams.Modules[i].ModuleStart = pModule->_module[i]._startAddress;
+			bootParams.Modules[i].ModuleEnd = pModule->_module[i]._endAddress;
+			bootParams.Modules[i].Name = pModule->_module[i]._name;
+		}
+	}
+#else
+	bootParams._moduleCount = pInfo->mods_count;
+	if (bootParams._moduleCount > 0)
+	{
+		bootParams.Modules = new BootModule[pInfo->mods_count];
+
+		for (int i = 0; i < pInfo->mods_count; i++)
+		{
+			bootParams.Modules[i].ModuleStart = pInfo->Modules[i].ModuleStart;
+			bootParams.Modules[i].ModuleEnd = pInfo->Modules[i].ModuleEnd;
+			bootParams.Modules[i].Name = pInfo->Modules[i].Name;
+		}
+	}
+#endif
+	return true;
 }

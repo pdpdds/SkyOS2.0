@@ -1,5 +1,5 @@
 #pragma once
-#include "SkyMockInterface.h"
+#include "PlatformAPI.h"
 
 #ifdef  __cplusplus
 extern "C" {
@@ -27,14 +27,13 @@ extern "C" {
 #endif
 
 #ifdef SKY_DLL
-extern SkyMockInterface g_mockInterface;
-extern SKY_PROCESS_INTERFACE g_processInterface;
-#define kmalloc(a) g_mockInterface.g_allocInterface.sky_kmalloc(a)
-#define kfree(p) g_mockInterface.g_allocInterface.sky_kfree(p)
-#define kcalloc(a, b) g_mockInterface.g_allocInterface.sky_kcalloc(a, b)
-#define krealloc(a, b) g_mockInterface.g_allocInterface.sky_krealloc(a, b)
-#define ksleep(a) g_processInterface.sky_ksleep(a)
-#define kexit(a) g_processInterface.sky_kexit(a)
+extern PlatformAPI platformAPI;
+#define kmalloc(a) platformAPI._allocInterface.sky_kmalloc(a)
+#define kfree(p) platformAPI._allocInterface.sky_kfree(p)
+#define kcalloc(a, b) platformAPI._allocInterface.sky_kcalloc(a, b)
+#define krealloc(a, b) platformAPI._allocInterface.sky_krealloc(a, b)
+#define ksleep(a) platformAPI._processInterface.sky_ksleep(a)
+#define kexit(a) platformAPI._processInterface.sky_kexit(a)
 #endif
 
 #ifdef  __cplusplus

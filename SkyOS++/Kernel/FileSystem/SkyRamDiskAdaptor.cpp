@@ -1,6 +1,5 @@
 #include "SkyRamDiskAdaptor.h"
 #include "SkyConsole.h"
-#include "MultiBoot.h"
 #include "SkyStruct.h"
 #include "PhysicalMemoryManager.h"
 #include "VirtualMemoryManager.h"
@@ -20,7 +19,7 @@ SkyRamDiskAdaptor::~SkyRamDiskAdaptor()
 
 bool SkyRamDiskAdaptor::Initialize()
 {
-	Module* rd_module = SkyModuleManager::GetInstance()->FindModule("skyramdisk.pak");	
+	BootModule* rd_module = SkyModuleManager::GetInstance()->FindModule("skyramdisk.pak");	
 	if (rd_module == 0) {
 		//G_PRETTY_BOOT_FAIL("Ramdisk not found (did you supply enough memory?");
 		SkyConsole::Print("%s ramdisk not found (did you supply enough memory?)", "kern");
@@ -38,7 +37,7 @@ bool SkyRamDiskAdaptor::Initialize()
 	return true;
 }
 
-void SkyRamDiskAdaptor::LoadRamDisk(Module* ramdiskModule, DWORD targetAddress)
+void SkyRamDiskAdaptor::LoadRamDisk(BootModule* ramdiskModule, DWORD targetAddress)
 {
 /*#ifndef  SKY_EMULATOR
 	int ramdiskPages = PAGE_ALIGN_UP(ramdiskModule->ModuleEnd - ramdiskModule->ModuleStart) / PAGE_SIZE;	

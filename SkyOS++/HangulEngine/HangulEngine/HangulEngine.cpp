@@ -5,7 +5,13 @@
 #include "hancode\hanin.h"      // "
 
 #include "SkyInterface.h"
-extern SkyMockInterface g_mockInterface;
+extern "C" void printf(const char* str, ...);
+
+extern "C" __declspec(dllexport) I_Hangul* GetHangulEngine()
+{
+	return new HangulEngine();
+}
+
 
 TEngFont *pDefEngFont = NULL;
 THanFont *pDefHanFont = NULL;
@@ -35,28 +41,28 @@ bool HangulEngine::Initialize()
 
 	if (!LoadEngFont(&EngFont1, EngFontFile))
 	{
-		g_mockInterface.g_printInterface.sky_printf(" can't find! %s\n", EngFontFile);
+		printf(" can't find! %s\n", EngFontFile);
 		return false;
 	}
 	else pDefEngFont = &EngFont1;
 
 	if (!LoadHanFont(&HanFont1, HanFontFile))
 	{
-		g_mockInterface.g_printInterface.sky_printf(" can't find! %s\n", HanFontFile);
+		printf(" can't find! %s\n", HanFontFile);
 		return false;
 	}
 	else pDefHanFont = &HanFont1;
 	
 	if (!LoadSpcFont(&SpcFont1, SpcFontFile))
 	{
-		g_mockInterface.g_printInterface.sky_printf(" can't find! %s\n", SpcFontFile);
+		printf(" can't find! %s\n", SpcFontFile);
 		return false;
 	}
 	else pDefSpcFont = &SpcFont1;
 	
 	if (!LoadHanjaFont(&HanjaFont1, HanjaFontFile))
 	{
-		g_mockInterface.g_printInterface.sky_printf(" can't find! %s\n", HanjaFontFile);
+		printf(" can't find! %s\n", HanjaFontFile);
 		return false;
 	}
 	else pDefHanjaFont = &HanjaFont1;

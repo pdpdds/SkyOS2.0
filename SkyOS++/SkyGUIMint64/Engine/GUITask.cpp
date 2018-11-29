@@ -18,6 +18,9 @@
 #include "SkyInterface.h"
 #include "Mouse.h"
 #define FILESYSTEM_MAXFILENAMELENGTH        24
+
+extern "C" void printf(const char* str, ...);
+
 //#include "MultiProcessor.h"
 //#include "MPConfigurationTable.h"
 //------------------------------------------------------------------------------
@@ -709,7 +712,6 @@ static CHARACTER gs_vstPreviousScreenBuffer[ CONSOLE_WIDTH * CONSOLE_HEIGHT ];
  *  GUI 버전의 콘솔 셸 태스크
  */
 #include "SkyInterface.h"
-extern SKY_PROCESS_INTERFACE g_processInterface;
 
 DWORD WINAPI kGUIConsoleShellTask(LPVOID parameter)
 {
@@ -747,7 +749,7 @@ DWORD WINAPI kGUIConsoleShellTask(LPVOID parameter)
         return 0;
     }
 
-	g_processInterface.sky_kcreate_thread_from_memory(1, kStartConsoleShell, NULL);
+	platformAPI._processInterface.sky_kcreate_thread_from_memory(1, kStartConsoleShell, NULL);
 
     // 셸 커맨드를 처리하는 콘솔 셸 태스크를 생성
    // kSetConsoleShellExitFlag( FALSE );
@@ -846,9 +848,9 @@ static void kProcessConsoleBuffer(QWORD qwWindowID)
 	pstPreviousScreenBuffer = gs_vstPreviousScreenBuffer;
 
 	// 화면을 전체를 업데이트 한 지 5초가 지났으면 무조건 화면 전체를 다시 그림
-	if (g_processInterface.sky_get_tick_count() - dwLastTickCount > 5000)
+	if (platformAPI._processInterface.sky_get_tick_count() - dwLastTickCount > 5000)
 	{
-		dwLastTickCount = g_processInterface.sky_get_tick_count();
+		dwLastTickCount = platformAPI._processInterface.sky_get_tick_count();
 		bFullRedraw = TRUE;
 	}
 	else

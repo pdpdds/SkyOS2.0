@@ -1,6 +1,6 @@
 #pragma once
 #include "FileSysAdaptor.h"
-#include "MultiBoot.h"
+#include "BasicStruct.h"
 #include "HDDAdaptor.h"
 #include "MemoryResourceAdaptor.h"
 #include "RamDiskAdaptor.h"
@@ -22,7 +22,7 @@ public:
 		return m_pStorageManager;
 	}
 
-	bool Initilaize(multiboot_info* info);
+	bool Initilaize();
 
 //인터페이스
 	bool RegisterFileSystem(FileSysAdaptor* fsys, DWORD deviceID);
@@ -46,7 +46,7 @@ public:
 
 		return 0;
 	}
-	bool ConstructFileSystem(multiboot_info* info);
+	bool ConstructFileSystem();
 protected:
 	
 

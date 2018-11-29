@@ -4,7 +4,7 @@
 #include "Exception.h"
 #include "ProcessManager.h"
 #include "SkyAPI.h"
-#include "SkyMockInterface.h"
+#include "PlatformAPI.h"
 
 SkyLauncher::SkyLauncher()
 {
@@ -36,11 +36,9 @@ void SkyLauncher::Jump(Thread* pThread)
 }
 
 #ifdef SKY_EMULATOR
-extern SKY_PROCESS_INTERFACE g_processInterface;
-
 void SkyLauncher::JumpToNewKernelEntry(int entryPoint, unsigned int procStack)
 {
-	g_processInterface.sky_kcreate_thread_from_memory(1, (LPTHREAD_START_ROUTINE)entryPoint, 0);
+	platformAPI._processInterface.sky_kcreate_thread_from_memory(1, (LPTHREAD_START_ROUTINE)entryPoint, 0);
 }
 
 #else

@@ -17,7 +17,7 @@
  * symbol supplied in jconfig.h, as we have done with USE_MSDOS_MEMMGR
  * and USE_MAC_MEMMGR.
  */
-#include "SkyMockInterface.h"
+#include "PlatformAPI.h"
 
 /* Short forms of external names for systems with brain-damaged linkers. */
 

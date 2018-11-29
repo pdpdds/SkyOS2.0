@@ -1,6 +1,6 @@
 #include "TestLua.h"
 
-#include "SkyMockInterface.h"
+#include "PlatformAPI.h"
 #include "I_LuaModule.h"
 #include "lua.h"
 #include "lualib.h"

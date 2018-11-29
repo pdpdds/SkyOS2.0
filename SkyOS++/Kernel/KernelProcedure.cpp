@@ -44,8 +44,7 @@ DWORD WINAPI SystemIdle(LPVOID parameter)
 #include "PCIManager.h"
 DWORD WINAPI SystemConsoleProc(LPVOID parameter)
 {
-	SkyConsole::Print("Console Mode Start!!\n");
-	multiboot_info* pBootInfo = SkyModuleManager::GetInstance()->GetMultiBootInfo();
+	SkyConsole::Print("Console Mode Start!!\n");	
 
 #ifdef SKY_EMULATOR
 

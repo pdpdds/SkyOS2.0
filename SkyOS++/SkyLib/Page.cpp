@@ -18,13 +18,10 @@
 #include "cpu_asm.h"
 #include "KernelDebug.h"
 #include "Page.h"
-#include "PageCache.h"
-#include "PhysicalMap.h"
+//#include "PhysicalMap.h"
 #include "Semaphore.h"
 #include "syscall.h"
-#include "stdio.h"
-#include "string.h"
-#include "Thread.h"
+//#include "Thread.h"
 
 Semaphore Page::fFreePagesAvailable("Free Pages Available", 0);
 Page* Page::fPages = 0;
@@ -158,11 +155,11 @@ void Page::Bootstrap()
 	AddDebugCommand("pgstat", "Page statistics", PrintStats);
 }
 
-void Page::StartPageEraser()
+/*void Page::StartPageEraser()
 {
 	new Thread("Page Eraser", Thread::GetRunningThread()->GetTeam(), PageEraser,
 		0, 1);
-}
+}*/
 
 // This is a bit of a kludge to work around the chicken & egg problem
 // of allocating pages from the first stage loader for things like

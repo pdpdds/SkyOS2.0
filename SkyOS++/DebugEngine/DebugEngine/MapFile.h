@@ -11,7 +11,7 @@
 #include <vector>
 #endif
 
-#include "SkyMockInterface.h"
+#include "PlatformAPI.h"
 #include "I_MapFileReader.h"
 //----------------------------------------
 // Copyright (c) 2001 Object Media Limited
@@ -80,7 +80,7 @@ class MapFileFixup;
 class MapFileReader : public I_MapFileReader
 {
 public:
-	MAPFILEDLL_API MapFileReader(SKY_FILE_Interface fileInterface, char	*fileName);
+	MAPFILEDLL_API MapFileReader(char	*fileName);
 
 	MAPFILEDLL_API MapFileReader();
 

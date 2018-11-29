@@ -30,7 +30,9 @@
 #include "jerror.h"
 
 #include "sprintf.h"
-#include "SkyMockInterface.h"
+#include "PlatformAPI.h"
+
+extern void printf(const char* str, ...);
 
 #ifndef EXIT_FAILURE		/* define exit() codes if not provided */
 #define EXIT_FAILURE  1

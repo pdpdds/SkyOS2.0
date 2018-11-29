@@ -29,7 +29,7 @@ void SkyConsoleLauncher::Launch()
 
 	Process* pMainProcess = ProcessManager::GetInstance()->CreateProcessFromMemory("ConsoleSystem", SystemConsoleProc, NULL, PROCESS_KERNEL);
 #ifdef SKY_EMULATOR
-	g_processInterface.sky_kcreate_thread_from_memory(pMainProcess->GetProcessId(), WatchDogProc, pMainProcess);
+	platformAPI._processInterface.sky_kcreate_thread_from_memory(pMainProcess->GetProcessId(), WatchDogProc, pMainProcess);
 #else
 	ProcessManager::GetInstance()->CreateProcessFromMemory("WatchDog", WatchDogProc, NULL, PROCESS_KERNEL);
 #endif // SKY_EMULAOTR	

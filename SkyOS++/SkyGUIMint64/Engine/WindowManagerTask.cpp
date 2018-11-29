@@ -18,7 +18,6 @@ extern "C" void printf(const char* str, ...);
 extern void kHelloWorldGUITask(void);
 extern DWORD WINAPI kGUIConsoleShellTask(LPVOID parameter);
 extern void kApplicationPanelGUITask(void);
-extern SKY_PROCESS_INTERFACE g_processInterface;
 
 /**
  *  윈도우 매니저 태스크
@@ -48,8 +47,8 @@ void kStartWindowManager(LinearBufferInfo* bufferInfo)
 
 	//kHelloWorldGUITask();
 	
-	g_processInterface.sky_kcreate_thread_from_memory(1, kApplicationPanelGUITask, NULL);
-	g_processInterface.sky_kcreate_thread_from_memory(1, kGUIConsoleShellTask, NULL);	
+	platformAPI._processInterface.sky_kcreate_thread_from_memory(1, kApplicationPanelGUITask, NULL);
+	platformAPI._processInterface.sky_kcreate_thread_from_memory(1, kGUIConsoleShellTask, NULL);
     
 }
 

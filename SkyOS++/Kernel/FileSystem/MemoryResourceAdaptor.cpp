@@ -1,6 +1,5 @@
 #include "MemoryResourceAdaptor.h"
 #include "SkyConsole.h"
-#include "MultiBoot.h"
 #include "SkyStruct.h"
 #include "PhysicalMemoryManager.h"
 #include "SkyModuleManager.h"
@@ -69,7 +68,7 @@ bool MemoryResourceAdaptor::Close(PFILE file)
 
 PFILE MemoryResourceAdaptor::Open(const char* fileName, const char *mode)
 {
-	Module* pModule = SkyModuleManager::GetInstance()->FindModule(fileName);
+	BootModule* pModule = SkyModuleManager::GetInstance()->FindModule(fileName);
 
 	if (pModule)
 	{

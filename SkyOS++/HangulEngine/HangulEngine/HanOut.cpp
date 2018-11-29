@@ -6,8 +6,7 @@
 #include "hancode\hanin.h"      // "
 
 #include "SkyInterface.h"
-extern SkyMockInterface g_mockInterface;
-
+extern "C" void printf(const char* str, ...);
 
 //---------------------------------------------------------------------------
 static void PutBitmap8x16_OVERWRITE(int x, int y, byte *ABitmap16)
@@ -18,27 +17,27 @@ static void PutBitmap8x16_OVERWRITE(int x, int y, byte *ABitmap16)
 		char p = ~ABitmap16[i];
 		char c = 'a';
 
-		if ((p & 0x80) != 0) { g_mockInterface.g_printInterface.sky_printf(" "); }
-		else { g_mockInterface.g_printInterface.sky_printf("%c", c); }
-		if ((p & 0x40) != 0) { g_mockInterface.g_printInterface.sky_printf(" "); }
-		else { g_mockInterface.g_printInterface.sky_printf("%c", c); }
-		if ((p & 0x20) != 0) { g_mockInterface.g_printInterface.sky_printf(" "); }
-		else { g_mockInterface.g_printInterface.sky_printf("%c", c); }
-		if ((p & 0x10) != 0) { g_mockInterface.g_printInterface.sky_printf(" "); }
-		else { g_mockInterface.g_printInterface.sky_printf("%c", c); }
-		if ((p & 0x08) != 0) { g_mockInterface.g_printInterface.sky_printf(" "); }
-		else { g_mockInterface.g_printInterface.sky_printf("%c", c); }
-		if ((p & 0x04) != 0) { g_mockInterface.g_printInterface.sky_printf(" "); }
-		else { g_mockInterface.g_printInterface.sky_printf("%c", c); }
-		if ((p & 0x02) != 0) { g_mockInterface.g_printInterface.sky_printf(" "); }
-		else { g_mockInterface.g_printInterface.sky_printf("%c", c); }
-		if ((p & 0x01) != 0) { g_mockInterface.g_printInterface.sky_printf(" "); }
-		else { g_mockInterface.g_printInterface.sky_printf("%c", c); }
+		if ((p & 0x80) != 0) { printf(" "); }
+		else { printf("%c", c); }
+		if ((p & 0x40) != 0) { printf(" "); }
+		else { printf("%c", c); }
+		if ((p & 0x20) != 0) { printf(" "); }
+		else { printf("%c", c); }
+		if ((p & 0x10) != 0) { printf(" "); }
+		else { printf("%c", c); }
+		if ((p & 0x08) != 0) { printf(" "); }
+		else { printf("%c", c); }
+		if ((p & 0x04) != 0) { printf(" "); }
+		else { printf("%c", c); }
+		if ((p & 0x02) != 0) { printf(" "); }
+		else { printf("%c", c); }
+		if ((p & 0x01) != 0) { printf(" "); }
+		else { printf("%c", c); }
 
-		g_mockInterface.g_printInterface.sky_printf("\n");
+		printf("\n");
     }
 
-	//g_mockInterface.g_printInterface.sky_printf("\n");
+	//printf("\n");
     //ACanvas->Draw(x, y, EngBitmap);
 }
 
@@ -58,48 +57,48 @@ static void PutBitmap16x16_OVERWRITE(int x, int y, byte *ABitmap32)
 			p[0] = ~ABitmap32[2 * i];
 			p[1] = ~ABitmap32[2 * i + 1];
 			
-			if ((p[0] & 0x80) != 0) { g_mockInterface.g_printInterface.sky_printf(" "); }
-			else { g_mockInterface.g_printInterface.sky_printf("%c", c);}
-			if ((p[0] & 0x40) != 0) { g_mockInterface.g_printInterface.sky_printf(" "); }
-			else { g_mockInterface.g_printInterface.sky_printf("%c", c);}
-			if ((p[0] & 0x20) != 0) { g_mockInterface.g_printInterface.sky_printf(" "); }
-			else { g_mockInterface.g_printInterface.sky_printf("%c", c);}
-			if ((p[0] & 0x10) != 0) { g_mockInterface.g_printInterface.sky_printf(" "); }
-			else { g_mockInterface.g_printInterface.sky_printf("%c", c);}
-			if ((p[0] & 0x08) != 0) { g_mockInterface.g_printInterface.sky_printf(" "); }
-			else { g_mockInterface.g_printInterface.sky_printf("%c", c);}
-			if ((p[0] & 0x04) != 0) { g_mockInterface.g_printInterface.sky_printf(" "); }
-			else { g_mockInterface.g_printInterface.sky_printf("%c", c);}
-			if ((p[0] & 0x02) != 0) { g_mockInterface.g_printInterface.sky_printf(" ");}
-			else { g_mockInterface.g_printInterface.sky_printf("%c", c);}
-			if ((p[0] & 0x01) != 0) { g_mockInterface.g_printInterface.sky_printf(" ");}
-			else { g_mockInterface.g_printInterface.sky_printf("%c", c);}
+			if ((p[0] & 0x80) != 0) { printf(" "); }
+			else { printf("%c", c);}
+			if ((p[0] & 0x40) != 0) { printf(" "); }
+			else { printf("%c", c);}
+			if ((p[0] & 0x20) != 0) { printf(" "); }
+			else { printf("%c", c);}
+			if ((p[0] & 0x10) != 0) { printf(" "); }
+			else { printf("%c", c);}
+			if ((p[0] & 0x08) != 0) { printf(" "); }
+			else { printf("%c", c);}
+			if ((p[0] & 0x04) != 0) { printf(" "); }
+			else { printf("%c", c);}
+			if ((p[0] & 0x02) != 0) { printf(" ");}
+			else { printf("%c", c);}
+			if ((p[0] & 0x01) != 0) { printf(" ");}
+			else { printf("%c", c);}
 
 
-			if ((p[1] & 0x80) != 0) { g_mockInterface.g_printInterface.sky_printf(" "); }
-			else { g_mockInterface.g_printInterface.sky_printf("%c", c); }
-			if ((p[1] & 0x40) != 0) { g_mockInterface.g_printInterface.sky_printf(" "); }
-			else { g_mockInterface.g_printInterface.sky_printf("%c", c); }
-			if ((p[1] & 0x20) != 0) { g_mockInterface.g_printInterface.sky_printf(" "); }
-			else { g_mockInterface.g_printInterface.sky_printf("%c", c); }
-			if ((p[1] & 0x10) != 0) { g_mockInterface.g_printInterface.sky_printf(" "); }
-			else { g_mockInterface.g_printInterface.sky_printf("%c", c); }
-			if ((p[1] & 0x08) != 0) { g_mockInterface.g_printInterface.sky_printf(" "); }
-			else { g_mockInterface.g_printInterface.sky_printf("%c", c); }
-			if ((p[1] & 0x04) != 0) { g_mockInterface.g_printInterface.sky_printf(" "); }
-			else { g_mockInterface.g_printInterface.sky_printf("%c", c); }
-			if ((p[1] & 0x02) != 0) { g_mockInterface.g_printInterface.sky_printf(" "); }
-			else { g_mockInterface.g_printInterface.sky_printf("%c", c); }
-			if ((p[1] & 0x01) != 0) { g_mockInterface.g_printInterface.sky_printf(" "); }
-			else { g_mockInterface.g_printInterface.sky_printf("%c", c); }
+			if ((p[1] & 0x80) != 0) { printf(" "); }
+			else { printf("%c", c); }
+			if ((p[1] & 0x40) != 0) { printf(" "); }
+			else { printf("%c", c); }
+			if ((p[1] & 0x20) != 0) { printf(" "); }
+			else { printf("%c", c); }
+			if ((p[1] & 0x10) != 0) { printf(" "); }
+			else { printf("%c", c); }
+			if ((p[1] & 0x08) != 0) { printf(" "); }
+			else { printf("%c", c); }
+			if ((p[1] & 0x04) != 0) { printf(" "); }
+			else { printf("%c", c); }
+			if ((p[1] & 0x02) != 0) { printf(" "); }
+			else { printf("%c", c); }
+			if ((p[1] & 0x01) != 0) { printf(" "); }
+			else { printf("%c", c); }
 
-			g_mockInterface.g_printInterface.sky_printf("\n");
+			printf("\n");
 		}
 
 
     }
 
-	//g_mockInterface.g_printInterface.sky_printf("\n");
+	//printf("\n");
     //ACanvas->Draw(x, y, HanBitmap);
 }
 

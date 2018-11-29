@@ -4,7 +4,7 @@
 #include "lua.h"
 #include "lualib.h"
 #include "lauxlib.h"
-#include "SkyMockInterface.h"
+#include "PlatformAPI.h"
 #include "luatinker.h"
 
 lua_State* g_L;

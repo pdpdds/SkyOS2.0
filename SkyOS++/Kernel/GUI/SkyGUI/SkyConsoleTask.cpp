@@ -143,11 +143,11 @@ void SkyConsoleTask::ProcessKeyboard(int value)
 
 		if (strcmp(cmdline, "mem") == 0)
 		{
-			size_t totalMemory = PhysicalMemoryManager::GetMemorySize();
+			size_t totalMemory = bootParams._memorySize;
 			sprintf(s, "total   %dMB", totalMemory / (1024 * 1024));
 			m_pRenderer->PutFontAscToSheet(m_pSheet, 8, m_cursorY, COL8_FFFFFF, COL8_000000, s, 30);
 			GetNewLine();
-			sprintf(s, "free %dKB", PhysicalMemoryManager::GetFreeMemory() / 1024);
+			sprintf(s, "free %dKB", PhysicalMemoryManager::GetFreeMemorySize() / 1024);
 			m_pRenderer->PutFontAscToSheet(m_pSheet, 8, m_cursorY, COL8_FFFFFF, COL8_000000, s, 30);
 			GetNewLine();
 		}

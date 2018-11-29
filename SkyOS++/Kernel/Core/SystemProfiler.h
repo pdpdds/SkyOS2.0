@@ -16,7 +16,7 @@ typedef struct tag_MemoryInfo
 typedef struct tag_GlobalState
 {
 	DWORD _kernelLoadAddress;
-	DWORD _HeapLoadAddress;
+	UINT64 _HeapLoadAddress;
 	DWORD _heapSize;
 	DWORD _kernelSize;
 	DWORD _stackPhysicalPoolAddress;

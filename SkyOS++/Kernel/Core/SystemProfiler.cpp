@@ -5,10 +5,6 @@
 
 SystemProfiler* SystemProfiler::m_pSystemProfiler = nullptr;
 extern PageDirectory* g_pageDirectoryPool[MAX_PAGE_DIRECTORY_COUNT];
-extern uint32_t g_kernel_load_address;
-extern int g_stackPhysicalAddressPool;
-
-extern char* g_virtualMemory;
 
 SystemProfiler::SystemProfiler()
 {
@@ -22,17 +18,17 @@ bool SystemProfiler::Initialize()
 {
 	GlobalSate state;
 
-#ifdef SKY_EMLUATOR
-	state._HeapLoadAddress = (void*)(g_virtualMemory + 0x2000000);
+#ifdef SKY_EMULATOR
+	state._HeapLoadAddress = bootParams.allocatedRange[0].begin + 0x2000000;
 #else
 	state._HeapLoadAddress = KERNEL_VIRTUAL_HEAP_ADDRESS;
 #endif
 	state._heapSize = HeapManager::GetHeapSize();
-	state._kernelLoadAddress = g_kernel_load_address;
+	state._kernelLoadAddress = bootParams._kernelBaseAddress;
 	
-	state._kernelSize = PhysicalMemoryManager::GetKernelSize();
+	state._kernelSize = bootParams._kernelSize;
 
-	state._stackPhysicalPoolAddress = g_stackPhysicalAddressPool;
+	//state._stackPhysicalPoolAddress = g_stackPhysicalAddressPool;
 
 #ifndef SKY_EMULATOR
 	UINT16 pciDevices = DeviceDriverManager::GetInstance()->InitPCIDevices();
@@ -53,16 +49,13 @@ bool SystemProfiler::Initialize()
 
 void SystemProfiler::PrintMemoryState()
 {
-	int memorySize = PhysicalMemoryManager::GetMemorySize();
-	int freeSize = PhysicalMemoryManager::GetFreeMemory();
+	int memorySize = bootParams._memorySize;
+	int freeSize = PhysicalMemoryManager::GetFreeMemorySize();
 	int heapSize = HeapManager::GetHeapSize();
 	int usedHeapSize = HeapManager::GetUsedHeapSize();
 
 	SkyConsole::Print("Total Memory : %d(MB)\n", memorySize / MEGA_BYTES);
 	SkyConsole::Print("Available Memory : %d(MB)\n", freeSize / MEGA_BYTES);
-
-	SkyConsole::Print("Total Block Count %d\n", PhysicalMemoryManager::GetTotalBlockCount());
-	SkyConsole::Print("Free Block Count %d\n", PhysicalMemoryManager::GetFreeBlockCount());
 
 	SkyConsole::Print("Heap Size : %d(MB)\n", heapSize / MEGA_BYTES);
 	SkyConsole::Print("Used Heap Size : %d(Bytes)\n", usedHeapSize);

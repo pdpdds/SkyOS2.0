@@ -3,7 +3,6 @@
 #include "GetFileSize.h"
 #include "LoadEngFont.h"
 #include "SkyInterface.h"
-extern SkyMockInterface g_mockInterface;
 
 //-----------------------------------------------------------------------------
 char *BitmapEngFontFilesSize =

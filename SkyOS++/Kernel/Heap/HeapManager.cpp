@@ -1,16 +1,12 @@
 #include "HeapManager.h"
 #include "SkyConsole.h"
 #include "kheap.h"
+#include "BasicStruct.h"
 
 using namespace VirtualMemoryManager;
 
 bool g_heapInit = false;
 extern DWORD g_usedHeapSize;
-
-#ifdef SKY_EMULATOR
-extern char* g_virtualMemory;
-extern unsigned int g_virtualMemorySize;
-#endif // SKY_EMULATOR
 
 namespace HeapManager
 {
@@ -29,7 +25,7 @@ namespace HeapManager
 
 		//힙의 가상주소
 #ifdef SKY_EMULATOR
-		void* pVirtualHeap = (void*)(g_virtualMemory + 0x2000000);
+		void* pVirtualHeap = (void*)(bootParams.allocatedRange[0].begin + 0x2000000);
 #else
 		void* pVirtualHeap = (void*)(KERNEL_VIRTUAL_HEAP_ADDRESS);
 #endif // SKY_EMULATOR		

@@ -54,7 +54,7 @@ typedef struct tag_TaskSwitch
 
 namespace VirtualMemoryManager
 {
-	//가상 메모리를 초기화한다.		
+	//가상 메모리 시스템을 초기화한다.		
 	bool Initialize();
 
 	//페이지를 할당한다.
@@ -95,7 +95,6 @@ namespace VirtualMemoryManager
 	bool CreatePageTable(PageDirectory* dir, uint32_t virt, uint32_t flags);
 	//가상주소를 물리주소에 매핑한다. 이 과정에서 페이지 테이블 엔트리에 정보가 기록된다.
 	void MapPhysicalAddressToVirtualAddresss(PageDirectory* dir, uint32_t virt, uint32_t phys, uint32_t flags);
-	void MapPhysicalAddressToVirtualAddresss2(PageDirectory* dir, uint32_t virt, uint32_t phys, uint32_t flags);
 	
 	//가상주소로부터 실제 물리주소를 얻어낸다
 	void* GetPhysicalAddressFromVirtualAddress(PageDirectory* directory, uint32_t virtualAddress);

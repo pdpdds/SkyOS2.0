@@ -25,7 +25,7 @@
 #include "jconfig.h"		/* widely used configuration options */
 #endif
 #include "jmorecfg.h"		/* seldom changed options */
-#include "SkyMockInterface.h"
+#include "PlatformAPI.h"
 
 #ifdef __cplusplus
 #ifndef DONT_USE_EXTERN_C

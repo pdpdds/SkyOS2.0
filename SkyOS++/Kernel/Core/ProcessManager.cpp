@@ -4,7 +4,6 @@
 
 ProcessManager* ProcessManager::m_processManager = nullptr;
 static int kernelStackIndex = 1;
-extern int g_stackPhysicalAddressPool;
 
 #define TASK_GENESIS_ID 1000
 
@@ -119,10 +118,12 @@ Thread* ProcessManager::CreateThread(Process* pProcess, FILE* file, LPVOID param
 	}
 	
 	//스택을 생성하고 주소공간에 매핑한다.
-	void* stackAddress = (void*)(g_stackPhysicalAddressPool - PAGE_SIZE * 10 * kernelStackIndex++);
+	//void* stackAddress = (void*)(g_stackPhysicalAddressPool - PAGE_SIZE * 10 * kernelStackIndex++);
+
+	void* stackAddress = PhysicalMemoryManager::AllocBlocks(256);
 
 	//스레드에 ESP, EBP 설정
-	pThread->m_initialStack = (void*)((uint32_t)stackAddress + PAGE_SIZE * 10);
+	pThread->m_initialStack = (void*)((uint32_t)stackAddress + PAGE_SIZE * 256);
 	pThread->frame.esp = (uint32_t)pThread->m_initialStack;
 	pThread->frame.ebp = pThread->frame.esp;
 
@@ -162,8 +163,8 @@ Thread* ProcessManager::CreateThread(Process* pProcess, LPTHREAD_START_ROUTINE l
 	pThread->m_startParam = param; //파라메터
 
 	//스택을 생성하고 주소공간에 매핑한다.
-	void* stackAddress = (void*)(g_stackPhysicalAddressPool - PAGE_SIZE * 100 * kernelStackIndex++);	
-
+	//void* stackAddress = (void*)(g_stackPhysicalAddressPool - PAGE_SIZE * 100 * kernelStackIndex++);	
+	void* stackAddress = PhysicalMemoryManager::AllocBlocks(256);
 #ifdef _DEBUG
 	SkyConsole::Print("Stack : %x\n", stackAddress);	
 #endif	

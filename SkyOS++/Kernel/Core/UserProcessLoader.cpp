@@ -22,13 +22,13 @@ Process* UserProcessLoader::CreateProcessFromFile(char* appName, void* param)
 	pProcess->SetProcessId(GetNextProcessId());
 	PageDirectory* pPageDirectory = nullptr;
 
-	PhysicalMemoryManager::EnablePaging(false);
+	EnablePaging(false);
 
 	pPageDirectory = VirtualMemoryManager::CreateCommonPageDirectory();
 
 	if (pPageDirectory == nullptr)
 	{
-		PhysicalMemoryManager::EnablePaging(true);
+		EnablePaging(true);
 		return nullptr;
 
 	}
@@ -42,7 +42,7 @@ Process* UserProcessLoader::CreateProcessFromFile(char* appName, void* param)
 			(uintptr_t)SkyGUISystem::GetInstance()->GetVideoRamInfo()._pVideoRamPtr + VIDEO_RAM_LOGICAL_ADDRESS_OFFSET);
 	}
 
-	PhysicalMemoryManager::EnablePaging(true);
+	EnablePaging(true);
 
 	pProcess->SetPageDirectory(pPageDirectory);
 

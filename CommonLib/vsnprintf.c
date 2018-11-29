@@ -292,17 +292,3 @@ void snprintf(char *out, int size, const char *fmt, ...)
 	vsnprintf(out, size, fmt, arglist);
 }
 
-FILE g_out = 
-{
-	"STDOUT",
-};
-void printf(const char *fmt, ...)
-{
-	char buf[1024];
-
-	va_list arglist;
-	va_start(arglist, fmt);
-	vsnprintf(buf, 1024, fmt, arglist);
-
-	fwrite(buf, strlen(buf), 1, &g_out);
-}

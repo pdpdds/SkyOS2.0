@@ -2,7 +2,7 @@
 
 #include "stdint.h"
 #include "skyramdiskentry.h"
-#include "MultiBoot.h"
+#include "BasicStruct.h"
 #include "skyramdisk_struct.h"
 
 
@@ -26,7 +26,7 @@ public:
 	 *
 	 * @param module	the ramdisk multiboot module
 	 */
-	RamDiskEntry* Load(Module* module);
+	RamDiskEntry* Load(BootModule* module);
 
 	/**
 	 * Searches in the folder parent for a file/folder with the given name

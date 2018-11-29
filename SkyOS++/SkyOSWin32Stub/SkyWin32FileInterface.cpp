@@ -1,5 +1,5 @@
 #include <Windows.h>
-#include "SkyMockInterface.h"
+#include "PlatformAPI.h"
 #include <conio.h>
 #include <string>
 #include <stdlib.h>
@@ -70,7 +70,7 @@ int sky_fputs(char const* _Buffer, FILE* _Stream)
 	return fputs(_Buffer, _Stream);
 }
 
-SKY_FILE_Interface g_FileInterface =
+SKY_FILE_INTERFACE g_FileInterface =
 {
 	sky_fread,
 	sky_fopen,
@@ -112,7 +112,7 @@ void* sky_krealloc(void* ptr, size_t size)
 	return realloc(ptr, size);
 }
 
-SKY_ALLOC_Interface g_allocInterface =
+SKY_ALLOC_INTERFACE g_allocInterface =
 {
 	sky_kmalloc,
 	sky_kfree,
@@ -186,7 +186,7 @@ void sky_cls(char* szCls)
 	system(szCls);
 }
 
-SKY_Print_Interface g_printInterface =
+SKY_PRINT_INTERFACE g_printInterface =
 {
 	sky_printf,	
 	stdin,

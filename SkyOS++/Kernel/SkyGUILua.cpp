@@ -65,7 +65,7 @@ void SkyGUILua::GetCommandForGUI(char* commandBuffer, int bufSize)
 
 		if (m_pSkyInputManager->GetKeyFromKeyQueue(&keyData) == false)
 		{
-			g_processInterface.sky_ksleep(0);
+			platformAPI._processInterface.sky_ksleep(0);
 			continue;
 		}
 
@@ -123,7 +123,7 @@ void SkyGUILua::GetCommandForGUI(char* commandBuffer, int bufSize)
 			}
 		}
 
-		g_processInterface.sky_ksleep(10);		
+		platformAPI._processInterface.sky_ksleep(10);
 	}	
 }
 
@@ -164,18 +164,18 @@ bool SkyGUILua::Run()
 	PrintUnicode("Lua Version is 5.40");
 	GetNewLine();
 
-	void* hwnd = SkyModuleManager::GetInstance()->LoadModule("SkyImgui.dll");
+	/*void* hwnd = SkyModuleManager::GetInstance()->LoadModule("SkyImgui.dll");
 #ifdef SKY_EMULATOR_DLL
 	//if (hwnd != nullptr) SKY_EMULATOR_DLL;
 	SkyModuleManager::GetInstance()->LoadImplictDLL((DWORD)hwnd);
 #endif
 
 	PGUIEngine GUIEngine = (PGUIEngine)SkyModuleManager::GetInstance()->GetModuleFunction(hwnd, "GetGUIEngine");
-	GUIEngine();
+	GUIEngine();*/
 
 	LuaKernel* pKernel  = new LuaKernel();
 	g_pKernel = pKernel;
-	g_processInterface.sky_kcreate_thread_from_memory(pProcess->GetProcessId(), LuaInputProc, this);
+	platformAPI._processInterface.sky_kcreate_thread_from_memory(pProcess->GetProcessId(), LuaInputProc, this);
 
 	pKernel->Initialize((uint8*)m_pVideoRamPtr);	
 	

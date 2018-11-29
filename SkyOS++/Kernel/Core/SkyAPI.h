@@ -3,9 +3,7 @@
 #include "SkyStruct.h"
 #include "SysError.h"
 #include "time.h"
-#include "SkyMockInterface.h"
-
-extern SKY_PROCESS_INTERFACE g_processInterface;
+#include "PlatformAPI.h"
 
 #define ASSERT(a, b) if(a == false) SkyConsole::Print("Kernel Panic : %s\n", b); _asm hlt
 
@@ -17,8 +15,8 @@ void __SKY_ASSERT(const char* expr_str, bool expr, const char* file, int line, c
 #define kprintf SkyConsole::Print
 
 #ifdef SKY_EMULATOR
-#define kEnterCriticalSection()	g_processInterface.sky_enter_critical_section()
-#define kLeaveCriticalSection()	g_processInterface.sky_leave_critical_section()
+#define kEnterCriticalSection()	platformAPI._processInterface.sky_enter_critical_section()
+#define kLeaveCriticalSection()	platformAPI._processInterface.sky_leave_critical_section()
 #else
 #define kEnterCriticalSection()	__asm	PUSHFD	__asm CLI
 #define kLeaveCriticalSection()		__asm	POPFD

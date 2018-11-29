@@ -2,9 +2,8 @@
 #pragma once
 #include "windef.h"
 #include "I_GUIEngine.h"
-#include "SkyMockInterface.h"
+#include "PlatformAPI.h"
 
-extern SKY_PROCESS_INTERFACE g_processInterface;
 // 마우스 큐에 대한 매크로
 #define MOUSE_MAXQUEUECOUNT 100
 
@@ -24,8 +23,8 @@ typedef struct kMouseManagerStruct
 	MOUSEDATA stCurrentData;
 } MOUSEMANAGER;
 
-#define kEnterCriticalSection()	g_processInterface.sky_enter_critical_section()
-#define kLeaveCriticalSection()	g_processInterface.sky_leave_critical_section()
+#define kEnterCriticalSection()	platformAPI._processInterface.sky_enter_critical_section()
+#define kLeaveCriticalSection()	platformAPI._processInterface.sky_leave_critical_section()
 
 bool kInitializeMouse( void );
 bool kAccumulateMouseDataAndPutQueue( BYTE bMouseData );

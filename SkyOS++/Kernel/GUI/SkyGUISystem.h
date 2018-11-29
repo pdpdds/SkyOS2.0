@@ -1,11 +1,10 @@
 #pragma once
-#include "MultiBoot.h"
 #include "SkyGUI.h"
 #include "SkyGUIConsole.h"
 #include "SkySVGA.h"
 #include "SkyGUILua.h"
 #include "GUIMint64.h"
-#include "SkyMockInterface.h"
+#include "PlatformAPI.h"
 #include "I_HangulEngine.h"
 #include "I_Hangul.h"
 #include "I_GUIEngine.h"
@@ -37,7 +36,7 @@ class SkyGUISystem
 public:	
 	~SkyGUISystem();
 
-	bool Initialize(multiboot_info* pBootInfo);
+	bool Initialize();
 	bool InitializeWithConsole();
 	bool InitGUI();
 	bool LoadGUIModule();

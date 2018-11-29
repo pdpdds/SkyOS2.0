@@ -3,6 +3,7 @@
 #include "MultiBoot.h"
 #include "SkyStruct.h"
 #include "PhysicalMemoryManager.h"
+#include "BasicStruct.h"
 
 RamDiskAdaptor::RamDiskAdaptor(char* deviceName, DWORD deviceID)
 	: FileSysAdaptor(deviceName, deviceID)
@@ -113,7 +114,6 @@ PACKAGEHEADER* RamDiskAdaptor::FindPackageSignature(UINT32 startAddress, UINT32 
 	return nullptr;
 }
 
-extern uint32_t g_kernel_load_address;
 //패키지 데이터를 파싱해서 모든 파일 데이터를 램디스크로 복사
 bool RamDiskAdaptor::InstallPackage()
 {	
@@ -123,7 +123,7 @@ bool RamDiskAdaptor::InstallPackage()
 
 	//패키지 시그너쳐를 찾는다. 시그너쳐 : "SKYOS32PACKAGE "
 	PACKAGEHEADER* pstHeader = nullptr;
-	pstHeader = FindPackageSignature(g_kernel_load_address, g_kernel_load_address + PhysicalMemoryManager::GetKernelSize());
+	pstHeader = FindPackageSignature(bootParams._kernelBaseAddress, bootParams._kernelBaseAddress + bootParams._kernelSize);
 	
 	if(pstHeader == nullptr)
 	{		

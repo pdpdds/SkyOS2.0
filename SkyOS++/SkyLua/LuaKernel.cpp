@@ -84,7 +84,7 @@ static int lua_setmaskhook(lua_State *l)
 
 static int lua_get_timer_ticks(lua_State *l)
 {
-	lua_pushinteger(l, g_processInterface.sky_get_tick_count());
+	lua_pushinteger(l, platformAPI._processInterface.sky_get_tick_count());
 	return 1;
 }
 
@@ -95,7 +95,7 @@ lua_State *g_AL;
 int lua_get_keyboard_interrupt(lua_State *l)
 {
 	// disable interrupts
-	g_processInterface.sky_enter_critical_section();
+	platformAPI._processInterface.sky_enter_critical_section();
 
 
 	if (m_bCommandReady == true)
@@ -106,7 +106,7 @@ int lua_get_keyboard_interrupt(lua_State *l)
 	else
 		lua_pushstring(l, nullptr);
 
-	g_processInterface.sky_leave_critical_section();
+	platformAPI._processInterface.sky_leave_critical_section();
 	return 1;
 }
 
