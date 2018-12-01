@@ -266,25 +266,13 @@ extern "C"
 
 		Thread* pTask = ProcessManager::GetInstance()->GetCurrentTask();
 		Process* pProcess = pTask->m_pParent;
-
-		//1메가 바이트의 힙을 생성
-		void* pHeapPhys = PhysicalMemoryManager::AllocBlocks(DEFAULT_HEAP_PAGE_COUNT);
+		
 		u32int heapAddess = pProcess->m_imageBase + pProcess->m_imageSize + PAGE_SIZE + PAGE_SIZE * 2;
-
 		//힙 주소를 4K에 맞춰 Align	
 		heapAddess -= (heapAddess % PAGE_SIZE);
 
-		//#ifdef _ORANGE_DEBUG
-		SkyConsole::Print("%d : V(%x) P(%x)\n", pProcess->GetProcessId(), heapAddess, pHeapPhys);
-		//#endif // _ORANGE_DEBUG
-
-		for (int i = 0; i < DEFAULT_HEAP_PAGE_COUNT; i++)
-		{
-			VirtualMemoryManager::MapPhysicalAddressToVirtualAddresss(pProcess->GetPageDirectory(),
-				(uint32_t)heapAddess + i * PAGE_SIZE,
-				(uint32_t)pHeapPhys + i * PAGE_SIZE,
-				I86_PTE_PRESENT | I86_PTE_WRITABLE | I86_PTE_USER);
-		}
+		//1메가 바이트의 힙을 생성
+		VirtualMemoryManager::MapAddress(pProcess->GetPageDirectory(), heapAddess, DEFAULT_HEAP_PAGE_COUNT);
 
 		memset((void*)heapAddess, 0, DEFAULT_HEAP_PAGE_COUNT * PAGE_SIZE);
 
@@ -292,10 +280,6 @@ extern "C"
 			(uint32_t)heapAddess + DEFAULT_HEAP_PAGE_COUNT * PAGE_SIZE, 0, 0);
 
 		kLeaveCriticalSection();
-
-		//#ifdef _ORANGE_DEBUG
-		SkyConsole::Print("CreateDefaultHeap End\n");
-		//#endif // _ORANGE_DEBUG
 
 	}
 

@@ -2,7 +2,6 @@
 #include "SkyConsole.h"
 #include "MultiBoot.h"
 #include "SkyStruct.h"
-#include "PhysicalMemoryManager.h"
 #include "Exception.h"
 
 CDRomAdaptor::CDRomAdaptor(char* deviceName, DWORD deviceID)

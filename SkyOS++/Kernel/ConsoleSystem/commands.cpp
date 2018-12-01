@@ -159,8 +159,8 @@ long cmdSwitchGUI(char *szCommand)
 	if(true == SwitchGUIMode(1024, 768, 261))
 	{
 		//그래픽 버퍼 주소를 매핑해야 한다.
-		VirtualMemoryManager::CreateVideoDMAVirtualAddress(VirtualMemoryManager::GetCurPageDirectory(), 0xE0000000, 0xE0000000, 0xE0FF0000);
-		VirtualMemoryManager::CreateVideoDMAVirtualAddress(VirtualMemoryManager::GetCurPageDirectory(), 0xF0000000, 0xF0000000, 0xF0FF0000);
+		VirtualMemoryManager::MapDMAAddress(VirtualMemoryManager::GetCurPageDirectory(), 0xE0000000, 0xE0000000, 0xE0FF0000);
+		VirtualMemoryManager::MapDMAAddress(VirtualMemoryManager::GetCurPageDirectory(), 0xF0000000, 0xF0000000, 0xF0FF0000);
 		
 		//사각형을 그린다.
 		FillRect8(100, 100, 100, 100, 8, 1024, 768);

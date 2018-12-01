@@ -190,9 +190,7 @@ void LoopProcessRemove(Process* pProcess)
 
 		//페이징 기능 전환 테스트		
 		kEnterCriticalSection();
-		//PhysicalMemoryManager::EnablePaging(false);
-		//PhysicalMemoryManager::EnablePaging(true);
-
+		
 		ProcessManager::GetInstance()->RemoveTerminatedProcess();
 
 		//Scheduler::GetInstance()->Yield();

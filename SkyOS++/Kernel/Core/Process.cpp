@@ -12,6 +12,7 @@ Process::Process()
 	m_IskernelProcess = true;
 
 	m_lpHeap = nullptr;
+	m_stackIndex = 0;
 }
 
 Process::~Process()

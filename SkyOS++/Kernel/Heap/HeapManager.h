@@ -1,11 +1,11 @@
 #pragma once
-#include "PhysicalMemoryManager.h"
 #include "VirtualMemoryManager.h"
 
 namespace HeapManager
 {
-	bool InitKernelHeap(int heapFrameCount);
-	bool MapHeapToAddressSpace(PageDirectory* curPageDirectory);
+	bool Initialize();
+		
 	DWORD GetHeapSize();
 	DWORD GetUsedHeapSize();
+	void Dump();
 }

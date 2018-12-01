@@ -43,3 +43,4 @@
 #include "SkyModuleManager.h"
 #include "KernelAPI.h"
 #include "X86Arch.h"
+#include "Constants.h"

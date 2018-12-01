@@ -283,11 +283,11 @@ static int alloc_ucbs( UPDControl *pUCB )
 		if (nI + 1 < MAX_UPDS)
 		{
 			//pUCB->pUPD[nI].dwUpNextPtr = get_physical_address((DWORD)&pUCB->pUPD[nI + 1]);
-			pUCB->pUPD[nI].dwUpNextPtr = (DWORD)VirtualMemoryManager::GetPhysicalAddressFromVirtualAddress(VirtualMemoryManager::GetCurPageDirectory(), (DWORD)&pUCB->pUPD[nI + 1]);
+			pUCB->pUPD[nI].dwUpNextPtr = (DWORD)VirtualMemoryManager::GetPhysicalAddress(VirtualMemoryManager::GetCurPageDirectory(), (DWORD)&pUCB->pUPD[nI + 1]);
 			
 		}
 		//pUCB->pUPD[nI].frag[0].dwAddr   = get_physical_address( (DWORD)&pUCB->pFrag[ FRAG_SIZE * nJ++] ); 
-		pUCB->pUPD[nI].frag[0].dwAddr = (DWORD)VirtualMemoryManager::GetPhysicalAddressFromVirtualAddress(VirtualMemoryManager::GetCurPageDirectory(), (DWORD)&pUCB->pFrag[FRAG_SIZE * nJ++]); 
+		pUCB->pUPD[nI].frag[0].dwAddr = (DWORD)VirtualMemoryManager::GetPhysicalAddress(VirtualMemoryManager::GetCurPageDirectory(), (DWORD)&pUCB->pFrag[FRAG_SIZE * nJ++]); 
 		pUCB->pUPD[nI].frag[0].dwLength = (DWORD)FRAG_SIZE;
 		if( nI + 1 >= MAX_UPDS )
 			pUCB->pUPD[nI].frag[0].dwLength += (DWORD)0x80000000;
@@ -349,7 +349,7 @@ int init_3c905b( UINT16 *pMacWord )
 
 	// set UpNextPtr
 	//write_3c905b_register( RN_UpListPtr, get_physical_address( (DWORD)ucb.pUPD ) );
-	DWORD physicalAddress = (DWORD)VirtualMemoryManager::GetPhysicalAddressFromVirtualAddress(VirtualMemoryManager::GetCurPageDirectory(), (DWORD)ucb.pUPD);
+	DWORD physicalAddress = (DWORD)VirtualMemoryManager::GetPhysicalAddress(VirtualMemoryManager::GetCurPageDirectory(), (DWORD)ucb.pUPD);
 	write_3c905b_register(RN_UpListPtr, physicalAddress);
 	return( 0 );
 }

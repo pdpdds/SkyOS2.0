@@ -19,14 +19,12 @@ Process* KernelProcessLoader::CreateProcessFromMemory(const char* appName, LPTHR
 	
 	PageDirectory* pPageDirectory = VirtualMemoryManager::GetKernelPageDirectory();
 
-	//페이징 기능을 끄고 페이지 디렉토리를 생성한다.
-	/*PhysicalMemoryManager::EnablePaging(false);
-
+	//페이징 기능을 끄고 페이지 디렉토리를 생성한다.	
+	/*
 	pPageDirectory = VirtualMemoryManager::CreateCommonPageDirectory();
 
 	if (pPageDirectory == nullptr)
-	{
-		PhysicalMemoryManager::EnablePaging(true);
+	{		
 		return nullptr;
 	}
 
@@ -37,11 +35,11 @@ Process* KernelProcessLoader::CreateProcessFromMemory(const char* appName, LPTHR
 	if (SkyGUISystem::GetInstance()->GUIEnable() == true)
 	{	
 		uintptr_t videoAddress = (uintptr_t)SkyGUISystem::GetInstance()->GetVideoRamInfo()._pVideoRamPtr;
-		VirtualMemoryManager::CreateVideoDMAVirtualAddress(pPageDirectory, videoAddress, videoAddress, videoAddress + VIDEO_RAM_LOGICAL_ADDRESS_OFFSET);
+		VirtualMemoryManager::MapDMAAddress(pPageDirectory, videoAddress, videoAddress, videoAddress + VIDEO_RAM_LOGICAL_ADDRESS_OFFSET);
 	}
 	
 	//페이징을 활성화한다.
-	PhysicalMemoryManager::EnablePaging(true);*/
+	*/
 
 	pProcess->SetPageDirectory(pPageDirectory);
 

@@ -1,8 +1,7 @@
 #pragma once
 #include "windef.h"
+#include "Constants.h"
 
-#define MEGA_BYTES 1048576
-#define KILO_BYTES 1024
 
 typedef struct tag_MemoryInfo
 {
@@ -19,8 +18,7 @@ typedef struct tag_GlobalState
 	UINT64 _HeapLoadAddress;
 	DWORD _heapSize;
 	DWORD _kernelSize;
-	DWORD _stackPhysicalPoolAddress;
-	DWORD _pageDirectoryPoolAddress;
+	DWORD _stackPhysicalPoolAddress;	
 	DWORD _pciDevices;
 
 }GlobalSate;

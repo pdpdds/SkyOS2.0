@@ -20,29 +20,25 @@ Process* UserProcessLoader::CreateProcessFromFile(char* appName, void* param)
 
 	Process* pProcess = new Process();
 	pProcess->SetProcessId(GetNextProcessId());
-	PageDirectory* pPageDirectory = nullptr;
+	PageDirectory* pPageDirectory = nullptr;	
 
-	EnablePaging(false);
-
-	pPageDirectory = VirtualMemoryManager::CreateCommonPageDirectory();
+	//pPageDirectory = VirtualMemoryManager::CreateCommonPageDirectory();
+	//20181130
 
 	if (pPageDirectory == nullptr)
-	{
-		EnablePaging(true);
+	{		
 		return nullptr;
 
 	}
 
-	HeapManager::MapHeapToAddressSpace(pPageDirectory);
+	//HeapManager::MapHeapToAddressSpace(pPageDirectory);
 
 	//그래픽 버퍼 주소를 페이지 디렉토리에 매핑한다.
 	if (SkyGUISystem::GetInstance()->GUIEnable() == true)
 	{
-		VirtualMemoryManager::CreateVideoDMAVirtualAddress(pPageDirectory, (uintptr_t)SkyGUISystem::GetInstance()->GetVideoRamInfo()._pVideoRamPtr, (uintptr_t)SkyGUISystem::GetInstance()->GetVideoRamInfo()._pVideoRamPtr,
+		VirtualMemoryManager::MapDMAAddress(pPageDirectory, (uintptr_t)SkyGUISystem::GetInstance()->GetVideoRamInfo()._pVideoRamPtr, (uintptr_t)SkyGUISystem::GetInstance()->GetVideoRamInfo()._pVideoRamPtr,
 			(uintptr_t)SkyGUISystem::GetInstance()->GetVideoRamInfo()._pVideoRamPtr + VIDEO_RAM_LOGICAL_ADDRESS_OFFSET);
-	}
-
-	EnablePaging(true);
+	}	
 
 	pProcess->SetPageDirectory(pPageDirectory);
 

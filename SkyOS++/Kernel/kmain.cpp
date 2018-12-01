@@ -26,18 +26,23 @@ void kmain(unsigned long magic, unsigned long addr, uint32_t imageBase)
 {
 	InitializeConstructors();
 
+	kEnterCriticalSection();	
+			
+	InitHardware();	
+
 #ifdef SKY_EMULATOR
 	multiboot_info* pInfo = 0;
-	BuildPlatformAPI(0, KERNEL_LOAD_BASE_ADDRESS);
+	BuildPlatformAPI(0, 0x01600000);
 #else
 	multiboot_info* pInfo = (multiboot_info*)addr;
 	BuildPlatformAPI(addr, imageBase);
-#endif
+#endif	
 
-	kEnterCriticalSection();	
-			
-	InitHardware();
-	InitMemoryManager();
+	if (false == InitMemoryManager())
+	{
+		HaltSystem("Init Memory Error!!");
+	}	
+
 	InitModules(pInfo);
 	InitDisplaySystem();
 	
@@ -50,7 +55,7 @@ void kmain(unsigned long magic, unsigned long addr, uint32_t imageBase)
 	SkyGUISystem::GetInstance()->LoadGUIModule();
 	SkyGUISystem::GetInstance()->InitGUI();
 	SkyDebugger::GetInstance()->LoadSymbol("DebugEngine.dll");
-	SkyModuleManager::GetInstance()->LoadImplictDLL(bootParams._kernelBaseAddress);	
+	SkyModuleManager::GetInstance()->LoadImplictDLL(bootParams._memoryLayout._kernelBase);	
 
 	SkyLauncher* pSystemLauncher = nullptr;
 
@@ -131,31 +136,11 @@ void InitHardware()
 //물리/가상 메모리 매니저를 초기화한다.
 bool InitMemoryManager()
 {		
-	EnablePaging(false);
-
-	//물리 메모리 매니저 초기화
-	PhysicalMemoryManager::Initialize();
-	//PhysicalMemoryManager::Dump();
-
-	//가상 메모리 매니저 초기화	
-	VirtualMemoryManager::Initialize();
-	//PhysicalMemoryManager::Dump();
-
-	int heapFrameCount = 256 * 10 * 50; //프레임수 12800개, 52MB
-	unsigned int requiredHeapSize = heapFrameCount * PAGE_SIZE;
-	
-	//요구되는 힙의 크기가 자유공간보다 크다면 그 크기를 자유공간 크기로 맞춘다음 반으로 줄인다.
-	uint32_t memorySize = bootParams._memorySize;
-	if (requiredHeapSize > memorySize)
-	{
-		requiredHeapSize = memorySize / 2;
-		heapFrameCount = requiredHeapSize / PAGE_SIZE / 2;
-	}
-	
-	HeapManager::InitKernelHeap(heapFrameCount);
-	SkyConsole::Print("Heap %dMB Allocated\n", requiredHeapSize / MEGA_BYTES);
-
-	SkyConsole::Print("Memory Manager Init Complete\n");
+	EnablePaging(false);	
+	PhysicalMemoryManager::Initialize();	
+	VirtualMemoryManager::Initialize();	
+	EnablePaging(true);		
+	HeapManager::Initialize();
 	
 	return true;
 }
@@ -242,7 +227,10 @@ bool BuildPlatformAPI(unsigned long addr, uint32_t imageBase)
 	platformAPI._allocInterface = *(SKY_ALLOC_INTERFACE*)pStub->_allocInterface;
 	platformAPI._printInterface = *(SKY_PRINT_INTERFACE*)pStub->_printInterface;
 
-	bootParams._kernelBaseAddress = imageBase;
+	bootParams._memoryLayout._kernelBase = imageBase;
+	bootParams._memoryLayout._bootStackBase = 0x30000;
+	bootParams._memoryLayout._bootStackTop = 0x40000;
+
 	strcpy(bootParams._szBootLoaderName, "SkyOS Emulator");
 
 	uint32_t startAddress = PAGE_ALIGN_UP((uint32_t)pStub->_virtualAddress);
@@ -253,10 +241,10 @@ bool BuildPlatformAPI(unsigned long addr, uint32_t imageBase)
 	
 #else
 	multiboot_info* pBootInfo = (multiboot_info*)addr;
-	bootParams._kernelBaseAddress = imageBase;
+	bootParams._memoryLayout._kernelBase = imageBase;
+	bootParams._kernelSize = GetKernelSize(pBootInfo);	
 	strcpy(bootParams._szBootLoaderName, pBootInfo->boot_loader_name);
-	GetMemoryInfo(pBootInfo, &bootParams);
-	
+	GetMemoryInfo(pBootInfo, &bootParams);	
 #endif
 
 	return true;

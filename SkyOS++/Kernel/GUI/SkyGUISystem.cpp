@@ -17,8 +17,8 @@ SkyGUISystem::~SkyGUISystem()
 
 bool SkyGUISystem::InitializeWithConsole()
 {
-	VirtualMemoryManager::CreateVideoDMAVirtualAddress(VirtualMemoryManager::GetCurPageDirectory(), 0xE0000000, 0xE0000000, 0xE0FF0000);
-	VirtualMemoryManager::CreateVideoDMAVirtualAddress(VirtualMemoryManager::GetCurPageDirectory(), 0xF0000000, 0xF0000000, 0xF0FF0000);
+	VirtualMemoryManager::MapDMAAddress(VirtualMemoryManager::GetCurPageDirectory(), 0xE0000000, 0xE0000000, 0xE0FF0000);
+	VirtualMemoryManager::MapDMAAddress(VirtualMemoryManager::GetCurPageDirectory(), 0xF0000000, 0xF0000000, 0xF0FF0000);
 	
 	m_videoRamInfo._pVideoRamPtr = (void*)0xF0000000;
 	m_videoRamInfo._width = 1024;
@@ -41,7 +41,7 @@ bool SkyGUISystem::Initialize()
 
 	if (bootParams.framebuffer_addr != 0)
 	{
-		VirtualMemoryManager::CreateVideoDMAVirtualAddress(VirtualMemoryManager::GetCurPageDirectory(), bootParams.framebuffer_addr, bootParams.framebuffer_addr, bootParams.framebuffer_addr + VIDEO_RAM_LOGICAL_ADDRESS_OFFSET);
+		VirtualMemoryManager::MapDMAAddress(VirtualMemoryManager::GetCurPageDirectory(), bootParams.framebuffer_addr, bootParams.framebuffer_addr, bootParams.framebuffer_addr + VIDEO_RAM_LOGICAL_ADDRESS_OFFSET);
 
 		m_videoRamInfo._pVideoRamPtr = (void*)bootParams.framebuffer_addr;
 		m_videoRamInfo._width = bootParams.framebuffer_width;

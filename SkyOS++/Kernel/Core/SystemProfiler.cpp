@@ -4,7 +4,6 @@
 #include "DeviceDriverManager.h"
 
 SystemProfiler* SystemProfiler::m_pSystemProfiler = nullptr;
-extern PageDirectory* g_pageDirectoryPool[MAX_PAGE_DIRECTORY_COUNT];
 
 SystemProfiler::SystemProfiler()
 {
@@ -21,10 +20,10 @@ bool SystemProfiler::Initialize()
 #ifdef SKY_EMULATOR
 	state._HeapLoadAddress = bootParams.allocatedRange[0].begin + 0x2000000;
 #else
-	state._HeapLoadAddress = KERNEL_VIRTUAL_HEAP_ADDRESS;
+	state._HeapLoadAddress = bootParams._memoryLayout._kHeapBase;
 #endif
 	state._heapSize = HeapManager::GetHeapSize();
-	state._kernelLoadAddress = bootParams._kernelBaseAddress;
+	state._kernelLoadAddress = bootParams._memoryLayout._kernelBase;
 	
 	state._kernelSize = bootParams._kernelSize;
 
@@ -39,8 +38,6 @@ bool SystemProfiler::Initialize()
 #else
 	state._pciDevices = 0;
 #endif // SKY_EMULATOR
-
-	state._pageDirectoryPoolAddress = (DWORD)&(g_pageDirectoryPool[0]);
 
 	SystemProfiler::GetInstance()->SetGlobalState(state);
 
@@ -69,6 +66,5 @@ void SystemProfiler::PrintGlobalState()
 	SkyConsole::Print("Heap Start Address : 0x%x\n", m_state._HeapLoadAddress);
 	SkyConsole::Print("Heap Size : %d(MB)\n", m_state._heapSize / MEGA_BYTES);
 
-	SkyConsole::Print("Stack Physical Pool Address : 0x%x\n", m_state._stackPhysicalPoolAddress);
-	SkyConsole::Print("Page Directory Pool Address  : 0x%x\n", m_state._pageDirectoryPoolAddress);
+	SkyConsole::Print("Stack Physical Pool Address : 0x%x\n", m_state._stackPhysicalPoolAddress);	
 }

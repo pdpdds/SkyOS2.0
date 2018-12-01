@@ -382,6 +382,28 @@
     <ClCompile Include="KernelAPI.cpp" />
     <ClCompile Include="PlatformAPI.cpp" />
     <ClCompile Include="X86Arch.cpp" />
+    <ClCompile Include="PhysicalAddressMap.cpp" />
+    <ClCompile Include="Core2\Semaphore.cpp">
+      <Filter>Core2</Filter>
+    </ClCompile>
+    <ClCompile Include="Core2\Resource.cpp">
+      <Filter>Core2</Filter>
+    </ClCompile>
+    <ClCompile Include="Core2\Synchronization.cpp">
+      <Filter>Core2</Filter>
+    </ClCompile>
+    <ClCompile Include="Core2\interrupt.cpp">
+      <Filter>Core2</Filter>
+    </ClCompile>
+    <ClCompile Include="Core2\Scheduler.cpp">
+      <Filter>Core2</Filter>
+    </ClCompile>
+    <ClCompile Include="Core2\Thread.cpp">
+      <Filter>Core2</Filter>
+    </ClCompile>
+    <ClCompile Include="Core2\Timer.cpp">
+      <Filter>Core2</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CPU\Hal.h">
@@ -767,6 +789,46 @@
     <ClInclude Include="MultbootUtil.h" />
     <ClInclude Include="KernelAPI.h" />
     <ClInclude Include="X86Arch.h" />
+    <ClInclude Include="PhysicalAddressMap.h" />
+    <ClInclude Include="Core2\Semaphore.h">
+      <Filter>Core2</Filter>
+    </ClInclude>
+    <ClInclude Include="Core2\Queue.h">
+      <Filter>Core2</Filter>
+    </ClInclude>
+    <ClInclude Include="Core2\Resource.h">
+      <Filter>Core2</Filter>
+    </ClInclude>
+    <ClInclude Include="Core2\cpu_asm.h">
+      <Filter>Core2</Filter>
+    </ClInclude>
+    <ClInclude Include="Core2\KernelDebug.h">
+      <Filter>Core2</Filter>
+    </ClInclude>
+    <ClInclude Include="Core2\List.h">
+      <Filter>Core2</Filter>
+    </ClInclude>
+    <ClInclude Include="Core2\Synchronization.h">
+      <Filter>Core2</Filter>
+    </ClInclude>
+    <ClInclude Include="Core2\types.h">
+      <Filter>Core2</Filter>
+    </ClInclude>
+    <ClInclude Include="Core2\x86.h">
+      <Filter>Core2</Filter>
+    </ClInclude>
+    <ClInclude Include="Core2\interrupt.h">
+      <Filter>Core2</Filter>
+    </ClInclude>
+    <ClInclude Include="Core2\Scheduler.h">
+      <Filter>Core2</Filter>
+    </ClInclude>
+    <ClInclude Include="Core2\Thread.h">
+      <Filter>Core2</Filter>
+    </ClInclude>
+    <ClInclude Include="Core2\Timer.h">
+      <Filter>Core2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="CPU">
@@ -822,6 +884,9 @@
     </Filter>
     <Filter Include="PCI">
       <UniqueIdentifier>{ba2d9f43-54e8-4d4b-a662-de7425292a0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core2">
+      <UniqueIdentifier>{da37730e-472d-46b8-8c20-8e5371d7681f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

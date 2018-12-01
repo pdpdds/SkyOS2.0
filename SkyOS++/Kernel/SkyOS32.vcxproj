@@ -13,6 +13,13 @@
   <ItemGroup>
     <ClCompile Include="ConsoleSystem\commands.cpp" />
     <ClCompile Include="ConsoleSystem\ConsoleManager.cpp" />
+    <ClCompile Include="Core2\interrupt.cpp" />
+    <ClCompile Include="Core2\Resource.cpp" />
+    <ClCompile Include="Core2\Scheduler.cpp" />
+    <ClCompile Include="Core2\Semaphore.cpp" />
+    <ClCompile Include="Core2\Synchronization.cpp" />
+    <ClCompile Include="Core2\Thread.cpp" />
+    <ClCompile Include="Core2\Timer.cpp" />
     <ClCompile Include="Core\Exception.cpp" />
     <ClCompile Include="Core\KernelProcessLoader.cpp" />
     <ClCompile Include="Core\LoadDLL.cpp" />
@@ -134,6 +141,7 @@
     <ClCompile Include="pci\pci_info.cpp" />
     <ClCompile Include="pci\pci_io.cpp" />
     <ClCompile Include="pci\pci_irq.cpp" />
+    <ClCompile Include="PhysicalAddressMap.cpp" />
     <ClCompile Include="PlatformAPI.cpp" />
     <ClCompile Include="SkyConsole.cpp" />
     <ClCompile Include="SkyConsoleLauncher.cpp" />
@@ -158,6 +166,19 @@
     <ClInclude Include="ConsoleSystem\commandTable.h" />
     <ClInclude Include="ConsoleSystem\ConsoleManager.h" />
     <ClInclude Include="Constants.h" />
+    <ClInclude Include="Core2\cpu_asm.h" />
+    <ClInclude Include="Core2\interrupt.h" />
+    <ClInclude Include="Core2\KernelDebug.h" />
+    <ClInclude Include="Core2\List.h" />
+    <ClInclude Include="Core2\Queue.h" />
+    <ClInclude Include="Core2\Resource.h" />
+    <ClInclude Include="Core2\Scheduler.h" />
+    <ClInclude Include="Core2\Semaphore.h" />
+    <ClInclude Include="Core2\Synchronization.h" />
+    <ClInclude Include="Core2\Thread.h" />
+    <ClInclude Include="Core2\Timer.h" />
+    <ClInclude Include="Core2\types.h" />
+    <ClInclude Include="Core2\x86.h" />
     <ClInclude Include="Core\Exception.h" />
     <ClInclude Include="Core\KernelProcessLoader.h" />
     <ClInclude Include="Core\LoadDLL.h" />
@@ -275,6 +296,7 @@
     <ClInclude Include="pci\pci_fixup.h" />
     <ClInclude Include="pci\pci_info.h" />
     <ClInclude Include="pci\pci_irq.h" />
+    <ClInclude Include="PhysicalAddressMap.h" />
     <ClInclude Include="PlatformAPI.h" />
     <ClInclude Include="SkyConsole.h" />
     <ClInclude Include="SkyConsoleLauncher.h" />
@@ -358,7 +380,7 @@
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
       <AdditionalIncludeDirectories>../SkyDesktop;../SkyLua;./pci;../ThirdParty/freetype-2.9\include;./Net;../HangulInput/HangulInput;../SkySDL/include;./ConsoleSystem;./;../../CommonLib;../../CommonLib/stl;../../CommonLib/jsmn;../../Include;./CPU;./Memory;./Heap;./Test;./FileSystem;./Keyboard;./V8086;./GUI/SkyGUI;./GUI/Simple;./GUI;../../CommonLib/math;./gui/svgagui;./gui/svgagui/example;../../Module/Include;./Device;./Core;../../CommonLib/CPlusPlus;./GUI/SkySVGA;../SkyOSWin32Stub;../lua5/lua5;./device/audio;./device/audio/sb16</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>SKY_EMULATOR;SKY_EMULATOR_DLL;SKYOS32;_MSC_VER</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SKYOS32;_MSC_VER</PreprocessorDefinitions>
       <IgnoreStandardIncludePath>true</IgnoreStandardIncludePath>
       <StringPooling>
       </StringPooling>

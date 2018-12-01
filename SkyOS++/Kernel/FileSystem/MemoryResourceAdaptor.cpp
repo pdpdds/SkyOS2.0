@@ -1,8 +1,8 @@
 #include "MemoryResourceAdaptor.h"
 #include "SkyConsole.h"
 #include "SkyStruct.h"
-#include "PhysicalMemoryManager.h"
 #include "SkyModuleManager.h"
+#include "MultiBoot.h"
 
 MemoryResourceAdaptor::MemoryResourceAdaptor(char* deviceName, DWORD deviceID)
 	: FileSysAdaptor(deviceName, deviceID)

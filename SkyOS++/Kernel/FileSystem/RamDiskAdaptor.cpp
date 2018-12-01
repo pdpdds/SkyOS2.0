@@ -2,7 +2,6 @@
 #include "SkyConsole.h"
 #include "MultiBoot.h"
 #include "SkyStruct.h"
-#include "PhysicalMemoryManager.h"
 #include "BasicStruct.h"
 
 RamDiskAdaptor::RamDiskAdaptor(char* deviceName, DWORD deviceID)
@@ -123,7 +122,8 @@ bool RamDiskAdaptor::InstallPackage()
 
 	//패키지 시그너쳐를 찾는다. 시그너쳐 : "SKYOS32PACKAGE "
 	PACKAGEHEADER* pstHeader = nullptr;
-	pstHeader = FindPackageSignature(bootParams._kernelBaseAddress, bootParams._kernelBaseAddress + bootParams._kernelSize);
+	UINT32 startAddress = bootParams._memoryLayout._kernelBase;
+	pstHeader = FindPackageSignature(startAddress, startAddress + bootParams._kernelSize);
 	
 	if(pstHeader == nullptr)
 	{		

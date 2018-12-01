@@ -27,7 +27,7 @@ Thread* ProcessManager::CreateThread(Process* pProcess, FILE* file, LPVOID param
 	unsigned char buf[512];
 	IMAGE_DOS_HEADER* dosHeader = 0;
 	IMAGE_NT_HEADERS* ntHeaders = 0;
-	unsigned char* memory = 0;
+	unsigned char* fileBuffer = 0;
 
 	//파일에서 512바이트를 읽고 유효한 PE 파일인지 검증한다.
 	int readCnt = StorageManager::GetInstance()->ReadFile(file, buf, 1, 512);
@@ -76,32 +76,13 @@ Thread* ProcessManager::CreateThread(Process* pProcess, FILE* file, LPVOID param
 
 	pProcess->m_dwPageCount = (pThread->m_imageSize / 4096) + pageRest;
 
-	//파일을 메모리에 할당하는데 필요한 물리 메모리 할당
-	unsigned char* physicalMemory = (unsigned char*)PhysicalMemoryManager::AllocBlocks(pProcess->m_dwPageCount);
-
-//물리주소를 가상주소로 매핑한다
-//주의 현재 실행중인 프로세스의 가상주소와 생성될 프로세스의 가상주소에 로드된 실행파일의 물리주소를 똑같이 매핑한 후
-//복사가 완료되면 현재 실행중인 프로세스에 생성된 PTE를 삭제한다.
-
-	for (DWORD i = 0; i < pProcess->m_dwPageCount; i++)
-	{
-		VirtualMemoryManager::MapPhysicalAddressToVirtualAddresss(GetCurrentTask()->m_pParent->GetPageDirectory(),
-			ntHeaders->OptionalHeader.ImageBase + i * PAGE_SIZE,
-			(uint32_t)physicalMemory + i * PAGE_SIZE,
-			I86_PTE_PRESENT | I86_PTE_WRITABLE);
-	}
-
-	for (DWORD i = 0; i < pProcess->m_dwPageCount; i++)
-	{
-		VirtualMemoryManager::MapPhysicalAddressToVirtualAddresss(pProcess->GetPageDirectory(),
-			ntHeaders->OptionalHeader.ImageBase + i * PAGE_SIZE,
-			(uint32_t)physicalMemory + i * PAGE_SIZE,
-			I86_PTE_PRESENT | I86_PTE_WRITABLE);
-	}
+	//파일버퍼를 위한 가상주소 할당
+	VirtualMemoryManager::MapAddress(GetCurrentTask()->m_pParent->GetPageDirectory(), ntHeaders->OptionalHeader.ImageBase, pProcess->m_dwPageCount);
+	VirtualMemoryManager::MapAddress(pProcess->GetPageDirectory(), ntHeaders->OptionalHeader.ImageBase, pProcess->m_dwPageCount);
 	
-	memory = (unsigned char*)ntHeaders->OptionalHeader.ImageBase;
-	memset(memory, 0, pThread->m_imageSize);
-	memcpy(memory, buf, 512);
+	fileBuffer = (unsigned char*)ntHeaders->OptionalHeader.ImageBase;
+	memset(fileBuffer, 0, pThread->m_imageSize);
+	memcpy(fileBuffer, buf, 512);
 
 	//파일을 메모리로 로드한다.
 	int fileRest = 0;
@@ -114,14 +95,19 @@ Thread* ProcessManager::CreateThread(Process* pProcess, FILE* file, LPVOID param
 		if (file->_eof == 1)
 			break;
 
-		readCnt = StorageManager::GetInstance()->ReadFile(file, memory + 512 * i, 512, 1);
+		readCnt = StorageManager::GetInstance()->ReadFile(file, fileBuffer + 512 * i, 512, 1);
 	}
 	
-	//스택을 생성하고 주소공간에 매핑한다.
-	//void* stackAddress = (void*)(g_stackPhysicalAddressPool - PAGE_SIZE * 10 * kernelStackIndex++);
+	int stackIndex = pProcess->GetStackIndex();
+	int stackPageCount = 256;
+	//20181201
+//	int stackAddress = STACK_BASE_ADDRESS + stackIndex * PAGE_SIZE * 256;
+	int stackAddress = stackIndex * PAGE_SIZE * 256;
+	VirtualMemoryManager::MapAddress(pProcess->GetPageDirectory(), stackAddress, 256);
 
-	void* stackAddress = PhysicalMemoryManager::AllocBlocks(256);
-
+	stackIndex++;
+	pProcess->SetStackIndex(stackIndex);
+	
 	//스레드에 ESP, EBP 설정
 	pThread->m_initialStack = (void*)((uint32_t)stackAddress + PAGE_SIZE * 256);
 	pThread->frame.esp = (uint32_t)pThread->m_initialStack;
@@ -135,10 +121,7 @@ Thread* ProcessManager::CreateThread(Process* pProcess, FILE* file, LPVOID param
 	pThread->frame.edi = 0;
 
 //파일 로드에 사용된 페이지 테이블을 회수한다.
-	for (DWORD i = 0; i < pProcess->m_dwPageCount; i++)
-	{
-		VirtualMemoryManager::UnmapPageTable(GetCurrentTask()->m_pParent->GetPageDirectory(), (uint32_t)physicalMemory + i * PAGE_SIZE);
-	}
+	VirtualMemoryManager::UnmapAddress(GetCurrentTask()->m_pParent->GetPageDirectory(), ntHeaders->OptionalHeader.ImageBase, pProcess->m_dwPageCount);
 	
 	m_taskList->push_back(pThread);
 	
@@ -162,9 +145,16 @@ Thread* ProcessManager::CreateThread(Process* pProcess, LPTHREAD_START_ROUTINE l
 	pThread->frame.flags = 0x200; //플래그
 	pThread->m_startParam = param; //파라메터
 
-	//스택을 생성하고 주소공간에 매핑한다.
-	//void* stackAddress = (void*)(g_stackPhysicalAddressPool - PAGE_SIZE * 100 * kernelStackIndex++);	
-	void* stackAddress = PhysicalMemoryManager::AllocBlocks(256);
+	int stackIndex = pProcess->GetStackIndex();
+	int stackPageCount = 256;
+	//20181201
+	//int stackAddress = STACK_BASE_ADDRESS + stackIndex * PAGE_SIZE * 256;
+	int stackAddress = stackIndex * PAGE_SIZE * 256;
+	VirtualMemoryManager::MapAddress(pProcess->GetPageDirectory(), stackAddress, 256);
+
+	stackIndex++;
+	pProcess->SetStackIndex(stackIndex);
+
 #ifdef _DEBUG
 	SkyConsole::Print("Stack : %x\n", stackAddress);	
 #endif	

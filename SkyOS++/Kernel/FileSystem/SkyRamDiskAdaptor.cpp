@@ -1,7 +1,6 @@
 #include "SkyRamDiskAdaptor.h"
 #include "SkyConsole.h"
 #include "SkyStruct.h"
-#include "PhysicalMemoryManager.h"
 #include "VirtualMemoryManager.h"
 #include "SkyModuleManager.h"
 #include "SkyRamDisk.h"
@@ -31,7 +30,8 @@ bool SkyRamDiskAdaptor::Initialize()
 #ifdef SKY_EMULATOR
 	LoadRamDisk(rd_module, rd_module->ModuleStart);
 #else
-	LoadRamDisk(rd_module, KERNEL_VIRTUAL_RAMDISK_ADDRESS);
+	//20181201
+	//LoadRamDisk(rd_module, KERNEL_VIRTUAL_RAMDISK_ADDRESS);
 #endif
 
 	return true;

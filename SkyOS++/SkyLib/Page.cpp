@@ -18,7 +18,7 @@
 #include "cpu_asm.h"
 #include "KernelDebug.h"
 #include "Page.h"
-//#include "PhysicalMap.h"
+#include "PhysicalMap.h"
 #include "Semaphore.h"
 #include "syscall.h"
 //#include "Thread.h"
