@@ -271,8 +271,7 @@ namespace VirtualMemoryManager
 			uint32_t virt = (uint32_t)startAddress + i * PAGE_SIZE;
 			uint32_t phys = (uint32_t)pAllocatedMemory + i * PAGE_SIZE;
 
-			MapPhysicalAddressToVirtualAddresss(pd, virt, phys, I86_PTE_PRESENT | I86_PTE_WRITABLE);
-			
+			MapPhysicalAddressToVirtualAddresss(pd, virt, phys, I86_PTE_PRESENT | I86_PTE_WRITABLE);			
 		}
 
 		return true;

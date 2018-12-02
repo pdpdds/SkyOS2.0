@@ -13,8 +13,19 @@ int entryPoint = 0;
 unsigned int procStack = 0;
 LPVOID startParam = 0;
 
+#include "InterruptHandler.h"
+
 void SwitchTask(int tick, registers_t& registers)
-{
+{		
+	uint32_t currentTickCount = GetTickCount();
+
+	if (currentTickCount - lastTickCount > 300)
+	{
+	
+		InterruptHandler::Dispatch(0);
+	lastTickCount = currentTickCount;
+	}
+	
 	if (systemOn == false)
 		return;
 

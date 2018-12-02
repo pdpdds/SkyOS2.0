@@ -9,6 +9,7 @@
 #include "Constants.h"
 #include "PlatformAPI.h"
 #include "MultbootUtil.h"
+#include "SkyOSCore.h"
 
 #ifdef SKY_EMULATOR
 #include "SkyOSWin32Stub.h"
@@ -18,16 +19,40 @@ extern unsigned int _pitTicks;
 BootParams bootParams;
 PlatformAPI platformAPI;
 
+void JumpToNewKernelEntry(int entryPoint, unsigned int procStack)
+{
+	__asm
+	{
+		MOV     AX, 0x10;
+		MOV     DS, AX
+			MOV     ES, AX
+			MOV     FS, AX
+			MOV     GS, AX
+
+			MOV     ESP, procStack
+			PUSH	0; //파라메터
+		PUSH	0; //EBP
+		PUSH    0x200; EFLAGS
+			PUSH    0x08; CS
+			PUSH    entryPoint; EIP
+			IRETD
+	}
+}
+
+void newEntry()
+{
+	for (;;);
+}
+
 #ifdef SKY_EMULATOR
 void kmain()
 #else
 void kmain(unsigned long magic, unsigned long addr, uint32_t imageBase)
 #endif
 {
-	InitializeConstructors();
+	EnablePaging(false);
 
-	kEnterCriticalSection();	
-			
+	InitializeConstructors();	
 	InitHardware();	
 
 #ifdef SKY_EMULATOR
@@ -41,12 +66,19 @@ void kmain(unsigned long magic, unsigned long addr, uint32_t imageBase)
 	if (false == InitMemoryManager())
 	{
 		HaltSystem("Init Memory Error!!");
-	}	
+	}
+			
+	EnablePaging(true);	
+	//예전에는 이 이후로 페이징을 끄고 켜거나 하는 구조였지만
+	//이제는 페이징 기능을 절대 끄지 않는다. 즉 지금부터는 
+	//물리주소에 대해서는 고민하지 않는다.
+	StartPITCounter(1000, I86_PIT_OCW_COUNTER_0, I86_PIT_OCW_MODE_SQUAREWAVEGEN);
+	JumpToNewKernelEntry((int)newEntry, 0x40000);
 
 	InitModules(pInfo);
 	InitDisplaySystem();
 	
-	kLeaveCriticalSection();
+	
 
 	SkyModuleManager::GetInstance()->Initialize();
 	SystemProfiler::GetInstance()->Initialize();
@@ -136,10 +168,9 @@ void InitHardware()
 //물리/가상 메모리 매니저를 초기화한다.
 bool InitMemoryManager()
 {		
-	EnablePaging(false);	
+	
 	PhysicalMemoryManager::Initialize();	
 	VirtualMemoryManager::Initialize();	
-	EnablePaging(true);		
 	HeapManager::Initialize();
 	
 	return true;
