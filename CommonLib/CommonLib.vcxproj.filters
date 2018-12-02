@@ -312,6 +312,7 @@
     <MASM Include="llshl.asm" />
     <MASM Include="ulldiv.asm" />
     <MASM Include="ullrem.asm" />
+    <MASM Include="chkstk.asm" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CPlusPlus\ctrycatch_exception_types.conf">
