@@ -14,32 +14,30 @@
 // limitations under the License.
 // 
 
-#ifndef _QUEUE_H
-#define _QUEUE_H
+#ifndef _FILE_DESCRIPTOR_H
+#define _FILE_DESCRIPTOR_H
 
-#include "List.h"
+#include "Resource.h"
 
-typedef ListNode QueueNode;
+class VNode;
 
-class Queue : public List {
+class FileDescriptor : public Resource {
 public:
-	inline QueueNode* Enqueue(QueueNode*);
-	inline QueueNode* Dequeue();
+	FileDescriptor(VNode*);
+	virtual ~FileDescriptor();
+	VNode* GetNode() const;
+	off_t Seek(off_t, int whence);
+	virtual int ReadDir(char outName[], size_t size);
+	virtual int RewindDir(); 
+	virtual int ReadAt(off_t, void*, int);
+	virtual int WriteAt(off_t, const void*, int);
+	virtual int Read(void*, int);
+	virtual int Write(const void*, int);
+	virtual int Control(int op, void*);
+
+private:
+	VNode *fNode;
+	off_t fCurrentPosition;
 };
-
-inline QueueNode* Queue::Enqueue(QueueNode *element)
-{
-	return AddToTail(element);
-}
-
-inline QueueNode* Queue::Dequeue()
-{
-	QueueNode *node = GetHead();
-	if (node == 0)
-		return 0;
-
-	node->RemoveFromList();
-	return node;
-}           
 
 #endif

@@ -23,7 +23,7 @@
 extern void HardwareTimerBootstrap(InterruptStatus (*callback)());
 extern void SetHardwareTimer(bigtime_t relativeTimeout);
 
-Queue Timer::fTimerQueue;
+_Queue Timer::fTimerQueue;
 
 Timer::Timer()
 	:	fPending(false)
@@ -94,6 +94,7 @@ void Timer::Bootstrap()
 
 InterruptStatus Timer::HardwareTimerInterrupt()
 {
+	printf("Timer::HardwareTimerInterrupt %d\n");
 	bigtime_t now = SystemTime();		
 	bool reschedule = false;
 	while (fTimerQueue.GetHead() &&
@@ -134,6 +135,9 @@ void Timer::Enqueue(Timer *newTimer)
 
 void Timer::ReprogramHardwareTimer()
 {
+	bigtime_t now = SystemTime();
+	printf("\nCurrent time %Ld\n", now);
+
 	Timer *head = static_cast<Timer*>(fTimerQueue.GetHead());
 	if (head)
 		SetHardwareTimer(head->fWhen - SystemTime());

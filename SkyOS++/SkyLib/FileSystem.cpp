@@ -1,9 +1,9 @@
 #include "windef.h"
 #include "cpu_asm.h"
 #include "FileSystem.h"
-#include "List.h"
+#include "datastructure/List.h"
 #include "string.h"
-#include "Thread.h"
+#include "datastructure/Thread.h"
 #include "VNode.h"
 #include "syscall.h"
 
@@ -157,7 +157,7 @@ int FileSystem::GetDirEntry(const char path[], int pathLength, char outEntry[], 
 
 void FileSystem::Bootstrap()
 {
-	fRootFileSystem = RootFsInstantiate(-1);	
+	/*fRootFileSystem = RootFsInstantiate(-1);	
 
 	FileSystem::RegisterFsType("netbootfs", NetbootFsInstantiate);
 	FileSystem::RegisterFsType("devfs", DevFsInstantiate);
@@ -165,5 +165,5 @@ void FileSystem::Bootstrap()
 	mkdir("/boot", 0);
 	mount("", "/boot", "netbootfs", 0, 0);
 	mkdir("/dev", 0);
-	mount("", "/dev", "devfs", 0, 0);
+	mount("", "/dev", "devfs", 0, 0);*/
 }

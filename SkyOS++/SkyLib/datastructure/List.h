@@ -30,7 +30,7 @@ private:
 	ListNode *fNext;
 	ListNode *fPrev;
 	friend class List;
-	friend class Queue;
+	friend class _Queue;
 };
 
 class List {

@@ -1,5 +1,5 @@
 #include "Mutex.h"
-#include "Thread.h"
+#include "datastructure/Thread.h"
 #include "KernelDebug.h"
 #include "cpu_asm.h"
 

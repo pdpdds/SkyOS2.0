@@ -19,6 +19,7 @@
 #include "Semaphore.h"
 #include "stdio.h"
 #include "string.h"
+#include "KernelDebug.h"
 
 struct Handle {
 	bool IsFree() const;

@@ -24,15 +24,15 @@
 
 const int kQuantum = 8000;
 
-Scheduler gScheduler;
+_Scheduler gScheduler;
 
-Scheduler::Scheduler()
+_Scheduler::_Scheduler()
 	:	fReadyThreadCount(0),
 		fHighestReadyThread(0)
 {
 }
 
-void Scheduler::Reschedule() 
+void _Scheduler::Reschedule() 
 {
 	cpu_flags st = DisableInterrupts();
 	Thread *thread = Thread::GetRunningThread();
@@ -58,7 +58,7 @@ void Scheduler::Reschedule()
 	RestoreInterrupts(st);
 }
 
-void Scheduler::EnqueueReadyThread(Thread *thread)
+void _Scheduler::EnqueueReadyThread(Thread *thread)
 {
 	cpu_flags st = DisableInterrupts();
 	if (thread->GetSleepTime() > kQuantum * 4) {
@@ -81,7 +81,7 @@ void Scheduler::EnqueueReadyThread(Thread *thread)
 	RestoreInterrupts(st);
 }
 
-Thread *Scheduler::PickNextThread() 
+Thread *_Scheduler::PickNextThread() 
 {
 	fReadyThreadCount--;
 	Thread *nextThread = static_cast<Thread*>(fReadyQueue[fHighestReadyThread].Dequeue());
@@ -92,7 +92,7 @@ Thread *Scheduler::PickNextThread()
 	return nextThread;
 }
 
-InterruptStatus Scheduler::HandleTimeout()
+InterruptStatus _Scheduler::HandleTimeout()
 {
 	return kReschedule;
 }

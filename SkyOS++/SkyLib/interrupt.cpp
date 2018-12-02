@@ -13,22 +13,46 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // 
-/*
+
+
 #include "AddressSpace.h"
 #include "cpu_asm.h"
 #include "KernelDebug.h"
-#include "ThreadContext.h"
-#include "interrupt.h"
-#include "InterruptHandler.h"
-#include "memory_layout.h"
-#include "Scheduler.h"
+
 #include "stdio.h"
 #include "string.h"
 #include "SystemCall.h"
-#include "Thread.h"
-#include "types.h"
+#include "datastructure/Thread.h"
+#include "ThreadContext.h"
+#include "interrupt.h"
+#include "InterruptHandler.h"
+#include "_types.h"
 #include "x86.h"
+#include "datastructure/Scheduler.h"
+#include "memory_layout.h"
+/*
 
+
+*/
+
+const int kMasterIcw1 = 0x20;
+const int kMasterIcw2 = 0x21;
+const int kSlaveIcw1 = 0xa0;
+const int kSlaveIcw2 = 0xa1;
+const int kUserCs = 0x1b;
+
+extern "C" int _outp(unsigned short, int);
+extern "C" unsigned long _outpd(unsigned int, int);
+extern "C" unsigned short _outpw(unsigned short, unsigned short);
+extern "C" int _inp(unsigned short);
+extern "C" unsigned short _inpw(unsigned short);
+extern "C" unsigned long _inpd(unsigned int shor);
+
+// Speed of the machine in MHz.  This is currently hard coded for my test machine.
+// It needs to be calculated at boot time.
+static bigtime_t timeBase = 150;
+
+/*
 #define IDT_ENTRY(func) { (unsigned int) func & 0xffff, 8, 0, 0xe, 3, 1, (unsigned int) func >> 16 }
 
 extern "C" {
@@ -43,11 +67,7 @@ extern "C" {
 	void HandleTrap(InterruptFrame);
 };
 
-const int kMasterIcw1 = 0x20;
-const int kMasterIcw2 = 0x21;
-const int kSlaveIcw1 = 0xa0;
-const int kSlaveIcw2 = 0xa1;
-const int kUserCs = 0x1b;
+
 
 static const IdtEntry idt[kMaxInterrupt] = {
 	IDT_ENTRY(trap0), IDT_ENTRY(trap1), IDT_ENTRY(trap2), IDT_ENTRY(trap3),
@@ -88,130 +108,9 @@ void InterruptBootstrap()
 	EnableInterrupts();
 }
 
-void EnableIrq(int irq)
-{
-	if (irq < 8)
-		write_io_8(read_io_8(kMasterIcw2) & static_cast<unsigned char>(~(1 << irq)), kMasterIcw2);
-	else
-		write_io_8(read_io_8(kSlaveIcw2) & static_cast<unsigned char>(~(1 << (irq - 8))), kSlaveIcw2);
-}
 
-void DisableIrq(int irq)
-{
-	if (irq < 8)
-		write_io_8(read_io_8(kMasterIcw2) | (1 << irq), kMasterIcw2);
-	else
-		write_io_8(read_io_8(kSlaveIcw2) | (1 << (irq - 8)), kSlaveIcw2);
-}
 
-void HandleTrap(InterruptFrame iframe)
-{
-	switch (iframe.vector) {
-		case kDebugTrap: {
-			unsigned int status = GetDR6();
-			if (status & 7) {
-				printf("Breakpoint\n");
-				iframe.Print();
-			} else if ((status & (1 << 14)) == 0) {
-				printf("Unknown debug Trap\n");
-				iframe.Print();
-			}
-			
-			Debugger();
-			break;
-		}
 
-		case kDeviceNotAvailable:
-			ThreadContext::SwitchFp();
-			break;
-
-		case kPageFault: {
-			// It is important to get the fault address (from cr2) before re-enabling
-			// interrupts because it is not saved across task switches.
-			unsigned int va = GetFaultAddress();
-			EnableInterrupts();
-
-#if DEBUG_SHIT
-			if (iframe.errorCode & kPageFaultReserved)
-				panic("Bad PTE entry (kernel fucked up)");
-#endif
-		
-			AddressSpace *space = va >= kKernelBase
-				? AddressSpace::GetKernelAddressSpace()
-				: AddressSpace::GetCurrentAddressSpace();
-			if (space->HandleFault(va, iframe.errorCode & kPageFaultWrite,
-				iframe.errorCode & kPageFaultUser) < 0) {
-				// Invalid page fault.  If there is a fault handler (used by CopyUser
-				// functions), jump to it.
-				if (Thread::GetRunningThread()->GetFaultHandler()) {
-					printf("invoking fault handler\n");
-					iframe.eip = Thread::GetRunningThread()->GetFaultHandler();
-				} else {
-					printf("unhandled page fault.\n");
-					printf("Thread %s in %s mode attempted to %s %s address %08x\n",
-						Thread::GetRunningThread()->GetName(), 
-						(iframe.errorCode & kPageFaultUser) ? "user" : "supervisor",
-						(iframe.errorCode & kPageFaultWrite) ? "write" : "read",
-						(iframe.errorCode & kPageFaultProtection) ? "protected" : "unmapped", va);
-					iframe.Print();
-					Debugger();
-				}
-			}
-			
-			break;
-		}
-
-		case kSystemCall: {
-			EnableInterrupts();
-			const SystemCallInfo &info = systemCallTable[iframe.eax & 0xff];
-			iframe.eax = InvokeSystemCall(&info.hook, reinterpret_cast<int*>(iframe.user_esp) + 1,
-				info.parameterSize);
-
-			break;
-		}
-		
-		case 32: case 33: case 34: case 35: case 36: case 37: case 38: case 39:
-		case 40: case 41: case 42: case 43: case 44: case 45: case 46: case 47: {
-			InterruptStatus result = InterruptHandler::Dispatch(iframe.vector - 32);
-
-			// Note: this assumes level triggered interrupts.  It works
-			// with edge triggered ones, but may lose interrupts if the
-			// ISR is slow.
-			if (iframe.vector - 32 > 7)
-				write_io_8(0x20, 0xa0);	// EOI to pic 2
-	
-			write_io_8(0x20, 0x20);	// EOI to pic 1
-			
-			if (result == kReschedule)
-				gScheduler.Reschedule();
-			else if (result == kUnhandledInterrupt) {
-				iframe.Print();
-				panic("Unhandled Interrupt");
-			}
-
-			break;
-		}
-		
-		default:
-			printf("Unknown trap %d occured.\n", iframe.vector);
-			iframe.Print();
-			Debugger();
-	}	
-
-	// Dispatch APC if one is pending.  This is only done before switching
-	// back to user mode.	
-	if (iframe.cs == kUserCs) {
-		APC *apc = Thread::GetRunningThread()->DequeueAPC();
-		if (apc) {
-			APC temp = *apc;
-			delete apc;
-			if (temp.fIsKernel)
-				(*temp.fCallback)(temp.fData);
-			else
-				panic("User APCs not implemented\n");
-		}
-	}
-}
 
 void InterruptFrame::Print() const
 {
@@ -232,9 +131,136 @@ void InterruptFrame::Print() const
 			('A' - 'a'));
 	printf("\ntrap %08x      error code %08x\n", vector, errorCode);
 }
-
+*/
 bigtime_t SystemTime()
 {
 	return rdtsc() / timeBase;
 }
-*/
+
+
+void EnableIrq(int irq)
+{
+	if (irq < 8)
+		_outp(_inp(kMasterIcw2) & static_cast<unsigned char>(~(1 << irq)), kMasterIcw2);
+	else
+		_outp(_inp(kSlaveIcw2) & static_cast<unsigned char>(~(1 << (irq - 8))), kSlaveIcw2);
+}
+
+void DisableIrq(int irq)
+{
+	if (irq < 8)
+		_outp(_inp(kMasterIcw2) | (1 << irq), kMasterIcw2);
+	else
+		_outp(_inp(kSlaveIcw2) | (1 << (irq - 8)), kSlaveIcw2);
+}
+
+void HandleTrap(InterruptFrame iframe)
+{
+	switch (iframe.vector) {
+	/*case kDebugTrap: {
+		unsigned int status = GetDR6();
+		if (status & 7) {
+			printf("Breakpoint\n");
+			iframe.Print();
+		}
+		else if ((status & (1 << 14)) == 0) {
+			printf("Unknown debug Trap\n");
+			iframe.Print();
+		}
+
+		Debugger();
+		break;
+	}*/
+
+	case kDeviceNotAvailable:
+		ThreadContext::SwitchFp();
+		break;
+
+	/*case kPageFault: {
+		// It is important to get the fault address (from cr2) before re-enabling
+		// interrupts because it is not saved across task switches.
+		unsigned int va = GetFaultAddress();
+		EnableInterrupts();
+
+#if DEBUG_SHIT
+		if (iframe.errorCode & kPageFaultReserved)
+			panic("Bad PTE entry (kernel fucked up)");
+#endif
+
+		AddressSpace *space = va >= kKernelBase
+			? AddressSpace::GetKernelAddressSpace()
+			: AddressSpace::GetCurrentAddressSpace();
+		if (space->HandleFault(va, iframe.errorCode & kPageFaultWrite,
+			iframe.errorCode & kPageFaultUser) < 0) {
+			// Invalid page fault.  If there is a fault handler (used by CopyUser
+			// functions), jump to it.
+			if (Thread::GetRunningThread()->GetFaultHandler()) {
+				printf("invoking fault handler\n");
+				iframe.eip = Thread::GetRunningThread()->GetFaultHandler();
+			}
+			else {
+				printf("unhandled page fault.\n");
+				printf("Thread %s in %s mode attempted to %s %s address %08x\n",
+					Thread::GetRunningThread()->GetName(),
+					(iframe.errorCode & kPageFaultUser) ? "user" : "supervisor",
+					(iframe.errorCode & kPageFaultWrite) ? "write" : "read",
+					(iframe.errorCode & kPageFaultProtection) ? "protected" : "unmapped", va);
+				iframe.Print();
+				Debugger();
+			}
+		}
+
+		break;
+	}
+
+	case kSystemCall: {
+		EnableInterrupts();
+		const SystemCallInfo &info = systemCallTable[iframe.eax & 0xff];
+		iframe.eax = InvokeSystemCall(&info.hook, reinterpret_cast<int*>(iframe.user_esp) + 1,
+			info.parameterSize);
+
+		break;
+	}*/
+
+	case 32: case 33: case 34: case 35: case 36: case 37: case 38: case 39:
+	case 40: case 41: case 42: case 43: case 44: case 45: case 46: case 47: {
+		InterruptStatus result = InterruptHandler::Dispatch(iframe.vector - 32);
+
+		// Note: this assumes level triggered interrupts.  It works
+		// with edge triggered ones, but may lose interrupts if the
+		// ISR is slow.
+		if (iframe.vector - 32 > 7)
+			_outp(0x20, 0xa0);	// EOI to pic 2
+
+		_outp(0x20, 0x20);	// EOI to pic 1
+
+		if (result == kReschedule)
+			gScheduler.Reschedule();
+		else if (result == kUnhandledInterrupt) {
+			/*iframe.Print();
+			panic("Unhandled Interrupt");*/
+		}
+
+		break;
+	}
+
+	default:
+		printf("Unknown trap %d occured.\n", iframe.vector);
+		/*iframe.Print();
+		Debugger();*/
+	}
+
+	// Dispatch APC if one is pending.  This is only done before switching
+	// back to user mode.	
+	if (iframe.cs == kUserCs) {
+		APC *apc = Thread::GetRunningThread()->DequeueAPC();
+		if (apc) {
+			APC temp = *apc;
+			delete apc;
+			if (temp.fIsKernel)
+				(*temp.fCallback)(temp.fData);
+			else
+				panic("User APCs not implemented\n");
+		}
+	}
+}

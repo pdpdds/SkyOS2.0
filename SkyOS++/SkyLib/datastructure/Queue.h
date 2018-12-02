@@ -14,25 +14,32 @@
 // limitations under the License.
 // 
 
-#ifndef _SYSTEM_CALL_H
-#define _SYSTEM_CALL_H
+#ifndef _QUEUE_H
+#define _QUEUE_H
 
-#include "cpu_asm.h"
-#include "Team.h"
-#include "datastructure/Thread.h"
-#include "_types.h"
+#include "datastructure/List.h"
 
-int CreateFileArea(const char name[], const char path[], unsigned base, off_t fileOffset,
-	size_t, int flags, PageProtection, Team&);
+typedef ListNode _QueueNode;
 
-inline bool CopyUser(void *dest, const void *src, int size)
+class _Queue : public List {
+public:
+	inline _QueueNode* Enqueue(_QueueNode*);
+	inline _QueueNode* Dequeue();
+};
+
+inline _QueueNode* _Queue::Enqueue(_QueueNode *element)
 {
-	return Thread::GetRunningThread()->CopyUser(dest, src, size);
+	return AddToTail(element);
 }
 
-extern struct SystemCallInfo {
-	CallHook hook;
-	int parameterSize;
-} systemCallTable[];
+inline _QueueNode* _Queue::Dequeue()
+{
+	_QueueNode *node = GetHead();
+	if (node == 0)
+		return 0;
+
+	node->RemoveFromList();
+	return node;
+}           
 
 #endif

@@ -21,7 +21,7 @@
 #ifndef _X86_H
 #define _X86_H
 
-#include "types.h"
+#include "_types.h"
 
 struct Tss {
 	int previousTask;				// Backlink for nested task

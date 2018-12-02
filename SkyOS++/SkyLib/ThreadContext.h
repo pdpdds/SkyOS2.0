@@ -18,7 +18,7 @@
 #ifndef _THREAD_CONTEXT_H
 #define _THREAD_CONTEXT_H
 
-#include "types.h"
+#include "_types.h"
 #include "x86.h"
 
 class PhysicalMap;

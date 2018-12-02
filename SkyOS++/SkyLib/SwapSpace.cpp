@@ -24,6 +24,8 @@
 #include "KernelDebug.h"
 #include "syscall.h"
 
+extern void panic(char* szErr);;
+
 const int kChunkSize = PAGE_SIZE * 4;
 
 struct SwapChunk {

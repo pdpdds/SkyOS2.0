@@ -17,7 +17,7 @@
 #ifndef _KERNEL_DEBUG_H
 #define _KERNEL_DEBUG_H
 
-#include "types.h"
+#include "_types.h"
 
 #if DEBUG
 	#ifdef __GNUC__

@@ -18,7 +18,7 @@
 #ifndef _PAGE_CACHE_H
 #define _PAGE_CACHE_H
 
-#include "types.h"
+#include "_types.h"
 
 class BackingStore;
 class Page;

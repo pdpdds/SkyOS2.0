@@ -17,9 +17,9 @@
 #ifndef _PHYSICAL_MAP_H
 #define _PHYSICAL_MAP_H
 
-#include "List.h"
+#include "datastructure/List.h"
 #include "Mutex.h"
-#include "types.h"
+#include "_types.h"
 
 
 class LockedPage;
@@ -52,7 +52,7 @@ private:
 	RecursiveLock fLock;
 	static List fPhysicalMaps;
 	static LockedPage *fLockedPageHash[kLockedPageHashSize];
-	static Queue fInactiveLockedPages;
+	static _Queue fInactiveLockedPages;
 	static LockedPage *fLockedPages;
 	static PhysicalMap *fKernelPhysicalMap;
 	static int fLockPageHits;

@@ -40,11 +40,11 @@ InterruptStatus InterruptHandler::HandleInterrupt()
 {
 	return kUnhandledInterrupt;
 }
-
+extern "C" void printf(const char *fmt, ...);
 void InterruptHandler::ObserveInterrupt(int vector)
 {
 	ASSERT(vector >= 0);
-	ASSERT(vector <= kMaxInterrupts);
+	ASSERT(vector <= kMaxInterrupts);	
 
 	cpu_flags st = DisableInterrupts();
 	if (fHandlers[vector] == 0)
@@ -88,6 +88,7 @@ void InterruptHandler::IgnoreInterrupts()
 
 InterruptStatus InterruptHandler::Dispatch(int vector)
 {
+	printf("InterruptHandler::Dispatch %d\n", vector);
 	InterruptStatus result = kUnhandledInterrupt;
 	for (InterruptHandler *handler = fHandlers[vector]; handler;
 		handler = handler->fNext) {

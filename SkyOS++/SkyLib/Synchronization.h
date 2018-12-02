@@ -1,7 +1,7 @@
 #pragma once
 #include "windef.h"
-#include "types.h"
-#include "Queue.h"
+#include "_types.h"
+#include "datastructure/Queue.h"
 
 class Synchronization
 {
@@ -23,6 +23,6 @@ private:
 	static status_t WaitInternal(int dispatcherCount, Synchronization *syncObjects[],
 		WaitFlags flags, bigtime_t timeout, class WaitTag[]);
 	bool fSignalled;
-	Queue fTags;
+	_Queue fTags;
 };
 

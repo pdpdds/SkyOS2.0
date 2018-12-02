@@ -6,12 +6,8 @@
 #include "physicalmap.h"
 #include "AddressSpace.h"
 #include "Defines.h"
-
-typedef struct tag_PlatformAPI
-{
-
-};
-tag_PlatformAPI;
+#include "BootParams.h"
+#include "Timer.h"
 
 bool BuildPlatform()
 {
@@ -22,11 +18,15 @@ bool BuildPlatform()
 	return true;
 }
 
+_BootParams _bootParams;
+extern "C" void printf(const char *fmt, ...);
 bool InitKernelSystem()
 {
-	BuildPlatform();
+	//BuildPlatform();
 
-
+	Timer::Bootstrap();
+	__asm {sti}	
+	for (;;);
 	Page::Bootstrap();
 	PageCache::Bootstrap();
 	PhysicalMap::Bootstrap();

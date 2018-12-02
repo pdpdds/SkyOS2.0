@@ -21,13 +21,14 @@
 #include "PhysicalMap.h"
 #include "Semaphore.h"
 #include "syscall.h"
+#include "stdio.h"
 //#include "Thread.h"
 
 Semaphore Page::fFreePagesAvailable("Free Pages Available", 0);
 Page* Page::fPages = 0;
-Queue Page::fFreeQueue;
-Queue Page::fActiveQueue;
-Queue Page::fClearQueue;
+_Queue Page::fFreeQueue;
+_Queue Page::fActiveQueue;
+_Queue Page::fClearQueue;
 int Page::fPageCount = 0;
 int Page::fFreeCount = 0;
 int Page::fTransitionCount = 0;
@@ -142,7 +143,7 @@ int Page::CountFreePages()
 
 void Page::Bootstrap()
 {
-	fPageCount = bootParams.memsize / PAGE_SIZE;
+	fPageCount = _bootParams.memsize / PAGE_SIZE;
 	fPages = new Page[fPageCount];
 	fFreeCount = fPageCount;
 	fFreePagesAvailable.Release(fPageCount, false);

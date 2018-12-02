@@ -20,11 +20,11 @@
 
 #include "APC.h"
 #include "Resource.h"
-#include "Queue.h"
+#include "datastructure/Queue.h"
 #include "Semaphore.h"
 #include "ThreadContext.h"
 #include "Timer.h"
-#include "types.h"
+#include "_types.h"
 
 class Team;
 class Area;
@@ -40,7 +40,7 @@ enum ThreadState {
 
 /// A thread is a logical execution context.  This class contains all of the architecture
 /// independent state for a thread.
-class Thread : public Resource, public QueueNode {
+class Thread : public Resource, public _QueueNode {
 public:
 	Thread(const char name[], Team*, thread_start_t, void *param, int priority = 16);
 
@@ -161,9 +161,9 @@ private:
 	Area *fUserStack;
 	Thread *fTeamListNext;
 	Thread **fTeamListPrev;
-	Queue fApcQueue;
+	_Queue fApcQueue;
 	static Thread *fRunningThread;
-	static Queue fReapQueue;
+	static _Queue fReapQueue;
 	static Semaphore fThreadsToReap;
 
 	friend class Team;

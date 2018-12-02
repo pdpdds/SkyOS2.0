@@ -23,8 +23,8 @@ const int kMaxRanges = 64;
 /// This structure is passed from the second stage loader to the
 /// kernel to let it know the state of the system.  Primarily, it tells
 /// the operating system which memory has been allocated.
-struct BootParams {
-	inline BootParams();
+struct _BootParams {
+	inline _BootParams();
 	inline void SetAllocated(unsigned begin, unsigned end);
 
 	unsigned memsize;
@@ -35,18 +35,18 @@ struct BootParams {
 	} allocatedRange[kMaxRanges];
 };
 
-inline BootParams::BootParams()
+inline _BootParams::_BootParams()
 	:	rangeCount(0)
 {
 }
 
-inline void BootParams::SetAllocated(unsigned begin, unsigned end)
+inline void _BootParams::SetAllocated(unsigned begin, unsigned end)
 {
 	allocatedRange[rangeCount].begin = begin;
 	allocatedRange[rangeCount].end = end;
 	rangeCount++;
 }
 
-extern BootParams bootParams;
+extern _BootParams _bootParams;
 
 #endif

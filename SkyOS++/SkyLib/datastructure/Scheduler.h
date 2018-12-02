@@ -19,16 +19,16 @@
 #define _SCHEDULER_H
 
 #include "Timer.h"
-#include "types.h"
+#include "_types.h"
 
 const int kMaxPriority = 31;
 
 class Thread;
 
 /// The scheduler chooses which thread should run next
-class Scheduler : public Timer {
+class _Scheduler : public Timer {
 public:
-	Scheduler();
+	_Scheduler();
 
 	/// Pick the next thread that should be run and call SwitchTo on it.
 	void Reschedule();
@@ -42,9 +42,9 @@ private:
 
 	int fReadyThreadCount;
 	int fHighestReadyThread;
-	Queue fReadyQueue[kMaxPriority + 1];
+	_Queue fReadyQueue[kMaxPriority + 1];
 };
 
-extern Scheduler gScheduler;
+extern _Scheduler gScheduler;
 
 #endif

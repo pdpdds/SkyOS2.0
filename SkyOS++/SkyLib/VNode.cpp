@@ -4,6 +4,7 @@
 #include "Area.h"
 #include "AddressSpace.h"
 #include "SystemCall.h"
+#include "KernelDebug.h"
 
 VNode::VNode(FileSystem *fileSystem)
 	:	fMappedAddress(0),

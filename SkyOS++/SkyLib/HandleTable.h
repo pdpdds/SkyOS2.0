@@ -19,7 +19,7 @@
 #define _HANDLE_TABLE_H
 
 #include "Mutex.h"
-#include "types.h"
+#include "_types.h"
 #include "memory.h"
 
 const int kLevel1Size = 1024;

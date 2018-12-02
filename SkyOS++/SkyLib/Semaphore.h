@@ -20,7 +20,7 @@
 #define _SEMAPHORE_H
 
 #include "Resource.h"
-#include "Queue.h"
+#include "datastructure/Queue.h"
 
 /// Implementation of a counting semaphore
 class Semaphore : public Resource {

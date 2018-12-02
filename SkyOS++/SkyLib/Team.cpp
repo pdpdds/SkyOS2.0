@@ -19,7 +19,7 @@
 #include "KernelDebug.h"
 #include "stdio.h"
 #include "Team.h"
-#include "Thread.h"
+#include "datastructure/Thread.h"
 
 List Team::fTeamList;
 

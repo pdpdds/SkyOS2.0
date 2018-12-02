@@ -19,14 +19,14 @@
 #include "memory_layout.h"
 #include "Page.h"
 #include "PhysicalMap.h"
-#include "Queue.h"
+#include "datastructure/Queue.h"
 #include "stdio.h"
 #include "string.h"
 #include "x86.h"
 #include "memory.h"
 #include "KernelDebug.h"
 
-class LockedPage : public QueueNode {
+class LockedPage : public _QueueNode {
 public:
 	unsigned int pa;
 	LockedPage *hashNext;
@@ -37,7 +37,7 @@ public:
 const unsigned int kPageMask = ~(PAGE_SIZE - 1);
 List PhysicalMap::fPhysicalMaps;
 LockedPage *PhysicalMap::fLockedPageHash[kLockedPageHashSize];
-Queue PhysicalMap::fInactiveLockedPages;
+_Queue PhysicalMap::fInactiveLockedPages;
 LockedPage *PhysicalMap::fLockedPages = 0;
 PhysicalMap *PhysicalMap::fKernelPhysicalMap = 0;
 int PhysicalMap::fLockPageHits = 0;
@@ -313,9 +313,9 @@ void PhysicalMap::Bootstrap()
 
 	// Grab information about physical memory allocation from the bootloader
 	// and update the kernel tables.
-	for (int rangeIndex = 0; rangeIndex < bootParams.rangeCount; rangeIndex++) {
-		for (unsigned int pa = bootParams.allocatedRange[rangeIndex].begin; pa <
-			bootParams.allocatedRange[rangeIndex].end; pa += PAGE_SIZE) {
+	for (int rangeIndex = 0; rangeIndex < _bootParams.rangeCount; rangeIndex++) {
+		for (unsigned int pa = _bootParams.allocatedRange[rangeIndex].begin; pa <
+			_bootParams.allocatedRange[rangeIndex].end; pa += PAGE_SIZE) {
 			Page::MarkUsed(pa);
 		}
 	}

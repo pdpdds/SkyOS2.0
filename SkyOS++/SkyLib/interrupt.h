@@ -17,7 +17,7 @@
 #ifndef _INTERRUPT_H
 #define _INTERRUPT_H
 
-#include "types.h"
+#include "_types.h"
 
 void InterruptBootstrap();
 void EnableIrq(int);

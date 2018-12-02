@@ -1,14 +1,14 @@
 #include "cpu_asm.h"
 #include "Synchronization.h"
 #include "Timer.h"
-#include "Thread.h"
+#include "datastructure/Thread.h"
 #include "interrupt.h"
 #include "KernelDebug.h"
-#include "Scheduler.h"
+#include "datastructure/Scheduler.h"
 
 class ThreadWaitEvent;
 
-class WaitTag : public QueueNode {
+class WaitTag : public _QueueNode {
 public:
 	ThreadWaitEvent *fEvent;
 	WaitTag *fEventNext;

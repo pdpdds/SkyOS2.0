@@ -20,7 +20,7 @@
 
 #include "HandleTable.h"
 #include "Resource.h"
-#include "List.h"
+#include "datastructure/List.h"
 
 class AddressSpace;
 class Thread;

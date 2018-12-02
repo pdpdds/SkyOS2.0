@@ -20,7 +20,7 @@
 
 #include "AVLTree.h"
 #include "Mutex.h"
-#include "types.h"
+#include "_types.h"
 
 class Area;
 class PageCache;

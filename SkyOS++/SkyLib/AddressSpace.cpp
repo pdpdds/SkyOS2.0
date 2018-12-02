@@ -25,7 +25,7 @@
 #include "string.h"
 #include "syscall.h"
 #include "Team.h"
-#include "Thread.h"
+#include "datastructure/Thread.h"
 #include "math.h"
 
 const int kDefaultWorkingSet = 0x40000;

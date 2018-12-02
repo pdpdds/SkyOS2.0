@@ -19,8 +19,8 @@
 #define _TIMER_H
 
 #include "InterruptHandler.h"
-#include "Queue.h"
-#include "types.h"
+#include "datastructure/Queue.h"
+#include "_types.h"
 
 enum TimerMode {
 	kPeriodicTimer,
@@ -31,7 +31,7 @@ enum TimerMode {
 /// which are multiplexed onto a single hardware timer.  The HandleTimeout function will
 /// be called when the timeout expires.  This class must be derived to use its functionality.
 ///@todo: Shouldn't Timer be derived from InterruptHandler?  It has a lot of similar semantics
-class Timer : private QueueNode {
+class Timer : private _QueueNode {
 public:
 	Timer();
 	virtual ~Timer();
@@ -82,7 +82,7 @@ private:
 	TimerMode fMode;
 	bool fPending;
 	bigtime_t fInterval;
-	static Queue fTimerQueue;
+	static _Queue fTimerQueue;
 };
 
 #endif

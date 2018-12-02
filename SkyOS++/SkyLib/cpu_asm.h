@@ -17,7 +17,7 @@
 #ifndef _CPU_ASM_H
 #define _CPU_ASM_H
 
-#include "types.h"
+#include "_types.h"
 #include "x86.h"
 
 typedef int cpu_flags;
@@ -27,12 +27,14 @@ typedef int (*CallHook)(...);
 inline cpu_flags DisableInterrupts()
 {
 	cpu_flags fl;
+	__asm	PUSHFD	__asm CLI
 	//asm volatile("pushfl; popl %0; cli" : "=g" (fl));
 	return fl;
 }
 
 inline void RestoreInterrupts(const cpu_flags flags)
 {
+	__asm	POPFD
 	//asm volatile("pushl %0; popfl\n" : : "g" (flags));
 }
 
@@ -41,11 +43,9 @@ inline void EnableInterrupts()
 	//asm("sti");
 }
 
-void printf(const char* str, ...);
 bigtime_t SystemTime();
 inline bool _get_interrupt_state();
 inline int AtomicAdd(volatile int *var, int val);
-void panic(char* szErr);
 /*
 /// Invalidate Translation Lookaside Buffer for a specific virtual address
 /// This removes any cached page mappings for this address.  It must be called
@@ -140,12 +140,7 @@ inline bool cmpxchg32(volatile int *var, int oldValue, int newValue)
 	return success;
 }
 
-inline int64 rdtsc()
-{
-	unsigned int high, low;
-	asm("rdtsc" : "=a" (low), "=d" (high));
-	return (int64) high << 32 | low;
-}
+
 
 inline void LoadIdt(const IdtEntry base[], unsigned int limit)
 {
@@ -271,6 +266,11 @@ extern "C" {
 	void SwitchToUserMode(unsigned int _start, unsigned int user_stack) NORETURN;
 };
 
+inline int AtomicAdd(volatile int *var, int val)
+{
+	return 0;
+}
+
 /// Set the physical address of the current page directory
 inline void SetCurrentPageDir(unsigned int addr)
 {
@@ -345,6 +345,15 @@ inline void ClearTrapOnFp()
 inline void SetTrapOnFp()
 {
 
+}
+
+inline int64 rdtsc()
+{
+	/*unsigned int high, low;
+	asm("rdtsc" : "=a" (low), "=d" (high));
+	return (int64)high << 32 | low;*/
+
+	return 0;
 }
 
 #endif

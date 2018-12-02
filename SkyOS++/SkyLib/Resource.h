@@ -18,7 +18,7 @@
 #ifndef _RESOURCE_H
 #define _RESOURCE_H
 
-#include "types.h"
+#include "_types.h"
 #include "Synchronization.h"
 
 /// User-visible operating system primitives derive from Resource.  It has shared ownership semantics

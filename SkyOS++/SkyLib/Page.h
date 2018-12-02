@@ -19,10 +19,10 @@
 #define _PAGE_H
 
 #include "Mutex.h"
-#include "Queue.h"
+#include "datastructure/Queue.h"
 
 /// Architecture dependent abstraction for a physical page frame.
-class Page : public QueueNode {
+class Page : public _QueueNode {
 public:
 	/// Get a page from a specific physical address and mark it so
 	/// it can't be paged out by other threads.
@@ -93,9 +93,9 @@ private:
 
 	static class Semaphore fFreePagesAvailable;
 	static Page *fPages;
-	static Queue fFreeQueue;
-	static Queue fActiveQueue;
-	static Queue fClearQueue;
+	static _Queue fFreeQueue;
+	static _Queue fActiveQueue;
+	static _Queue fClearQueue;
 	static int fPageCount;
 	static int fFreeCount;
 	static int fTransitionCount;

@@ -1,7 +1,7 @@
 #ifndef _VNODE_H
 #define _VNODE_H
 
-#include "types.h"
+#include "_types.h"
 #include "BackingStore.h"
 
 class FileSystem;
