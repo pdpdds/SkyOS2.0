@@ -170,7 +170,7 @@ typedef __time_t time_t;
   typedef unsigned int phys_addr_t;
   
   
-  typedef unsigned long bigtime_t;
+  typedef int64 bigtime_t;
   typedef unsigned long sem_id;
   typedef int thread_id;
   typedef int proc_id;
