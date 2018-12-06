@@ -70,6 +70,12 @@
     <ClCompile Include="FileDescriptor.cpp">
       <Filter>MemorySystem</Filter>
     </ClCompile>
+    <ClCompile Include="cpu_asm.cpp">
+      <Filter>MemorySystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Processor.cpp">
+      <Filter>MemorySystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AddressSpace.h">
@@ -165,10 +171,18 @@
     <ClInclude Include="memory_layout.h">
       <Filter>MemorySystem</Filter>
     </ClInclude>
+    <ClInclude Include="Processor.h">
+      <Filter>MemorySystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="MemorySystem">
       <UniqueIdentifier>{8d707c66-9555-4f7e-9c6b-4d726fc92575}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="core_asm.asm">
+      <Filter>MemorySystem</Filter>
+    </CustomBuild>
   </ItemGroup>
 </Project>
