@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="atob.c" />
+    <ClCompile Include="common_arch.cpp" />
     <ClCompile Include="CPlusPlus\ctrycatch.cpp" />
     <ClCompile Include="CPlusPlus\setjmp.c" />
     <ClCompile Include="cstd.cpp" />
