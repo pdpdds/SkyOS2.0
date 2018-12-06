@@ -72,9 +72,10 @@ Page* PageCache::GetPage(off_t offset, bool privateCopy)
 	// Check to see if this page is in memory.
 	for (;;) {
 		page = LookupPage(offset);
+
 		if (page == 0 || !page->IsBusy())
 			break;
-
+		
 		// This page is busy, loop and try again.
 		fCacheLock.Unlock();
 		sleep(2000);
@@ -100,10 +101,13 @@ Page* PageCache::GetPage(off_t offset, bool privateCopy)
 			page->SetNotBusy();
 	}
 
+
 	if (page == 0 && privateCopy) {
 		// Check to see if this is a private copy.
 		page = Page::Alloc();
 		page->SetBusy();
+		
+
 		InsertPage(offset, page);
 
 		fCacheLock.Unlock();
@@ -140,7 +144,9 @@ Page* PageCache::GetPage(off_t offset, bool privateCopy)
 	if (page == 0) {
 		// Anonymous page.  Zero it out.  Insert a dummy page as above.
 		page = Page::Alloc(true);
+		
 		InsertPage(offset, page);
+		
 		page->SetNotBusy();
 	}
 

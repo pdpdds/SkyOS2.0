@@ -25,9 +25,10 @@ namespace PhysicalMemoryManager
 		bootParams._memoryLayout._kernelDataBase = (UINT32)m_pMemoryMap;
 		bootParams._memoryLayout._kernelDataTop = (UINT32)m_pMemoryMap + m_memoryMapSize;
 		
-		
-		bootParams._memoryLayout._kHeapBase = 0xc0000000;
-		bootParams._memoryLayout._kHeapTop = bootParams._memoryLayout._kHeapBase + KERNEL_HEAP_FRAME_COUNT * PAGE_SIZE;
+		bootParams._memoryLayout._bootStackBase = kBootStackBase;
+		bootParams._memoryLayout._bootStackTop = kBootStackTop;
+		bootParams._memoryLayout._kHeapBase = kHeapBase;
+		bootParams._memoryLayout._kHeapTop = kHeapTop;
 		bootParams._memoryLayout._kernelIOAreaBase = 0xe4000000;
 		bootParams._memoryLayout._kernelIOAreaTop = 0xe7ffffff;
 		bootParams._memoryLayout._kernelTop = 0xffffffff;

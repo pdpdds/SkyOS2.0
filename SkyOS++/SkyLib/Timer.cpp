@@ -88,13 +88,17 @@ InterruptStatus Timer::HandleTimeout()
 
 void Timer::Bootstrap()
 {
+#ifdef SKY_EMULATOR
+	return;
+#endif
 	HardwareTimerBootstrap(HardwareTimerInterrupt);
 	AddDebugCommand("timers", "list pending timers", PrintTimerQueue);
 }
+UINT32 lastTickCount = 0;
+extern unsigned int GetTickCount();
 
 InterruptStatus Timer::HardwareTimerInterrupt()
-{
-	printf("Timer::HardwareTimerInterrupt %d\n");
+{	
 	bigtime_t now = SystemTime();		
 	bool reschedule = false;
 	while (fTimerQueue.GetHead() &&
@@ -110,6 +114,19 @@ InterruptStatus Timer::HardwareTimerInterrupt()
 		if (ret == kReschedule)
 			reschedule = true;
 	}
+
+	UINT32 currentTickCount = GetTickCount();
+
+	/*if (currentTickCount - lastTickCount > 300)
+	{
+
+		printf("Timer::HardwareTimerInterrupt\n");
+		lastTickCount = currentTickCount;
+
+		bigtime_t now = SystemTime();
+		printf("\nCurrent time %Ld\n", now);
+
+	}*/
 
 	ReprogramHardwareTimer();
 	return reschedule ? kReschedule : kHandledInterrupt;
@@ -135,9 +152,6 @@ void Timer::Enqueue(Timer *newTimer)
 
 void Timer::ReprogramHardwareTimer()
 {
-	bigtime_t now = SystemTime();
-	printf("\nCurrent time %Ld\n", now);
-
 	Timer *head = static_cast<Timer*>(fTimerQueue.GetHead());
 	if (head)
 		SetHardwareTimer(head->fWhen - SystemTime());

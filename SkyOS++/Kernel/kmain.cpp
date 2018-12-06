@@ -10,6 +10,7 @@
 #include "PlatformAPI.h"
 #include "MultbootUtil.h"
 #include "SkyOSCore.h"
+#include "BootParams.h"
 
 #ifdef SKY_EMULATOR
 #include "SkyOSWin32Stub.h"
@@ -18,30 +19,77 @@ extern unsigned int _pitTicks;
 
 BootParams bootParams;
 PlatformAPI platformAPI;
+DWORD g_pte;
+
+void newEntry()
+{
+	_BootParams params;
+	params.memsize = bootParams._memorySize;
+	params.SetAllocated(0, bootParams._memoryLayout._kernelDataTop);
+	//params.SetAllocated(bootParams._memoryLayout._bootStackBase, bootParams._memoryLayout._kHeapTop);
+	printf("kernel end %x\n", bootParams._memoryLayout._kernelDataTop);
+	
+	PageDirectory* curPageDirectory = VirtualMemoryManager::GetKernelPageDirectory();
+	InitKernelSystem(&params, (unsigned int)&curPageDirectory->m_entries[0]);	
+
+	InitDisplaySystem();
+
+	SkyModuleManager::GetInstance()->Initialize();
+	SystemProfiler::GetInstance()->Initialize();
+	StorageManager::GetInstance()->SetCurrentFileSystemByID('L');
+	StorageManager::GetInstance()->Initilaize();
+
+	
+	SkyGUISystem::GetInstance()->LoadGUIModule();
+
+	SkyGUISystem::GetInstance()->InitGUI();
+	SkyDebugger::GetInstance()->LoadSymbol("DebugEngine.dll");
+
+	SkyModuleManager::GetInstance()->LoadImplictDLL(bootParams._memoryLayout._kernelBase);
+
+	SkyLauncher* pSystemLauncher = nullptr;
+
+#if SKY_CONSOLE_MODE == 0	
+	pSystemLauncher = new SkyGUILauncher();
+#else
+	pSystemLauncher = new SkyConsoleLauncher();
+#endif
+
+	PrintCurrentTime();
+	for (;;);
+	pSystemLauncher->Launch();
+
+#ifdef SKY_EMULATOR
+#if SKY_CONSOLE_MODE == 0
+	LoopWin32(new SkyVirtualInput(), _pitTicks);
+#endif
+#endif
+	for (;;);
+}
 
 void JumpToNewKernelEntry(int entryPoint, unsigned int procStack)
 {
+
+#ifdef SKY_EMULATOR
+	newEntry();
+#else
 	__asm
 	{
 		MOV     AX, 0x10;
 		MOV     DS, AX
-			MOV     ES, AX
-			MOV     FS, AX
-			MOV     GS, AX
+		MOV     ES, AX
+		MOV     FS, AX
+		MOV     GS, AX
 
-			MOV     ESP, procStack
-			PUSH	0; //파라메터
+		MOV     ESP, procStack
+		PUSH	0; //파라메터
 		PUSH	0; //EBP
 		PUSH    0x200; EFLAGS
-			PUSH    0x08; CS
-			PUSH    entryPoint; EIP
-			IRETD
+		PUSH    0x08; CS
+		PUSH    entryPoint; EIP
+		IRETD
 	}
-}
-
-void newEntry()
-{
-	for (;;);
+#endif
 }
 
 #ifdef SKY_EMULATOR
@@ -50,10 +98,8 @@ void kmain()
 void kmain(unsigned long magic, unsigned long addr, uint32_t imageBase)
 #endif
 {
-	EnablePaging(false);
-
 	InitializeConstructors();	
-	InitHardware();	
+	InitHardware();
 
 #ifdef SKY_EMULATOR
 	multiboot_info* pInfo = 0;
@@ -67,45 +113,16 @@ void kmain(unsigned long magic, unsigned long addr, uint32_t imageBase)
 	{
 		HaltSystem("Init Memory Error!!");
 	}
-			
-	EnablePaging(true);	
-	//예전에는 이 이후로 페이징을 끄고 켜거나 하는 구조였지만
-	//이제는 페이징 기능을 절대 끄지 않는다. 즉 지금부터는 
-	//물리주소에 대해서는 고민하지 않는다.
-	StartPITCounter(1000, I86_PIT_OCW_COUNTER_0, I86_PIT_OCW_MODE_SQUAREWAVEGEN);
-	JumpToNewKernelEntry((int)newEntry, 0x40000);
 
 	InitModules(pInfo);
-	InitDisplaySystem();
-	
-	
-
-	SkyModuleManager::GetInstance()->Initialize();
-	SystemProfiler::GetInstance()->Initialize();
-	StorageManager::GetInstance()->SetCurrentFileSystemByID('L');
-	StorageManager::GetInstance()->Initilaize();
-	SkyGUISystem::GetInstance()->LoadGUIModule();
-	SkyGUISystem::GetInstance()->InitGUI();
-	SkyDebugger::GetInstance()->LoadSymbol("DebugEngine.dll");
-	SkyModuleManager::GetInstance()->LoadImplictDLL(bootParams._memoryLayout._kernelBase);	
-
-	SkyLauncher* pSystemLauncher = nullptr;
-
-#if SKY_CONSOLE_MODE == 0	
-	pSystemLauncher = new SkyGUILauncher();
-#else
-	pSystemLauncher = new SkyConsoleLauncher();	
+				
+	//예전에는 이 이후로 페이징을 끄고 켜거나 하는 구조였지만
+	//이제는 페이징 기능을 절대 끄지 않는다. 즉 지금부터는 
+	//물리주소에 대해서는 고민하지 않는다.	
+#ifndef SKY_EMULATOR
+	StartPITCounter(1000, I86_PIT_OCW_COUNTER_0, I86_PIT_OCW_MODE_SQUAREWAVEGEN);	
 #endif
-	
-	PrintCurrentTime();
-	pSystemLauncher->Launch();
-
-#ifdef SKY_EMULATOR
-#if SKY_CONSOLE_MODE == 0
-	LoopWin32(new SkyVirtualInput(), _pitTicks);
-#endif
-#endif
-	for (;;);
+	JumpToNewKernelEntry((int)newEntry, bootParams._memoryLayout._bootPhysicalStackTop);	
 }
 
 bool InitDisplaySystem()
@@ -165,13 +182,21 @@ void InitHardware()
 #endif
 }
 
+void GetKernalDataEnd()
+{
+	DWORD kernelEnd = 0;	
+	DWORD address = (DWORD)PhysicalMemoryManager::AllocBlock();
+	bootParams._memoryLayout._kernelDataTop = address;
+	PhysicalMemoryManager::FreeBlock((void*)address);
+}
+
 //물리/가상 메모리 매니저를 초기화한다.
 bool InitMemoryManager()
-{		
-	
+{			
 	PhysicalMemoryManager::Initialize();	
 	VirtualMemoryManager::Initialize();	
 	HeapManager::Initialize();
+	GetKernalDataEnd();	
 	
 	return true;
 }
@@ -271,6 +296,16 @@ bool BuildPlatformAPI(unsigned long addr, uint32_t imageBase)
 	bootParams._memorySize = endAddress - startAddress;	
 	
 #else
+	extern SKY_PROCESS_INTERFACE _processInterface;
+	extern SKY_ALLOC_INTERFACE		_allocInterface;
+	extern SKY_FILE_INTERFACE		_fileInterface;
+	extern SKY_PRINT_INTERFACE		_printInterface;	
+
+	platformAPI._processInterface = _processInterface;
+	platformAPI._fileInterface = _fileInterface;
+	platformAPI._allocInterface = _allocInterface;
+	platformAPI._printInterface = _printInterface;
+
 	multiboot_info* pBootInfo = (multiboot_info*)addr;
 	bootParams._memoryLayout._kernelBase = imageBase;
 	bootParams._kernelSize = GetKernelSize(pBootInfo);	

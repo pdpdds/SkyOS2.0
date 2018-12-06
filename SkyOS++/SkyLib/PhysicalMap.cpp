@@ -97,12 +97,21 @@ void PhysicalMap::Map(unsigned int va, unsigned int pa, PageProtection protectio
 
 	unsigned int *pgdir = reinterpret_cast<unsigned int*>(LockPhysicalPage(fPageDirectory));
 	unsigned int *pgtbl = 0;
+	unsigned int *pgtbl2 = 0;
+#ifdef SKY_EMULATOR
+	pgdir = (unsigned int *)fPageDirectory;
+#endif	
 	if ((pgdir[va / PAGE_SIZE / 1024] & kPagePresent) == 0) {
+
 		// Allocate a new page table
 		Page *page = Page::Alloc();
 		page->Wire();
 		unsigned int newTablePA = page->GetPhysicalAddress();
 		pgtbl = reinterpret_cast<unsigned int*>(LockPhysicalPage(newTablePA));
+		pgtbl2 = pgtbl;
+#ifdef SKY_EMULATOR
+		pgtbl = (unsigned int *)newTablePA;
+#endif
 		ClearPage(pgtbl);
 		if (va >= kKernelBase) {
 			// If this is in kernel space, map the page table into all
@@ -111,16 +120,29 @@ void PhysicalMap::Map(unsigned int va, unsigned int pa, PageProtection protectio
 				node = fPhysicalMaps.GetNext(node)) {
 				PhysicalMap *map = static_cast<PhysicalMap*>(node);
 				unsigned int *mpgdir = reinterpret_cast<unsigned int*>(LockPhysicalPage(map->fPageDirectory));
+
+#ifdef SKY_EMULATOR
+				mpgdir = (unsigned int *)map->fPageDirectory;
+#endif
+
 				mpgdir[va / PAGE_SIZE / 1024] = newTablePA | kPagePresent |
 					kPageWritable;
+
+				mpgdir = (unsigned int *)map->fPageDirectory;
 				UnlockPhysicalPage(mpgdir);
 			}
 		} else
 			pgdir[va / PAGE_SIZE / 1024] = newTablePA | kPagePresent | kPageWritable
 				| kPageUser;
-	} else
+	}
+	else
+	{
 		pgtbl = reinterpret_cast<unsigned int*>(LockPhysicalPage(pgdir[va / PAGE_SIZE / 1024] & kPageMask));
-
+		pgtbl2 = pgtbl;
+#ifdef SKY_EMULATOR
+		pgtbl = (unsigned int *)(pgdir[va / PAGE_SIZE / 1024] & kPageMask);
+#endif	
+	}
 	unsigned int pageFlags = kPagePresent;
 	if (va >= kKernelBase)
 		pageFlags |= kPageGlobal;
@@ -138,7 +160,10 @@ void PhysicalMap::Map(unsigned int va, unsigned int pa, PageProtection protectio
 		fMappedPageCount++;
 
 	pgtbl[(va / PAGE_SIZE) % 1024] = pa | pageFlags;
-	UnlockPhysicalPage(pgtbl);
+	
+
+	UnlockPhysicalPage(pgtbl2);
+	pgdir = reinterpret_cast<unsigned int*>(LockPhysicalPage(fPageDirectory));
 	UnlockPhysicalPage(pgdir);
 
 	InvalidateTLB(va);
@@ -241,7 +266,7 @@ char* PhysicalMap::LockPhysicalPage(unsigned int pa)
 		if (lockedPage->pa == pa)
 			break;
 	}
-
+	
 	if (lockedPage == 0) {
 		// This is not mapped, so find a new slot to map it in.
 		lockedPage = static_cast<LockedPage*>(fInactiveLockedPages.Dequeue());
@@ -260,9 +285,18 @@ char* PhysicalMap::LockPhysicalPage(unsigned int pa)
 		lockedPage->pa = pa;
 		lockedPage->mapCount++;
 		va = (lockedPage - fLockedPages) * PAGE_SIZE + kIOAreaBase;
+
+#ifdef SKY_EMULATOR
+#else
+		
 		reinterpret_cast<unsigned int*>(kIOAreaBase)[lockedPage - fLockedPages] = pa | kPagePresent
 			| kPageWritable;
 		InvalidateTLB(va);
+
+		//printf("dsasa %x %x %x\n", lockedPage - fLockedPages, pa, kIOAreaBase);
+		//for (;;);
+#endif // SKY_EMULATOR
+		
 	} else {
 		fLockPageHits++;
 		va = (lockedPage - fLockedPages) * PAGE_SIZE + kIOAreaBase;
@@ -294,7 +328,7 @@ void PhysicalMap::CopyPage(unsigned int destpa, unsigned int srcpa)
 	UnlockPhysicalPage(src);
 	UnlockPhysicalPage(dest);
 }
-
+extern DWORD g_pte;
 void PhysicalMap::Bootstrap()
 {
 	// Set up an area to temporarily map physical pages.
@@ -326,25 +360,34 @@ void PhysicalMap::Bootstrap()
 	// page once, it is safe (although a little clunky).
 	// Note: at this point, VA = PA in low memory.
 	unsigned int *pagedir = reinterpret_cast<unsigned int*>(GetCurrentPageDir());
-	unsigned int *pte = reinterpret_cast<unsigned int*>(Page::Alloc()->GetPhysicalAddress());
+	//unsigned int *pte = reinterpret_cast<unsigned int*>(Page::Alloc()->GetPhysicalAddress());
+	unsigned int *pte = (unsigned int *)g_pte;
 	pagedir[kIOAreaBase / PAGE_SIZE / 1024] = (reinterpret_cast<unsigned int>(pte) & kPageMask)
-		| kPagePresent | kPageWritable | kPageGlobal;
+		| kPagePresent | kPageWritable | kPageGlobal;	
+	
 	pte[0] = (reinterpret_cast<unsigned int>(pte) & kPageMask) | kPagePresent | kPageWritable
 		| kPageGlobal;
-
+	
 	// Clear out the rest of this page table for cleanliness.
 	void *va = LockPhysicalPage(reinterpret_cast<unsigned int>(pte));
-	memset(reinterpret_cast<char*>(va) + 4, 0, PAGE_SIZE - 4);
+
+
+	
+	
+	memset(reinterpret_cast<char*>(va) + 4, 0, PAGE_SIZE - 4);	
 	UnlockPhysicalPage(va);
 
 	// Clear out the rest of user space area that was used by boot
 	va = LockPhysicalPage(reinterpret_cast<unsigned int>(pagedir));
-	memset(va, 0, 768 * sizeof(int));
+	//memset(va, 0, 768 * sizeof(int));
 	UnlockPhysicalPage(va);
+
+	printf("PhysicalMap::Bootstrap %x %x\n", va, pte);
 
 	// Flush all of the TLBs
 	SetCurrentPageDir(GetCurrentPageDir());
-
+	
+	
 	AddDebugCommand("pmapstat", "Statistics about physical maps", PrintStats);
 }
 

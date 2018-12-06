@@ -20,6 +20,8 @@
 #include "_types.h"
 #include "x86.h"
 
+void read_tsc(int *cl_Low, int *cl_High);
+
 typedef int cpu_flags;
 
 typedef int (*CallHook)(...);
@@ -27,42 +29,29 @@ typedef int (*CallHook)(...);
 inline cpu_flags DisableInterrupts()
 {
 	cpu_flags fl;
-	__asm	PUSHFD	__asm CLI
-	//asm volatile("pushfl; popl %0; cli" : "=g" (fl));
+#ifndef SKY_EMULATOR	
+	__asm	PUSHFD	
+	__asm	POP fl
+	__asm	CLI	
+#endif
 	return fl;
 }
 
 inline void RestoreInterrupts(const cpu_flags flags)
 {
+#ifndef SKY_EMULATOR
+	__asm	PUSH	flags
 	__asm	POPFD
 	//asm volatile("pushl %0; popfl\n" : : "g" (flags));
+#endif
 }
 
 inline void EnableInterrupts()
 {
-	//asm("sti");
+	__asm sti
 }
 
-bigtime_t SystemTime();
-inline bool _get_interrupt_state();
-inline int AtomicAdd(volatile int *var, int val);
 /*
-/// Invalidate Translation Lookaside Buffer for a specific virtual address
-/// This removes any cached page mappings for this address.  It must be called
-/// whenever the mapping for a virtual address is changed.
-inline void InvalidateTLB(unsigned int va)
-{
-	asm volatile("invlpg (%0)" : : "r" (va));
-}
-
-/// Returns the virtual address that was being accessed when the page fault occured
-inline unsigned int GetFaultAddress()
-{
-	unsigned int retval;
-	asm volatile("movl %%cr2, %0" : "=g" (retval));
-	return retval;
-}
-
 inline void write_io_8(int value, int port)
 {
 	asm volatile("outb %%al, %%dx" : : "a" (value), "d" (port));
@@ -99,48 +88,6 @@ inline unsigned int read_io_32(unsigned int port)
 	return retval;
 }
 
-inline void SaveFp(FpState &state)
-{
-	asm volatile("fnsave (%0); fwait" : : "r" (&state));
-}
-
-inline void RestoreFp(const FpState &state)
-{
-	asm volatile("frstor (%0)" : : "r" (&state));
-}
-
-inline void ClearTrapOnFp()
-{
-	asm volatile("clts");
-}
-
-inline void SetTrapOnFp()
-{
-	asm volatile("movl %cr0, %eax; orl $8, %eax; movl %eax, %cr0");
-}
-
-inline bool _get_interrupt_state()
-{
-	unsigned int result;
-	asm("pushfl; popl %0" : "=m" (result));
-	return (result & (1 << 9)) != 0;
-}
-
-
-
-
-
-inline bool cmpxchg32(volatile int *var, int oldValue, int newValue)
-{
-	int success;
-	asm volatile("lock; cmpxchg %%ecx, (%%edi); sete %%al; andl $1, %%eax"
-		: "=a" (success)
-		: "a" (oldValue), "c" (newValue), "D" (var));
-
-	return success;
-}
-
-
 
 inline void LoadIdt(const IdtEntry base[], unsigned int limit)
 {
@@ -175,92 +122,23 @@ inline void LoadGdt(const GdtEntry base[], unsigned int limit)
 		: : "r" (&d) : "eax");
 }
 
-inline void Halt()
-{
-	asm("hlt");
-}
 
-inline void ClearPage(void *va)
-{
-	int dummy0, dummy1;
-	asm volatile("rep; stosl"
-		: "=&c" (dummy0), "=&D" (dummy1)
-		: "a" (0), "1" (va), "0" (PAGE_SIZE / 4));
-}
 
-inline void CopyPageInternal(void *dest, const void *src)
-{
-	int dummy0, dummy1, dummy2;
-	asm volatile("rep; movsl"
-		: "=&c" (dummy0), "=&D" (dummy1), "=&S" (dummy2)
-		: "a" (0), "0" (PAGE_SIZE / 4), "1" (dest), "2" (src));
-}
 
-inline int AtomicAdd(volatile int *var, int val)
-{
-	int oldVal;
-	int dummy;
-	asm volatile(
-		"1:"
-		"movl (%%edi), %%eax;"
-		"movl %%eax, %%ecx;"
-		"addl %%edx, %%ecx;"
-		"lock; cmpxchg %%ecx, (%%edi);"
-		"jnz 1b;"
-		: "=a" (oldVal), "=c" (dummy)
-		: "D" (var), "d" (val));
-
-	return oldVal;
-}
-
-inline int AtomicAnd(volatile int *var, int val)
-{
-	int oldVal;
-	int dummy;
-	asm volatile(
-		"1:"
-		"movl (%%edi), %%eax;"
-		"movl %%eax, %%ecx;"
-		"andl %%edx, %%ecx;"
-		"lock; cmpxchg %%ecx, (%%edi);"
-		"jnz 1b;"
-		: "=a" (oldVal), "=c" (dummy)
-		: "D" (var), "d" (val));
-
-	return oldVal;
-}
-
-inline int AtomicOr(volatile int *var, int val)
-{
-	int oldVal;
-	int dummy;
-	asm volatile(
-		"1:"
-		"movl (%%edi), %%eax;"
-		"movl %%eax, %%ecx;"
-		"orl %%edx, %%ecx;"
-		"lock; cmpxchg %%ecx, (%%edi);"
-		"jnz 1b;"
-		: "=a" (oldVal), "=c" (dummy)
-		: "D" (var), "d" (val));
-
-	return oldVal;
-}
 
 extern "C" {
-	/*bigtime_t SystemTime();
-
-	void write_io_str_16(int port, short buf[], int count);
-	void read_io_str_16(int port, short buf[], int count);
-
 	
-
+	
+	void write_io_str_16(int port, short buf[], int count);
+	void read_io_str_16(int port, short buf[], int count);	
 	// Yes, func is a pointer to a pointer to a function.  Sorry.
 	int InvokeSystemCall(const CallHook *func, int stackData[], int stackSize);
 
 	void SetWatchpoint(unsigned int va);
-	unsigned int GetDR6();*/
+	*/
 extern "C" {
+	unsigned int GetDR6();
+	bigtime_t SystemTime();
 	int CopyUserInternal(void *dest, const void *src, unsigned int size, unsigned int *handler);
 	void ContextSwitch(unsigned int *oldEsp, unsigned int newEsp, unsigned int pdbr);
 	void SwitchToUserMode(unsigned int _start, unsigned int user_stack) NORETURN;
@@ -268,7 +146,65 @@ extern "C" {
 
 inline int AtomicAdd(volatile int *var, int val)
 {
-	return 0;
+	int oldVal;
+	int dummy;
+	__asm
+	{
+		mov edi, var
+		mov edx, val
+loop_point:
+		mov eax, edi
+		mov ecx, eax
+		add ecx, edx
+		lock cmpxchg [edi], ecx
+		jnz loop_point
+
+		mov oldVal, eax
+		mov dummy, ecx
+	}
+	return oldVal;
+}
+
+inline int AtomicAnd(volatile int *var, int val)
+{
+	int oldVal;
+	int dummy;
+	__asm
+	{
+		mov edi, var
+		mov edx, val
+loop_point:		
+		mov eax, edi
+		mov ecx, eax
+		and ecx, edx
+		lock cmpxchg [edi], ecx
+		jnz loop_point
+		
+		mov oldVal, eax
+		mov dummy, ecx
+	}
+	return oldVal;
+}
+
+inline int AtomicOr(volatile int *var, int val)
+{
+	int oldVal;
+	int dummy;
+	__asm
+	{
+		mov edi, var
+		mov edx, val
+loop_point:		
+		mov eax, edi
+		mov ecx, eax
+		or ecx, edx
+		lock cmpxchg [edi], ecx
+		jnz loop_point
+		
+		mov oldVal, eax
+		mov dummy, ecx
+	}
+	return oldVal;
 }
 
 /// Set the physical address of the current page directory
@@ -282,32 +218,32 @@ inline void SetCurrentPageDir(unsigned int addr)
 }
 
 /// Return the physical address of the current page directory
-inline unsigned int GetCurrentPageDir()
-{
-	unsigned int val;
-	__asm
-	{
-		mov eax, cr3
-		mov val, eax
-	}
-	
-	return val;
-}
+unsigned int GetCurrentPageDir();
 
-inline void ClearPage(void *va)
-{
-	
-}
-
+/// Invalidate Translation Lookaside Buffer for a specific virtual address
+/// This removes any cached page mappings for this address.  It must be called
+/// whenever the mapping for a virtual address is changed.
 inline void InvalidateTLB(unsigned int va)
 {
-	
+	__asm
+	{
+		invlpg	va
+	}
 }
 
-
-inline void CopyPageInternal(void *dest, const void *src)
+/// Returns the virtual address that was being accessed when the page fault occured
+inline unsigned int GetFaultAddress()
 {
-	
+	unsigned int retval;
+	__asm
+	{
+		push eax
+		mov eax, cr2
+		mov retval, eax
+		pop eax
+	}
+
+	return retval;
 }
 
 inline void LoadIdt(const IdtEntry base[], unsigned int limit)
@@ -322,39 +258,143 @@ inline void LoadGdt(const GdtEntry base[], unsigned int limit)
 
 inline void Halt()
 {
+	__asm hlt
+}
 
+inline void ClearPage(void *va)
+{
+	int dummy0, dummy1;
+	__asm
+	{
+		mov eax, 0
+		mov ecx, (PAGE_SIZE / 4)
+		mov edi, va
+		rep stos		
+		mov dummy0, ecx
+		mov dummy1, edi		
+	}	
+}
+
+union int32to64
+{
+	__int64 i64;
+	int i32[2];
+};
+
+
+
+inline int64 rdtsc()
+{
+	int32to64 a;
+	read_tsc(&a.i32[0], &a.i32[1]);
+
+	return a.i64;
 }
 
 
 
+
+
+
+inline bool cmpxchg32(volatile int *var, int oldValue, int newValue)
+{
+	int success;
+	__asm
+	{
+		mov eax, oldValue
+		mov ecx, newValue
+		mov edi, var
+		lock cmpxchg [edi], ecx 
+		sete al 
+		and eax, oldValue			
+		mov success, eax
+
+	}
+	return success;
+}
+
+inline void CopyPageInternal(void *dest, const void *src)
+{
+	int dummy0, dummy1, dummy2;
+	__asm
+	{
+		mov eax, 0
+		mov ecx, (PAGE_SIZE / 4)
+		mov edi, dest
+		mov esi, src
+		rep movs		
+
+		mov dummy0, ecx
+		mov dummy1, edi
+		mov dummy2, esi
+	}
+	
+		
+}
+
+//20181206 어셈블리에 &state가 들어가므로 확인 필요
 inline void SaveFp(FpState &state)
 {
-	
+	__asm
+	{
+		fnsave state 
+		fwait
+	}
 }
 
+//20181206 어셈블리에 &state가 들어가므로 확인 필요
 inline void RestoreFp(const FpState &state)
 {
-	
+	__asm frstor state
 }
 
 inline void ClearTrapOnFp()
 {
-	
+	__asm clts
 }
 
 inline void SetTrapOnFp()
 {
-
+	__asm
+	{
+		mov eax, cr0
+		or eax, 8
+		mov cr0, eax
+	}
 }
 
-inline int64 rdtsc()
+inline bool _get_interrupt_state()
 {
-	/*unsigned int high, low;
-	asm("rdtsc" : "=a" (low), "=d" (high));
-	return (int64)high << 32 | low;*/
+	unsigned int result;
+	__asm
+	{
+		pushf 
+		pop result
+	}
+
+	return (result & (1 << 9)) != 0;
+}
+
+
+
+/*inline int64 rdtsc()
+{
+	unsigned int high, low;
+	_asm("rdtsc" : "=a" (low), "=d" (high));
+	return (int64)high << 32 | low;
 
 	return 0;
-}
+}*/
+
+/*inline int AtomicAdd(volatile int *var, int val)
+{
+int oldVal = *var;
+*var = *var + val;
+return oldVal;
+}*/
+
+
+
 
 #endif
 

@@ -17,14 +17,7 @@ LPVOID startParam = 0;
 
 void SwitchTask(int tick, registers_t& registers)
 {		
-	uint32_t currentTickCount = GetTickCount();
-
-	if (currentTickCount - lastTickCount > 300)
-	{
-	
-		InterruptHandler::Dispatch(0);
-	lastTickCount = currentTickCount;
-	}
+	InterruptHandler::Dispatch(0);
 	
 	if (systemOn == false)
 		return;

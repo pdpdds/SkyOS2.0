@@ -86,8 +86,8 @@ Page* Page::Alloc(bool clear)
 		// There aren't pre-cleared pages available, clear one now.
 		fClearPagesRequested++;
 		page = static_cast<Page*>(fFreeQueue.GetTail());
-		if (clear) {
-			char *va = PhysicalMap::LockPhysicalPage(page->GetPhysicalAddress());
+		if (clear) {			
+			char *va = PhysicalMap::LockPhysicalPage(page->GetPhysicalAddress());			
 			ClearPage(va);
 			PhysicalMap::UnlockPhysicalPage(va);
 		}
@@ -144,7 +144,10 @@ int Page::CountFreePages()
 void Page::Bootstrap()
 {
 	fPageCount = _bootParams.memsize / PAGE_SIZE;
+	
+	
 	fPages = new Page[fPageCount];
+	printf("%x %x %x\n", fPageCount, sizeof(Page), fPages);
 	fFreeCount = fPageCount;
 	fFreePagesAvailable.Release(fPageCount, false);
 	for (int pageIndex = 0; pageIndex < fPageCount; pageIndex++) {

@@ -1,4 +1,5 @@
 #pragma once
 
-bool InitKernelSystem();
+struct _BootParams;
+bool InitKernelSystem(_BootParams* param, unsigned int kernelPageDirectory);
 

@@ -3,8 +3,10 @@
 #include "kheap.h"
 #include "BasicStruct.h"
 #include "Constants.h"
+#include "X86Arch.h"
 
 using namespace VirtualMemoryManager;
+
 
 bool g_heapInit = false;
 extern DWORD g_usedHeapSize;
@@ -41,6 +43,8 @@ namespace HeapManager
 #endif
 
 		int virtualEndAddress = (uint32_t)pVirtualHeap + m_heapFrameCount * PAGE_SIZE;
+
+		EnablePaging(true);
 
 		//힙에 할당된 가상 주소 영역을 사용해서 힙 자료구조를 생성한다. 
 		create_kernel_heap((u32int)pVirtualHeap, (uint32_t)virtualEndAddress, (uint32_t)virtualEndAddress, 0, 0);

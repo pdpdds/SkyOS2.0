@@ -8,17 +8,16 @@
 #define KEY_LALT 0x85
 
 extern "C" __declspec(dllexport) I_HangulEngine* GetHangulEngine()
-{
-
+{	
 	return (I_HangulEngine*)new HangulEngine();
 }
 
 BUFFERMANAGER stBufferManager;
 
 HangulEngine::HangulEngine()
-{
-	m_bHangulMode = false;
-	memset(&stBufferManager, 0, sizeof(BUFFERMANAGER));
+{	
+	m_bHangulMode = false;	
+	memset(&stBufferManager, 0, sizeof(BUFFERMANAGER));	
 }
 
 void HangulEngine::Reset()

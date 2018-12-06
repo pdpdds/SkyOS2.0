@@ -44,28 +44,27 @@ void thread_exit()
 extern "C" void ContextSwitch(unsigned int *oldEsp, unsigned int newEsp, unsigned int pdbr)
 {
 	__asm
-	{
-
-		/*
+	{		
 		pushf
-		pushl %ebp
-		pushl %esi
-		pushl %edi
-		pushl %ebx
-		movl 24(%esp), %eax			# Get location to save stack pointer at
-		movl %esp, (%eax)			# Save old stack pointer
-		movl 32(%esp), %eax			# Get new PDBR
-		movl 28(%esp), %ebx			# Get new stack pounter
-		cmpl $0xffffffff, %eax		# Need to change addr.space ?
-		je skip_change_cr3 			# If parameter was - 1, no
-		movl %eax, %cr3				# Change address space
-		skip_change_cr3 : movl %ebx, %esp				# Switch to the new stack
-						  popl %ebx
-						  popl %edi
-						  popl %esi
-						  popl %ebp
-						  popf
-						  ret*/
+		push ebp
+		push esi
+		push edi
+		push ebx
+		mov eax, [esp + 24]			; Get location to save stack pointer at
+		mov eax, esp					; Save old stack pointer
+		mov eax, [esp + 32]			; Get new PDBR
+		mov ebx, [esp + 28]			; Get new stack pounter
+		cmp eax, 0xffffffff			; Need to change addr.space ?
+		je skip_change_cr3				; If parameter was - 1, no
+		mov cr3, eax					; Change address space
+skip_change_cr3: 
+		mov esp, ebx					; Switch to the new stack
+		pop ebx
+		pop edi
+		pop esi
+		pop ebp
+		popf
+		ret
 	}
 }
 
@@ -73,25 +72,24 @@ extern "C" void ContextSwitch(unsigned int *oldEsp, unsigned int newEsp, unsigne
 extern "C" void SwitchToUserMode(unsigned int _start, unsigned int user_stack)
 {
 	__asm
-	{
-		/*
-		movl 4(%esp), %eax			# start address
-		movl 8(%esp), %ebx			# stack
-		movw $0x20, %cx				# set up segment registers
-		movw %cx, %ds
-		movw %cx, %es
-		movw %cx, %fs
-		movw %cx, %gs
+	{		
+		mov eax, [esp + 4] 			; start address
+		mov ebx, [esp + 8]			; stack
+		mov cx, 0x20				; set up segment registers
+		mov ds, cx
+		mov es, cx
+		mov fs, cx
+		mov gs, cx
 
-		# Set up a cross - protection level interrupt frame to jump to
-		# the new thread.
-		pushl $0x23					# User data segment
-		pushl %ebx					# User stack
-		pushl $(1 << 9) | 2			# User Flags(note that interrupts are on)
-		pushl $0x1b					# User CS
-		pushl %eax 					# EIP
-		iret						# Jump to user space
-		*/
+		; Set up a cross - protection level interrupt frame to jump to
+		; the new thread.
+		push 0x23					; User data segment
+		push ebx					; User stack
+		push (1 << 9) | 2			; User Flags(note that interrupts are on)
+		push 0x1b					; User CS
+		push eax					; EIP
+		iret						; Jump to user space
+		
 	}
 }
 
@@ -99,25 +97,24 @@ extern "C" int CopyUserInternal(void *dest, const void *src, unsigned int size, 
 {
 	__asm
 	{
-		/*
-		pushl %edi
-		pushl %esi
-		pushl %ebx
-		movl 28(%esp), %ebx
-		movl $on_fault, (%ebx)
-		xorl %eax, %eax				# Clear success flag
-		movl 24(%esp), %ecx
-		movl 16(%esp), %edi
-		movl 20(%esp), %esi
-		rep
-		movsb
-		movl $1, %eax				# Set success flag
-		on_fault : movl $0, (%ebx)				# Clear fault handler
-				   popl %ebx
-				   popl %esi
-				   popl %edi
-				   ret
-				   */
+		
+		push edi
+		push esi
+		push ebx
+		mov ebx, [esp + 28]
+		mov ebx, on_fault
+		xor eax, eax				; Clear success flag
+		mov ecx, [esp + 24]
+		mov edi, [esp + 16]
+		mov esi, [esp + 20]
+		rep movsb
+		mov eax, 1					; Set success flag
+on_fault:
+		mov ebx, 0					; Clear fault handler
+		pop ebx
+		pop esi
+		pop edi
+		ret				   
 	}
 
 	return 0;

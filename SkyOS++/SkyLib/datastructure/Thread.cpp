@@ -48,7 +48,7 @@ Thread::Thread(const char name[], Team *team, thread_start_t startAddress, void 
 {
 	char stackName[OS_NAME_LENGTH];
 	snprintf(stackName, OS_NAME_LENGTH, "%.12s stack", name);
-
+	
 	fKernelStack = AddressSpace::GetKernelAddressSpace()->CreateArea(stackName,
 		kKernelStackSize, AREA_WIRED, SYSTEM_READ | SYSTEM_WRITE, new PageCache, 0,
 		INVALID_PAGE, SEARCH_FROM_TOP);
@@ -56,7 +56,7 @@ Thread::Thread(const char name[], Team *team, thread_start_t startAddress, void 
 		printf("team = %p\n", fTeam);
 		panic("Can't create kernel stack for thread: out of virtual space\n");
 	}
-
+	
 	unsigned int kernelStack = fKernelStack->GetBaseAddress() + kKernelStackSize - 4;
 	unsigned int userStack = 0;
 	if (team->GetAddressSpace() != AddressSpace::GetKernelAddressSpace()) {
@@ -71,7 +71,7 @@ Thread::Thread(const char name[], Team *team, thread_start_t startAddress, void 
 
 		userStack = fUserStack->GetBaseAddress() + kUserStackSize - 4;
 	}
-
+	
 	fThreadContext.Setup(startAddress, param, userStack, kernelStack);
 
 	// Inherit the current directory from the thread that created this.

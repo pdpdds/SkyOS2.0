@@ -75,13 +75,13 @@ bool SkyGUISystem::LoadGUIModule()
 	StorageManager::GetInstance()->SetCurrentFileSystemByID('L');
 
 	//Load Hangul Engine
-	void* hwnd = SkyModuleManager::GetInstance()->LoadModule("Hangul.dll");	
+	void* hwnd = SkyModuleManager::GetInstance()->LoadModule("Hangul.dll");		
 	PHangulInput HanguleInput = (PHangulInput)SkyModuleManager::GetInstance()->GetModuleFunction(hwnd, "GetHangulEngine");	
 
 	SKY_ASSERT(HanguleInput != nullptr, "Hangul Module Load Fail!!");	
 
 	m_pInputEngine = HanguleInput();
-
+	
 	hwnd = SkyModuleManager::GetInstance()->LoadModule("Multilingual.dll");
 	PGetHangulEngine HangulEngine = (PGetHangulEngine)SkyModuleManager::GetInstance()->GetModuleFunction(hwnd, "GetHangulEngine");
 

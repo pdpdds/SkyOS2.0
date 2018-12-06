@@ -25,6 +25,23 @@ void _cdecl kExceptionMessageHeader()
 	SkyConsole::Print(szDisclame);
 }
 
+void HaltSystem(const char* errMsg)
+{
+	SkyConsole::MoveCursor(0, 0);
+	SkyConsole::SetColor(ConsoleColor::White, ConsoleColor::Blue, false);
+	SkyConsole::Clear();
+	SkyConsole::Print(sickpc);
+
+	SkyConsole::Print("*** STOP: %s", errMsg);
+	SkyDebugger::GetInstance()->TraceStackWithSymbol();
+	for (;;);
+}
+
+void error(char *s)
+{
+	HaltSystem(s);
+}
+
 extern int _divider;
 extern int _dividend;
 
@@ -299,21 +316,4 @@ interrupt void kHandleSIMDFPUFault()
 	kExceptionMessageHeader();
 	SkyConsole::Print("FPU SIMD fault\n");
 	for (;;);
-}
-
-void HaltSystem(const char* errMsg)
-{
-	SkyConsole::MoveCursor(0, 0);
-	SkyConsole::SetColor(ConsoleColor::White, ConsoleColor::Blue, false);
-	SkyConsole::Clear();
-	SkyConsole::Print(sickpc);
-
-	SkyConsole::Print("*** STOP: %s", errMsg);
-	SkyDebugger::GetInstance()->TraceStackWithSymbol();
-	for (;;);
-}
-
-void error(char *s)
-{
-	HaltSystem(s);
 }

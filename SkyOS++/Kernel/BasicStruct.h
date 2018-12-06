@@ -4,8 +4,6 @@
 #define MEMORY_REGION_AVAILABLE 1
 #define MEMORY_REGION_HIBERNATE 2
 
-#define KERNEL_HEAP_FRAME_COUNT 12800
-
 typedef struct tag_BootModule
 {
 	UINT32 ModuleStart;
@@ -21,6 +19,7 @@ typedef struct tag_MemoryLayout
 	UINT32 _kernelDataTop;
 	UINT32 _bootStackBase;
 	UINT32 _bootStackTop;
+	UINT32 _bootPhysicalStackTop;
 	UINT32 _kHeapBase;
 	UINT32 _kHeapTop;
 

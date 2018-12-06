@@ -86,6 +86,7 @@ void ThreadContext::Setup(thread_start_t startAddress, void *param,
 	fStackPointer = kernelStack;
 	memcpy(&fFpState, &fDefaultFpState, sizeof(FpState));
 
+#ifndef SKY_EMULATOR
 	if (fKernelThread) {
 		// Set up call to kernel entry point
 		PUSH(fStackPointer, thread_exit); // return address
@@ -108,6 +109,7 @@ void ThreadContext::Setup(thread_start_t startAddress, void *param,
 	PUSH(fStackPointer, 0);	// esi
 	PUSH(fStackPointer, 0);	// edi
 	PUSH(fStackPointer, 0);	// ebx
+#endif
 }
 
 void ThreadContext::SwitchTo()

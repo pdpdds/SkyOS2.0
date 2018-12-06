@@ -93,20 +93,29 @@ Area* AddressSpace::CreateArea(const char name[], unsigned int size, AreaWiring 
 		va = FindFreeRange(size, flags);
 	else if (va % PAGE_SIZE != 0 || !fAreas.IsRangeFree(va, va + size - 1))
 		va = INVALID_PAGE;
-
+	
 	Area *area = 0;
 	if (va != INVALID_PAGE) {
 		area = new Area(name, protection, cache, offset, wiring);
 		fAreas.Add(area, va, va + size - 1);
 		if (wiring & AREA_WIRED) {
 			for (unsigned int aroffs = 0; aroffs < size; aroffs += PAGE_SIZE) {
+
+				PageCache* cache = area->GetPageCache();
+				printf("AddressSpace::CreateArea\n");
+				
 				Page *page = area->GetPageCache()->GetPage(area->GetCacheOffset()
 					+ aroffs, false);
+
+				
 				page->Wire();
-				fPhysicalMap->Map(va + aroffs, page->GetPhysicalAddress(), protection);
+				
+				fPhysicalMap->Map(va + aroffs, page->GetPhysicalAddress(), protection);				
 			}
 		}
 	}
+
+	printf("AddressSpace::CreateArea %x %x\n", va, offset);	
 
 	fChangeCount++;
 	fAreaLock.UnlockWrite();
@@ -340,6 +349,7 @@ AddressSpace::AddressSpace(PhysicalMap *map)
 	fAreas.Add(new Area("Hyperspace", SYSTEM_READ | SYSTEM_WRITE), kIOAreaBase, kIOAreaTop);
 	Area *kstack = new Area("Init Stack", SYSTEM_READ | SYSTEM_WRITE);
 	fAreas.Add(kstack, kBootStackBase, kBootStackTop);
+
 	Thread::GetRunningThread()->SetKernelStack(kstack);
 }
 
@@ -363,6 +373,8 @@ unsigned int AddressSpace::FindFreeRange(unsigned int size, int flags) const
 		for (AVLTreeIterator iterator(fAreas, false); iterator.GetCurrent();
 			iterator.GoToNext()) {
 			const Area *area = static_cast<const Area*>(iterator.GetCurrent());
+
+			printf("kAddressSpaceTop %s %x %x\n", area->GetName(), high - area->GetHighKey(), size);
 			if (high - area->GetHighKey() >= size) {
 				base = high + 1 - size;
 				break;

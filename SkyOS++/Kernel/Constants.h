@@ -10,6 +10,8 @@
 #define PAGE_ALIGN_DOWN(value)				((value) & ~(PAGE_SIZE - 1))
 #define PAGE_ALIGN_UP(value)				(((value) & (PAGE_SIZE - 1)) ? (PAGE_ALIGN_DOWN((value)) + PAGE_SIZE) : (value))
 
+#define KERNEL_HEAP_FRAME_COUNT 12800
+
 const unsigned int kUserBase = 0x1000;
 const unsigned int kUserTop = 0xbfffffff;
 const unsigned int kKernelBase = 0xc0000000;
@@ -18,7 +20,7 @@ const unsigned int kKernelBase = 0xc0000000;
 const unsigned int kBootStackBase = 0xc0100000;
 const unsigned int kBootStackTop = 0xc0103fff;
 const unsigned int kHeapBase = 0xc0104000;
-const unsigned int kHeapTop = 0xc01fffff;
+const unsigned int kHeapTop = kHeapBase + KERNEL_HEAP_FRAME_COUNT * PAGE_SIZE;
 const unsigned int kIOAreaBase = 0xe4000000;
 const unsigned int kIOAreaTop = 0xe7ffffff;
 const unsigned int kKernelTop = 0xffffffff;

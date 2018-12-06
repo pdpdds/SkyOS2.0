@@ -111,7 +111,7 @@ void InterruptBootstrap()
 
 
 
-
+*/
 void InterruptFrame::Print() const
 {
 	const char kFlagLetters[] = "cxpxaxzstipollnxrv";
@@ -131,10 +131,10 @@ void InterruptFrame::Print() const
 			('A' - 'a'));
 	printf("\ntrap %08x      error code %08x\n", vector, errorCode);
 }
-*/
-bigtime_t SystemTime()
+
+extern "C" bigtime_t SystemTime()
 {
-	return rdtsc() / timeBase;
+	return rdtsc() / timeBase;	
 }
 
 
@@ -157,7 +157,7 @@ void DisableIrq(int irq)
 void HandleTrap(InterruptFrame iframe)
 {
 	switch (iframe.vector) {
-	/*case kDebugTrap: {
+	case kDebugTrap: {
 		unsigned int status = GetDR6();
 		if (status & 7) {
 			printf("Breakpoint\n");
@@ -170,13 +170,13 @@ void HandleTrap(InterruptFrame iframe)
 
 		Debugger();
 		break;
-	}*/
+	}
 
 	case kDeviceNotAvailable:
 		ThreadContext::SwitchFp();
 		break;
 
-	/*case kPageFault: {
+	case kPageFault: {
 		// It is important to get the fault address (from cr2) before re-enabling
 		// interrupts because it is not saved across task switches.
 		unsigned int va = GetFaultAddress();
@@ -213,7 +213,7 @@ void HandleTrap(InterruptFrame iframe)
 		break;
 	}
 
-	case kSystemCall: {
+	/*case kSystemCall: {
 		EnableInterrupts();
 		const SystemCallInfo &info = systemCallTable[iframe.eax & 0xff];
 		iframe.eax = InvokeSystemCall(&info.hook, reinterpret_cast<int*>(iframe.user_esp) + 1,
@@ -237,8 +237,8 @@ void HandleTrap(InterruptFrame iframe)
 		if (result == kReschedule)
 			gScheduler.Reschedule();
 		else if (result == kUnhandledInterrupt) {
-			/*iframe.Print();
-			panic("Unhandled Interrupt");*/
+			iframe.Print();
+			panic("Unhandled Interrupt");
 		}
 
 		break;

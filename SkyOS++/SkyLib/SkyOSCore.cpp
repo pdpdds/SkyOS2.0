@@ -8,6 +8,9 @@
 #include "Defines.h"
 #include "BootParams.h"
 #include "Timer.h"
+#include "Team.h"
+#include "datastructure\/Thread.h"
+#include "Processor.h"
 
 bool BuildPlatform()
 {
@@ -20,17 +23,32 @@ bool BuildPlatform()
 
 _BootParams _bootParams;
 extern "C" void printf(const char *fmt, ...);
-bool InitKernelSystem()
+unsigned int g_kernelPageDirectory;
+bool InitKernelSystem(_BootParams* param, unsigned int kernelPageDirectory)
 {
 	//BuildPlatform();
+	g_kernelPageDirectory = kernelPageDirectory;
+	_bootParams.memsize = param->memsize;
+	for (int i = 0; i < param->rangeCount; i++)
+	{
+		_bootParams.SetAllocated(param->allocatedRange[i].begin, param->allocatedRange[i].end);
+		printf("%x %x\n", param->allocatedRange[i].begin, param->allocatedRange[i].end);
+	}	
 
-	Timer::Bootstrap();
-	__asm {sti}	
-	for (;;);
-	Page::Bootstrap();
-	PageCache::Bootstrap();
+	Thread::Bootstrap();
+	Timer::Bootstrap();			
+	Page::Bootstrap();	
+	PageCache::Bootstrap();	
+
 	PhysicalMap::Bootstrap();
-	AddressSpace::Bootstrap();
+	
+	AddressSpace::Bootstrap();	
+	Team::Bootstrap();
+	
+	Processor::Bootstrap();	
+	printf("complete\n");
+	
+	
 
 	return true;
 }

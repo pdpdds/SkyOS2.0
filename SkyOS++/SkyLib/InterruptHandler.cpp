@@ -87,8 +87,7 @@ void InterruptHandler::IgnoreInterrupts()
 }
 
 InterruptStatus InterruptHandler::Dispatch(int vector)
-{
-	printf("InterruptHandler::Dispatch %d\n", vector);
+{	
 	InterruptStatus result = kUnhandledInterrupt;
 	for (InterruptHandler *handler = fHandlers[vector]; handler;
 		handler = handler->fNext) {

@@ -8,6 +8,7 @@
 #include "X86Arch.h"
 #include "BasicStruct.h"
 
+extern DWORD g_pte;
 namespace VirtualMemoryManager
 {
 	//! current directory table
@@ -34,7 +35,37 @@ namespace VirtualMemoryManager
 	{
 		SkyConsole::Print("Virtual Memory Manager Init..\n");
 
-		return SetupKernelPageDirectory();		
+		bool result = SetupKernelPageDirectory();
+
+		if (false == result)
+			return false;
+
+#ifdef SKY_EMULATOR	
+#else
+		g_pte = (DWORD)PhysicalMemoryManager::AllocBlock();
+		MapPhysicalAddressToVirtualAddresss(GetKernelPageDirectory(), g_pte, g_pte, I86_PTE_PRESENT | I86_PTE_WRITABLE);
+
+		DWORD bootStackFrameCount = (bootParams._memoryLayout._bootStackTop - bootParams._memoryLayout._bootStackBase) / PAGE_SIZE;
+		void* pAllocatedMemory = PhysicalMemoryManager::AllocBlocks(bootStackFrameCount);
+
+		if (pAllocatedMemory == nullptr)
+			return false;
+
+		int endAddress = (uint32_t)bootParams._memoryLayout._bootStackBase + bootStackFrameCount * PMM_BLOCK_SIZE;
+
+		for (int i = 0; i < bootStackFrameCount; i++)
+		{
+			uint32_t virt = (uint32_t)bootParams._memoryLayout._bootStackBase + i * PAGE_SIZE;
+			uint32_t phys = (uint32_t)pAllocatedMemory + i * PAGE_SIZE;
+
+			MapPhysicalAddressToVirtualAddresss(GetKernelPageDirectory(), virt, phys, I86_PTE_PRESENT | I86_PTE_WRITABLE);
+		}
+
+		bootParams._memoryLayout._bootPhysicalStackTop = (DWORD)pAllocatedMemory + bootStackFrameCount * PMM_BLOCK_SIZE;
+
+#endif
+
+		return true;
 	}
 
 	//가상 주소와 매핑된 물리 주소를 얻어낸다.
@@ -177,7 +208,7 @@ namespace VirtualMemoryManager
 	{					
 		_kernel_directory = (PageDirectory*)PhysicalMemoryManager::AllocBlocks(sizeof(PageDirectory) / PMM_BLOCK_SIZE);
 		memset(_kernel_directory, 0, sizeof(PageDirectory));
-
+		
 		uint32_t frame = 0x00000000;
 		uint32_t virt = 0x00000000;
 
@@ -210,8 +241,8 @@ namespace VirtualMemoryManager
 			//가상주소 = 물리주소
 			PDE* identityEntry = &_kernel_directory->m_entries[PAGE_DIRECTORY_INDEX((virt - 0x00400000))];
 			PageDirectoryEntry::AddAttribute(identityEntry, I86_PDE_PRESENT | I86_PDE_WRITABLE);			
-			PageDirectoryEntry::SetFrame(identityEntry, (uint32_t)identityPageTable);
-		}
+			PageDirectoryEntry::SetFrame(identityEntry, (uint32_t)identityPageTable);		
+		}		
 
 		SetCurPageDirectory(_kernel_directory);
 		//페이지 디렉토리를 PDBR 레지스터에 로드한다			

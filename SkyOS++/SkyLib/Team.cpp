@@ -88,7 +88,7 @@ void Team::DoForEach(void (*EachTeamFunc)(void*, Team*), void *cookie)
 
 void Team::Bootstrap()
 {
-	Team *init = new Team("kernel", AddressSpace::GetKernelAddressSpace());
+	Team *init = new Team("kernel", AddressSpace::GetKernelAddressSpace());	
 	Thread::GetRunningThread()->SetTeam(init);
 	AddDebugCommand("ps", "list running threads", PrintThreads);
 	AddDebugCommand("areas", "list user areas", PrintAreas);

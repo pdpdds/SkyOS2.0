@@ -8,7 +8,7 @@
 #include "Process.h"
 
 
-static SKY_FILE_INTERFACE _FileInterface =
+SKY_FILE_INTERFACE _fileInterface =
 {
 	fread,
 	fopen,
@@ -45,7 +45,7 @@ void* sky_krealloc(void* ptr, size_t size)
 	return krealloc(ptr, size);
 }
 
-static SKY_ALLOC_INTERFACE _allocInterface =
+SKY_ALLOC_INTERFACE _allocInterface =
 {
 	sky_kmalloc,
 	sky_kfree,
@@ -65,7 +65,7 @@ void sky_printf(const char* str, ...)
 	SkyConsole::Print(str);
 }
 
-static SKY_PRINT_INTERFACE _printInterface =
+SKY_PRINT_INTERFACE _printInterface =
 {
 	sky_printf,
 	0,
@@ -137,7 +137,7 @@ unsigned int sky_get_tick_count()
 }
 
 //프로세스 생성 및 삭제
-static SKY_PROCESS_INTERFACE _processInterface =
+SKY_PROCESS_INTERFACE _processInterface =
 {
 	sky_kcreate_process_from_memory,
 	sky_kcreate_process_from_file,
