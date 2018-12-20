@@ -9,6 +9,7 @@ typedef struct tag_WIN32_STUB
 	void* _processInterface;
 	unsigned int _virtualAddress;
 	unsigned int _virtualAddressSize;
+	unsigned int _kernelSize;
 }WIN32_STUB;
 
 typedef struct tag_WIN32_VIDEO

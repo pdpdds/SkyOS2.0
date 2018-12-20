@@ -81,6 +81,7 @@ void newEntry()
 	PageDirectory* curPageDirectory = VirtualMemoryManager::GetKernelPageDirectory();
 	InitKernelSystem(&params, (unsigned int)&curPageDirectory->m_entries[0]);
 
+	SkyModuleManager::GetInstance()->RelocateExe(bootParams._memoryLayout._kernelBase, bootParams._kernelSize, 0x0b000000);
 	SkyModuleManager::GetInstance()->LoadImplictDLL(bootParams._memoryLayout._kernelBase);
 
 	SkyModuleManager::GetInstance()->Initialize();
@@ -128,7 +129,6 @@ bool InitOSSystem(unsigned long magic, unsigned long addr, uint32_t imageBase, b
 	InitModules(pInfo);
 
 	StartPITCounter(1000, I86_PIT_OCW_COUNTER_0, I86_PIT_OCW_MODE_SQUAREWAVEGEN);
-
 
 	if (bGraphicMode == true)
 	{
@@ -284,6 +284,7 @@ bool BuildPlatformAPI(unsigned long addr, uint32_t imageBase)
 
 	bootParams.SetAllocated(startAddress, endAddress, MEMORY_REGION_AVAILABLE);
 	bootParams._memorySize = endAddress - startAddress;
+	bootParams._kernelSize = pStub->_kernelSize;
 
 #else
 	extern SKY_PROCESS_INTERFACE _processInterface;

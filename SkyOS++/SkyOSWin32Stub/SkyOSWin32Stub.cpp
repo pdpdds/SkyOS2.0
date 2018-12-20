@@ -36,6 +36,12 @@ WIN32_STUB* GetWin32Stub()
 {
 	InitializeCriticalSection(&g_cs);
 
+	FILE* file = fopen("SkyOS.exe", "rb");
+	fseek(file, 0, SEEK_END);
+	off_t fileSize = ftell(file);
+	fseek(file, 0, SEEK_SET);
+	
+
 	char* pPhysicalMemory = new char[SKY_PHYSICAL_MEMORY_SIZE];
 	WIN32_STUB* pStub = new WIN32_STUB;
 	pStub->_allocInterface = &g_allocInterface;
@@ -44,6 +50,7 @@ WIN32_STUB* GetWin32Stub()
 	pStub->_processInterface = &g_processInterface;
 	pStub->_virtualAddress = (unsigned int)pPhysicalMemory;
 	pStub->_virtualAddressSize = SKY_PHYSICAL_MEMORY_SIZE;
+	pStub->_kernelSize = fileSize;
 	return pStub;
 }
 

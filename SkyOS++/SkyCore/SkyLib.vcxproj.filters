@@ -464,6 +464,7 @@
     <ClInclude Include="SystemProfiler.h" />
     <ClInclude Include="SkyQueue.h" />
     <ClInclude Include="SkyRenderer.h" />
+    <ClInclude Include="PEFile.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="MemorySystem">

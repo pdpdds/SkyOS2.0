@@ -30,6 +30,7 @@ public:
 	bool Initialize();
 	
 	void* LoadModule(const char* moduleName, bool fromMemory = true);
+	bool RelocateExe(DWORD moduleAaddress, UINT64 _kernelSize, DWORD relocationBase);
 	bool LoadImplictDLL(DWORD moduleAaddress);
 	bool FixIAT(void* image);
 

@@ -30,6 +30,8 @@
 
   /* 8 Bit data types*/
   typedef unsigned char BYTE;  
+  typedef BYTE			*PBYTE;
+  
   /* 16 bit data types */
   typedef short INT16;
   typedef unsigned short UINT16;
@@ -38,6 +40,7 @@
   typedef unsigned short USHORT;
   typedef long INT32;
   typedef long *LPLONG;
+  typedef unsigned short	WCHAR;
 
   typedef __int64 LONGLONG;
   typedef unsigned __int64 ULONGLONG;
@@ -197,3 +200,5 @@ typedef __time_t time_t;
 
 #define min_c(a,b) ((a)>(b)?(b):(a))
 #define max_c(a,b) ((a)>(b)?(a):(b))
+
+#define UNALIGNED

@@ -6,6 +6,7 @@
 #include "StorageManager.h"
 #include "LoadDLL.h"
 #include "PEImage.h"
+#include "PEFile.h"
 
 SkyModuleManager* SkyModuleManager::m_pModuleManager = nullptr;
 
@@ -154,7 +155,110 @@ bool SkyModuleManager::LoadImplictDLL(DWORD moduleAddress)
 
 	FixIAT((void*)moduleAddress);
 
+	return true;
+}
 
+bool SkyModuleManager::RelocateExe(DWORD imageBase, UINT64 _kernelSize, DWORD relocationBase)
+{
+	PeImgStt					pe;
+	DWORD						dwDestAddr;			// 점프해간 주소를 출력하기 위한 변수.
+	DWORD						*pT, dwTemp;
+	DWORD						dwLastImageByte;
+	DWORD						dwDebugPosition;
+	LONG						lBase, lDestBase;
+	DWORD						dwBuiltInV86Lib, dwBuiltInV86LibSize;
+
+	pe.pBuff = (UCHAR*)imageBase;
+	pe.pDosHd = (MY_IMAGE_DOS_HEADER*)(pe.pBuff);
+	// 기타 베이스 오프셋을 설정한다.
+	pe.lPeBase = pe.lIfBase = pe.pDosHd->e_lfanew;
+	pe.lIoBase = pe.lPeBase + sizeof(MY_IMAGE_FILE_HEADER);
+	// 각 HEADER의 주소를 계산한다.
+	pe.pPeHd = (MY_IMAGE_PE_HEADER*)&pe.pBuff[pe.pDosHd->e_lfanew];
+	pe.pIfHd = (MY_IMAGE_FILE_HEADER*)pe.pPeHd;
+	pe.pIoHd = (MY_IMAGE_OPTIONAL_HEADER*)&pe.pBuff[pe.pDosHd->e_lfanew + sizeof(MY_IMAGE_FILE_HEADER)];
+
+	// 첫번째 섹션의 헤더위치를 구한다.
+	lBase = pe.lIoBase + sizeof(MY_IMAGE_OPTIONAL_HEADER);
+
+	// 옮겨갈 곳 계산.
+	lDestBase = 0;
+	//pe.pBase = (UCHAR*)relocationBase;  // 옮겨갈 곳의 주소.
+	pe.pBase = (UCHAR*)new char[_kernelSize + 4096];
+
+									// 2002-12-13 커널 이미지 들어갈 곳을 0으로 클리어.
+	memset(pe.pBase, 0, 512);
+
+	// 섹션 바로 윗부분까지는 그냥 옮겨버린다.
+	memcpy(pe.pBase, pe.pBuff, lBase);
+
+	for (int nI = 0; nI < pe.pIfHd->NumberOfSections && nI < BDF_MAX_PE_SECTION - 1; nI++)
+	{
+		// 섹션 헤더의 위치	 계산
+		pe.sect[nI].lBase = lBase;
+		// 섹션 헤더의 포인터 계산
+		pe.sect[nI].pPtr = (MY_IMAGE_SECTION_HEADER*)&pe.pBuff[lBase];
+		// 섹션명 복사
+		memset(pe.sect[nI].szName, 0, 8);
+		memcpy(pe.sect[nI].szName, pe.sect[nI].pPtr, 8);
+		pT = (DWORD*)pe.sect[nI].szName;
+
+		// 섹션명을 화면에 복사한다.
+		printf("%s\n", pe.sect[nI].szName);
+
+		// 필요에 따라 섹션의 타입을 결정한다.
+		pe.sect[nI].nType = nI;
+
+		// 섹션의 바디만 정해진 위치에 옮겨 놓으면 된다.
+		dwTemp = (DWORD)&pe.pBuff[pe.sect[nI].pPtr->PointerToRawData];
+		memset(&pe.pBase[pe.sect[nI].pPtr->VirtualAddress], 0, pe.sect[nI].pPtr->VirtualSize);  // 0으로 클리어.
+		memcpy(&pe.pBase[pe.sect[nI].pPtr->VirtualAddress], (char*)dwTemp, pe.sect[nI].pPtr->SizeOfRawData);
+		dwTemp += pe.sect[nI].pPtr->SizeOfRawData;
+		dwTemp = (DWORD)(((dwTemp + 511) / 512) * 512);
+
+		lBase += sizeof(MY_IMAGE_SECTION_HEADER);
+
+		// 이미지의 마지막 바이트 위치
+		dwLastImageByte = (DWORD)&pe.pBase[pe.sect[nI].pPtr->VirtualAddress] + pe.sect[nI].pPtr->VirtualSize;
+	}
+
+	// 디버깅 정보를 옮긴다. (VC6 with CODEMAP utility)
+	if (pe.pIoHd->dd_Debug_dwVAddr != 0)
+	{
+		char	*pS;
+		DWORD   *pX;
+
+		// dd_Debug_dwVAddr은 그냥 오프셋으로 사용한다.
+		pS = (char*)&pe.pBuff[pe.pIoHd->dd_Debug_dwVAddr];
+		pX = (DWORD*)pS;
+
+		if (pX[0] == (DWORD)0x46464F43)
+		{
+			dwDebugPosition = dwLastImageByte;
+			dwLastImageByte += pe.pIoHd->dd_Debug_dwSize;
+
+			// 디버깅 정보를 복사한다.
+			memcpy((UCHAR*)dwDebugPosition, pS, pe.pIoHd->dd_Debug_dwSize);
+		}
+		else
+			dwDebugPosition = 0;
+	}
+
+	// 도스 헤더 바로 다음 위치에 MAIGIC값과 V86Lib 오프셋이 있는지 확인.
+	dwBuiltInV86Lib = 0;
+	dwBuiltInV86LibSize = 0;
+	/*pT = (DWORD*)((DWORD)pe.pDosHd + sizeof(MY_IMAGE_DOS_HEADER));
+	if (pT[0] == V86PARAM_MAGIC)
+	{
+		dwBuiltInV86Lib = dwLastImageByte;
+		dwBuiltInV86LibSize = pT[2]; // 사이즈
+									 // DOS STUB를 옮긴다.
+		memcpy((BYTE*)dwBuiltInV86Lib, (BYTE*)pT[1] + (DWORD)pe.pDosHd, dwBuiltInV86LibSize);
+		dwLastImageByte += dwBuiltInV86LibSize;
+	}*/
+
+	// 이미지의 마지막 바이트 오프셋을 4096으로 올림한다.
+	dwLastImageByte = (DWORD)(((dwLastImageByte + 4095) / 4096) * 4096);
 
 	return true;
 }

@@ -158,6 +158,7 @@
     <ClInclude Include="memory_layout.h" />
     <ClInclude Include="MultbootUtil.h" />
     <ClInclude Include="MultiBoot.h" />
+    <ClInclude Include="PEFile.h" />
     <ClInclude Include="PEImage.h" />
     <ClInclude Include="PlatformAPI.h" />
     <ClInclude Include="Processor.h" />
