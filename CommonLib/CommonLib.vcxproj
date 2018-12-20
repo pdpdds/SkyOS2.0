@@ -52,6 +52,7 @@
     <ClInclude Include="stl\stl_string.h" />
     <ClInclude Include="stl\tempbuf.h" />
     <ClInclude Include="strdup.h" />
+    <ClInclude Include="stricmp.h" />
     <ClInclude Include="string.h" />
     <ClInclude Include="str_util.h" />
     <ClInclude Include="wchar.h" />
@@ -112,6 +113,7 @@
     <ClCompile Include="stl\OStream.cpp" />
     <ClCompile Include="stl\stl_string.cpp" />
     <ClCompile Include="strdup.c" />
+    <ClCompile Include="stricmp.cpp" />
     <ClCompile Include="string.cpp" />
     <ClCompile Include="str_util.cpp" />
     <ClCompile Include="vsnprintf.c" />

@@ -124,6 +124,7 @@
     </ClInclude>
     <ClInclude Include="getenv.h" />
     <ClInclude Include="strdup.h" />
+    <ClInclude Include="stricmp.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jsmn\jsmn.cpp">
@@ -308,6 +309,7 @@
     <ClCompile Include="vsnprintf.c" />
     <ClCompile Include="strdup.c" />
     <ClCompile Include="common_arch.cpp" />
+    <ClCompile Include="stricmp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <MASM Include="llshl.asm" />

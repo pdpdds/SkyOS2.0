@@ -1,0 +1,207 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="kmain.cpp" />
+    <ClCompile Include="KernelProcedure.cpp" />
+    <ClCompile Include="ConsoleSystem\commands.cpp">
+      <Filter>ConsoleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="ConsoleSystem\ConsoleManager.cpp">
+      <Filter>ConsoleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="SkyGUISystem.cpp" />
+    <ClCompile Include="SkyGUILua.cpp" />
+    <ClCompile Include="SkyRenderer32.cpp" />
+    <ClCompile Include="SkySheet.cpp" />
+    <ClCompile Include="SkySheetController.cpp" />
+    <ClCompile Include="SkyVirtualInput.cpp" />
+    <ClCompile Include="SkyInputHandler.cpp" />
+    <ClCompile Include="SkyInputManager.cpp" />
+    <ClCompile Include="WindowingSystem\Bitmap.cpp">
+      <Filter>WindowsSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowingSystem\BlankWidow.cpp">
+      <Filter>WindowsSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowingSystem\Button.cpp">
+      <Filter>WindowsSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowingSystem\GraphicsContext.cpp">
+      <Filter>WindowsSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowingSystem\IDTable.cpp">
+      <Filter>WindowsSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowingSystem\MemorySurface.cpp">
+      <Filter>WindowsSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowingSystem\NoisyWindow.cpp">
+      <Filter>WindowsSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowingSystem\Rasterizer24bpp.cpp">
+      <Filter>WindowsSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowingSystem\Region.cpp">
+      <Filter>WindowsSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowingSystem\RootWindow.cpp">
+      <Filter>WindowsSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowingSystem\RoundWindow.cpp">
+      <Filter>WindowsSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowingSystem\ScribbleWindow.cpp">
+      <Filter>WindowsSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowingSystem\Surface.cpp">
+      <Filter>WindowsSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowingSystem\TitledWindow.cpp">
+      <Filter>WindowsSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowingSystem\WindowManager.cpp">
+      <Filter>WindowsSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowingSystem\wsMain.cpp">
+      <Filter>WindowsSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="KernelGateway.cpp" />
+    <ClCompile Include="WindowingSystem\ServerConnection.cpp">
+      <Filter>WindowsSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowingSystem\ServerWindow.cpp">
+      <Filter>WindowsSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="VirtualScreen.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="kmain.h" />
+    <ClInclude Include="SkyStartOption.h" />
+    <ClInclude Include="KernelProcedure.h" />
+    <ClInclude Include="ConsoleSystem\commandMacros.h">
+      <Filter>ConsoleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleSystem\commands.h">
+      <Filter>ConsoleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleSystem\commandTable.h">
+      <Filter>ConsoleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleSystem\ConsoleManager.h">
+      <Filter>ConsoleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyGUISystem.h" />
+    <ClInclude Include="SkyGUILua.h" />
+    <ClInclude Include="SkyWindow.h" />
+    <ClInclude Include="SkyRenderer32.h" />
+    <ClInclude Include="SkySheet.h" />
+    <ClInclude Include="SkySheetController.h" />
+    <ClInclude Include="SkyVirtualInput.h" />
+    <ClInclude Include="SkyInputHandler.h" />
+    <ClInclude Include="SkyInputManager.h" />
+    <ClInclude Include="WindowingSystem\Atom.h">
+      <Filter>WindowsSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowingSystem\Bitmap.h">
+      <Filter>WindowsSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowingSystem\BlankWindow.h">
+      <Filter>WindowsSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowingSystem\Button.h">
+      <Filter>WindowsSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowingSystem\Clipper.h">
+      <Filter>WindowsSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowingSystem\debug.h">
+      <Filter>WindowsSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowingSystem\GraphicsContext.h">
+      <Filter>WindowsSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowingSystem\IDTable.h">
+      <Filter>WindowsSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowingSystem\input.h">
+      <Filter>WindowsSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowingSystem\MemorySurface.h">
+      <Filter>WindowsSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowingSystem\NoisyWindow.h">
+      <Filter>WindowsSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowingSystem\protocol.h">
+      <Filter>WindowsSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowingSystem\Rasterizer.h">
+      <Filter>WindowsSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowingSystem\Rasterizer24bpp.h">
+      <Filter>WindowsSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowingSystem\Rect.h">
+      <Filter>WindowsSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowingSystem\Region.h">
+      <Filter>WindowsSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowingSystem\resource.h">
+      <Filter>WindowsSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowingSystem\RootWindow.h">
+      <Filter>WindowsSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowingSystem\RoundWindow.h">
+      <Filter>WindowsSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowingSystem\Screen.h">
+      <Filter>WindowsSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowingSystem\ScribbleWindow.h">
+      <Filter>WindowsSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowingSystem\Surface.h">
+      <Filter>WindowsSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowingSystem\TitledWindow.h">
+      <Filter>WindowsSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowingSystem\util.h">
+      <Filter>WindowsSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowingSystem\WindowManager.h">
+      <Filter>WindowsSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="KernelGateway.h" />
+    <ClInclude Include="WindowingSystem\ServerConnection.h">
+      <Filter>WindowsSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowingSystem\ServerWindow.h">
+      <Filter>WindowsSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="VirtualScreen.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="ConsoleSystem">
+      <UniqueIdentifier>{dbad16ce-bacf-420f-a5fb-1e526a9623e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="WindowsSystem">
+      <UniqueIdentifier>{0da5d7f3-9f53-465b-8c88-92034fe43007}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="WindowingSystem\LICENSE">
+      <Filter>WindowsSystem</Filter>
+    </None>
+    <None Include="WindowingSystem\README.md">
+      <Filter>WindowsSystem</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="WindowingSystem\protocol.txt">
+      <Filter>WindowsSystem</Filter>
+    </Text>
+  </ItemGroup>
+</Project>

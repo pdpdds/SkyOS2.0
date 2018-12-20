@@ -1,0 +1,328 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AddressSpace.cpp" />
+    <ClCompile Include="AVLTree.cpp" />
+    <ClCompile Include="CPU\FPU.cpp" />
+    <ClCompile Include="CPU\GDT.cpp" />
+    <ClCompile Include="CPU\Hal.cpp" />
+    <ClCompile Include="CPU\IDT.cpp" />
+    <ClCompile Include="CPU\Pic.cpp" />
+    <ClCompile Include="CPU\PIT.cpp" />
+    <ClCompile Include="CPU\TSS.cpp" />
+    <ClCompile Include="cpu_asm.cpp" />
+    <ClCompile Include="datastructure\Scheduler.cpp" />
+    <ClCompile Include="datastructure\Thread.cpp" />
+    <ClCompile Include="driver\Beep.cpp" />
+    <ClCompile Include="driver\DevFS.cpp" />
+    <ClCompile Include="driver\Device.cpp" />
+    <ClCompile Include="driver\FAT.cpp" />
+    <ClCompile Include="driver\Floppy.cpp" />
+    <ClCompile Include="driver\IDE.cpp" />
+    <ClCompile Include="driver\Matrox.cpp" />
+    <ClCompile Include="driver\PCI.cpp" />
+    <ClCompile Include="driver\RootFS.cpp" />
+    <ClCompile Include="FileDescriptor.cpp" />
+    <ClCompile Include="FileSystem.cpp" />
+    <ClCompile Include="FileSystem\ACEList.cpp" />
+    <ClCompile Include="FileSystem\CDRomAdaptor.cpp" />
+    <ClCompile Include="FileSystem\FAT12.cpp" />
+    <ClCompile Include="FileSystem\fat32.cpp" />
+    <ClCompile Include="FileSystem\FileSysAdaptor.cpp" />
+    <ClCompile Include="FileSystem\FloppyDisk.cpp" />
+    <ClCompile Include="FileSystem\FloppyDiskAdaptor.cpp" />
+    <ClCompile Include="FileSystem\Harddisk.cpp" />
+    <ClCompile Include="FileSystem\HDDAdaptor.cpp" />
+    <ClCompile Include="FileSystem\kfileio.cpp" />
+    <ClCompile Include="FileSystem\MemoryResourceAdaptor.cpp" />
+    <ClCompile Include="FileSystem\MintFileSystem.cpp" />
+    <ClCompile Include="FileSystem\ObjMan.cpp" />
+    <ClCompile Include="FileSystem\Partition.cpp" />
+    <ClCompile Include="FileSystem\RAMDisk.cpp" />
+    <ClCompile Include="FileSystem\RamDiskAdaptor.cpp" />
+    <ClCompile Include="FileSystem\SkyRamDisk.cpp" />
+    <ClCompile Include="FileSystem\SkyRamDiskAdaptor.cpp" />
+    <ClCompile Include="FileSystem\StorageManager.cpp" />
+    <ClCompile Include="HandleTable.cpp" />
+    <ClCompile Include="HardwareTimer.cpp" />
+    <ClCompile Include="Heap\HeapManager.cpp" />
+    <ClCompile Include="Heap\kheap.cpp" />
+    <ClCompile Include="Heap\ordered_array.cpp" />
+    <ClCompile Include="Image.cpp" />
+    <ClCompile Include="interrupt.cpp" />
+    <ClCompile Include="InterruptHandler.cpp" />
+    <ClCompile Include="intrinsic.cpp" />
+    <ClCompile Include="KernelDebug.cpp" />
+    <ClCompile Include="KeyBoard\KeyBoard.cpp" />
+    <ClCompile Include="KeyBoard\KeyboardController.cpp" />
+    <ClCompile Include="LoadDLL.cpp" />
+    <ClCompile Include="Memory\PageDirectoryEntry.cpp" />
+    <ClCompile Include="Memory\PageTableEntry.cpp" />
+    <ClCompile Include="Memory\PhysicalMemoryManager.cpp" />
+    <ClCompile Include="Memory\VirtualMemoryManager.cpp" />
+    <ClCompile Include="MultbootUtil.cpp" />
+    <ClCompile Include="Mutex.cpp" />
+    <ClCompile Include="Page.cpp" />
+    <ClCompile Include="PageCache.cpp" />
+    <ClCompile Include="PhysicalMap.cpp" />
+    <ClCompile Include="PlatformAPI.cpp" />
+    <ClCompile Include="Processor.cpp" />
+    <ClCompile Include="Resource.cpp" />
+    <ClCompile Include="Semaphore.cpp" />
+    <ClCompile Include="SkyConsole.cpp" />
+    <ClCompile Include="SkyDebugger.cpp" />
+    <ClCompile Include="SkyFacade.cpp" />
+    <ClCompile Include="SkyModuleManager.cpp" />
+    <ClCompile Include="SkyOSCore.cpp" />
+    <ClCompile Include="SkyQueue.cpp" />
+    <ClCompile Include="SkyRenderer.cpp" />
+    <ClCompile Include="SwapSpace.cpp" />
+    <ClCompile Include="Synchronization.cpp" />
+    <ClCompile Include="SystemAPI.cpp" />
+    <ClCompile Include="SystemCall.cpp" />
+    <ClCompile Include="SystemProfiler.cpp" />
+    <ClCompile Include="Team.cpp" />
+    <ClCompile Include="ThreadContext.cpp" />
+    <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="VNode.cpp" />
+    <ClCompile Include="X86Arch.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AddressSpace.h" />
+    <ClInclude Include="APC.h" />
+    <ClInclude Include="Area.h" />
+    <ClInclude Include="AVLTree.h" />
+    <ClInclude Include="BackingStore.h" />
+    <ClInclude Include="BasicStruct.h" />
+    <ClInclude Include="BootParams.h" />
+    <ClInclude Include="Constants.h" />
+    <ClInclude Include="CPU\FPU.h" />
+    <ClInclude Include="CPU\GDT.h" />
+    <ClInclude Include="CPU\Hal.h" />
+    <ClInclude Include="CPU\IDT.h" />
+    <ClInclude Include="CPU\Pic.h" />
+    <ClInclude Include="CPU\PIT.h" />
+    <ClInclude Include="CPU\TSS.h" />
+    <ClInclude Include="cpu_asm.h" />
+    <ClInclude Include="datastructure\Scheduler.h" />
+    <ClInclude Include="datastructure\Thread.h" />
+    <ClInclude Include="driver\Device.h" />
+    <ClInclude Include="driver\PCI.h" />
+    <ClInclude Include="FileDescriptor.h" />
+    <ClInclude Include="FileSystem\ACEList.h" />
+    <ClInclude Include="FileSystem\CDRomAdaptor.h" />
+    <ClInclude Include="FileSystem\Collect.h" />
+    <ClInclude Include="FileSystem\FAT12.h" />
+    <ClInclude Include="FileSystem\fat32.h" />
+    <ClInclude Include="FileSystem\FileSysAdaptor.h" />
+    <ClInclude Include="FileSystem\FloppyDisk.h" />
+    <ClInclude Include="FileSystem\FloppyDiskAdaptor.h" />
+    <ClInclude Include="FileSystem\FloppyDiskIO.h" />
+    <ClInclude Include="FileSystem\HardDisk.h" />
+    <ClInclude Include="FileSystem\HardDiskIO.h" />
+    <ClInclude Include="FileSystem\HDDAdaptor.h" />
+    <ClInclude Include="FileSystem\MemoryResourceAdaptor.h" />
+    <ClInclude Include="FileSystem\MintFileSystem.h" />
+    <ClInclude Include="FileSystem\ObjMan.h" />
+    <ClInclude Include="FileSystem\Partition.h" />
+    <ClInclude Include="FileSystem\RAMDisk.h" />
+    <ClInclude Include="FileSystem\RamDiskAdaptor.h" />
+    <ClInclude Include="FileSystem\SkyRamDisk.h" />
+    <ClInclude Include="FileSystem\SkyRamDiskAdaptor.h" />
+    <ClInclude Include="FileSystem\SkyRamDiskEntry.h" />
+    <ClInclude Include="FileSystem\skyramdisk_struct.h" />
+    <ClInclude Include="FileSystem\StorageManager.h" />
+    <ClInclude Include="Heap\HeapManager.h" />
+    <ClInclude Include="Heap\kheap.h" />
+    <ClInclude Include="Heap\ordered_array.h" />
+    <ClInclude Include="Image.h" />
+    <ClInclude Include="intrinsic.h" />
+    <ClInclude Include="KeyBoard\KeyBoard.h" />
+    <ClInclude Include="KeyBoard\KeyboardController.h" />
+    <ClInclude Include="KeyBoard\KeyBoardIO.h" />
+    <ClInclude Include="LoadDLL.h" />
+    <ClInclude Include="Memory\PageDirectoryEntry.h" />
+    <ClInclude Include="Memory\PageTableEntry.h" />
+    <ClInclude Include="Memory\PhysicalMemoryManager.h" />
+    <ClInclude Include="Memory\VirtualMemoryManager.h" />
+    <ClInclude Include="memory_layout.h" />
+    <ClInclude Include="MultbootUtil.h" />
+    <ClInclude Include="MultiBoot.h" />
+    <ClInclude Include="PEImage.h" />
+    <ClInclude Include="PlatformAPI.h" />
+    <ClInclude Include="Processor.h" />
+    <ClInclude Include="SkyConsole.h" />
+    <ClInclude Include="SkyDebugger.h" />
+    <ClInclude Include="SkyFacade.h" />
+    <ClInclude Include="SkyModuleManager.h" />
+    <ClInclude Include="SkyQueue.h" />
+    <ClInclude Include="SkyRenderer.h" />
+    <ClInclude Include="SystemAPI.h" />
+    <ClInclude Include="SystemProfiler.h" />
+    <ClInclude Include="X86Arch.h" />
+    <ClInclude Include="_Defines.h" />
+    <ClInclude Include="FileSystem.h" />
+    <ClInclude Include="HandleTable.h" />
+    <ClInclude Include="interrupt.h" />
+    <ClInclude Include="InterruptHandler.h" />
+    <ClInclude Include="KernelDebug.h" />
+    <ClInclude Include="Mutex.h" />
+    <ClInclude Include="Page.h" />
+    <ClInclude Include="PageCache.h" />
+    <ClInclude Include="physicalmap.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="Semaphore.h" />
+    <ClInclude Include="SkyOSCore.h" />
+    <ClInclude Include="SwapSpace.h" />
+    <ClInclude Include="Synchronization.h" />
+    <ClInclude Include="syscall.h" />
+    <ClInclude Include="SystemCall.h" />
+    <ClInclude Include="Team.h" />
+    <ClInclude Include="ThreadContext.h" />
+    <ClInclude Include="Timer.h" />
+    <ClInclude Include="_types.h" />
+    <ClInclude Include="VNode.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="core_asm.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">nasmw -f win32 core_asm.asm</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">core_asm.obj</Outputs>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </CustomBuild>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{1E2B5BCD-1285-441E-84E3-352A31810001}</ProjectGuid>
+    <RootNamespace>Kernel</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <ProjectName>SkyCore</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>12.0.21005.1</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)$(ProjectName)Intermediate\</IntDir>
+    <ExtensionsToDeleteOnClean>*.exp *.obj%3b*.ilk%3b*.tlb%3b*.tli%3b*.tlh%3b*.tmp%3b*.rsp%3b*.pgc%3b*.pgd%3b$(TargetPath)</ExtensionsToDeleteOnClean>
+    <LinkIncremental>false</LinkIncremental>
+    <GenerateManifest>false</GenerateManifest>
+    <TargetName>$(ProjectName)</TargetName>
+    <TargetExt>.lib</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IntDir>$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalOptions>/Oy %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <AdditionalIncludeDirectories>./;../../CommonLib;../../CommonLib/jsmn;../../Include;../../CommonLib/CPlusPlus;./Driver;./include;./arch\x86;./CPU;./Heap;./Memory;./Keyboard;./FileSystem;../../CommonLib/stl;../SkyOSWin32Stub;../../Module/Include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>SKY_EMULATOR;SKYOS32;_MSC_VER</PreprocessorDefinitions>
+      <IgnoreStandardIncludePath>true</IgnoreStandardIncludePath>
+      <StringPooling>
+      </StringPooling>
+      <ExceptionHandling>false</ExceptionHandling>
+      <StructMemberAlignment>1Byte</StructMemberAlignment>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <AssemblerOutput>NoListing</AssemblerOutput>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <CallingConvention>Cdecl</CallingConvention>
+      <DisableSpecificWarnings>4457;4189;4100;4702;4102;4244;4239;4333;4127;4554</DisableSpecificWarnings>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <LanguageStandard>
+      </LanguageStandard>
+      <UndefineAllPreprocessorDefinitions>true</UndefineAllPreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <SDLCheck>false</SDLCheck>
+    </ClCompile>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
+    <Link>
+      <AdditionalDependencies>SkyLua.lib;SkyOSWin32Stub.lib;CommonLib.lib;skysdl.lib;freetyped.lib</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <AdditionalLibraryDirectories>../Debug</AdditionalLibraryDirectories>
+      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapFileName>$(OutDir)$(TargetName).map</MapFileName>
+      <SubSystem>Console</SubSystem>
+      <Driver>NotSet</Driver>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <FunctionOrder>@order.txt</FunctionOrder>
+      <EntryPointSymbol>kmain</EntryPointSymbol>
+      <NoEntryPoint>false</NoEntryPoint>
+      <BaseAddress>0x01600000</BaseAddress>
+      <FixedBaseAddress>
+      </FixedBaseAddress>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <FullProgramDatabaseFile>true</FullProgramDatabaseFile>
+      <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
+      <LinkTimeCodeGeneration>
+      </LinkTimeCodeGeneration>
+      <AddModuleNamesToAssembly>
+      </AddModuleNamesToAssembly>
+      <ForceSymbolReferences>
+      </ForceSymbolReferences>
+      <AdditionalOptions>/safeseh:no /ALIGN:1024
+ /SUBSYSTEM:CONSOLE
+/NODEFAULTLIB:LIBC %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <DisableSpecificWarnings>4457</DisableSpecificWarnings>
+      <AdditionalIncludeDirectories>./;../../CommonLib;../../Include;./CPU;./Memory;./Heap;./Test;../../CommonLib/stl;../../CommonLib/jsmn;./FileSystem</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>ARCH_X86;</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />
+  </ImportGroup>
+</Project>

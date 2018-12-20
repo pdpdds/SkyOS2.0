@@ -34,8 +34,14 @@
   typedef short INT16;
   typedef unsigned short UINT16;
   typedef unsigned short WORD;
+  typedef WORD           *LPWORD;
   typedef unsigned short USHORT;
   typedef long INT32;
+  typedef long *LPLONG;
+
+  typedef __int64 LONGLONG;
+  typedef unsigned __int64 ULONGLONG;
+
   typedef unsigned long UINT32;
   typedef unsigned int UINT;
   typedef unsigned long DWORD;
@@ -71,6 +77,7 @@ typedef __time_t time_t;
   typedef char CHAR;
   typedef unsigned char UCHAR;
   typedef unsigned char BYTE;
+  typedef BYTE		    *LPBYTE;
   typedef UCHAR				*PUCHAR;
   typedef short SHORT;
   typedef long LONG;
@@ -177,6 +184,8 @@ typedef __time_t time_t;
   typedef int area_id;
   typedef int region_id;      // vm region id
   typedef unsigned long addr_t;
+
+  typedef int(*thread_start_t)(void*);
 
 #ifndef __cplusplus
   typedef enum

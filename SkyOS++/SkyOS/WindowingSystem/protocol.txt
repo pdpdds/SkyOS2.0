@@ -1,0 +1,63 @@
+Each message has the following format (all fields are bigendian):
+
+struct message {
+	int length;				// number of bytes, including length field
+	char message_class;		
+	int message_id : 24;
+	int atom_id;
+	char message_body[...]
+};
+
+
+The message classes are:
+
+0 Request (Client->Server.  Always followed by a response)
+1 Response (Server->Client.  Always follows a request)
+2 Event (Server->Client)
+3 Command (Client->Server)
+
+The body of request and response messages look like the following:
+
+struct {
+	int request_id;
+	char data[...];
+};
+
+message IDs are unique within their classes. 
+
+Request types:
+0 Create window  (int parent_window, int left, int top, int right, int bottom) 
+1 get bounds () returns (int width, int height)
+2 create bitmap (int width, int height)
+
+Response types:
+0 Create window  
+1 create bitmap (int id)
+2 get bounds (int width, int height)
+3 begin paint (int left, int top, int right, int bottom)
+
+Event types:
+0 mouse button changed (int button_mask)
+1 Mouse moved  (int x, int y)
+2 mouse exit ()
+3 paint ()
+4 key down ()
+5 key up ()
+6 window resized (int width, int height)
+7 got focus ()
+8 lost focus ()
+
+Command types:
+0 destroy atom ()
+2 end paint ()
+3 set color (int color)
+4 stroke line (int left, int top, int right, int bottom)
+5 fill rect (int left, int top, int right, int bottom)
+6 lock mouse focus ()
+7 bit blit (int bitmap_id, int sLeft, int sTop, int sRight, int sBottom,
+	int dLeft, int dTop, int dRight, int dBottom)
+8 set bits (int bitmap_id, int length, int stride, char bits[stride * bitmap->height])
+9 draw string (int x,int y, int length, char str[length])
+10 set font (int length, char name[length])
+11 set cursor
+12 begin paint

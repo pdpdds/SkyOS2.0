@@ -42,6 +42,9 @@ char*	strdup(const char *s);
 
 char* strtok_r(char *s, const char *delim, char **save_ptr);
 
+int stricmp(const char *s1, const char *s2);
+int strnicmp(const char *s1, const char *s2, size_t n);
+
 #ifdef  __cplusplus
 }
 #endif
