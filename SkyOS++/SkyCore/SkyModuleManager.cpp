@@ -269,14 +269,6 @@ bool SkyModuleManager::FixIAT(void* image)
 {
 	StorageManager::GetInstance();
 
-	static int i = 0;
-	if (i >= 1)
-	{
-		for (;;);
-	}
-
-	i++;
-
 	IMAGE_DOS_HEADER* dosHeader = 0;
 	IMAGE_NT_HEADERS* ntHeaders = 0;
 

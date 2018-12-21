@@ -136,6 +136,17 @@ extern "C" void LoopWin32(I_SkyInput* pVirtualIO, unsigned int& tickCount)
 	SkyInputHandlerWin32* pInputHandler = new SkyInputHandlerWin32();
 	pInputHandler->Initialize(pVirtualIO);
 
+	/*SDL_Surface *pHellowBMP = SDL_LoadBMP("gui-chan.bmp");
+	if (pHellowBMP == 0)
+	{
+		SDL_DestroyRenderer(pRenderer);
+		SDL_DestroyWindow(pWindow);
+		std::cout << "SDL_LoadBMP Error: " << SDL_GetError() << std::endl;
+		return;
+	}
+
+	SDL_Texture *pTexture = SDL_CreateTextureFromSurface(pRenderer, pHellowBMP);*/
+
 	//루프를 돌며 화면을 그린다.
 	while (running)
 	{
@@ -242,6 +253,8 @@ extern "C" void LoopWin32(I_SkyInput* pVirtualIO, unsigned int& tickCount)
 				running = false;
 			}
 		}
+
+		
 
 		SDL_RenderClear(pRenderer);
 		

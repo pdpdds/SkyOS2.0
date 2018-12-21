@@ -33,6 +33,10 @@
 #include <stdio.h>
 #endif
 
+#include "PlatformAPI.h"
+#define stderr platformAPI._printInterface.sky_stderr 
+#define stdin platformAPI._printInterface.sky_stdin 
+
 #if defined(__ANDROID__)
 #include <android/log.h>
 #endif

@@ -79,5 +79,11 @@ typedef struct tag_PlatformAPI
 
 typedef void(*pSetSkyPlatformAPI)(PlatformAPI);
 
-extern PlatformAPI platformAPI;
+#ifdef __cplusplus
+extern "C" {
+#endif
+ extern PlatformAPI platformAPI;
+#ifdef __cplusplus
+}
+#endif
 

@@ -148,8 +148,8 @@
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
-      <AdditionalIncludeDirectories>./WindowingSystem;../lua5/lua5;../SkyLua;../SkyCore;./;../../CommonLib;../../CommonLib/stl;../../CommonLib/jsmn;../../Include;../../CommonLib/math;../../Module/Include;../../CommonLib/CPlusPlus;../SkyOSWin32Stub</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>SKYOS32;_MSC_VER</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Dev\SkyOS2.0\trunk\SkyOS++\SkySDL\src\render;../SkySDL/include;./WindowingSystem;../lua5/lua5;../SkyLua;../SkyCore;./;../../CommonLib;../../CommonLib/stl;../../CommonLib/jsmn;../../Include;../../CommonLib/math;../../Module/Include;../../CommonLib/CPlusPlus;../SkyOSWin32Stub</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>SKY_EMULATOR_DLL;SKYOS32;_MSC_VER</PreprocessorDefinitions>
       <IgnoreStandardIncludePath>true</IgnoreStandardIncludePath>
       <StringPooling>
       </StringPooling>
@@ -176,7 +176,7 @@
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
     <Link>
-      <AdditionalDependencies>SkyLua.lib;SkyCore.lib;SkyOSWin32Stub.lib;CommonLib.lib;</AdditionalDependencies>
+      <AdditionalDependencies>skysdl.lib;SkyLua.lib;SkyCore.lib;SkyOSWin32Stub.lib;CommonLib.lib;</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>../Debug</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>

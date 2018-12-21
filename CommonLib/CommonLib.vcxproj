@@ -88,7 +88,6 @@
     <ClCompile Include="math\s_expm1.c" />
     <ClCompile Include="math\s_fabs.c" />
     <ClCompile Include="math\s_finite.c" />
-    <ClCompile Include="math\s_floor.c" />
     <ClCompile Include="math\s_ilogb.c" />
     <ClCompile Include="math\s_isnan.c" />
     <ClCompile Include="math\s_ldexp.c" />

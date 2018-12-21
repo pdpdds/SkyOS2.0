@@ -38,11 +38,15 @@
 #endif
 #else  /* fprintf, _exit(), etc. */
 #include <stdio.h>
+#include "PlatformAPI.h"
 //#include <stdlib.h>
 #if ! defined(__WINRT__)
 //#include <unistd.h>
 #endif
 #endif
+
+#define stderr platformAPI._printInterface.sky_stderr 
+#define stdin platformAPI._printInterface.sky_stdin 
 
 static SDL_assert_state
 SDL_PromptAssertion(const SDL_assert_data *data, void *userdata);
@@ -227,7 +231,7 @@ SDL_PromptAssertion(const SDL_assert_data *data, void *userdata)
         /* this is a little hacky. */
         for ( ; ; ) {
             char buf[32];
-            fprintf(stderr, "Abort/Break/Retry/Ignore/AlwaysIgnore? [abriA] : ");
+            fprintf(platformAPI._printInterface.sky_stderr, "Abort/Break/Retry/Ignore/AlwaysIgnore? [abriA] : ");
             fflush(stderr);
             if (fgets(buf, sizeof (buf), stdin) == NULL) {
                 break;
