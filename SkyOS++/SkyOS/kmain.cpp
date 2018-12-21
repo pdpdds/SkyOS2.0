@@ -85,8 +85,9 @@ void SystemAPITest()
 #include "stl/OStream.h"
 //extern "C" __declspec(dllimport) I_ImageInterface* GetImageInterface();
 
-extern WIN32_VIDEO g_win32Video;
 
+#define DUMMY_SURFACE   "_SDL_DummySurface"
+extern BootParams bootParams;
 void TestSkySDL(int width, int height, int bpp)
 {
 	int screen_w;
@@ -106,9 +107,10 @@ void TestSkySDL(int width, int height, int bpp)
 
 
 	SDL_GetWindowSize(pWindow, &screen_w, &screen_h);
+	//screen = (SDL_Surface *)SDL_GetWindowData(pWindow, DUMMY_SURFACE);
+//	screen->pixels = (void*)bootParams.framebuffer_addr;
 
-
-	screen = SDL_CreateRGBSurface(0, screen_w, screen_h, bpp,
+	/*screen = SDL_CreateRGBSurface(0, screen_w, screen_h, bpp,
 		0,
 		0,
 		0,
@@ -118,7 +120,7 @@ void TestSkySDL(int width, int height, int bpp)
 	{
 		std::cout << "SDL_CreateRGBSurface Error: " << SDL_GetError() << std::endl;
 		return;
-	}
+	}*/
 
 	/*if (bpp == 32)
 	{
