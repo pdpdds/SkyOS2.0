@@ -120,7 +120,7 @@ void TestSkySDL(int width, int height, int bpp)
 		return;
 	}
 
-	if (bpp == 32)
+	/*if (bpp == 32)
 	{
 		pTexture = SDL_CreateTexture(pRenderer,
 			SDL_PIXELFORMAT_ARGB8888,
@@ -161,7 +161,7 @@ void TestSkySDL(int width, int height, int bpp)
 		SDL_DestroyWindow(pWindow);
 		std::cout << "SDL_CreateTextureFromSurface Error: " << SDL_GetError() << std::endl;
 		return;
-	}
+	}*/
 
 	SDL_Surface *pHellowBMP = SDL_LoadBMP("gui-chan.bmp");
 	if (pHellowBMP == 0)
@@ -197,7 +197,7 @@ void TestSkySDL(int width, int height, int bpp)
 		SDL_SetRenderDrawColor(pRenderer, 255, 0, 0, 255);
 		SDL_RenderClear(pRenderer);		
 		SDL_RenderFillRect(pRenderer, NULL);
-		SDL_UpdateTexture(pTexture, NULL, screen->pixels, screen->pitch);
+		//SDL_UpdateTexture(pTexture, NULL, screen->pixels, screen->pitch);
 		SDL_RenderCopy(pRenderer, pTexture, NULL, NULL);			
 		SDL_RenderPresent(pRenderer);
 	}
