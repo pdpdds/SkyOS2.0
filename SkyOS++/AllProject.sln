@@ -122,6 +122,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SkyOS", "SkyOS\SkyOS.vcxpro
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libmodplug", "ThirdParty\libmodplug\libmodplug.vcxproj", "{4752570F-11CC-4A64-8419-D638CC06FD7B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{83EE476C-AA21-4A23-9D6F-4FE675115B13} = {83EE476C-AA21-4A23-9D6F-4FE675115B13}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SkyCore", "SkyCore\SkyLib.vcxproj", "{1E2B5BCD-1285-441E-84E3-352A31810001}"
 	ProjectSection(ProjectDependencies) = postProject
