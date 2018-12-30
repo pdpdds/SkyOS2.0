@@ -148,7 +148,7 @@
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
-      <AdditionalIncludeDirectories>D:\Dev\SkyOS2.0\trunk\SkyOS++\SkySDL\src\render;../SkySDL/include;./WindowingSystem;../lua5/lua5;../SkyLua;../SkyCore;./;../../CommonLib;../../CommonLib/stl;../../CommonLib/jsmn;../../Include;../../CommonLib/math;../../Module/Include;../../CommonLib/CPlusPlus;../SkyOSWin32Stub</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../SkySDL/include;./WindowingSystem;../lua5/lua5;../SkyLua;../SkyCore;./;../../CommonLib;../../CommonLib/stl;../../CommonLib/jsmn;../../Include;../../CommonLib/math;../../Module/Include;../../CommonLib/CPlusPlus;../SkyOSWin32Stub;D:\Dev\SDLProgramming\SDL2_Module\SDL2_image;./POP</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>SKY_EMULATOR_DLL;SKYOS32;_MSC_VER</PreprocessorDefinitions>
       <IgnoreStandardIncludePath>true</IgnoreStandardIncludePath>
       <StringPooling>
