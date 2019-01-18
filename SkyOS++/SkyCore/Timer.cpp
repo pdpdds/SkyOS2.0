@@ -96,12 +96,10 @@ void Timer::Bootstrap()
 	AddDebugCommand("timers", "list pending timers", PrintTimerQueue);
 }
 UINT32 lastTickCount = 0;
-extern unsigned int g_tickCount;
+
 extern _Scheduler gScheduler;
 InterruptStatus Timer::HardwareTimerInterrupt()
-{	
-
-	g_tickCount++;
+{		
 
 	bigtime_t now = SystemTime();		
 	bool reschedule = false;
@@ -128,11 +126,11 @@ InterruptStatus Timer::HardwareTimerInterrupt()
 	if (currentTickCount - lastTickCount > 50000000)
 	{
 
-		printf("Timer::HardwareTimerInterrupt\n");
+		/*printf("Timer::HardwareTimerInterrupt\n");
 		lastTickCount = currentTickCount;
 
 		bigtime_t now = SystemTime();
-		printf("\nCurrent time %Ld\n", now);
+		printf("\nCurrent time %Ld\n", now);*/
 
 	}
 

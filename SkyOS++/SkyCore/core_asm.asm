@@ -47,7 +47,7 @@ _ContextSwitch:
 		je skip_change_cr3				; If parameter was - 1, no			
 		mov cr3, eax					; Change address space
 skip_change_cr3: 
-		mov esp, ebx; Switch to the new stack
+		mov esp, ebx; Switch to the new stack		
 		pop ebx
 		pop edi
 		pop esi
@@ -145,7 +145,10 @@ global _trap45
 global _trap46
 global _trap47
 
-_trap32:push 0;push 32;jmp _SetupTrapCommon;
+_trap32:
+	push 0
+	push 32
+	jmp _SetupTrapCommon
 _trap33:push 0;push 33;jmp _SetupTrapCommon;
 _trap34:push 0;push 34;jmp _SetupTrapCommon;
 _trap35:push 0;push 35;jmp _SetupTrapCommon;
@@ -178,12 +181,13 @@ _bad_trap:				push 	0xffffffff;
 						; the rest of the machine state and calls into HandleTrap.
 						EXTERN _HandleTrap						
 						global _SetupTrapCommon
-_SetupTrapCommon:		pusha
+_SetupTrapCommon:									
+						pushad
 						cld
 						call _HandleTrap
-						popa
-						add esp, 8
-						iret
+						popad
+						add esp, 8						
+						iretd
 
 					global	_write_io_str_16					
 _write_io_str_16:	push edx

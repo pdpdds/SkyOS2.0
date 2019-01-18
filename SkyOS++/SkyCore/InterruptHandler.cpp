@@ -89,8 +89,7 @@ void InterruptHandler::IgnoreInterrupts()
 InterruptStatus InterruptHandler::Dispatch(int vector)
 {	
 	InterruptStatus result = kUnhandledInterrupt;
-	for (InterruptHandler *handler = fHandlers[vector]; handler;
-		handler = handler->fNext) {
+	for (InterruptHandler *handler = fHandlers[vector]; handler; handler = handler->fNext) {
 		if (handler->fActive)
 			panic("Interrupt handler called reentrantly");
 

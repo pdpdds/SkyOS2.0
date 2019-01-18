@@ -31,6 +31,7 @@
   /* 8 Bit data types*/
   typedef unsigned char BYTE;  
   typedef BYTE			*PBYTE;
+ 
   
   /* 16 bit data types */
   typedef short INT16;

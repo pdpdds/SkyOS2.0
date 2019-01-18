@@ -208,7 +208,7 @@ extern long _sysconf(int);	/* System Private interface to sysconf() */
  * PTHREAD_STACK_MIN is also defined in <pthread.h>.
  */
 #if	defined(__EXTENSIONS__) || (_POSIX_C_SOURCE >= 199506L)
-#include <sys/unistd.h>
+//#include <sys/unistd.h>
 extern long _sysconf(int);	/* System Private interface to sysconf() */
 #define	PTHREAD_STACK_MIN	_sysconf(_SC_THREAD_STACK_MIN)
 #endif	/* defined(__EXTENSIONS__) || (_POSIX_C_SOURCE >= 199506L) */

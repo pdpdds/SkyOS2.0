@@ -8,6 +8,7 @@
 //#include "Process.h"
 #include "string.h"
 #include "SystemAPI.h"
+#include "syscall.h"
 
 SKY_FILE_INTERFACE _fileInterface =
 {
@@ -88,7 +89,7 @@ unsigned int sky_kcreate_process_from_file(char* appName, void* param, UINT32 pr
 unsigned int sky_kcreate_thread_from_memory(unsigned int processId, LPTHREAD_START_ROUTINE lpStartAddress, LPVOID param)
 {
 	DWORD dwThreadId = 0;
-
+	ExecThread("aaaa", (thread_start_t)lpStartAddress, param, 1);
 	return 0;
 	/*kEnterCriticalSection();
 	//Process* pProcess = ProcessManager::GetInstance()->FindProcess(processId);

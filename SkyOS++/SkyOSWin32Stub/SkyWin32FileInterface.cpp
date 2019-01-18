@@ -16,10 +16,16 @@ FILE* sky_fopen(const char *filename, const char *mode)
 	return fopen(szFileName.c_str(), mode);
 }
 
+extern bool PrintWin32GUI(char* str);
 size_t sky_fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream)
 {
+	
+	if (stdout == stream && PrintWin32GUI((char*)ptr))
+		return size * nmemb;
+
 	return fwrite(ptr, size, nmemb, stream);
 }
+
 int sky_fclose(FILE *stream)
 {
 	return fclose(stream);

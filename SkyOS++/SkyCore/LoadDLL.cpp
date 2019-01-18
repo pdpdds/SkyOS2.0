@@ -118,9 +118,7 @@ static ELoadDLLResult LoadDLL_AllocateMemory(LOAD_DLL_CONTEXT* ctx, int flags)
 		if (s->VirtualAddress < rva_low)
 			rva_low = s->VirtualAddress;
 		if ((s->VirtualAddress + s->Misc.VirtualSize) > rva_high)
-			rva_high = s->VirtualAddress + s->Misc.VirtualSize;
-
-		
+			rva_high = s->VirtualAddress + s->Misc.VirtualSize;		
 	}
 
 	//SkyConsole::Print("virtual : %x %x\n", rva_low, rva_high);
@@ -141,8 +139,8 @@ static ELoadDLLResult LoadDLL_AllocateMemory(LOAD_DLL_CONTEXT* ctx, int flags)
 		PAGE_EXECUTE_READWRITE
 		);
 
-	ctx->image_base = ctx->hdr.OptionalHeader.ImageBase;
-	//SkyConsole::Print("virtual : %x %x %x\n", rva_low, rva_high, ctx->image_base);
+	//ctx->image_base = ctx->hdr.OptionalHeader.ImageBase + rva_low;
+	
 	/*
 	// Note: image may differ from the address (LPVOID)(hdr.OptionalHeader.ImageBase + RVAlow)
 	// because windows rounds down addresses to next page boundary.
@@ -174,12 +172,16 @@ static ELoadDLLResult LoadDLL_AllocateMemory(LOAD_DLL_CONTEXT* ctx, int flags)
 	else
 	{
 		ctx->image_base = (DWORD_PTR)ctx->image - rva_low;
+
+#ifndef SKY_EMULATOR
+		memset((char*)ctx->image_base, 0, rva_high - rva_low);
+#endif
+		SkyConsole::Print("virtual : %x %x %x\n", rva_low, rva_high, (char*)ctx->image_base);
 	}
 
 	if (!ctx->image)
 		return ELoadDLLResult_MemoryAllocationError;
 
-	SkyConsole::Print("context : %x %x\n", ctx->image_base, ctx->image);
 	return ELoadDLLResult_OK;
 }
 
@@ -226,8 +228,16 @@ static bool PerformBaseRelocation(LOAD_DLL_CONTEXT* ctx, ptrdiff_t delta)
 		return (delta == 0);
 	}
 
+	//printf("relocation directory info : %x %x\n", directory->Size, directory->VirtualAddress);
+	
 	relocation = (PIMAGE_BASE_RELOCATION)(codeBase + directory->VirtualAddress);
-	for (; relocation->VirtualAddress > 0; ) {
+
+	//printf("relocation  : %x %x\n", relocation->SizeOfBlock, relocation->VirtualAddress);
+	
+	IMAGE_BASE_RELOCATION* r_end = (IMAGE_BASE_RELOCATION*)((DWORD_PTR)relocation + ctx->hdr.OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_BASERELOC].Size - sizeof(IMAGE_BASE_RELOCATION));
+
+	for (; relocation<r_end; relocation = (IMAGE_BASE_RELOCATION*)((DWORD_PTR)relocation + relocation->SizeOfBlock))
+	{
 		DWORD i;
 		unsigned char *dest = codeBase + relocation->VirtualAddress;
 		unsigned short *relInfo = (unsigned short*)OffsetPointer(relocation, IMAGE_SIZEOF_BASE_RELOCATION);
@@ -268,8 +278,10 @@ static bool PerformBaseRelocation(LOAD_DLL_CONTEXT* ctx, ptrdiff_t delta)
 		}
 
 		// advance to next relocation block
-		relocation = (PIMAGE_BASE_RELOCATION)OffsetPointer(relocation, relocation->SizeOfBlock);
+		//relocation = (PIMAGE_BASE_RELOCATION)OffsetPointer(relocation, relocation->SizeOfBlock);
 	}
+
+
 	return TRUE;
 }
 
@@ -573,10 +585,11 @@ ELoadDLLResult LoadDLL(LOAD_DLL_READPROC read_proc, void* read_proc_param, int f
 				if (res != ELoadDLLResult_OK)
 					return res;
 				
-				//res = LoadDLL_PerformRelocation(&ctx);
-				PerformBaseRelocation(&ctx, 0);
-				/*if (res != ELoadDLLResult_OK)
+				/*res = LoadDLL_PerformRelocation(&ctx);
+				if (res != ELoadDLLResult_OK)
 					return res;*/
+				PerformBaseRelocation(&ctx, 0);
+				
 
 				res = LoadDLL_ResolveImports(&ctx);
 				if (res != ELoadDLLResult_OK)

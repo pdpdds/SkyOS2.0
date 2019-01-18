@@ -133,11 +133,19 @@ namespace std
 	void vector<T>::reserve(unsigned int capacity) {
 		T * newBuffer = new T[capacity];
 
-		for (unsigned int i = 0; i < _size; i++)
-			newBuffer[i] = buffer[i];
+		if (buffer)
+		{
+			for (unsigned int i = 0; i < _size; i++)
+				newBuffer[i] = buffer[i];
+		}		
 
 		_capacity = capacity;
-		delete[] buffer;
+
+//20190115
+		//delete[] buffer;
+		if(buffer)
+			delete[] buffer;
+
 		buffer = newBuffer;
 	}
 
@@ -165,7 +173,8 @@ namespace std
 
 	template<class T>
 	vector<T>::~vector() {
-		delete[] buffer;
+		if(buffer)
+			delete[] buffer;
 	}
 
 	template <class T>

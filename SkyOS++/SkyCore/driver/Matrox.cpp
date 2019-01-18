@@ -37,7 +37,7 @@ Matrox::Matrox()
 	if (fCard == 0) {
 		printf("Couldn't find video card.\n");
 		return;
-	}
+	}	
 	
 	AddressSpace *space = AddressSpace::GetKernelAddressSpace(); 
 	fControlArea = (unsigned*) space->MapPhysicalMemory("Matrox Control Aperature",
@@ -46,6 +46,8 @@ Matrox::Matrox()
 	fFrameBuffer = (char*) space->MapPhysicalMemory("Matrox Frame Buffer",
 		fCard->ReadConfig(0x14) & ~(PAGE_SIZE - 1), 0x400000, USER_READ |
 		USER_WRITE | SYSTEM_READ | SYSTEM_WRITE)->GetBaseAddress();
+
+	printf("Matrox FrameBuffer %x\n", fFrameBuffer);
 }
 
 Matrox::~Matrox()

@@ -25,10 +25,23 @@
 #include "SkyDebugger.h"
 #include "SystemProfiler.h"
 
+extern "C" {
+	void trap0(); void trap1(); void trap2(); void trap3(); void trap4();
+	void trap5(); void trap6(); void trap7(); void trap8(); void trap9();
+	void trap10(); void trap11(); void trap12(); void trap13(); void trap14();
+	void trap16(); void trap17(); void trap18(); void trap32(); void trap33();
+	void trap34(); void trap35(); void trap36(); void trap37(); void trap38();
+	void trap39(); void trap40(); void trap41(); void trap42(); void trap43();
+	void trap44(); void trap45(); void trap46(); void trap47(); void trap50();
+};
+
 #ifdef SKY_EMULATOR
 #include "SkyOSWin32Stub.h"
-unsigned int g_tickCount = 0;
 #endif
+
+extern void SkyOSEntry(bool bGraphicMode);
+
+unsigned int g_tickCount = 0;
 
 extern "C" void InitializeConstructors();
 bool InitCPU();
@@ -55,17 +68,17 @@ void JumpToNewKernelEntry(int entryPoint, unsigned int procStack)
 	{
 		MOV     AX, 0x10;
 		MOV     DS, AX
-			MOV     ES, AX
-			MOV     FS, AX
-			MOV     GS, AX
+		MOV     ES, AX
+		MOV     FS, AX
+		MOV     GS, AX
 
-			MOV     ESP, procStack
-			PUSH	0; //파라메터
+		MOV     ESP, procStack
+		PUSH	0; //파라메터
 		PUSH	0; //EBP
 		PUSH    0x200; EFLAGS
-			PUSH    0x08; CS
-			PUSH    entryPoint; EIP
-			IRETD
+		PUSH    0x08; CS
+		PUSH    entryPoint; EIP
+		IRETD
 	}
 #endif
 }
@@ -80,11 +93,17 @@ void newEntry()
 
 	PageDirectory* curPageDirectory = VirtualMemoryManager::GetKernelPageDirectory();
 	InitKernelSystem(&params, (unsigned int)&curPageDirectory->m_entries[0]);
-
-	SkyModuleManager::GetInstance()->RelocateExe(bootParams._memoryLayout._kernelBase, bootParams._kernelSize, 0x0b000000);
-	SkyModuleManager::GetInstance()->LoadImplictDLL(bootParams._memoryLayout._kernelBase);
+	SetInterruptVector(32, (void(__cdecl &)(void))trap32);
 
 	SkyModuleManager::GetInstance()->Initialize();
+
+//20190115
+//WIN32의 경우 EXE가 메모리에 완전히 로드되었다고 볼 수 없다. 또는 메모리에 로드될경우 파일사이즈와 메모리 사이즈가 다를 것이다.
+//#ifndef SKY_EMULATOR
+	SkyModuleManager::GetInstance()->RelocateExe(bootParams._memoryLayout._kernelBase, bootParams._kernelSize, 0x0b000000);	
+//#endif
+	SkyModuleManager::GetInstance()->LoadImplictDLL(bootParams._memoryLayout._kernelBase);
+	
 	SystemProfiler::GetInstance()->Initialize();
 	StorageManager::GetInstance()->SetCurrentFileSystemByID('L');
 	StorageManager::GetInstance()->Initilaize();
@@ -95,19 +114,17 @@ void newEntry()
 
 	InitDisplaySystem();
 
-#ifndef SKY_EMULATOR
-	SkyInputHandler::GetInstance()->Initialize(nullptr);
-#endif // !SKY_EMULATOR
+	bool bGraphicMode = false;
+	if (bootParams.framebuffer_width > 0)
+		bGraphicMode = true;
+	SkyOSEntry(bGraphicMode);
 }
+#define VIDEO_RAM_LOGICAL_ADDRESS_OFFSET	0x01000000
+#include "x86arch.h"
+
 
 bool InitOSSystem(unsigned long magic, unsigned long addr, uint32_t imageBase, bool bGraphicMode, int width, int height, int bpp)
 {
-#ifdef SKY_EMULATOR	
-	magic = 0;
-	addr = 0;
-	imageBase = 0x01600000;	
-#endif 
-
 	InitializeConstructors();
 
 	InitCPU();
@@ -120,12 +137,18 @@ bool InitOSSystem(unsigned long magic, unsigned long addr, uint32_t imageBase, b
 	SkyConsole::Print("*** Sky OS Console System Init ***\n");
 	SkyConsole::Print("Boot Loader Name : %s\n", bootParams._szBootLoaderName);
 
+	multiboot_info* pInfo = (multiboot_info*)addr;
+
+	if(pInfo != nullptr)
+		bootParams.framebuffer_addr = pInfo->framebuffer_addr;
 	if (false == InitMemoryManager())
 	{
 		HaltSystem("Init Memory Error!!");
 	}
 
-	multiboot_info* pInfo = (multiboot_info*)addr;
+	
+	//SampleFillRect((ULONG*)bootParams.framebuffer_addr, 1004, 0, 20, 20, 0xFFFF0000);	
+
 	InitModules(pInfo);
 
 	StartPITCounter(1000, I86_PIT_OCW_COUNTER_0, I86_PIT_OCW_MODE_SQUAREWAVEGEN);
@@ -168,16 +191,6 @@ void InitInterrupt()
 	//InitializeSysCall();
 }
 
-extern "C" {
-	void trap0(); void trap1(); void trap2(); void trap3(); void trap4();
-	void trap5(); void trap6(); void trap7(); void trap8(); void trap9();
-	void trap10(); void trap11(); void trap12(); void trap13(); void trap14();
-	void trap16(); void trap17(); void trap18(); void trap32(); void trap33();
-	void trap34(); void trap35(); void trap36(); void trap37(); void trap38();
-	void trap39(); void trap40(); void trap41(); void trap42(); void trap43();
-	void trap44(); void trap45(); void trap46(); void trap47(); void trap50();	
-};
-
 void SetInterruptVectors()
 {
 	SetInterruptVector(0, (void(__cdecl &)(void))trap0);
@@ -198,9 +211,8 @@ void SetInterruptVectors()
 	SetInterruptVector(16, (void(__cdecl &)(void))trap16);
 	SetInterruptVector(17, (void(__cdecl &)(void))trap17);
 	SetInterruptVector(18, (void(__cdecl &)(void))trap18);
-
-	SetInterruptVector(32, (void(__cdecl &)(void))trap32);
-	SetInterruptVector(33, (void(__cdecl &)(void))trap33);
+	
+	//SetInterruptVector(33, (void(__cdecl &)(void))trap33);
 	SetInterruptVector(34, (void(__cdecl &)(void))trap34);
 	SetInterruptVector(35, (void(__cdecl &)(void))trap35);
 	SetInterruptVector(36, (void(__cdecl &)(void))trap36);

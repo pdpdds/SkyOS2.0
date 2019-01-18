@@ -106,6 +106,11 @@ size_t malloc_size(void * ptr)
 	return ptrSize;
 }
 
+void* realloc(void * ptr, size_t size)
+{
+	return krealloc(ptr, size);
+}
+
 //메모리 크기를 재조정한다.
 void* krealloc(void * ptr, size_t size) //메모리 크기를 재조정한다.
 {
@@ -318,6 +323,8 @@ void *memory_alloc(u32int size, u8int page_align, heap_t *heap)
 
     if (iterator == -1) // If we didn't find a suitable hole
     {
+//20190115 커널 시스템에서는 힙 확장이 불가능하다. 초기에 최대 확장 주소와 힙 마지막 주소를 동일하게 했기 때문이다.,
+		SKY_ASSERT(0, "memory_alloc");
         // Save some previous data.
         u32int old_length = heap->end_address - heap->start_address;
         u32int old_end_address = heap->end_address;
@@ -370,6 +377,7 @@ void *memory_alloc(u32int size, u8int page_align, heap_t *heap)
     }
 
     header_t *orig_hole_header = (header_t *)lookup_ordered_array(iterator, &heap->index);
+
     u32int orig_hole_pos = (u32int)orig_hole_header;
     u32int orig_hole_size = orig_hole_header->size;
     // Here we work out if we should split the hole we found into two parts.
@@ -509,7 +517,7 @@ void free(void *p, heap_t *heap)
     }
 	
     // If the footer location is the end address, we can contract.
-    if ( (u32int)footer+sizeof(footer_t) == heap->end_address)
+   /*if ( (u32int)footer+sizeof(footer_t) == heap->end_address)
     {		
         u32int old_length = heap->end_address-heap->start_address;
 		u32int newSize = (u32int)footer - heap->start_address;
@@ -536,9 +544,11 @@ void free(void *p, heap_t *heap)
             if (iterator < heap->index.size)
                 remove_ordered_array(iterator, &heap->index);
         }
-    }
+    }*/
 
     // If required, add us to the index.
-    if (do_add == 1)
-        insert_ordered_array((void*)header, &heap->index);		
+	if (do_add == 1)
+	{		
+		insert_ordered_array((void*)header, &heap->index);
+	}
 }

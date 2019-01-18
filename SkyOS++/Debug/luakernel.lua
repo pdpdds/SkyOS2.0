@@ -145,6 +145,7 @@ taskadd(blue_rect_task, "blue_rect")
 The scheduler task is never preempted because lua_sethook() has not been called on it.
 --]]
 while 1 do
+  sleep()
   timer_ticks = get_timer_ticks()
   local any_tasks_ready = false
   for _, task in ipairs(tasks) do

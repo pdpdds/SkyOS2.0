@@ -196,7 +196,7 @@ bool SkyDebugger::LoadSymbol(const char* moduleName)
 	
 	StorageManager::GetInstance()->SetCurrentFileSystemByID('L');
 
-	bool result = m_pMapReader->readFile("SkyOS.map");	
+	bool result = m_pMapReader->readFile("SkyOS32.map");	
 	
 	if (result == false)
 	{

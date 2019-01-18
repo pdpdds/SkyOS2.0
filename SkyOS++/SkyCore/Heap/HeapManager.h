@@ -1,5 +1,5 @@
 #pragma once
-#include "VirtualMemoryManager.h"
+#include "windef.h"
 
 namespace HeapManager
 {

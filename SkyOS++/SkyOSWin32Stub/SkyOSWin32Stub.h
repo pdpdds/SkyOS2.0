@@ -33,15 +33,21 @@ typedef struct tag_SKYOS_MODULE_LIST
 	SKYOS_MODULE* _module;
 }SKYOS_MODULE_LIST;
 
+#ifdef WIN32STUB
+#define SKYOS_WIN32_DLL __declspec(dllexport)
+#else
+#define SKYOS_WIN32_DLL __declspec(dllimport)
+#endif
+
 extern "C"
 {
-	__declspec(dllexport) WIN32_STUB* GetWin32Stub();
-	__declspec(dllexport) tag_WIN32_VIDEO* InitWin32System(int width, int height, int bpp);
-	__declspec(dllexport) void LoopWin32(I_SkyInput* pVirtualIO, unsigned int& tickCount);
-	__declspec(dllexport) SKYOS_MODULE_LIST* InitSkyOSModule();
-
-	__declspec(dllexport) bool SKY_VirtualProtect(void* address, int size, int attribute, unsigned int* dwOld);
-	__declspec(dllexport) bool SKY_VirtualProtect(void* address, int size, int attribute, unsigned int* dwOld);
-	__declspec(dllexport) bool SKY_VirtualFree(void* lpAddress, unsigned int dwSize, unsigned int  dwFreeType);
-	__declspec(dllexport) void* SKY_VirtualAlloc(void* lpAddress, unsigned int dwSize, unsigned int  flAllocationType, unsigned int  flProtect);
+	SKYOS_WIN32_DLL WIN32_STUB* GetWin32Stub();
+	SKYOS_WIN32_DLL tag_WIN32_VIDEO* InitWin32System(int width, int height, int bpp);
+	SKYOS_WIN32_DLL void LoopWin32(I_SkyInput* pVirtualIO, unsigned int& tickCount);	
+	SKYOS_WIN32_DLL SKYOS_MODULE_LIST* InitSkyOSModule();
+	
+	SKYOS_WIN32_DLL bool SKY_VirtualProtect(void* address, int size, int attribute, unsigned int* dwOld);
+	SKYOS_WIN32_DLL bool SKY_VirtualProtect(void* address, int size, int attribute, unsigned int* dwOld);
+	SKYOS_WIN32_DLL bool SKY_VirtualFree(void* lpAddress, unsigned int dwSize, unsigned int  dwFreeType);
+	SKYOS_WIN32_DLL void* SKY_VirtualAlloc(void* lpAddress, unsigned int dwSize, unsigned int  flAllocationType, unsigned int  flProtect);
 }

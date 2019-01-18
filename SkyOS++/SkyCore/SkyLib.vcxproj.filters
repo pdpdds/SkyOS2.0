@@ -222,6 +222,21 @@
     <ClCompile Include="SystemProfiler.cpp" />
     <ClCompile Include="SkyQueue.cpp" />
     <ClCompile Include="SkyRenderer.cpp" />
+    <ClCompile Include="PCI\DeviceDriverManager.cpp">
+      <Filter>PCI</Filter>
+    </ClCompile>
+    <ClCompile Include="PCI\PCIStruct.cpp">
+      <Filter>PCI</Filter>
+    </ClCompile>
+    <ClCompile Include="PCI\DeviceES1730.cpp">
+      <Filter>PCI</Filter>
+    </ClCompile>
+    <ClCompile Include="PCI\SkyPCI.cpp">
+      <Filter>PCI</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\rtl8139.c">
+      <Filter>Net</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AddressSpace.h">
@@ -465,6 +480,22 @@
     <ClInclude Include="SkyQueue.h" />
     <ClInclude Include="SkyRenderer.h" />
     <ClInclude Include="PEFile.h" />
+    <ClInclude Include="PCI\DeviceDriverManager.h">
+      <Filter>PCI</Filter>
+    </ClInclude>
+    <ClInclude Include="PCI\IDeviceDriver.h">
+      <Filter>PCI</Filter>
+    </ClInclude>
+    <ClInclude Include="PCI\PCIStruct.h">
+      <Filter>PCI</Filter>
+    </ClInclude>
+    <ClInclude Include="PCI\DeviceES1730.h">
+      <Filter>PCI</Filter>
+    </ClInclude>
+    <ClInclude Include="PCI\SkyPCI.h">
+      <Filter>PCI</Filter>
+    </ClInclude>
+    <ClInclude Include="FontData.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="MemorySystem">
@@ -487,6 +518,18 @@
     </Filter>
     <Filter Include="Driver">
       <UniqueIdentifier>{45237e3e-b2ce-4b5a-a401-b3fa4b56b158}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PCI">
+      <UniqueIdentifier>{b97b15d4-3bfb-4b82-970d-24c388a699a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Audio">
+      <UniqueIdentifier>{2c48ec9c-a830-4717-99d3-8278776a95e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Audio\es1370">
+      <UniqueIdentifier>{7a8c7c89-04c4-425b-ba08-bfdd6b1e4b64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Net">
+      <UniqueIdentifier>{8a78af72-f2b4-49a5-b532-a5f542fa3e59}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

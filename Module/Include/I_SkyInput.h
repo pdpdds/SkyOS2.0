@@ -36,4 +36,5 @@ class I_SkyInput
 public:
 	virtual bool PutKeyboardQueue(KEYDATA* pData) = 0;
 	virtual bool PutMouseQueue(MOUSEDATA* pData) = 0;
+	virtual bool Print(char* str) { return false; }
 };

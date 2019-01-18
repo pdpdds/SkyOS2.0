@@ -77,7 +77,7 @@ status_t mount(const char *device, const char *dir, const char *type,
 	int rwflag, char *data);	
 int map_file(const char *path, unsigned int va, off_t offset, size_t size, int flags);
 
-void execThread(const char name[], thread_start_t startAddress, void *param, int priority);
+void ExecThread(const char name[], thread_start_t startAddress, void *param, int priority);
 //const char* strerror(status_t error);
 	
 #ifdef __cplusplus

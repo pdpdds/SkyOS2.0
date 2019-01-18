@@ -26,9 +26,19 @@ SkyModuleManager::~SkyModuleManager()
 {
 }
 
+#include "../../../SkyOS/SkyStartOption.h"
 bool SkyModuleManager::Initialize()
 {
-#ifndef SKY_EMULATOR
+	g_stdOut = new FILE;
+	g_stdIn = new FILE;
+	g_stdErr = new FILE;
+	strcpy(g_stdOut->_name, "STDOUT");
+	strcpy(g_stdIn->_name, "STDIN");
+	strcpy(g_stdErr->_name, "STDERR");
+
+#ifdef SKY_EMULATOR
+	
+#else
 	platformAPI._printInterface.sky_stdin = g_stdIn;
 	platformAPI._printInterface.sky_stdout = g_stdOut;
 	platformAPI._printInterface.sky_stderr = g_stdErr;

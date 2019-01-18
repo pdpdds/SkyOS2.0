@@ -17,13 +17,6 @@ StorageManager::StorageManager()
 	memset(m_fileSystems, 0, sizeof(FileSysAdaptor*) * STORAGE_DEVICE_MAX);
 	m_stroageCount = 0;
 	m_pCurrentFileSystem = nullptr;
-
-	g_stdOut = new FILE;
-	g_stdIn = new FILE;
-	g_stdErr = new FILE;
-	strcpy(g_stdOut->_name, "STDOUT");
-	strcpy(g_stdIn->_name, "STDIN");
-	strcpy(g_stdErr->_name, "STDERR");
 }
 
 StorageManager::~StorageManager()

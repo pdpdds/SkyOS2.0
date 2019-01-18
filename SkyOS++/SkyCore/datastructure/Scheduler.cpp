@@ -35,6 +35,10 @@ _Scheduler::_Scheduler()
 
 void _Scheduler::Reschedule() 
 {
+#ifdef SKY_EMULATOR
+	return;
+#endif
+
 	cpu_flags st = DisableInterrupts();
 	Thread *thread = Thread::GetRunningThread();
 	if (thread->GetState() == kThreadRunning) {

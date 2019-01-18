@@ -431,7 +431,7 @@ status_t exec(const char path[])
 	return E_NO_ERROR;	// Maybe return a handle to the team, but then it would
 						// have to be explicitly closed
 }
-extern "C" void execThread(const char name[], thread_start_t startAddress, void *param, int priority)
+extern "C" void ExecThread(const char name[], thread_start_t startAddress, void *param, int priority)
 {
 	new Thread(name, Thread::GetRunningThread()->GetTeam(), startAddress, param, 1);
 

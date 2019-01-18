@@ -45,9 +45,7 @@ bool SkyGUISystem::Initialize()
 {
 
 	if (bootParams.framebuffer_addr != 0)
-	{
-		//VirtualMemoryManager::MapDMAAddress(VirtualMemoryManager::GetCurPageDirectory(), bootParams.framebuffer_addr, bootParams.framebuffer_addr, bootParams.framebuffer_addr + VIDEO_RAM_LOGICAL_ADDRESS_OFFSET);
-
+	{		
 		m_videoRamInfo._pVideoRamPtr = (void*)bootParams.framebuffer_addr;
 		m_videoRamInfo._width = bootParams.framebuffer_width;
 		m_videoRamInfo._height = bootParams.framebuffer_height;

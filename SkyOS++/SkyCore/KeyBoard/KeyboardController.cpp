@@ -4,6 +4,7 @@
 #include "SkyConsole.h"
 #include "IDT.h"
 #include "PlatformAPI.h"
+#include "SystemAPI.h"
 
 extern void SendEOI();
 
@@ -320,7 +321,7 @@ char KeyboardController::GetInput()		//키보드 데이터를 외부에 주기위해 제공되는 
 	int i = 0;
 	while (buffend == 0) //키보드 데이터가 들어올때까지 대기한다.
 	{		
-		//msleep(10);
+		sleep(0);
 	}
 
 	kEnterCriticalSection();		//버퍼를 수정하는 동안 인터럽트를 비활성화시킨다.

@@ -41,6 +41,7 @@ namespace SkyConsole
 	void WriteChar(char c);
 
 	void Print(const char* str, ...);
+	void SetCallback(void* fn);
 
 	void MoveCursor(unsigned int  X, unsigned int  Y);
 	void GetCursorPos(uint& x, uint& y);

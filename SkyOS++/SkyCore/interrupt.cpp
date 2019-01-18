@@ -108,8 +108,11 @@ void DisableIrq(int irq)
 		OutPortByte(kSlaveIcw2, InPortByte(kSlaveIcw2) | (1 << (irq - 8)));
 }
 
+extern unsigned int g_tickCount;
 void HandleTrap(InterruptFrame iframe)
 {
+	g_tickCount++;
+
 	switch (iframe.vector) {
 	case kDebugTrap: {
 		unsigned int status = GetDR6();
@@ -192,7 +195,7 @@ void HandleTrap(InterruptFrame iframe)
 			gScheduler.Reschedule();
 		else if (result == kUnhandledInterrupt) {
 			iframe.Print();
-			panic("Unhandled Interrupt");
+			panic("Unhandled Interrupt %d\n", iframe.vector);
 		}
 
 		break;

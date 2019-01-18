@@ -28,7 +28,7 @@ typedef int (*CallHook)(...);
 
 inline cpu_flags DisableInterrupts()
 {
-	cpu_flags fl;
+	cpu_flags fl = 0;
 #ifndef SKY_EMULATOR	
 	__asm	PUSHFD	
 	__asm	POP fl

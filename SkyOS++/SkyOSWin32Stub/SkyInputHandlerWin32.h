@@ -72,6 +72,7 @@ public:
 		return m_inputHandler;	
 	}
 
+	void Print(char* str);
 	BYTE ConvertKeycodeToScancode(unsigned int keycode);
 	bool ConvertScanCodeAndPutQueue(BYTE bScanCode);
 	void SetCallback(I_GUIEngine* pCallback) { m_pGUIEngine = pCallback; }

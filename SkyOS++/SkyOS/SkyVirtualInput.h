@@ -9,4 +9,5 @@ public:
 
 	virtual bool PutKeyboardQueue(KEYDATA* pData) override;
 	virtual bool PutMouseQueue(MOUSEDATA* pData) override;
+	virtual bool Print(char* str) override;
 };

@@ -174,15 +174,32 @@ namespace SkyConsole
 		MoveCursor(1, m_yPos);
 	}
 
-	void PrintGUI(const char* str, ...)
-	{
+	typedef void* (*PrintCallBack)(const char* str);	
+	PrintCallBack printGUI = nullptr;
 
+	void SetCallback(void* fn)
+	{
+		printGUI = (PrintCallBack)fn;
 	}
 
 	void Print(const char* str, ...)
 	{	
 		if (!str)
 			return;
+
+		if (printGUI)
+		{
+			va_list 	va;
+			int 		nI;
+			char		szTX[512];
+
+			va_start(va, str);
+			nI = vsprintf(szTX, str, va);
+			va_end(va);
+
+			printGUI(szTX);
+			return;
+	}
 		
 #ifdef SKY_EMULATOR 
 		va_list 	va;
@@ -196,7 +213,7 @@ namespace SkyConsole
 		platformAPI._printInterface.sky_printf("%s", szTX);
 
 		return;
-#endif
+#endif		
 
 		va_list		args;
 		va_start(args, str);

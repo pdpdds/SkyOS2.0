@@ -23,6 +23,8 @@ void InterruptBootstrap();
 void EnableIrq(int);
 void DisableIrq(int);
 
+#pragma pack( push, 1 )
+
 struct InterruptFrame {
 	int edi;
 	int esi;
@@ -43,6 +45,6 @@ struct InterruptFrame {
 	void Print() const;
 };
 
-
+#pragma pack( pop )
 
 #endif

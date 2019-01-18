@@ -61,8 +61,8 @@ int Image::Load(Team &team)
 		return error;
 	}
 
-	
 	fBaseAddress = reinterpret_cast<void*>(fNTHeader->OptionalHeader.ImageBase);
+
 	return 0;
 }
 

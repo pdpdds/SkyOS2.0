@@ -1,6 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="DEBUG_WIN32_DLL|Win32">
+      <Configuration>DEBUG_WIN32_DLL</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DEBUG_WIN32|Win32">
+      <Configuration>DEBUG_WIN32</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
@@ -13,9 +21,18 @@
   <ItemGroup>
     <ClCompile Include="ConsoleSystem\commands.cpp" />
     <ClCompile Include="ConsoleSystem\ConsoleManager.cpp" />
+    <ClCompile Include="iconv\iconv.c" />
+    <ClCompile Include="iconv\localcharset.c" />
     <ClCompile Include="KernelGateway.cpp" />
     <ClCompile Include="KernelProcedure.cpp" />
     <ClCompile Include="kmain.cpp" />
+    <ClCompile Include="MP3\decoder.cpp" />
+    <ClCompile Include="MP3\huffman.cpp" />
+    <ClCompile Include="MP3\iterator.cpp" />
+    <ClCompile Include="MP3\requantize.cpp" />
+    <ClCompile Include="MP3\stereo.cpp" />
+    <ClCompile Include="MP3\synthesis.cpp" />
+    <ClCompile Include="MP3\tables.cpp" />
     <ClCompile Include="SkyGUILua.cpp" />
     <ClCompile Include="SkyGUISystem.cpp" />
     <ClCompile Include="SkyInputHandler.cpp" />
@@ -49,9 +66,210 @@
     <ClInclude Include="ConsoleSystem\commands.h" />
     <ClInclude Include="ConsoleSystem\commandTable.h" />
     <ClInclude Include="ConsoleSystem\ConsoleManager.h" />
+    <ClInclude Include="iconv\aliases.h" />
+    <ClInclude Include="iconv\aliases2.h" />
+    <ClInclude Include="iconv\aliases_aix.h" />
+    <ClInclude Include="iconv\aliases_dos.h" />
+    <ClInclude Include="iconv\aliases_extra.h" />
+    <ClInclude Include="iconv\aliases_osf1.h" />
+    <ClInclude Include="iconv\armscii_8.h" />
+    <ClInclude Include="iconv\ascii.h" />
+    <ClInclude Include="iconv\atarist.h" />
+    <ClInclude Include="iconv\big5.h" />
+    <ClInclude Include="iconv\big5hkscs1999.h" />
+    <ClInclude Include="iconv\big5hkscs2001.h" />
+    <ClInclude Include="iconv\big5hkscs2004.h" />
+    <ClInclude Include="iconv\big5_2003.h" />
+    <ClInclude Include="iconv\c99.h" />
+    <ClInclude Include="iconv\canonical.h" />
+    <ClInclude Include="iconv\canonical_aix.h" />
+    <ClInclude Include="iconv\canonical_dos.h" />
+    <ClInclude Include="iconv\canonical_extra.h" />
+    <ClInclude Include="iconv\canonical_local.h" />
+    <ClInclude Include="iconv\canonical_osf1.h" />
+    <ClInclude Include="iconv\ces_big5.h" />
+    <ClInclude Include="iconv\ces_gbk.h" />
+    <ClInclude Include="iconv\cjk_variants.h" />
+    <ClInclude Include="iconv\cns11643.h" />
+    <ClInclude Include="iconv\cns11643_1.h" />
+    <ClInclude Include="iconv\cns11643_15.h" />
+    <ClInclude Include="iconv\cns11643_2.h" />
+    <ClInclude Include="iconv\cns11643_3.h" />
+    <ClInclude Include="iconv\cns11643_4.h" />
+    <ClInclude Include="iconv\cns11643_4a.h" />
+    <ClInclude Include="iconv\cns11643_4b.h" />
+    <ClInclude Include="iconv\cns11643_5.h" />
+    <ClInclude Include="iconv\cns11643_6.h" />
+    <ClInclude Include="iconv\cns11643_7.h" />
+    <ClInclude Include="iconv\cns11643_inv.h" />
+    <ClInclude Include="iconv\config.h" />
+    <ClInclude Include="iconv\converters.h" />
+    <ClInclude Include="iconv\cp1046.h" />
+    <ClInclude Include="iconv\cp1124.h" />
+    <ClInclude Include="iconv\cp1125.h" />
+    <ClInclude Include="iconv\cp1129.h" />
+    <ClInclude Include="iconv\cp1133.h" />
+    <ClInclude Include="iconv\cp1161.h" />
+    <ClInclude Include="iconv\cp1162.h" />
+    <ClInclude Include="iconv\cp1163.h" />
+    <ClInclude Include="iconv\cp1250.h" />
+    <ClInclude Include="iconv\cp1251.h" />
+    <ClInclude Include="iconv\cp1252.h" />
+    <ClInclude Include="iconv\cp1253.h" />
+    <ClInclude Include="iconv\cp1254.h" />
+    <ClInclude Include="iconv\cp1255.h" />
+    <ClInclude Include="iconv\cp1256.h" />
+    <ClInclude Include="iconv\cp1257.h" />
+    <ClInclude Include="iconv\cp1258.h" />
+    <ClInclude Include="iconv\cp437.h" />
+    <ClInclude Include="iconv\cp737.h" />
+    <ClInclude Include="iconv\cp775.h" />
+    <ClInclude Include="iconv\cp850.h" />
+    <ClInclude Include="iconv\cp852.h" />
+    <ClInclude Include="iconv\cp853.h" />
+    <ClInclude Include="iconv\cp855.h" />
+    <ClInclude Include="iconv\cp856.h" />
+    <ClInclude Include="iconv\cp857.h" />
+    <ClInclude Include="iconv\cp858.h" />
+    <ClInclude Include="iconv\cp860.h" />
+    <ClInclude Include="iconv\cp861.h" />
+    <ClInclude Include="iconv\cp862.h" />
+    <ClInclude Include="iconv\cp863.h" />
+    <ClInclude Include="iconv\cp864.h" />
+    <ClInclude Include="iconv\cp865.h" />
+    <ClInclude Include="iconv\cp866.h" />
+    <ClInclude Include="iconv\cp869.h" />
+    <ClInclude Include="iconv\cp874.h" />
+    <ClInclude Include="iconv\cp922.h" />
+    <ClInclude Include="iconv\cp932.h" />
+    <ClInclude Include="iconv\cp932ext.h" />
+    <ClInclude Include="iconv\cp936.h" />
+    <ClInclude Include="iconv\cp936ext.h" />
+    <ClInclude Include="iconv\cp943.h" />
+    <ClInclude Include="iconv\cp949.h" />
+    <ClInclude Include="iconv\cp950.h" />
+    <ClInclude Include="iconv\cp950ext.h" />
+    <ClInclude Include="iconv\dec_hanyu.h" />
+    <ClInclude Include="iconv\dec_kanji.h" />
+    <ClInclude Include="iconv\euc_cn.h" />
+    <ClInclude Include="iconv\euc_jisx0213.h" />
+    <ClInclude Include="iconv\euc_jp.h" />
+    <ClInclude Include="iconv\euc_kr.h" />
+    <ClInclude Include="iconv\euc_tw.h" />
+    <ClInclude Include="iconv\flags.h" />
+    <ClInclude Include="iconv\flushwc.h" />
+    <ClInclude Include="iconv\gb12345.h" />
+    <ClInclude Include="iconv\gb12345ext.h" />
+    <ClInclude Include="iconv\gb18030.h" />
+    <ClInclude Include="iconv\gb18030ext.h" />
+    <ClInclude Include="iconv\gb18030uni.h" />
+    <ClInclude Include="iconv\gb2312.h" />
+    <ClInclude Include="iconv\gbk.h" />
+    <ClInclude Include="iconv\gbkext1.h" />
+    <ClInclude Include="iconv\gbkext2.h" />
+    <ClInclude Include="iconv\gbkext_inv.h" />
+    <ClInclude Include="iconv\georgian_academy.h" />
+    <ClInclude Include="iconv\georgian_ps.h" />
+    <ClInclude Include="iconv\hkscs1999.h" />
+    <ClInclude Include="iconv\hkscs2001.h" />
+    <ClInclude Include="iconv\hkscs2004.h" />
+    <ClInclude Include="iconv\hp_roman8.h" />
+    <ClInclude Include="iconv\hz.h" />
+    <ClInclude Include="iconv\iso2022_cn.h" />
+    <ClInclude Include="iconv\iso2022_cnext.h" />
+    <ClInclude Include="iconv\iso2022_jp.h" />
+    <ClInclude Include="iconv\iso2022_jp1.h" />
+    <ClInclude Include="iconv\iso2022_jp2.h" />
+    <ClInclude Include="iconv\iso2022_jp3.h" />
+    <ClInclude Include="iconv\iso2022_kr.h" />
+    <ClInclude Include="iconv\iso646_cn.h" />
+    <ClInclude Include="iconv\iso646_jp.h" />
+    <ClInclude Include="iconv\iso8859_1.h" />
+    <ClInclude Include="iconv\iso8859_10.h" />
+    <ClInclude Include="iconv\iso8859_11.h" />
+    <ClInclude Include="iconv\iso8859_13.h" />
+    <ClInclude Include="iconv\iso8859_14.h" />
+    <ClInclude Include="iconv\iso8859_15.h" />
+    <ClInclude Include="iconv\iso8859_16.h" />
+    <ClInclude Include="iconv\iso8859_2.h" />
+    <ClInclude Include="iconv\iso8859_3.h" />
+    <ClInclude Include="iconv\iso8859_4.h" />
+    <ClInclude Include="iconv\iso8859_5.h" />
+    <ClInclude Include="iconv\iso8859_6.h" />
+    <ClInclude Include="iconv\iso8859_7.h" />
+    <ClInclude Include="iconv\iso8859_8.h" />
+    <ClInclude Include="iconv\iso8859_9.h" />
+    <ClInclude Include="iconv\isoir165.h" />
+    <ClInclude Include="iconv\isoir165ext.h" />
+    <ClInclude Include="iconv\java.h" />
+    <ClInclude Include="iconv\jisx0201.h" />
+    <ClInclude Include="iconv\jisx0208.h" />
+    <ClInclude Include="iconv\jisx0212.h" />
+    <ClInclude Include="iconv\jisx0213.h" />
+    <ClInclude Include="iconv\johab.h" />
+    <ClInclude Include="iconv\johab_hangul.h" />
+    <ClInclude Include="iconv\koi8_r.h" />
+    <ClInclude Include="iconv\koi8_ru.h" />
+    <ClInclude Include="iconv\koi8_t.h" />
+    <ClInclude Include="iconv\koi8_u.h" />
+    <ClInclude Include="iconv\ksc5601.h" />
+    <ClInclude Include="iconv\loops.h" />
+    <ClInclude Include="iconv\loop_unicode.h" />
+    <ClInclude Include="iconv\loop_wchar.h" />
+    <ClInclude Include="iconv\mac_arabic.h" />
+    <ClInclude Include="iconv\mac_centraleurope.h" />
+    <ClInclude Include="iconv\mac_croatian.h" />
+    <ClInclude Include="iconv\mac_cyrillic.h" />
+    <ClInclude Include="iconv\mac_greek.h" />
+    <ClInclude Include="iconv\mac_hebrew.h" />
+    <ClInclude Include="iconv\mac_iceland.h" />
+    <ClInclude Include="iconv\mac_roman.h" />
+    <ClInclude Include="iconv\mac_romania.h" />
+    <ClInclude Include="iconv\mac_thai.h" />
+    <ClInclude Include="iconv\mac_turkish.h" />
+    <ClInclude Include="iconv\mac_ukraine.h" />
+    <ClInclude Include="iconv\mulelao.h" />
+    <ClInclude Include="iconv\nextstep.h" />
+    <ClInclude Include="iconv\pt154.h" />
+    <ClInclude Include="iconv\riscos1.h" />
+    <ClInclude Include="iconv\rk1048.h" />
+    <ClInclude Include="iconv\shift_jisx0213.h" />
+    <ClInclude Include="iconv\sjis.h" />
+    <ClInclude Include="iconv\tcvn.h" />
+    <ClInclude Include="iconv\tds565.h" />
+    <ClInclude Include="iconv\tis620.h" />
+    <ClInclude Include="iconv\translit.h" />
+    <ClInclude Include="iconv\ucs2.h" />
+    <ClInclude Include="iconv\ucs2be.h" />
+    <ClInclude Include="iconv\ucs2internal.h" />
+    <ClInclude Include="iconv\ucs2le.h" />
+    <ClInclude Include="iconv\ucs2swapped.h" />
+    <ClInclude Include="iconv\ucs4.h" />
+    <ClInclude Include="iconv\ucs4be.h" />
+    <ClInclude Include="iconv\ucs4internal.h" />
+    <ClInclude Include="iconv\ucs4le.h" />
+    <ClInclude Include="iconv\ucs4swapped.h" />
+    <ClInclude Include="iconv\uhc_1.h" />
+    <ClInclude Include="iconv\uhc_2.h" />
+    <ClInclude Include="iconv\utf16.h" />
+    <ClInclude Include="iconv\utf16be.h" />
+    <ClInclude Include="iconv\utf16le.h" />
+    <ClInclude Include="iconv\utf32.h" />
+    <ClInclude Include="iconv\utf32be.h" />
+    <ClInclude Include="iconv\utf32le.h" />
+    <ClInclude Include="iconv\utf7.h" />
+    <ClInclude Include="iconv\utf8.h" />
+    <ClInclude Include="iconv\vietcomb.h" />
+    <ClInclude Include="iconv\viscii.h" />
     <ClInclude Include="KernelGateway.h" />
     <ClInclude Include="KernelProcedure.h" />
     <ClInclude Include="kmain.h" />
+    <ClInclude Include="MP3\huffman.h" />
+    <ClInclude Include="MP3\requantize.h" />
+    <ClInclude Include="MP3\stereo.h" />
+    <ClInclude Include="MP3\synthesis.h" />
+    <ClInclude Include="MP3\tables.h" />
+    <ClInclude Include="MP3\types.h" />
     <ClInclude Include="SkyGUILua.h" />
     <ClInclude Include="SkyGUISystem.h" />
     <ClInclude Include="SkyInputHandler.h" />
@@ -92,6 +310,19 @@
     <ClInclude Include="WindowingSystem\WindowManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="iconv\aliases.gperf" />
+    <None Include="iconv\AUTHORS" />
+    <None Include="iconv\ChangeLog" />
+    <None Include="iconv\encodings.def" />
+    <None Include="iconv\encodings_aix.def" />
+    <None Include="iconv\encodings_dos.def" />
+    <None Include="iconv\encodings_extra.def" />
+    <None Include="iconv\encodings_local.def" />
+    <None Include="iconv\encodings_osf1.def" />
+    <None Include="iconv\Jamfile" />
+    <None Include="iconv\NEWS" />
+    <None Include="iconv\README" />
+    <None Include="iconv\translit.def" />
     <None Include="WindowingSystem\LICENSE" />
     <None Include="WindowingSystem\README.md" />
   </ItemGroup>
@@ -102,7 +333,7 @@
     <ProjectGuid>{8B7CD70D-1D44-44E1-AAA8-B0529072BE37}</ProjectGuid>
     <RootNamespace>Kernel</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
-    <ProjectName>SkyOS</ProjectName>
+    <ProjectName>SkyOS32</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -110,6 +341,16 @@
     <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DEBUG_WIN32|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DEBUG_WIN32_DLL|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
@@ -124,12 +365,36 @@
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DEBUG_WIN32|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DEBUG_WIN32_DLL|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>12.0.21005.1</_ProjectFileVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)$(ProjectName)\Intermediate\</IntDir>
+    <ExtensionsToDeleteOnClean>*.exp *.obj%3b*.ilk%3b*.tlb%3b*.tli%3b*.tlh%3b*.tmp%3b*.rsp%3b*.pgc%3b*.pgd%3b$(TargetPath)</ExtensionsToDeleteOnClean>
+    <LinkIncremental>false</LinkIncremental>
+    <GenerateManifest>false</GenerateManifest>
+    <TargetName>$(ProjectName)</TargetName>
+    <TargetExt>.exe</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DEBUG_WIN32|Win32'">
+    <OutDir>$(SolutionDir)Debug\</OutDir>
+    <IntDir>$(SolutionDir)$(ProjectName)\Intermediate\</IntDir>
+    <ExtensionsToDeleteOnClean>*.exp *.obj%3b*.ilk%3b*.tlb%3b*.tli%3b*.tlh%3b*.tmp%3b*.rsp%3b*.pgc%3b*.pgd%3b$(TargetPath)</ExtensionsToDeleteOnClean>
+    <LinkIncremental>false</LinkIncremental>
+    <GenerateManifest>false</GenerateManifest>
+    <TargetName>$(ProjectName)</TargetName>
+    <TargetExt>.exe</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DEBUG_WIN32_DLL|Win32'">
+    <OutDir>$(SolutionDir)Debug\</OutDir>
     <IntDir>$(SolutionDir)$(ProjectName)\Intermediate\</IntDir>
     <ExtensionsToDeleteOnClean>*.exp *.obj%3b*.ilk%3b*.tlb%3b*.tli%3b*.tlh%3b*.tmp%3b*.rsp%3b*.pgc%3b*.pgd%3b$(TargetPath)</ExtensionsToDeleteOnClean>
     <LinkIncremental>false</LinkIncremental>
@@ -149,7 +414,7 @@
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
       <AdditionalIncludeDirectories>../SkySDL/include;./WindowingSystem;../lua5/lua5;../SkyLua;../SkyCore;./;../../CommonLib;../../CommonLib/stl;../../CommonLib/jsmn;../../Include;../../CommonLib/math;../../Module/Include;../../CommonLib/CPlusPlus;../SkyOSWin32Stub;D:\Dev\SDLProgramming\SDL2_Module\SDL2_image;./POP</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>SKY_EMULATOR_DLL;SKYOS32;_MSC_VER</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SKYOS32;_MSC_VER</PreprocessorDefinitions>
       <IgnoreStandardIncludePath>true</IgnoreStandardIncludePath>
       <StringPooling>
       </StringPooling>
@@ -176,8 +441,152 @@
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
     <Link>
-      <AdditionalDependencies>skysdl.lib;SkyLua.lib;SkyCore.lib;SkyOSWin32Stub.lib;CommonLib.lib;</AdditionalDependencies>
+      <AdditionalDependencies>rme.lib;skysdl.lib;SkyLua.lib;SkyCore.lib;CommonLib.lib</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <AdditionalLibraryDirectories>../Debug</AdditionalLibraryDirectories>
+      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapFileName>$(OutDir)$(TargetName).map</MapFileName>
+      <SubSystem>Console</SubSystem>
+      <Driver>NotSet</Driver>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <FunctionOrder>
+      </FunctionOrder>
+      <EntryPointSymbol>kmain</EntryPointSymbol>
+      <NoEntryPoint>false</NoEntryPoint>
+      <BaseAddress>0x01600000</BaseAddress>
+      <FixedBaseAddress>
+      </FixedBaseAddress>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <FullProgramDatabaseFile>true</FullProgramDatabaseFile>
+      <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
+      <LinkTimeCodeGeneration>
+      </LinkTimeCodeGeneration>
+      <AddModuleNamesToAssembly>
+      </AddModuleNamesToAssembly>
+      <ForceSymbolReferences>
+      </ForceSymbolReferences>
+      <AdditionalOptions>/safeseh:no /ALIGN:1024
+ /SUBSYSTEM:CONSOLE
+/NODEFAULTLIB:LIBC %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DEBUG_WIN32|Win32'">
+    <ClCompile>
+      <AdditionalOptions>/Oy %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <AdditionalIncludeDirectories>../SkySDL/include;./WindowingSystem;../lua5/lua5;../SkyLua;../SkyCore;./;../../CommonLib;../../CommonLib/stl;../../CommonLib/jsmn;../../Include;../../CommonLib/math;../../Module/Include;../../CommonLib/CPlusPlus;../SkyOSWin32Stub;D:\Dev\SDLProgramming\SDL2_Module\SDL2_image;./POP</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>SKY_EMULATOR;SKYOS32;_MSC_VER</PreprocessorDefinitions>
+      <IgnoreStandardIncludePath>true</IgnoreStandardIncludePath>
+      <StringPooling>
+      </StringPooling>
+      <ExceptionHandling>false</ExceptionHandling>
+      <StructMemberAlignment>1Byte</StructMemberAlignment>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <AssemblerOutput>NoListing</AssemblerOutput>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <CallingConvention>Cdecl</CallingConvention>
+      <DisableSpecificWarnings>4457;4189;4100;4702;4102;4244;4239;4333;4127;4554</DisableSpecificWarnings>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <LanguageStandard>
+      </LanguageStandard>
+      <UndefineAllPreprocessorDefinitions>true</UndefineAllPreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <SDLCheck>false</SDLCheck>
+    </ClCompile>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
+    <Link>
+      <AdditionalDependencies>rme.lib;skysdl.lib;SkyLua.lib;SkyCore.lib;SkyOSWin32Stub.lib;CommonLib.lib;</AdditionalDependencies>
+      <OutputFile>../debug/$(TargetName)$(TargetExt)</OutputFile>
+      <AdditionalLibraryDirectories>../Debug</AdditionalLibraryDirectories>
+      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapFileName>$(OutDir)$(TargetName).map</MapFileName>
+      <SubSystem>Console</SubSystem>
+      <Driver>NotSet</Driver>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <FunctionOrder>
+      </FunctionOrder>
+      <EntryPointSymbol>kmain</EntryPointSymbol>
+      <NoEntryPoint>false</NoEntryPoint>
+      <BaseAddress>0x01600000</BaseAddress>
+      <FixedBaseAddress>
+      </FixedBaseAddress>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <FullProgramDatabaseFile>true</FullProgramDatabaseFile>
+      <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
+      <LinkTimeCodeGeneration>
+      </LinkTimeCodeGeneration>
+      <AddModuleNamesToAssembly>
+      </AddModuleNamesToAssembly>
+      <ForceSymbolReferences>
+      </ForceSymbolReferences>
+      <AdditionalOptions>/safeseh:no /ALIGN:1024
+ /SUBSYSTEM:CONSOLE
+/NODEFAULTLIB:LIBC %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DEBUG_WIN32_DLL|Win32'">
+    <ClCompile>
+      <AdditionalOptions>/Oy %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <AdditionalIncludeDirectories>../SkySDL/include;./WindowingSystem;../lua5/lua5;../SkyLua;../SkyCore;./;../../CommonLib;../../CommonLib/stl;../../CommonLib/jsmn;../../Include;../../CommonLib/math;../../Module/Include;../../CommonLib/CPlusPlus;../SkyOSWin32Stub;D:\Dev\SDLProgramming\SDL2_Module\SDL2_image;./POP</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>SKY_EMULATOR;SKY_EMULATOR_DLL;SKYOS32;_MSC_VER</PreprocessorDefinitions>
+      <IgnoreStandardIncludePath>true</IgnoreStandardIncludePath>
+      <StringPooling>
+      </StringPooling>
+      <ExceptionHandling>false</ExceptionHandling>
+      <StructMemberAlignment>1Byte</StructMemberAlignment>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <AssemblerOutput>NoListing</AssemblerOutput>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <CallingConvention>Cdecl</CallingConvention>
+      <DisableSpecificWarnings>4457;4189;4100;4702;4102;4244;4239;4333;4127;4554</DisableSpecificWarnings>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <LanguageStandard>
+      </LanguageStandard>
+      <UndefineAllPreprocessorDefinitions>true</UndefineAllPreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <SDLCheck>false</SDLCheck>
+    </ClCompile>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
+    <Link>
+      <AdditionalDependencies>rme.lib;skysdl.lib;SkyLua.lib;SkyCore.lib;SkyOSWin32Stub.lib;CommonLib.lib</AdditionalDependencies>
+      <OutputFile>../debug/$(TargetName)$(TargetExt)</OutputFile>
       <AdditionalLibraryDirectories>../Debug</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <GenerateMapFile>true</GenerateMapFile>

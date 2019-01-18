@@ -25,6 +25,9 @@ bool BuildPlatform()
 _BootParams _bootParams;
 extern "C" void printf(const char *fmt, ...);
 unsigned int g_kernelPageDirectory;
+
+
+
 bool InitKernelSystem(_BootParams* param, unsigned int kernelPageDirectory)
 {
 	//BuildPlatform();
@@ -37,7 +40,8 @@ bool InitKernelSystem(_BootParams* param, unsigned int kernelPageDirectory)
 	}	
 	
 	Thread::Bootstrap();	
-	Timer::Bootstrap();			
+	Timer::Bootstrap();		
+	
 	Page::Bootstrap();	
 	PageCache::Bootstrap();	
 
@@ -52,7 +56,12 @@ bool InitKernelSystem(_BootParams* param, unsigned int kernelPageDirectory)
 
 	printf("complete\n");	
 	
-	//AddressSpace::PageDaemonLoop();
+	//
 
 	return true;
+}
+
+void StartNativeSystem(void* param)
+{
+	AddressSpace::PageDaemonLoop();
 }

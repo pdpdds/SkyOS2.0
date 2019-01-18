@@ -10,6 +10,7 @@
 #include "PlatformAPI.h"
 #include "I_SkyInput.h"
 #include "SkyInputHandlerWin32.h"
+#include "../SkyOS/SkyStartOption.h"
 
 WIN32_VIDEO g_win32Video;
 CRITICAL_SECTION g_cs;
@@ -30,13 +31,15 @@ extern SKY_ALLOC_INTERFACE g_allocInterface;
 extern SKY_PRINT_INTERFACE g_printInterface;
 extern SKY_PROCESS_INTERFACE g_processInterface;
 
+bool IsGrahphicEnable = true;
+
 #define SKY_PHYSICAL_MEMORY_SIZE 100000000
 
 WIN32_STUB* GetWin32Stub()
 {
 	InitializeCriticalSection(&g_cs);
 
-	FILE* file = fopen("SkyOS.exe", "rb");
+	FILE* file = fopen(KERNEL32_NAME, "rb");
 	fseek(file, 0, SEEK_END);
 	off_t fileSize = ftell(file);
 	fseek(file, 0, SEEK_SET);
@@ -58,6 +61,7 @@ WIN32_STUB* GetWin32Stub()
 
 extern "C" WIN32_VIDEO* InitWin32System(int width, int height, int bpp)
 {
+	int result = SDL_Init(SDL_INIT_EVERYTHING);
 	//윈도우와 렌더러를 생성
 	if (SDL_CreateWindowAndRenderer(width, height, 0, &pWindow, &pRenderer) < 0)
 	{
@@ -73,6 +77,7 @@ extern "C" WIN32_VIDEO* InitWin32System(int width, int height, int bpp)
 
 	if (screen == 0)
 	{
+		IsGrahphicEnable = false;
 		std::cout << "SDL_CreateRGBSurface Error: " << SDL_GetError() << std::endl;
 		return nullptr;
 	}
@@ -129,11 +134,23 @@ extern "C" WIN32_VIDEO* InitWin32System(int width, int height, int bpp)
 	return &g_win32Video;
 }
 
+SkyInputHandlerWin32* pInputHandler = nullptr;
+
+bool PrintWin32GUI(char* str)
+{
+	if (IsGrahphicEnable == false)
+		return false;
+
+	pInputHandler->Print(str);
+
+	return true;
+}
+
 extern "C" void LoopWin32(I_SkyInput* pVirtualIO, unsigned int& tickCount)
 {
 	bool running = true;
 	
-	SkyInputHandlerWin32* pInputHandler = new SkyInputHandlerWin32();
+	pInputHandler = new SkyInputHandlerWin32();
 	pInputHandler->Initialize(pVirtualIO);
 
 	/*SDL_Surface *pHellowBMP = SDL_LoadBMP("gui-chan.bmp");
@@ -255,18 +272,26 @@ extern "C" void LoopWin32(I_SkyInput* pVirtualIO, unsigned int& tickCount)
 		}
 
 		
+		if (screen)
+		{
+			SDL_RenderClear(pRenderer);
 
-		SDL_RenderClear(pRenderer);
+			SDL_UpdateTexture(pTexture, NULL, screen->pixels, screen->pitch);
+			SDL_RenderCopy(pRenderer, pTexture, NULL, NULL);
+			//렌더러의 내용을 화면에 뿌린다.
+			SDL_RenderPresent(pRenderer);
+		}
 		
-		SDL_UpdateTexture(pTexture, NULL, screen->pixels, screen->pitch);
-		SDL_RenderCopy(pRenderer, pTexture, NULL, NULL);
-		//렌더러의 내용을 화면에 뿌린다.
-		SDL_RenderPresent(pRenderer);
 	}
-	//텍스처, 렌더러, 윈도우 객체를 제거하고 SDL을 종료한다.
-	SDL_DestroyTexture(pTexture);
-	SDL_DestroyRenderer(pRenderer);
-	SDL_DestroyWindow(pWindow);
+
+	if (screen)
+	{
+		//텍스처, 렌더러, 윈도우 객체를 제거하고 SDL을 종료한다.
+		SDL_DestroyTexture(pTexture);
+		SDL_DestroyRenderer(pRenderer);
+		SDL_DestroyWindow(pWindow);
+	}
+	
 	SDL_Quit();
 
 	delete pInputHandler;

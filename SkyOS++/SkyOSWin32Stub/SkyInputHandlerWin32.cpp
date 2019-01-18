@@ -234,6 +234,15 @@ bool SkyInputHandlerWin32::ConvertScanCodeAndPutQueue(BYTE bScanCode)
 	return bResult;
 }
 
+void SkyInputHandlerWin32::Print(char* str)
+{	
+	
+	if (m_owner)
+	{
+		m_owner->Print(str);
+	}
+}
+
 BYTE SkyInputHandlerWin32::ConvertKeycodeToScancode(unsigned int keycode)
 {
 	for (int i = 0; i < KEY_MAPPINGTABLEMAXCOUNT; i++)

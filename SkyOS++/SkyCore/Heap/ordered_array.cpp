@@ -7,8 +7,10 @@
 #include "memory.h"
 #include "ordered_array.h"
 #include "kheap.h"
+#include "SystemAPI.h"
 
-#define ASSERT(a)
+//#define ASSERT(a)
+#define ASSERT(Expr)// SKY_ASSERT(Expr, "aaa")
 
 s8int standard_lessthan_predicate(type_t a, type_t b)
 {

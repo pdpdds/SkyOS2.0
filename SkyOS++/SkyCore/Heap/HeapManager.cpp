@@ -3,6 +3,7 @@
 #include "BasicStruct.h"
 #include "memory_layout.h"
 #include "X86Arch.h"
+#include "VirtualMemoryManager.h"
 
 using namespace VirtualMemoryManager;
 
@@ -28,18 +29,22 @@ namespace HeapManager
 		
 		//힙의 가상주소
 #ifdef SKY_EMULATOR
-		void* pVirtualHeap = (void*)(bootParams.allocatedRange[0].begin + 0x2000000);
+		void* pVirtualHeap = (void*)(bootParams.allocatedRange[0].begin);
+		m_heapFrameCount = (bootParams.allocatedRange[0].end - bootParams.allocatedRange[0].begin) / PAGE_SIZE;
+		int virtualEndAddress = (uint32_t)pVirtualHeap + m_heapFrameCount * PAGE_SIZE;
 #else
 		DWORD pVirtualHeap = bootParams._memoryLayout._kHeapBase;
 		VirtualMemoryManager::MapAddress(GetKernelPageDirectory(), pVirtualHeap, m_heapFrameCount);
+		int virtualEndAddress = (uint32_t)pVirtualHeap + m_heapFrameCount * PAGE_SIZE;
 #endif // SKY_EMULATOR		
 		
 #ifdef _HEAP_DEBUG
 		printf("kernel heap allocation success. frame count : %d\n", m_heapFrameCount);
 #endif
 
-		int virtualEndAddress = (uint32_t)pVirtualHeap + m_heapFrameCount * PAGE_SIZE;
-
+#ifndef SKY_EMULATOR
+		VirtualMemoryManager::MapDMAAddress(VirtualMemoryManager::GetCurPageDirectory(), bootParams.framebuffer_addr, bootParams.framebuffer_addr , bootParams.framebuffer_addr+ 0x01000000);
+#endif
 		EnablePaging(true);
 
 		//힙에 할당된 가상 주소 영역을 사용해서 힙 자료구조를 생성한다. 

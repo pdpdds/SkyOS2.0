@@ -20,7 +20,7 @@ LONG InterlockedOr(LONG volatile *Destination, LONG Value);
 LONG InterlockedXor(LONG volatile *Destination, LONG Value);
 
 
-void HaltSystem(const char* errMsg);
+
 
 bool GetLocalTime(LPSYSTEMTIME lpSystemTime);
 BYTE SetLocalTime(LPSYSTEMTIME lpSystemTime);
@@ -30,20 +30,31 @@ void msleep(int ms);
 DWORD GetLastError();
 DWORD SetLastError(DWORD dwErrorCode);
 
-extern "C" u32int kmalloc(u32int sz);
-extern "C" u32int malloc(u32int sz);
-extern "C" u32int calloc(u32int count, u32int size);
-extern "C" size_t malloc_size(void * ptr);
-extern "C" void* krealloc(void * ptr, size_t size);
+#ifdef __cplusplus
+extern "C" {
+#endif
+void HaltSystem(const char* errMsg);
+u32int kmalloc(u32int sz);
+u32int malloc(u32int sz);
+u32int calloc(u32int count, u32int size);
+size_t malloc_size(void * ptr);
+void* krealloc(void * ptr, size_t size);
+void* realloc(void * ptr, size_t size);
 
+int sleep(bigtime_t timeout);
+void printf(const char *fmt, ...);
+void kfree(void *p);
+
+#ifdef __cplusplus
+}
+#endif
 /**
 General deallocation function.
 **/
-extern "C" void kfree(void *p);
+
 
 bool ValidatePEImage(void* image);
 void PrintCurrentTime();
 
-extern "C" int sleep(bigtime_t timeout);
-extern "C" void printf(const char *fmt, ...);
+
 void panic(const char *fmt, ...);

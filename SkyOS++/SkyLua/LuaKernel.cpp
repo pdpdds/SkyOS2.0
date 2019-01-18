@@ -35,9 +35,11 @@ static int putpixel(lua_State *l)
 	uint8 *ptr =
 		//&display_buffer[(y * modeinfo.BytesPerScanLine) + (x * bytes_per_pixel)];
 		&display_buffer[(y * 1024 * 4) + (x * bytes_per_pixel)];
+
 	const uint8 *display_buffer_end =
 		//&display_buffer[(modeinfo.YResolution * modeinfo.BytesPerScanLine)];
 		&display_buffer[768 * 1024*4];
+
 	if (ptr < display_buffer_end)
 	{
 		ptr[0] = b;
@@ -86,6 +88,12 @@ static int lua_get_timer_ticks(lua_State *l)
 {
 	lua_pushinteger(l, platformAPI._processInterface.sky_get_tick_count());
 	return 1;
+}
+
+static int lua_sleep(lua_State *l)
+{
+	platformAPI._processInterface.sky_ksleep(0);
+	return 0;
 }
 
 static uint32 keyboard_scancode_queue[8] = { 0 };
@@ -233,10 +241,11 @@ bool LuaKernel::Initialize(uint8* pFrameBuffer)
 	luatinker::def(L, "clear_screen", clear_screen);
 	luatinker::def(L, "putpixel", putpixel);
 	luatinker::def(L, "swap_buffers", swap_buffers);
-	
+	luatinker::def(L, "sleep", lua_sleep);
+
 	luatinker::def(L, "setmaskhook", lua_setmaskhook);
 	luatinker::def(L, "loader", lua_loader);
-	luatinker::def(L, "get_timer_ticks", lua_get_timer_ticks);
+	luatinker::def(L, "get_timer_ticks", lua_get_timer_ticks);	
 	luatinker::def(L, "get_keyboard_interrupt", lua_get_keyboard_interrupt);
 	luatinker::def(L, "hlt", lua_hlt);
 	

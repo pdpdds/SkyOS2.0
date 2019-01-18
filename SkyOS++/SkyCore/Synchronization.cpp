@@ -126,6 +126,10 @@ status_t Synchronization::WaitForMultipleSyncObject(int dispatcherCount, Synchro
 
 void Synchronization::Signal(bool reschedule)
 {
+#ifdef SKY_EMULATOR
+	return;
+#endif
+
 	cpu_flags fl = DisableInterrupts();
 	ASSERT(!_get_interrupt_state());
 	fSignalled = true;
@@ -148,9 +152,10 @@ void Synchronization::Signal(bool reschedule)
 		}
 
 		if (wake) {
-			for (WaitTag *threadBlock = dispatcherBlock->fEvent->fTags; threadBlock;
-				threadBlock = threadBlock->fEventNext) {
+			for (WaitTag *threadBlock = dispatcherBlock->fEvent->fTags; threadBlock; threadBlock = threadBlock->fEventNext) 
+			{
 				threadBlock->RemoveFromList();
+
 				if (dispatcherBlock->fEvent->fFlags & WAIT_FOR_ALL)
 					threadBlock->fSyncObject->ThreadWoken();
 			}

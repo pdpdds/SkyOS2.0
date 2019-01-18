@@ -1,6 +1,7 @@
 #include "SkyInputManager.h"
 #include "SystemAPI.h"
 #include "intrinsic.h"
+#include "PlatformAPI.h"
 
 SkyInputManager::SkyInputManager()
 {

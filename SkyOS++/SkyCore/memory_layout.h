@@ -28,9 +28,9 @@ const unsigned int kBootStackBase = 0xc0100000;
 const unsigned int kBootStackTop = 0xc0103fff;
 const unsigned int kHeapBase = 0xc0104000;
 const unsigned int kHeapTop = kHeapBase + KERNEL_HEAP_FRAME_COUNT * 4096;
-const unsigned int kIOAreaBase = 0xe4000000;
-const unsigned int kIOAreaTop = 0xe7ffffff;
-const unsigned int kKernelTop = 0xffffffff;
-const unsigned int kAddressSpaceTop = 0xffffffff;
+const unsigned int kIOAreaBase = 0xd4000000;
+const unsigned int kIOAreaTop = 0xd7ffffff;
+const unsigned int kKernelTop = 0xdfffffff;
+const unsigned int kAddressSpaceTop = 0xdfffffff;
 
 #endif

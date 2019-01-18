@@ -115,7 +115,7 @@ void ThreadContext::Setup(thread_start_t startAddress, void *param,
 	// State saved in SwitchTo.  Note that interrupts start off for user threads
 	// (as they call into the kernel function UserThreadStart and do some more
 	// setup before jumping to user mode).
-	PUSH(fStackPointer, fKernelThread ? (1 << 9) : 0);	// eflags
+	PUSH(fStackPointer, fKernelThread ? (1 << 9) : 0);	// eflags	
 	PUSH(fStackPointer, 0);	// ebp
 	PUSH(fStackPointer, 0);	// esi
 	PUSH(fStackPointer, 0);	// edi

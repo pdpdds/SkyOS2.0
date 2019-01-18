@@ -5,6 +5,7 @@
 #include "ctype.h"
 #include "SkyConsole.h"
 #include "SkyGUISystem.h"
+#include "KeyBoard\KeyboardController.h"
 
 bool systemOn = false;
 
@@ -47,6 +48,12 @@ DWORD WINAPI SystemConsoleProc(LPVOID parameter)
 {
 	printf("Console Mode Start!!\n");	
 
+#ifdef SKY_EMULATOR
+#else
+	KeyboardController::SetupInterrupts();
+	SkyConsole::Print("Keyboard Init..\n");
+#endif
+
 	NativeConsole();
 
 	printf("Bye!!");
@@ -76,31 +83,33 @@ DWORD WINAPI WatchDogProc(LPVOID parameter)
 				pos = 0;
 
 			if (m_bShowTSWatchdogClock)
+			{
+#ifndef SKY_EMULATOR
 				*addr = status[pos];
+#endif // !SKY_EMULAOTR				
+			}
 
 			first = GetTickCount();
+
+			
 		}
+
+		sleep(1000);
 	}
 
 	return 0;
 }
-
 
 DWORD WINAPI SystemGUIProc(LPVOID parameter)
 {
 	unsigned int* ebp = (unsigned int*)&parameter - 1;
 	SkyConsole::Print("start ebp : %x\n", *ebp);	
 	SkyConsole::Print("parameter : %x\n", parameter);
-
-
+	
 	SkyGUISystem::GetInstance()->Run();
 
 	return 0;
 }
-
-
-/*
-
 
 void SampleFillRect(ULONG* lfb0, int x, int y, int w, int h, int col)
 {
@@ -112,7 +121,7 @@ void SampleFillRect(ULONG* lfb0, int x, int y, int w, int h, int col)
 		}
 }
 
-void WatchDogLoop(Process* pProcess)
+void WatchDogLoop(LPVOID)
 {
 	int pos = 0;
 
@@ -141,19 +150,34 @@ void WatchDogLoop(Process* pProcess)
 		}
 
 		//빠르게 실행될 필요가 없으므로 실행시간을 타 프로세스에 양보한다.
-		Scheduler::GetInstance()->Yield();
+		sleep(20);
 	}
 }
 
 DWORD WINAPI GUIWatchDogProc(LPVOID parameter)
 {
-	Process* pProcess = (Process*)parameter;	
 
 	//루프를 돌면서 오른쪽 상단에 사각형을 그린다.
-	WatchDogLoop(pProcess);
+	WatchDogLoop(parameter);
 
 	return 0;
 }
+
+
+/*
+
+
+void SampleFillRect(ULONG* lfb0, int x, int y, int w, int h, int col)
+{
+	for (int k = 0; k < h; k++)
+		for (int j = 0; j < w; j++)
+		{
+			int index = ((j + x) + (k + y) * 1024);
+			lfb0[index] = col;
+		}
+}
+
+
 
 void LoopProcessRemove(Process* pProcess)
 {

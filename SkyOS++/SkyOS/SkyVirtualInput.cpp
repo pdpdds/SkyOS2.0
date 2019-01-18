@@ -18,6 +18,12 @@ bool SkyVirtualInput::PutKeyboardQueue(KEYDATA* pData)
 	return false;
 }
 
+bool SkyVirtualInput::Print(char* str)
+{
+	SkyGUISystem::GetInstance()->Print(str);
+	return true;
+}
+
 bool SkyVirtualInput::PutMouseQueue(MOUSEDATA* pData)
 {
 #if SKY_CONSOLE_MODE == 0	
