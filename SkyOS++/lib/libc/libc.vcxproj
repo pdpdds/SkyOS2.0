@@ -140,8 +140,8 @@
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
-      <AdditionalIncludeDirectories>./;../../CommonLib;../../CommonLib/jsmn;../../Include;../../CommonLib/CPlusPlus;./Driver;./include;./arch\x86;./CPU;./Heap;./Memory;./Keyboard;./FileSystem;../../CommonLib/stl;../SkyOSWin32Stub;../../Module/Include;./Audio</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>SKYOS32;_MSC_VER</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../../Include;./;../../../CommonLib;../../../CommonLib/jsmn;../../../CommonLib/CPlusPlus;../../../CommonLib/stl</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>SKYOS32;_MSC_VER;_X86_32</PreprocessorDefinitions>
       <IgnoreStandardIncludePath>true</IgnoreStandardIncludePath>
       <StringPooling>
       </StringPooling>
@@ -211,8 +211,8 @@
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
-      <AdditionalIncludeDirectories>./;../../CommonLib;../../CommonLib/jsmn;../../Include;../../CommonLib/CPlusPlus;./Driver;./include;./arch\x86;./CPU;./Heap;./Memory;./Keyboard;./FileSystem;../../CommonLib/stl;../SkyOSWin32Stub;../../Module/Include</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>SKY_EMULATOR;SKYOS32;_MSC_VER</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../../Include;./;../../../CommonLib;../../../CommonLib/jsmn;../../../CommonLib/CPlusPlus;../../../CommonLib/stl</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_X86_32;SKYOS32;_MSC_VER</PreprocessorDefinitions>
       <IgnoreStandardIncludePath>true</IgnoreStandardIncludePath>
       <StringPooling>
       </StringPooling>
