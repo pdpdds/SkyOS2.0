@@ -140,7 +140,6 @@ typedef __time_t time_t;
 //20180124	
   #define offsetof(st, m) ((size_t)&(((st *)0)->m))
   #define HUGE_VAL 10000000
-  #define DBL_MAX_10_EXP                +308
 
   #ifndef NULL
       #define NULL 0

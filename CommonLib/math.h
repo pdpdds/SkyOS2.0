@@ -26,6 +26,7 @@ struct ieee_double {
 extern "C" {
 #endif
 	extern double log(double x);
+	extern double logf(float x);
 	extern double log10(double x);
 	extern double atan2(double y, double x);
 	extern float atan2f(float y, float x);
@@ -33,6 +34,7 @@ extern "C" {
 	extern double asin(double x);
 	extern double acos(double x);
 	extern float acosf(float x);
+	float atanf(float x);
 	double frexp(double value, int *eptr);
 	int abs(int j);
 	float pow(float x, int y);
@@ -61,6 +63,8 @@ extern "C" {
 	float roundf(float value);
 
 	float fmaxf(float a, float y);
+	double log1p(double x);
+	float log1pf(float x);
 
 #ifdef  __cplusplus
 }
