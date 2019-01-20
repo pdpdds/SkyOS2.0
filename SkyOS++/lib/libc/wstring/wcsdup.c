@@ -40,7 +40,7 @@ QUICKREF
 #include <wchar.h>
 #include "memory.h"
 
-extern  u32int malloc(u32int sz);
+extern  void* malloc(u32int sz);
 
 wchar_t *wcsdup (const wchar_t *str)
 {

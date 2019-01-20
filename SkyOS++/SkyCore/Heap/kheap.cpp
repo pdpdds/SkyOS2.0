@@ -57,7 +57,14 @@ u32int kmalloc_int(u32int sz, int align, u32int *phys)
 void kfree(void *p)
 {
 	kEnterCriticalSection();
-	free(p, &kheap);
+	hfree(p, &kheap);
+	kLeaveCriticalSection();
+}
+
+void free(void *p)
+{
+	kEnterCriticalSection();
+	hfree(p, &kheap);
 	kLeaveCriticalSection();
 }
 
@@ -76,9 +83,9 @@ u32int kmalloc_ap(u32int sz, u32int *phys)
     return kmalloc_int(sz, 1, phys);
 }
 
-u32int malloc(u32int sz)
+void* malloc(u32int sz)
 {
-	return kmalloc(sz);
+	return (void*)kmalloc(sz);
 }
 
 u32int calloc(u32int count, u32int size)
@@ -446,7 +453,7 @@ void *memory_alloc(u32int size, u8int page_align, heap_t *heap)
     return (void *) ( (u32int)block_header+sizeof(header_t) );
 }
 
-void free(void *p, heap_t *heap)
+void hfree(void *p, heap_t *heap)
 {
     // Exit gracefully for null pointers.
     if (p == 0)

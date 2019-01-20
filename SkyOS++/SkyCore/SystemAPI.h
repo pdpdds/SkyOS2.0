@@ -35,7 +35,7 @@ extern "C" {
 #endif
 void HaltSystem(const char* errMsg);
 u32int kmalloc(u32int sz);
-u32int malloc(u32int sz);
+void* malloc(size_t sz);
 u32int calloc(u32int count, u32int size);
 size_t malloc_size(void * ptr);
 void* krealloc(void * ptr, size_t size);

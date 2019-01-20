@@ -22,12 +22,18 @@
  */
 //#define __TRACE
 #include "windef.h"
-#include "usbhost.h"
-#include "bufferpool.h"
-#include "driver.h"
-#include "usb.h"
-#include "utils.h"
+#include "memory.h"
+#include "osdefs.h"
 #include "string.h"
+#include "buffer.h"
+#include "bufferpool.h"
+#include "usb.h"
+#include "usbhost.h"
+#include "driver.h"
+//#include "utils.h"
+
+#define TRACE(a, ...)
+#define ERROR(a, ...)
 
 /* Globals
  * State-keeping variables for libusb */

@@ -2,13 +2,125 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="functions.c" />
+    <ClCompile Include="common\service.c">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\ds.c">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\bytepool.c">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\collection.c">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\bufferobject.c">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\bufferpool.c">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\devicemanager.c">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\rpc.c">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="transfer.c" />
+    <ClCompile Include="common\scheduler.c">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="manager.c" />
+    <ClCompile Include="scheduler_chain.c" />
+    <ClCompile Include="scheduler_periodic.c" />
+    <ClCompile Include="scheduler_settings.c" />
+    <ClCompile Include="common\deviceio.c">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\usb.c">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\interrupt.c">
+      <Filter>common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="buffer.h" />
-    <ClInclude Include="bufferpool.h" />
-    <ClInclude Include="driver.h" />
-    <ClInclude Include="usb.h" />
-    <ClInclude Include="usbhost.h" />
-    <ClInclude Include="utils.h" />
+    <ClInclude Include="hci.h" />
+    <ClInclude Include="manager.h" />
+    <ClInclude Include="common\service.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\base.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\crtdefs.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\definitions.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\ds.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\osdefs.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\spinlock.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\usbdevice.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\bytepool.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\collection.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\driver.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\buffer.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\bufferpool.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\device.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\interrupt.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\acpi.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\io.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\ipc.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\rpc.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\usbhost.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\utils.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="transfer.h" />
+    <ClInclude Include="common\usb.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\scheduler.h">
+      <Filter>common</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="common">
+      <UniqueIdentifier>{6ab9e8e9-2468-4d7c-8904-94d167d4f06b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

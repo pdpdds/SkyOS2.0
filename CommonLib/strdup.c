@@ -2,7 +2,7 @@
 #include "memory.h"
 #include "string.h"
 
-extern  u32int malloc(u32int sz);
+extern  void* malloc(u32int sz);
 
 char*	strndup(const char *s, size_t n)
 {

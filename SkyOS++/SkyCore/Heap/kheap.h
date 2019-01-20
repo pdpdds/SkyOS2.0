@@ -51,7 +51,7 @@ void *memory_alloc(u32int size, u8int page_align, heap_t *heap);
 /**
    Releases a block allocated with 'alloc'.
 **/
-void free(void *p, heap_t *heap);
+void hfree(void *p, heap_t *heap);
 
 /**
    Allocate a chunk of memory, sz in size. If align == 1,
@@ -86,7 +86,7 @@ u32int kmalloc_ap(u32int sz, u32int *phys);
    General allocation function.
 **/
 u32int kmalloc(u32int sz);
-u32int malloc(u32int sz);
+void* malloc(u32int sz);
 u32int calloc(u32int count, u32int size);
 size_t malloc_size(void * ptr);
 void* krealloc(void * ptr, size_t size);
@@ -94,6 +94,7 @@ void* krealloc(void * ptr, size_t size);
 /**
    General deallocation function.
 **/
+void free(void *p);
 void kfree(void *p);
 #ifdef  __cplusplus
 }
