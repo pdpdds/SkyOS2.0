@@ -130,7 +130,6 @@
     <ClCompile Include="jsmn\jsmn.cpp">
       <Filter>jsmn</Filter>
     </ClCompile>
-    <ClCompile Include="cstd.cpp" />
     <ClCompile Include="ctype.cpp" />
     <ClCompile Include="sprintf.cpp" />
     <ClCompile Include="stdio.cpp" />

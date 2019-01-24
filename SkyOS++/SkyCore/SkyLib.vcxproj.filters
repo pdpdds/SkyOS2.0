@@ -237,6 +237,12 @@
     <ClCompile Include="Net\rtl8139.c">
       <Filter>Net</Filter>
     </ClCompile>
+    <ClCompile Include="FileSystem\fat32_2.c">
+      <Filter>FileSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="FileSystem\vfs.c">
+      <Filter>FileSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AddressSpace.h">
@@ -496,6 +502,12 @@
       <Filter>PCI</Filter>
     </ClInclude>
     <ClInclude Include="FontData.h" />
+    <ClInclude Include="FileSystem\vfs.h">
+      <Filter>FileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSystem\fat32_2.h">
+      <Filter>FileSystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="MemorySystem">

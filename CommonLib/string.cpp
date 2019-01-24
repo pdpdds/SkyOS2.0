@@ -67,9 +67,27 @@ char *strcat(char *dest, const char *src)
 
 }
 
-char * strncat(char * destination, const char * source, size_t num) {
-	size_t s_size = strlen(source);
-	return strncpy((char *)destination + (strlen(destination) + 1), source, (num > s_size) ? s_size : num);
+size_t  strnlen(const char*  str, size_t  maxlen)
+{
+	char*  p = (char*)memchr((void*)str, 0, maxlen);
+	if (p == NULL)
+		return maxlen;
+	else
+		return (p - str);
+}
+
+//char * strncat(char * destination, const char * source, size_t num) {
+char * strncat(char *s1, const char *s2, size_t n){
+	//size_t s_size = strlen(source);
+	//return strncpy((char *)destination + (strlen(destination) + 1), source, (num > s_size) ? s_size : num);
+
+	char *s = s1;
+	/* Find the end of S1.  */
+	s1 += strlen(s1);
+	size_t ss = strnlen(s2, n);
+	s1[ss] = '\0';
+	memcpy(s1, s2, ss);
+	return s;
 }
 
 

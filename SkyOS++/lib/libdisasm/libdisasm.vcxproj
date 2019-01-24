@@ -19,223 +19,40 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AddressSpace.cpp" />
-    <ClCompile Include="AVLTree.cpp" />
-    <ClCompile Include="CPU\FPU.cpp" />
-    <ClCompile Include="CPU\GDT.cpp" />
-    <ClCompile Include="CPU\Hal.cpp" />
-    <ClCompile Include="CPU\IDT.cpp" />
-    <ClCompile Include="CPU\Pic.cpp" />
-    <ClCompile Include="CPU\PIT.cpp" />
-    <ClCompile Include="CPU\TSS.cpp" />
-    <ClCompile Include="cpu_asm.cpp" />
-    <ClCompile Include="datastructure\Scheduler.cpp" />
-    <ClCompile Include="datastructure\Thread.cpp" />
-    <ClCompile Include="driver\Beep.cpp" />
-    <ClCompile Include="driver\DevFS.cpp" />
-    <ClCompile Include="driver\Device.cpp" />
-    <ClCompile Include="driver\FAT.cpp" />
-    <ClCompile Include="driver\Floppy.cpp" />
-    <ClCompile Include="driver\IDE.cpp" />
-    <ClCompile Include="driver\Matrox.cpp" />
-    <ClCompile Include="driver\PCI.cpp" />
-    <ClCompile Include="driver\RootFS.cpp" />
-    <ClCompile Include="FileDescriptor.cpp" />
-    <ClCompile Include="FileSystem.cpp" />
-    <ClCompile Include="FileSystem\ACEList.cpp" />
-    <ClCompile Include="FileSystem\CDRomAdaptor.cpp" />
-    <ClCompile Include="FileSystem\fat32_2.c" />
-    <ClCompile Include="FileSystem\FAT12.cpp" />
-    <ClCompile Include="FileSystem\fat32.cpp" />
-    <ClCompile Include="FileSystem\FileSysAdaptor.cpp" />
-    <ClCompile Include="FileSystem\FloppyDisk.cpp" />
-    <ClCompile Include="FileSystem\FloppyDiskAdaptor.cpp" />
-    <ClCompile Include="FileSystem\Harddisk.cpp" />
-    <ClCompile Include="FileSystem\HDDAdaptor.cpp" />
-    <ClCompile Include="FileSystem\kfileio.cpp" />
-    <ClCompile Include="FileSystem\MemoryResourceAdaptor.cpp" />
-    <ClCompile Include="FileSystem\MintFileSystem.cpp" />
-    <ClCompile Include="FileSystem\ObjMan.cpp" />
-    <ClCompile Include="FileSystem\Partition.cpp" />
-    <ClCompile Include="FileSystem\RAMDisk.cpp" />
-    <ClCompile Include="FileSystem\RamDiskAdaptor.cpp" />
-    <ClCompile Include="FileSystem\SkyRamDisk.cpp" />
-    <ClCompile Include="FileSystem\SkyRamDiskAdaptor.cpp" />
-    <ClCompile Include="FileSystem\StorageManager.cpp" />
-    <ClCompile Include="FileSystem\vfs.c" />
-    <ClCompile Include="HandleTable.cpp" />
-    <ClCompile Include="HardwareTimer.cpp" />
-    <ClCompile Include="Heap\HeapManager.cpp" />
-    <ClCompile Include="Heap\kheap.cpp" />
-    <ClCompile Include="Heap\ordered_array.cpp" />
-    <ClCompile Include="Image.cpp" />
-    <ClCompile Include="interrupt.cpp" />
-    <ClCompile Include="InterruptHandler.cpp" />
-    <ClCompile Include="intrinsic.cpp" />
-    <ClCompile Include="KernelDebug.cpp" />
-    <ClCompile Include="KeyBoard\KeyBoard.cpp" />
-    <ClCompile Include="KeyBoard\KeyboardController.cpp" />
-    <ClCompile Include="LoadDLL.cpp" />
-    <ClCompile Include="Memory\PageDirectoryEntry.cpp" />
-    <ClCompile Include="Memory\PageTableEntry.cpp" />
-    <ClCompile Include="Memory\PhysicalMemoryManager.cpp" />
-    <ClCompile Include="Memory\VirtualMemoryManager.cpp" />
-    <ClCompile Include="MultbootUtil.cpp" />
-    <ClCompile Include="Mutex.cpp" />
-    <ClCompile Include="Net\rtl8139.c" />
-    <ClCompile Include="Page.cpp" />
-    <ClCompile Include="PageCache.cpp" />
-    <ClCompile Include="PCI\DeviceDriverManager.cpp" />
-    <ClCompile Include="PCI\DeviceES1730.cpp" />
-    <ClCompile Include="PCI\PCIStruct.cpp" />
-    <ClCompile Include="PCI\SkyPCI.cpp" />
-    <ClCompile Include="PhysicalMap.cpp" />
-    <ClCompile Include="PlatformAPI.cpp" />
-    <ClCompile Include="Processor.cpp" />
-    <ClCompile Include="Resource.cpp" />
-    <ClCompile Include="Semaphore.cpp" />
-    <ClCompile Include="SkyConsole.cpp" />
-    <ClCompile Include="SkyDebugger.cpp" />
-    <ClCompile Include="SkyFacade.cpp" />
-    <ClCompile Include="SkyModuleManager.cpp" />
-    <ClCompile Include="SkyOSCore.cpp" />
-    <ClCompile Include="SkyQueue.cpp" />
-    <ClCompile Include="SkyRenderer.cpp" />
-    <ClCompile Include="SwapSpace.cpp" />
-    <ClCompile Include="Synchronization.cpp" />
-    <ClCompile Include="SystemAPI.cpp" />
-    <ClCompile Include="SystemCall.cpp" />
-    <ClCompile Include="SystemProfiler.cpp" />
-    <ClCompile Include="Team.cpp" />
-    <ClCompile Include="ThreadContext.cpp" />
-    <ClCompile Include="Timer.cpp" />
-    <ClCompile Include="VNode.cpp" />
-    <ClCompile Include="X86Arch.cpp" />
+    <ClCompile Include="ia32_implicit.c" />
+    <ClCompile Include="ia32_insn.c" />
+    <ClCompile Include="ia32_invariant.c" />
+    <ClCompile Include="ia32_modrm.c" />
+    <ClCompile Include="ia32_opcode_tables.c" />
+    <ClCompile Include="ia32_operand.c" />
+    <ClCompile Include="ia32_reg.c" />
+    <ClCompile Include="ia32_settings.c" />
+    <ClCompile Include="x86_disasm.c" />
+    <ClCompile Include="x86_format.c" />
+    <ClCompile Include="x86_imm.c" />
+    <ClCompile Include="x86_insn.c" />
+    <ClCompile Include="x86_misc.c" />
+    <ClCompile Include="x86_operand_list.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AddressSpace.h" />
-    <ClInclude Include="APC.h" />
-    <ClInclude Include="Area.h" />
-    <ClInclude Include="AVLTree.h" />
-    <ClInclude Include="BackingStore.h" />
-    <ClInclude Include="BasicStruct.h" />
-    <ClInclude Include="BootParams.h" />
-    <ClInclude Include="Constants.h" />
-    <ClInclude Include="CPU\FPU.h" />
-    <ClInclude Include="CPU\GDT.h" />
-    <ClInclude Include="CPU\Hal.h" />
-    <ClInclude Include="CPU\IDT.h" />
-    <ClInclude Include="CPU\Pic.h" />
-    <ClInclude Include="CPU\PIT.h" />
-    <ClInclude Include="CPU\TSS.h" />
-    <ClInclude Include="cpu_asm.h" />
-    <ClInclude Include="datastructure\Scheduler.h" />
-    <ClInclude Include="datastructure\Thread.h" />
-    <ClInclude Include="driver\Device.h" />
-    <ClInclude Include="driver\PCI.h" />
-    <ClInclude Include="FileDescriptor.h" />
-    <ClInclude Include="FileSystem\ACEList.h" />
-    <ClInclude Include="FileSystem\CDRomAdaptor.h" />
-    <ClInclude Include="FileSystem\Collect.h" />
-    <ClInclude Include="FileSystem\fat32_2.h" />
-    <ClInclude Include="FileSystem\FAT12.h" />
-    <ClInclude Include="FileSystem\fat32.h" />
-    <ClInclude Include="FileSystem\FileSysAdaptor.h" />
-    <ClInclude Include="FileSystem\FloppyDisk.h" />
-    <ClInclude Include="FileSystem\FloppyDiskAdaptor.h" />
-    <ClInclude Include="FileSystem\FloppyDiskIO.h" />
-    <ClInclude Include="FileSystem\HardDisk.h" />
-    <ClInclude Include="FileSystem\HardDiskIO.h" />
-    <ClInclude Include="FileSystem\HDDAdaptor.h" />
-    <ClInclude Include="FileSystem\MemoryResourceAdaptor.h" />
-    <ClInclude Include="FileSystem\MintFileSystem.h" />
-    <ClInclude Include="FileSystem\ObjMan.h" />
-    <ClInclude Include="FileSystem\Partition.h" />
-    <ClInclude Include="FileSystem\RAMDisk.h" />
-    <ClInclude Include="FileSystem\RamDiskAdaptor.h" />
-    <ClInclude Include="FileSystem\SkyRamDisk.h" />
-    <ClInclude Include="FileSystem\SkyRamDiskAdaptor.h" />
-    <ClInclude Include="FileSystem\SkyRamDiskEntry.h" />
-    <ClInclude Include="FileSystem\skyramdisk_struct.h" />
-    <ClInclude Include="FileSystem\StorageManager.h" />
-    <ClInclude Include="FileSystem\vfs.h" />
-    <ClInclude Include="FontData.h" />
-    <ClInclude Include="Heap\HeapManager.h" />
-    <ClInclude Include="Heap\kheap.h" />
-    <ClInclude Include="Heap\ordered_array.h" />
-    <ClInclude Include="Image.h" />
-    <ClInclude Include="intrinsic.h" />
-    <ClInclude Include="KeyBoard\KeyBoard.h" />
-    <ClInclude Include="KeyBoard\KeyboardController.h" />
-    <ClInclude Include="KeyBoard\KeyBoardIO.h" />
-    <ClInclude Include="LoadDLL.h" />
-    <ClInclude Include="Memory\PageDirectoryEntry.h" />
-    <ClInclude Include="Memory\PageTableEntry.h" />
-    <ClInclude Include="Memory\PhysicalMemoryManager.h" />
-    <ClInclude Include="Memory\VirtualMemoryManager.h" />
-    <ClInclude Include="memory_layout.h" />
-    <ClInclude Include="MultbootUtil.h" />
-    <ClInclude Include="MultiBoot.h" />
-    <ClInclude Include="PCI\DeviceDriverManager.h" />
-    <ClInclude Include="PCI\DeviceES1730.h" />
-    <ClInclude Include="PCI\IDeviceDriver.h" />
-    <ClInclude Include="PCI\PCIStruct.h" />
-    <ClInclude Include="PCI\SkyPCI.h" />
-    <ClInclude Include="PEFile.h" />
-    <ClInclude Include="PEImage.h" />
-    <ClInclude Include="PlatformAPI.h" />
-    <ClInclude Include="Processor.h" />
-    <ClInclude Include="SkyConsole.h" />
-    <ClInclude Include="SkyDebugger.h" />
-    <ClInclude Include="SkyFacade.h" />
-    <ClInclude Include="SkyModuleManager.h" />
-    <ClInclude Include="SkyQueue.h" />
-    <ClInclude Include="SkyRenderer.h" />
-    <ClInclude Include="SystemAPI.h" />
-    <ClInclude Include="SystemProfiler.h" />
-    <ClInclude Include="X86Arch.h" />
-    <ClInclude Include="_Defines.h" />
-    <ClInclude Include="FileSystem.h" />
-    <ClInclude Include="HandleTable.h" />
-    <ClInclude Include="interrupt.h" />
-    <ClInclude Include="InterruptHandler.h" />
-    <ClInclude Include="KernelDebug.h" />
-    <ClInclude Include="Mutex.h" />
-    <ClInclude Include="Page.h" />
-    <ClInclude Include="PageCache.h" />
-    <ClInclude Include="physicalmap.h" />
-    <ClInclude Include="Resource.h" />
-    <ClInclude Include="Semaphore.h" />
-    <ClInclude Include="SkyOSCore.h" />
-    <ClInclude Include="SwapSpace.h" />
-    <ClInclude Include="Synchronization.h" />
-    <ClInclude Include="syscall.h" />
-    <ClInclude Include="SystemCall.h" />
-    <ClInclude Include="Team.h" />
-    <ClInclude Include="ThreadContext.h" />
-    <ClInclude Include="Timer.h" />
-    <ClInclude Include="_types.h" />
-    <ClInclude Include="VNode.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="core_asm.asm">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">nasmw -f win32 core_asm.asm</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='DEBUG_WIN32|Win32'">nasmw -f win32 core_asm.asm</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='DEBUG_WIN32_DLL|Win32'">nasmw -f win32 core_asm.asm</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">core_asm.obj</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='DEBUG_WIN32|Win32'">core_asm.obj</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='DEBUG_WIN32_DLL|Win32'">core_asm.obj</Outputs>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DEBUG_WIN32|Win32'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DEBUG_WIN32_DLL|Win32'">false</ExcludedFromBuild>
-    </CustomBuild>
+    <ClInclude Include="ia32_implicit.h" />
+    <ClInclude Include="ia32_insn.h" />
+    <ClInclude Include="ia32_invariant.h" />
+    <ClInclude Include="ia32_modrm.h" />
+    <ClInclude Include="ia32_opcode_tables.h" />
+    <ClInclude Include="ia32_operand.h" />
+    <ClInclude Include="ia32_reg.h" />
+    <ClInclude Include="ia32_settings.h" />
+    <ClInclude Include="libdis.h" />
+    <ClInclude Include="qword.h" />
+    <ClInclude Include="x86_imm.h" />
+    <ClInclude Include="x86_operand_list.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{1E2B5BCD-1285-441E-84E3-352A31810001}</ProjectGuid>
+    <ProjectGuid>{B63C42D8-57C0-4F21-BD34-130705D02090}</ProjectGuid>
     <RootNamespace>Kernel</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
-    <ProjectName>SkyCore</ProjectName>
+    <ProjectName>libdisasm</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -315,8 +132,8 @@
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
-      <AdditionalIncludeDirectories>./;../../CommonLib;../../CommonLib/jsmn;../../Include;../../CommonLib/CPlusPlus;./Driver;./include;./arch\x86;./CPU;./Heap;./Memory;./Keyboard;./FileSystem;../../CommonLib/stl;../SkyOSWin32Stub;../../Module/Include;./Audio</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>SKYOS32;_MSC_VER</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>./;../../../Include;./;../../../CommonLib;../libusb/common;../structures;../libusb</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>SKYOS32;_MSC_VER;_X86_32;__i386__</PreprocessorDefinitions>
       <IgnoreStandardIncludePath>true</IgnoreStandardIncludePath>
       <StringPooling>
       </StringPooling>
@@ -343,9 +160,9 @@
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
     <Link>
-      <AdditionalDependencies>SkyLua.lib;SkyOSWin32Stub.lib;CommonLib.lib;skysdl.lib;freetyped.lib</AdditionalDependencies>
+      <AdditionalDependencies>commonlib.lib</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories>../Debug</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../Debug;../../debug</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>$(OutDir)$(TargetName).map</MapFileName>
@@ -353,7 +170,8 @@
       <Driver>NotSet</Driver>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <FunctionOrder>@order.txt</FunctionOrder>
+      <FunctionOrder>
+      </FunctionOrder>
       <EntryPointSymbol>kmain</EntryPointSymbol>
       <NoEntryPoint>false</NoEntryPoint>
       <BaseAddress>0x01600000</BaseAddress>
@@ -377,6 +195,12 @@
       <Command>
       </Command>
     </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>commonlib.lib</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>../../debug</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DEBUG_WIN32|Win32'">
     <ClCompile>
@@ -460,7 +284,7 @@
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
-      <AdditionalIncludeDirectories>./;../../CommonLib;../../CommonLib/jsmn;../../Include;../../CommonLib/CPlusPlus;./Driver;./include;./arch\x86;./CPU;./Heap;./Memory;./Keyboard;./FileSystem;../../CommonLib/stl;../SkyOSWin32Stub;../../Module/Include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../Include;./;../../../CommonLib;../../../CommonLib/jsmn;../../../CommonLib/CPlusPlus;../../../CommonLib/stl</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>SKY_EMULATOR_DLL;SKY_EMULATOR;SKYOS32;_MSC_VER</PreprocessorDefinitions>
       <IgnoreStandardIncludePath>true</IgnoreStandardIncludePath>
       <StringPooling>

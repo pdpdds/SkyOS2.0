@@ -70,7 +70,6 @@
     <ClCompile Include="common_arch.cpp" />
     <ClCompile Include="CPlusPlus\ctrycatch.cpp" />
     <ClCompile Include="CPlusPlus\setjmp.c" />
-    <ClCompile Include="cstd.cpp" />
     <ClCompile Include="ctype.cpp" />
     <ClCompile Include="ffmt.c" />
     <ClCompile Include="getenv.c" />

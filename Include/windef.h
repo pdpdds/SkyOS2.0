@@ -153,6 +153,7 @@ typedef __time_t time_t;
 
   #define SUCCESS 1
   #define FAILURE -1
+#define FAIL	  -1
 
   #define FALSE 0
   #define TRUE  1
