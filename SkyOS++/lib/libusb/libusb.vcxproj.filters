@@ -117,6 +117,8 @@
     <ClInclude Include="common\scheduler.h">
       <Filter>common</Filter>
     </ClInclude>
+    <ClInclude Include="file.h" />
+    <ClInclude Include="storage.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="common">

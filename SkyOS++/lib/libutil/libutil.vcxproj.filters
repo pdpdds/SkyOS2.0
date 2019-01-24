@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="crc32.c" />
+    <ClCompile Include="font6x12.c" />
+    <ClCompile Include="font8x16.c" />
+    <ClCompile Include="..\msd\functions.c">
+      <Filter>protocols</Filter>
+    </ClCompile>
+    <ClCompile Include="..\msd\main.c">
+      <Filter>protocols</Filter>
+    </ClCompile>
+    <ClCompile Include="..\msd\msd.c">
+      <Filter>protocols</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="crc32.h" />
+    <ClInclude Include="..\msd\msd.h">
+      <Filter>protocols</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="protocols">
+      <UniqueIdentifier>{c48f4a84-e1aa-48ad-9f20-0343cc7fdcef}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

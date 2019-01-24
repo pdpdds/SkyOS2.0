@@ -19,60 +19,24 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="common\bufferobject.c" />
-    <ClCompile Include="common\bufferpool.c" />
-    <ClCompile Include="common\bytepool.c" />
-    <ClCompile Include="common\collection.c" />
-    <ClCompile Include="common\deviceio.c" />
-    <ClCompile Include="common\devicemanager.c" />
-    <ClCompile Include="common\ds.c" />
-    <ClCompile Include="common\interrupt.c" />
-    <ClCompile Include="common\rpc.c" />
-    <ClCompile Include="common\scheduler.c" />
-    <ClCompile Include="common\service.c" />
-    <ClCompile Include="common\usb.c" />
-    <ClCompile Include="functions.c" />
-    <ClCompile Include="manager.c" />
-    <ClCompile Include="scheduler_chain.c" />
-    <ClCompile Include="scheduler_periodic.c" />
-    <ClCompile Include="scheduler_settings.c" />
+    <ClCompile Include="controller.c" />
+    <ClCompile Include="interrupts.c" />
+    <ClCompile Include="io.c" />
+    <ClCompile Include="port.c" />
+    <ClCompile Include="queue.c" />
+    <ClCompile Include="structures\qh.c" />
+    <ClCompile Include="structures\td.c" />
     <ClCompile Include="transfer.c" />
+    <ClCompile Include="transfer_generic.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="common\acpi.h" />
-    <ClInclude Include="common\base.h" />
-    <ClInclude Include="common\buffer.h" />
-    <ClInclude Include="common\bufferpool.h" />
-    <ClInclude Include="common\bytepool.h" />
-    <ClInclude Include="common\collection.h" />
-    <ClInclude Include="common\crtdefs.h" />
-    <ClInclude Include="common\definitions.h" />
-    <ClInclude Include="common\device.h" />
-    <ClInclude Include="common\driver.h" />
-    <ClInclude Include="common\ds.h" />
-    <ClInclude Include="common\interrupt.h" />
-    <ClInclude Include="common\io.h" />
-    <ClInclude Include="common\ipc.h" />
-    <ClInclude Include="common\osdefs.h" />
-    <ClInclude Include="common\rpc.h" />
-    <ClInclude Include="common\scheduler.h" />
-    <ClInclude Include="common\service.h" />
-    <ClInclude Include="common\spinlock.h" />
-    <ClInclude Include="common\usb.h" />
-    <ClInclude Include="common\usbdevice.h" />
-    <ClInclude Include="common\usbhost.h" />
-    <ClInclude Include="common\utils.h" />
-    <ClInclude Include="file.h" />
-    <ClInclude Include="hci.h" />
-    <ClInclude Include="manager.h" />
-    <ClInclude Include="storage.h" />
-    <ClInclude Include="transfer.h" />
+    <ClInclude Include="uhci.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{639B9B4D-F626-4982-B37B-2970395FE092}</ProjectGuid>
+    <ProjectGuid>{80431D98-D89B-48B9-91B7-005BE7EA1091}</ProjectGuid>
     <RootNamespace>Kernel</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
-    <ProjectName>libusb</ProjectName>
+    <ProjectName>uhci</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -80,7 +44,7 @@
     <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -115,13 +79,13 @@
     <_ProjectFileVersion>12.0.21005.1</_ProjectFileVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(SolutionDir)Debug\</OutDir>
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)$(ProjectName)Intermediate\</IntDir>
     <ExtensionsToDeleteOnClean>*.exp *.obj%3b*.ilk%3b*.tlb%3b*.tli%3b*.tlh%3b*.tmp%3b*.rsp%3b*.pgc%3b*.pgd%3b$(TargetPath)</ExtensionsToDeleteOnClean>
     <LinkIncremental>false</LinkIncremental>
     <GenerateManifest>false</GenerateManifest>
     <TargetName>$(ProjectName)</TargetName>
-    <TargetExt>.lib</TargetExt>
+    <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DEBUG_WIN32|Win32'">
     <OutDir>$(SolutionDir)Debug\</OutDir>
@@ -152,8 +116,8 @@
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
-      <AdditionalIncludeDirectories>./;./common;./;../../../Include;./;../../../CommonLib;../../../CommonLib/jsmn;../../../CommonLib/CPlusPlus;../../../CommonLib/stl</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>SKYOS32;_MSC_VER;_X86_32;__i386__;</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>./;../../../Include;./;../../../CommonLib;../libusb/common;../structures;../libusb</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>SKYOS32;_MSC_VER;_X86_32;__i386__</PreprocessorDefinitions>
       <IgnoreStandardIncludePath>true</IgnoreStandardIncludePath>
       <StringPooling>
       </StringPooling>
@@ -180,9 +144,9 @@
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
     <Link>
-      <AdditionalDependencies>SkyLua.lib;SkyOSWin32Stub.lib;CommonLib.lib;skysdl.lib;freetyped.lib</AdditionalDependencies>
+      <AdditionalDependencies>libusb.lib;commonlib.lib</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories>../Debug</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../Debug;../../debug</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>$(OutDir)$(TargetName).map</MapFileName>
@@ -190,7 +154,8 @@
       <Driver>NotSet</Driver>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <FunctionOrder>@order.txt</FunctionOrder>
+      <FunctionOrder>
+      </FunctionOrder>
       <EntryPointSymbol>kmain</EntryPointSymbol>
       <NoEntryPoint>false</NoEntryPoint>
       <BaseAddress>0x01600000</BaseAddress>
@@ -214,9 +179,6 @@
       <Command>
       </Command>
     </PostBuildEvent>
-    <Lib>
-      <OutputFile>../../debug/$(TargetName)$(TargetExt)</OutputFile>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DEBUG_WIN32|Win32'">
     <ClCompile>
