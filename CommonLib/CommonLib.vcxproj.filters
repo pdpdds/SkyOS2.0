@@ -306,6 +306,7 @@
     <ClCompile Include="strdup.c" />
     <ClCompile Include="common_arch.cpp" />
     <ClCompile Include="stricmp.cpp" />
+    <ClCompile Include="cstd.cpp" />
   </ItemGroup>
   <ItemGroup>
     <MASM Include="llshl.asm" />
@@ -317,5 +318,8 @@
     <None Include="CPlusPlus\ctrycatch_exception_types.conf">
       <Filter>CPlusPlus</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="_ftol.s" />
   </ItemGroup>
 </Project>

@@ -70,6 +70,7 @@
     <ClCompile Include="common_arch.cpp" />
     <ClCompile Include="CPlusPlus\ctrycatch.cpp" />
     <ClCompile Include="CPlusPlus\setjmp.c" />
+    <ClCompile Include="cstd.cpp" />
     <ClCompile Include="ctype.cpp" />
     <ClCompile Include="ffmt.c" />
     <ClCompile Include="getenv.c" />
@@ -150,28 +151,35 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="CPlusPlus\ctrycatch_exception_types.conf" />
+    <CustomBuild Include="_ftol.s">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='DEBUG_WIN32_DLL|Win32'">nasmw -f win32 _ftol.s</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='DEBUG_WIN32_DLL|Win32'">_ftol.obj</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">nasmw -f win32 _ftol.s</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">_ftol.obj</Outputs>
+    </CustomBuild>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{83EE476C-AA21-4A23-9D6F-4FE675115B13}</ProjectGuid>
     <RootNamespace>Kernel</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DEBUG_WIN32|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DEBUG_WIN32_DLL|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -233,7 +241,7 @@
       <IgnoreStandardIncludePath>true</IgnoreStandardIncludePath>
       <StringPooling>false</StringPooling>
       <ExceptionHandling />
-      <StructMemberAlignment>1Byte</StructMemberAlignment>
+      <StructMemberAlignment>Default</StructMemberAlignment>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <AssemblerOutput />
