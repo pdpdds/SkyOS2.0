@@ -1,0 +1,17 @@
+
+*.tlog
+*.obj
+*.idb
+*.log
+*.pdb
+*.txt
+*.recipe
+*.pch
+*.map
+*.lib
+*.exp
+*.exe
+*.dll
+*.ilk
+*.db
+SkyOS++/.vs/AllProject/v16/.suo
