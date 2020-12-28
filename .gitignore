@@ -15,3 +15,6 @@
 *.ilk
 *.db
 SkyOS++/.vs/AllProject/v16/.suo
+*.obj
+*.obj
+SkyOS++/.vs/SkyOS++/v16/.suo
