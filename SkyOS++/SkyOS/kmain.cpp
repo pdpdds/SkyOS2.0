@@ -228,12 +228,12 @@ void SkyOSEntry(bool bGraphicMode)
 		SkyGUISystem::GetInstance()->LoadGUIModule();
 		SkyGUISystem::GetInstance()->InitGUI();
 
-		ExecThread("Idle", (thread_start_t)SystemIdle, 0, 1);
-		ExecThread("GUI", (thread_start_t)SystemGUIProc, 0, 1);
-		ExecThread("GUIWatchDog", (thread_start_t)GUIWatchDogProc, 0, 1);
+		//ExecThread("Idle", (thread_start_t)SystemIdle, 0, 1);
+		//ExecThread("GUI", (thread_start_t)SystemGUIProc, 0, 1);
+		//ExecThread("GUIWatchDog", (thread_start_t)GUIWatchDogProc, 0, 1);
 #ifdef  SKY_EMULATOR
 
-		//ExecThread("GUI", (thread_start_t)wsmain, 0, 1);		
+		ExecThread("GUI", (thread_start_t)wsmain, 0, 1);		
 		//TestSkySDL(1024, 768, 32);
 #else
 		

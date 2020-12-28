@@ -1,10 +1,8 @@
 #pragma once
 
-#include "stdint.h"
-
-#ifdef _MSC_VER
 #pragma pack (push, 1)
-#endif
+
+#include "stdint.h"
 
 struct tss_entry {
 	uint32_t prevTss;
@@ -36,9 +34,9 @@ struct tss_entry {
 	uint16_t iomap;
 };
 
-#ifdef _MSC_VER
-#pragma pack (pop, 1)
-#endif
+
+#pragma pack (pop)
+
 
 extern void SetTSSStack(uint16_t kernelSS, uint16_t kernelESP);
 void InitTSS(uint32_t sel, uint16_t kernelSS, uint16_t kernelESP);

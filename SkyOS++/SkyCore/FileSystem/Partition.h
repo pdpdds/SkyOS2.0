@@ -10,7 +10,7 @@
 #include "windef.h"
 #include "FileSystem\Collect.h"
 
-#pragma pack(1)
+#pragma pack(push, 1)
 
 struct _Partition
 	{BYTE Bootable;            // Boot indicator. 0x80 for the  active partition and 0 for others
@@ -54,6 +54,6 @@ class Partition
 	};
 BYTE EnumeratePartitions(BYTE *StorageKey, void (*CallBackFunction)(BYTE *DPF,Partition * Part), UINT32 LBASector=0, UINT32 PartitionDeepth='0' );
 
-#pragma pack(1)
+#pragma pack(pop)
 
 #endif

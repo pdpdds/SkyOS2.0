@@ -39,14 +39,14 @@
     <ProjectGuid>{6981CF47-D08A-4F3F-95BB-0F8C582803F2}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>SampleDll</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ProjectName>zlib128</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DEBUG_WIN32|Win32'" Label="Configuration">
@@ -58,7 +58,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DEBUG_WIN32_DLL|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -163,7 +163,7 @@
       <ExceptionHandling>false</ExceptionHandling>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <StructMemberAlignment>1Byte</StructMemberAlignment>
+      <StructMemberAlignment>Default</StructMemberAlignment>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <AdditionalOptions>/Oy %(AdditionalOptions)</AdditionalOptions>
@@ -249,7 +249,7 @@
       <StructMemberAlignment>1Byte</StructMemberAlignment>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
-      <AdditionalOptions>/Oy %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Oy /arch:SSE %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>4819</DisableSpecificWarnings>
       <AdditionalIncludeDirectories>../../../CommonLib/stl;../../../CommonLib;../../../include;../../../Module/Include;../../../CommonLib/CPlusPlus;../../DllStub;./zlib</AdditionalIncludeDirectories>
       <IgnoreStandardIncludePath>true</IgnoreStandardIncludePath>
